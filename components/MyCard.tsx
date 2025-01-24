@@ -32,10 +32,10 @@ export default function MyCard(props: MyCardProps) {
     <CardStyled elevate {...restProps} padded borderRadius={"$0"}>
       <Card.Header
         padded
-        backgroundColor={"#E9D9D0"}
+        backgroundColor={"$coloredBackground"}
         borderTopRightRadius={"$4"}
       >
-        <MyText bold fontSize={14}>
+        <MyText bold fontSize={14} color={"$textColor"}>
           {header}
         </MyText>
       </Card.Header>
@@ -44,7 +44,7 @@ export default function MyCard(props: MyCardProps) {
         alignItems="center"
         justifyContent="center"
         padding={"$5"}
-        backgroundColor={"#F6EFEC"}
+        backgroundColor={"$subtleBackground"}
         borderBottomLeftRadius={"$4"}
         borderBottomRightRadius={"$4"}
       >
