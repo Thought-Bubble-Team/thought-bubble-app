@@ -14,6 +14,7 @@ export default function TabLayout() {
         headerShadowVisible: false,
         tabBarStyle: {
           backgroundColor: colorScheme === "dark" ? "#1a141f" : "#fdfcfd",
+          shadowOpacity: 0,
         },
       }}
     >
@@ -36,7 +37,7 @@ export default function TabLayout() {
           title: "Journals",
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? "pencil-sharp" : "pencil-outline"}
+              name={focused ? "calendar-sharp" : "calendar-outline"}
               color={color}
               size={24}
             />
@@ -47,6 +48,32 @@ export default function TabLayout() {
         name="create"
         options={{
           title: "Create",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "pencil-sharp" : "pencil-outline"}
+              color={color}
+              size={24}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="flower"
+        options={{
+          title: "Flower",
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "flower-sharp" : "flower-outline"}
+              color={color}
+              size={24}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="user"
+        options={{
+          title: "User",
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "person-sharp" : "person-outline"}
