@@ -7,7 +7,11 @@ import { View, Text, styled } from "tamagui";
 
 export default function Index() {
   return (
-    <MyView paddingHorizontal={"$3"} paddingVertical={"$1"}>
+    <MyView
+      paddingHorizontal={"$3"}
+      paddingVertical={"$1"}
+      backgroundColor={"$background"}
+    >
       <View
         display="flex"
         alignItems="center"
@@ -18,10 +22,10 @@ export default function Index() {
         gap={"$4"}
         padding={"$4"}
       >
-        <MyText bold fontSize={30}>
+        <MyText bold fontSize={30} color={"$textColor"}>
           Hello, User!
         </MyText>
-        <MyText bold fontSize={14} color={"#7C7876"}>
+        <MyText bold fontSize={14} color={"$subtleTextColor"}>
           Jan 10, 2025
         </MyText>
       </View>
