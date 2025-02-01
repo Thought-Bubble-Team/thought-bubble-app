@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  View,
   TextInput,
   ScrollView,
   Image,
@@ -10,6 +9,10 @@ import {
   Text,
   Alert,
 } from "react-native";
+import { styled, View, Input } from "tamagui";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
+import MyScrollView from "./MyScrollView";
 
 const NotebookCard = () => {
   const { width, height } = Dimensions.get("window");
@@ -30,25 +33,26 @@ const NotebookCard = () => {
   const handleRightPress = () => Alert.alert("Right Button Pressed");
 
   return (
-    <View style={[styles.container, { padding: paddingValue, gap: gapValue }]}>
+    <ViewStyled>
       {/* Editable Title */}
-      <TextInput
-        style={styles.titleInput}
-        value={title}
-        onChangeText={setTitle}
-        placeholder="Enter title..."
-      />
+      <View width={"100%"} justifyContent="flex-start">
+        <TitleInput
+          value={title}
+          onChangeText={setTitle}
+          placeholder="Enter title..."
+        />
+      </View>
 
-      {/* Scrollable Message Section (40% height) */}
-      <ScrollView style={[styles.messageContainer, { height: height * 0.4 }]}>
-        <TextInput
-          style={styles.messageInput}
+      {/* Editable Message */}
+      <MyScrollView backgroundColor={"$subtleBackground"}>
+        <MessageInput
           multiline
           placeholder="Enter your message..."
           value={message}
           onChangeText={setMessage}
+          backgroundColor={"$subtleBackground"}
         />
-      </ScrollView>
+      </MyScrollView>
 
       {/* Image Section (if images exist) */}
       {images.length > 0 && (
@@ -60,17 +64,60 @@ const NotebookCard = () => {
       )}
 
       {/* Footer - Buttons */}
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.button} onPress={handleLeftPress}>
-          <Text style={styles.buttonText}>Left Button</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleRightPress}>
-          <Text style={styles.buttonText}>Right Button</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+      <Footer>
+        <Button onPress={handleLeftPress}>
+          <Ionicons name="images-outline" size={35} color="#443E3B" />
+        </Button>
+        <Button onPress={handleRightPress}>
+          <Ionicons name="checkmark-done-outline" size={35} color="#443E3B" />
+        </Button>
+      </Footer>
+    </ViewStyled>
   );
 };
+
+const ViewStyled = styled(View, {
+  width: "100%",
+  backgroundColor: "$subtleBackground",
+  borderBottomLeftRadius: "$4",
+  borderBottomRightRadius: "$4",
+  padding: "$5",
+});
+
+const TitleInput = styled(Input, {
+  fontFamily: "Montserrat_700Bold",
+  fontSize: 15,
+  borderWidth: 0,
+  backgroundColor: "$subtleBackground",
+  color: "$textColor",
+  paddingHorizontal: 0,
+  paddingVertical: "$3",
+});
+
+const MessageInput = styled(Input, {
+  fontFamily: "Montserrat_400Regular",
+  fontSize: 16,
+  textAlignVertical: "top",
+  borderWidth: 0,
+  borderColor: "$subtleTextColor",
+  paddingHorizontal: 0,
+  paddingVertical: "$3",
+});
+
+const Footer = styled(View, {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  marginTop: "$4",
+});
+
+const Button = styled(TouchableOpacity, {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: 50,
+  backgroundColor: "$subtleBackground",
+  borderWidth: 0,
+});
 
 // Styles
 const styles = StyleSheet.create({
@@ -85,12 +132,8 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   titleInput: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: "bold",
-    textAlign: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    paddingVertical: 5,
   },
   messageContainer: {
     borderWidth: 1,
