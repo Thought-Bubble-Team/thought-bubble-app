@@ -5,8 +5,6 @@ import MyCard from "@/components/MyCard";
 import JournalEntry from "@/components/JournalEntry";
 
 import { View, Text, XStack, useWindowDimensions } from "tamagui";
-import { Keyboard } from "react-native";
-import { useEffect, useState } from "react";
 
 export default function Create() {
   const date = new Date(); // Example date
@@ -44,33 +42,9 @@ export default function Create() {
 
   const { height } = useWindowDimensions();
 
-  /* const [keyboardHeight, setKeyboardHeight] = useState<number | undefined>(
-    undefined,
-  );
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      "keyboardDidShow",
-      (e) => {
-        setKeyboardHeight(e.endCoordinates.height);
-      },
-    );
-
-    const keyboardDidHideListener = Keyboard.addListener(
-      "keyboardDidHide",
-      () => {
-        setKeyboardHeight(undefined);
-      },
-    );
-
-    return () => {
-      keyboardDidShowListener.remove();
-      keyboardDidHideListener.remove();
-    };
-  }, []); */
-
   return (
     <MyView
-      paddingHorizontal={"$3"}
+      paddingHorizontal={"$5"}
       paddingVertical={"$1"}
       backgroundColor={"$background"}
     >
