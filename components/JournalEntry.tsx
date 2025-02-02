@@ -1,36 +1,42 @@
-import React, { useState } from "react";
-import {
-  TextInput,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-  Text,
-  Alert,
-} from "react-native";
-import { styled, View, Input } from "tamagui";
+import { useState, useEffect } from "react";
+import { Image, StyleSheet, Alert } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { styled, View, Input, useWindowDimensions, Button } from "tamagui";
 
 import MyScrollView from "./MyScrollView";
 
-const NotebookCard = () => {
-  const { width, height } = Dimensions.get("window");
-
-  const paddingValue = width * 0.05; // 5% padding
-  const gapValue = width * 0.06; // 6% gap
-
-  // 🔹 State for title, message, and images
-  const [title, setTitle] = useState("My Notebook");
+export default function JournalEntry() {
+  const [title, setTitle] = useState<string | undefined>(undefined);
   const [message, setMessage] = useState("");
-  const [images, setImages] = useState([
-    "https://placecats.com/200/200",
-    "https://placecats.com/201/200",
-  ]);
+  const [images, setImages] = useState<string[] | undefined>(undefined);
 
-  // 🔹 Button handlers
-  const handleLeftPress = () => Alert.alert("Left Button Pressed");
-  const handleRightPress = () => Alert.alert("Right Button Pressed");
+  // Image Picker
+  const pickImageAsync = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      if (images === undefined) {
+        setImages([result.assets[0].uri]);
+      } else {
+        setImages([...images, result.assets[0].uri]);
+      }
+    }
+  };
+  const removeImage = (index: number) => {
+    if (images !== undefined) {
+      setImages(images.filter((_, i) => i !== index));
+    }
+  };
+
+  {
+    /* Temporary function to test the right button */
+  }
+  const handleRightPress = () => setTitle("Hello Testing");
 
   return (
     <ViewStyled>
@@ -54,27 +60,37 @@ const NotebookCard = () => {
         />
       </MyScrollView>
 
-      {/* Image Section (if images exist) */}
-      {images.length > 0 && (
-        <ScrollView horizontal style={styles.imageContainer}>
-          {images.map((img, index) => (
-            <Image key={index} source={{ uri: img }} style={styles.image} />
+      {/* Images */}
+      {images !== undefined && (
+        <MyScrollView horizontal backgroundColor={"$subtleBackground"}>
+          {images.map((image, index) => (
+            <ImageWrapper key={index} style={{ zIndex: images.length - index }}>
+              <ImageStyled source={{ uri: image }} />
+              <RemoveImageButton onPress={() => removeImage(index)}>
+                <Ionicons
+                  name="close-outline"
+                  size={12}
+                  color="#fff"
+                  style={{ zIndex: 15 }}
+                />
+              </RemoveImageButton>
+            </ImageWrapper>
           ))}
-        </ScrollView>
+        </MyScrollView>
       )}
 
       {/* Footer - Buttons */}
       <Footer>
-        <Button onPress={handleLeftPress}>
+        <ButtonStyled onPress={pickImageAsync}>
           <Ionicons name="images-outline" size={35} color="#443E3B" />
-        </Button>
-        <Button onPress={handleRightPress}>
+        </ButtonStyled>
+        <ButtonStyled onPress={handleRightPress}>
           <Ionicons name="checkmark-done-outline" size={35} color="#443E3B" />
-        </Button>
+        </ButtonStyled>
       </Footer>
     </ViewStyled>
   );
-};
+}
 
 const ViewStyled = styled(View, {
   width: "100%",
@@ -82,6 +98,34 @@ const ViewStyled = styled(View, {
   borderBottomLeftRadius: "$4",
   borderBottomRightRadius: "$4",
   padding: "$5",
+});
+
+const ImageWrapper = styled(View, {
+  position: "relative",
+  marginTop: 10,
+});
+
+const RemoveImageButton = styled(Button, {
+  position: "absolute",
+  top: -8,
+  right: -8,
+  width: 24,
+  height: 24,
+  borderRadius: 32,
+  justifyContent: "center",
+  alignItems: "center",
+  elevation: 5,
+  zIndex: 10,
+  backgroundColor: "$coloredBackground",
+  borderWidth: "$1",
+  borderColor: "#fff",
+});
+
+const ImageStyled = styled(Image, {
+  width: 80,
+  height: 80,
+  borderRadius: 10,
+  marginRight: 8,
 });
 
 const TitleInput = styled(Input, {
@@ -110,66 +154,10 @@ const Footer = styled(View, {
   marginTop: "$4",
 });
 
-const Button = styled(TouchableOpacity, {
+const ButtonStyled = styled(Button, {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  width: 50,
   backgroundColor: "$subtleBackground",
   borderWidth: 0,
 });
-
-// Styles
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    backgroundColor: "#f9f9f9",
-    borderRadius: 10,
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-  },
-  titleInput: {
-    fontSize: 15,
-    fontWeight: "bold",
-  },
-  messageContainer: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    padding: 10,
-  },
-  messageInput: {
-    fontSize: 16,
-    textAlignVertical: "top",
-  },
-  imageContainer: {
-    flexDirection: "row",
-    marginTop: 10,
-  },
-  image: {
-    width: 80,
-    height: 80,
-    borderRadius: 10,
-    marginRight: 8,
-  },
-  footer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 10,
-  },
-  button: {
-    backgroundColor: "#007BFF",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-  },
-});
-
-export default NotebookCard;
