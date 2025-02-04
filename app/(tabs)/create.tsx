@@ -1,12 +1,16 @@
+import { useEffect, useState } from "react";
+import { View, Text, XStack, useWindowDimensions } from "tamagui";
+import { supabase } from "@/utils/supabase/supabase";
+import { Session } from "@supabase/supabase-js";
+
 import MyView from "@/components/MyView";
 import MyText from "@/components/MyText";
 import MyScrollView from "@/components/MyScrollView";
 import MyCard from "@/components/MyCard";
 import JournalEntry from "@/components/JournalEntry";
 
-import { View, Text, XStack, useWindowDimensions } from "tamagui";
-
 export default function Create() {
+  const [session, setSession] = useState<Session | null>(null);
   const date = new Date(); // Example date
 
   // Get day, date, and month
@@ -42,6 +46,16 @@ export default function Create() {
 
   const { height } = useWindowDimensions();
 
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+  }, []);
+
   return (
     <MyView
       paddingHorizontal={"$5"}
@@ -68,7 +82,12 @@ export default function Create() {
         </XStack>
       </View>
       <MyScrollView width={"100%"}>
-        <JournalEntry />
+        {session && session.user && <JournalEntry />}
+        {!session && (
+          <View>
+            <MyText>Please sign in to create a journal entry.</MyText>
+          </View>
+        )}
       </MyScrollView>
     </MyView>
   );
