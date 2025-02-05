@@ -95,14 +95,16 @@ export default function JournalEntry() {
           {images.map((image, index) => (
             <ImageWrapper key={index} style={{ zIndex: images.length - index }}>
               <ImageStyled source={{ uri: image }} />
-              <RemoveImageButton onPress={() => removeImage(index)}>
-                <Ionicons
-                  name="close-outline"
-                  size={12}
-                  color="#fff"
-                  style={{ zIndex: 15 }}
-                />
-              </RemoveImageButton>
+              <RemoveImageWrapper>
+                <RemoveButton onPress={() => removeImage(index)}>
+                  <Ionicons
+                    name="close-outline"
+                    size={12}
+                    color="#fff"
+                    style={{ zIndex: 15 }}
+                  />
+                </RemoveButton>
+              </RemoveImageWrapper>
             </ImageWrapper>
           ))}
         </MyScrollView>
@@ -208,20 +210,26 @@ const ImageWrapper = styled(View, {
   marginTop: 10,
 });
 
-const RemoveImageButton = styled(Button, {
+const RemoveImageWrapper = styled(View, {
   position: "absolute",
   top: -8,
-  right: -8,
+  right: -4,
   width: 24,
   height: 24,
   borderRadius: 32,
+  borderWidth: 2,
+  borderColor: "$subtleBackground",
+  backgroundColor: "$coloredBackground",
   justifyContent: "center",
   alignItems: "center",
-  elevation: 5,
   zIndex: 10,
-  backgroundColor: "$coloredBackground",
-  borderWidth: "$1",
-  borderColor: "#fff",
+});
+
+const RemoveButton = styled(Button, {
+  backgroundColor: "transparent",
+  padding: 0,
+  minWidth: 0,
+  minHeight: 0,
 });
 
 const ImageStyled = styled(Image, {
