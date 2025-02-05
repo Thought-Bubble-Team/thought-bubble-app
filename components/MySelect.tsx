@@ -5,7 +5,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 interface MySelectProps extends SelectProps {
   val: string;
   setVal: Dispatch<SetStateAction<string>>;
-  months: { id: number; month: string; year: number }[];
+  date: { id: number; date: string }[];
   borderWidth?: number;
   color?: string;
 }
@@ -13,7 +13,7 @@ interface MySelectProps extends SelectProps {
 export default function MySelect({
   val,
   setVal,
-  months,
+  date,
   borderWidth,
   color,
   ...restProps
@@ -22,7 +22,7 @@ export default function MySelect({
     <Select value={val} onValueChange={setVal} disablePreventBodyScroll>
       <Select.Trigger width={125} borderWidth={borderWidth}>
         <Select.Value placeholder="Jan 2025" color={color} size={16} />
-        <Ionicons name="chevron-down-sharp" size={16} color={color} />
+        <Ionicons name="chevron-down-sharp" size={16} color={"#7C7876"} />
       </Select.Trigger>
 
       <Adapt when="sm" platform="touch">
@@ -67,21 +67,15 @@ export default function MySelect({
             <Select.Label>Select Date</Select.Label>
             {useMemo(
               () =>
-                months.map((item, index) => (
-                  <Select.Item
-                    index={index}
-                    key={item.id}
-                    value={item.month.toLowerCase() + " " + item.year}
-                  >
-                    <Select.ItemText>
-                      {item.month} {item.year}
-                    </Select.ItemText>
+                date.map((item, index) => (
+                  <Select.Item index={index} key={item.id} value={item.date}>
+                    <Select.ItemText>{item.date}</Select.ItemText>
                     <Select.ItemIndicator marginLeft="auto">
                       <Ionicons name="checkmark-sharp" size={16} />
                     </Select.ItemIndicator>
                   </Select.Item>
                 )),
-              [months],
+              [date]
             )}
           </Select.Group>
         </Select.Viewport>

@@ -4,27 +4,43 @@ import MyCard from "@/components/MyCard";
 import MyText from "@/components/MyText";
 import ReoccuringWords from "@/components/ReoccuringWords";
 import MySelect from "@/components/MySelect";
+import MonthYearSelect from "@/components/MonthYearSelect";
 
 import { View, Text, styled } from "tamagui";
 import { useState } from "react";
 
 const months = [
-  { id: 1, month: "Jan", year: 2025 },
-  { id: 2, month: "Feb", year: 2025 },
-  { id: 3, month: "Mar", year: 2025 },
-  { id: 4, month: "Apr", year: 2025 },
-  { id: 5, month: "May", year: 2025 },
-  { id: 6, month: "Jun", year: 2025 },
-  { id: 7, month: "Jul", year: 2025 },
-  { id: 8, month: "Aug", year: 2025 },
-  { id: 9, month: "Sep", year: 2025 },
-  { id: 10, month: "Oct", year: 2025 },
-  { id: 11, month: "Nov", year: 2025 },
-  { id: 12, month: "Dec", year: 2025 },
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
 ];
 
+const startYear = 2025;
+const currentYear = new Date().getFullYear();
+const currentMonth = new Date().getMonth();
+
+const dateOptions: { id: number; date: string }[] = [];
+for (let year = startYear; year <= currentYear; year++) {
+  for (let monthIndex = 0; monthIndex < 12; monthIndex++) {
+    if (year === currentYear && monthIndex > currentMonth) break;
+    dateOptions.push({
+      id: dateOptions.length,
+      date: `${months[monthIndex]} ${year}`,
+    });
+  }
+}
+
 export default function Index() {
-  const [val, setVal] = useState<string>(months[0].month);
+  const [val, setVal] = useState<string>("Jan 2025");
 
   return (
     <MyView
@@ -49,7 +65,7 @@ export default function Index() {
           color={"$subtleTextColor"}
           val={val}
           setVal={setVal}
-          months={months}
+          date={dateOptions}
         />
       </View>
       <MyScrollView>
