@@ -1,5 +1,7 @@
 import { XStack, XStackProps, View, Text, styled } from "tamagui";
 
+import { formatDate } from "@/utils/dateFormat";
+
 import MyText from "./MyText";
 
 interface Mood {
@@ -7,7 +9,27 @@ interface Mood {
   color: string;
 }
 
+type EmotionType = {
+  emotions: {
+    joy: number;
+    sadness: number;
+    anger: number;
+    fear: number;
+    disgust: number;
+    surprise: number;
+  };
+  created_at: string;
+};
+
+interface ReoccuringWordsProps {
+  emotions: EmotionType[];
+}
+
 export default function ReoccuringWords() {
+  // const { emotions } = props;
+
+  // const selectedDate = formatDate(emotions[0].created_at);
+
   const moods: Mood[] = [
     { emotion: "grateful", color: "#F7C8BB" },
     { emotion: "exhausting", color: "#D6C8C3" },
@@ -19,11 +41,12 @@ export default function ReoccuringWords() {
     { emotion: "tough", color: "#E0B7AB" },
     { emotion: "tough", color: "#E0B7AB" },
   ];
+
   return (
     <XStack gap={"$2"} flexWrap="wrap">
       {moods.map((mood, index) => (
         <View key={index} backgroundColor={mood.color} borderRadius={"$8"}>
-          <MyText fontSize={8} paddingVertical={"$2"} paddingHorizontal={"$3"}>
+          <MyText fontSize={12} paddingVertical={"$2"} paddingHorizontal={"$3"}>
             {mood.emotion}
           </MyText>
         </View>
