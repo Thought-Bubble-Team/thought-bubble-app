@@ -2,6 +2,8 @@ import { Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useColorScheme } from "react-native";
 
+import TabIcons from "@/components/Icons/TabIcons";
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   return (
@@ -11,11 +13,13 @@ export default function TabLayout() {
         headerStyle: {
           backgroundColor: colorScheme === "dark" ? "#1a141f" : "#fdfcfd",
         },
-        headerShadowVisible: false,
+        headerShown: false,
         tabBarStyle: {
-          backgroundColor: colorScheme === "dark" ? "#1a141f" : "#fdfcfd",
-          shadowOpacity: 0,
+          backgroundColor: colorScheme === "dark" ? "#1a141f" : "#ffffff",
+          borderColor: "transparent",
+          elevation: 0,
         },
+        tabBarShowLabel: false,
       }}
     >
       <Tabs.Screen
@@ -23,10 +27,16 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "bar-chart-sharp" : "bar-chart-outline"}
-              color={color}
-              size={24}
+            // <Ionicons
+            //   name={focused ? "bar-chart-sharp" : "bar-chart-outline"}
+            //   color={color}
+            //   size={24}
+            // />
+            <TabIcons
+              colorScheme={colorScheme}
+              focused={focused}
+              type={"chart"}
+              size={32}
             />
           ),
         }}
@@ -36,10 +46,16 @@ export default function TabLayout() {
         options={{
           title: "Journals",
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "calendar-sharp" : "calendar-outline"}
-              color={color}
-              size={24}
+            // <Ionicons
+            //   name={focused ? "calendar-sharp" : "calendar-outline"}
+            //   color={color}
+            //   size={24}
+            // />
+            <TabIcons
+              colorScheme={colorScheme}
+              focused={focused}
+              type={"note"}
+              size={32}
             />
           ),
         }}
@@ -49,10 +65,16 @@ export default function TabLayout() {
         options={{
           title: "Create",
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons
-              name={focused ? "pencil-sharp" : "pencil-outline"}
-              color={color}
-              size={24}
+            // <Ionicons
+            //   name={focused ? "pencil-sharp" : "pencil-outline"}
+            //   color={color}
+            //   size={24}
+            // />
+            <TabIcons
+              colorScheme={colorScheme}
+              focused={focused}
+              type={"pen"}
+              size={40}
             />
           ),
         }}
