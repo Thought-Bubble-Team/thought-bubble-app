@@ -8,6 +8,7 @@ import { Session } from "@supabase/supabase-js";
 
 import MyView from "@/components/MyView";
 import MyText from "@/components/MyText";
+import MyInput from "@/components/Inputs/MyInput";
 
 export default function User() {
   const [email, setEmail] = useState<string>("");
@@ -54,7 +55,7 @@ export default function User() {
   };
 
   return (
-    <MyView padding={"$10"} backgroundColor={"$background"}>
+    <MyView padding={"$8"} backgroundColor={"$background"}>
       {session && session.user && (
         <View width={"100%"} gap={"$2"}>
           <MyText bold>Welcome {session.user.email}</MyText>
@@ -66,13 +67,20 @@ export default function User() {
       {!session && !isSignUp && (
         <View width={"100%"} gap={"$2"}>
           <MyText bold>Please Sign In</MyText>
-          <TextInput
-            placeholder="Email"
+          <MyInput
+            label="Email"
+            placeholder="johnydoe@gmail.com"
             value={email}
             onChangeText={setEmail}
           />
-          <TextInput
+          {/* <TextInput
             placeholder="Password"
+            secureTextEntry
+            onChangeText={setPassword}
+          /> */}
+          <MyInput
+            label="Password"
+            placeholder="********"
             secureTextEntry
             onChangeText={setPassword}
           />
