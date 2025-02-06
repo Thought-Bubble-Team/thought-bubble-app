@@ -1,10 +1,12 @@
 // This is a React Native file
 import "react-native-url-polyfill/auto";
 import { useEffect, useState } from "react";
-import { Alert, TextInput } from "react-native";
-import { styled, View, Button } from "tamagui";
+import { StyleSheet, Alert, TextInput, TouchableOpacity } from "react-native";
+import { styled, View } from "tamagui";
 import { supabase } from "@/utils/supabase/supabase";
 import { Session } from "@supabase/supabase-js";
+
+import Logo from "@/assets/icons/logoTemp.svg";
 
 import MyView from "@/components/MyView";
 import MyText from "@/components/MyText";
@@ -59,14 +61,28 @@ export default function User() {
       {session && session.user && (
         <View width={"100%"} gap={"$2"}>
           <MyText weight="bold">Welcome {session.user.email}</MyText>
-          <ButtonStyledColored onPress={() => supabase.auth.signOut()}>
-            <MyText>Sign Out</MyText>
-          </ButtonStyledColored>
+          <TouchableOpacity
+            style={buttonStyles.ButtonStyledColored}
+            onPress={() => supabase.auth.signOut()}
+          >
+            Sign Out
+          </TouchableOpacity>
         </View>
       )}
       {!session && !isSignUp && (
-        <View width={"100%"} gap={"$2"}>
-          <MyText weight="bold">Please Sign In</MyText>
+        <View
+          width={"100%"}
+          gap={"$6"}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Logo width={100} height={100} />
+          <MyText weight="bold" fontSize={18}>
+            Welcome to Thought Bubble!
+          </MyText>
+          <MyText weight="light" fontSize={13}>
+            Welcome back! Login to continue your journey.
+          </MyText>
           <MyInput
             label="Email"
             placeholder="johnydoe@gmail.com"
@@ -84,12 +100,27 @@ export default function User() {
             secureTextEntry
             onChangeText={setPassword}
           />
-          <ButtonStyledColored onPress={signInWithEmail}>
-            <MyText>Login</MyText>
-          </ButtonStyledColored>
-          <ButtonStyled>
-            <MyText>Sign Up</MyText>
-          </ButtonStyled>
+          <TouchableOpacity
+            style={buttonStyles.ButtonStyledColored}
+            onPress={signInWithEmail}
+          >
+            <MyText weight="bold" fontSize={16} color={"$textColorAlt"}>
+              LOGIN
+            </MyText>
+          </TouchableOpacity>
+          <View
+            flexDirection="row"
+            gap={"$2"}
+            alignItems="center"
+            marginTop={"$15"}
+          >
+            <MyText weight="light">Don't have an account?</MyText>
+            <TouchableOpacity onPress={() => setIsSignUp(true)}>
+              <MyText weight="bold" color={"$accent"}>
+                Signup
+              </MyText>
+            </TouchableOpacity>
+          </View>
         </View>
       )}
       {isSignUp && (
@@ -105,30 +136,34 @@ export default function User() {
             secureTextEntry
             onChangeText={setPassword}
           />
-          <ButtonStyledColored onPress={signUpWithEmail}>
+          <TouchableOpacity onPress={signUpWithEmail}>
             <MyText>Submit</MyText>
-          </ButtonStyledColored>
-          <ButtonStyled onPress={() => setIsSignUp(false)}>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setIsSignUp(false)}>
             <MyText>Have an account? Sign In</MyText>
-          </ButtonStyled>
+          </TouchableOpacity>
         </View>
       )}
     </MyView>
   );
 }
 
-const ButtonStyled = styled(Button, {
-  padding: 0,
-  margin: 0,
-  backgroundColor: "$background",
-  color: "$colorText",
-});
+// const ButtonStyled = styled(Button, {
+//   padding: 0,
+//   margin: 0,
+//   backgroundColor: "$background",
+//   color: "$colorText",
+// });
 
-const ButtonStyledColored = styled(Button, {
-  padding: "$2",
-  margin: "$2",
-  backgroundColor: "$subtleBackground",
-  color: "$colorText",
-  borderWidth: 0,
-  textAlign: "center",
+const buttonStyles = StyleSheet.create({
+  ButtonStyledColored: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    padding: 16,
+    backgroundColor: "#CB806A",
+    color: "#fff",
+    borderRadius: 32,
+  },
 });
