@@ -58,7 +58,7 @@ export default function User() {
     <MyView padding={"$8"} backgroundColor={"$background"}>
       {session && session.user && (
         <View width={"100%"} gap={"$2"}>
-          <MyText bold>Welcome {session.user.email}</MyText>
+          <MyText weight="bold">Welcome {session.user.email}</MyText>
           <ButtonStyledColored onPress={() => supabase.auth.signOut()}>
             <MyText>Sign Out</MyText>
           </ButtonStyledColored>
@@ -66,7 +66,7 @@ export default function User() {
       )}
       {!session && !isSignUp && (
         <View width={"100%"} gap={"$2"}>
-          <MyText bold>Please Sign In</MyText>
+          <MyText weight="bold">Please Sign In</MyText>
           <MyInput
             label="Email"
             placeholder="johnydoe@gmail.com"
@@ -94,7 +94,7 @@ export default function User() {
       )}
       {isSignUp && (
         <View width={"100%"} gap={"$2"}>
-          <MyText bold>Please Sign Up</MyText>
+          <MyText weight="bold">Please Sign Up</MyText>
           <TextInput
             placeholder="Email"
             value={email}

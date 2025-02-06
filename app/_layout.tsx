@@ -7,6 +7,7 @@ import { Stack } from "expo-router";
 import { useColorScheme } from "react-native";
 import { TamaguiProvider } from "tamagui";
 import {
+  Montserrat_300Light,
   Montserrat_400Regular,
   Montserrat_500Medium,
   Montserrat_700Bold,
@@ -20,6 +21,7 @@ import { useEffect } from "react";
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded, error] = useFonts({
+    Montserrat_300Light,
     Montserrat_400Regular,
     Montserrat_500Medium,
     Montserrat_700Bold,

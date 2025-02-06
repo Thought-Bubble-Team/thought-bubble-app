@@ -51,14 +51,14 @@ export default function MyCard(props: MyCardProps) {
             alignItems="flex-start"
             gap={"$2"}
           >
-            <MyText bold fontSize={14} color={"$textColor"}>
+            <MyText weight="bold" fontSize={14} color={"$textColor"}>
               {journalEntry.mood}
             </MyText>
-            <MyText bold fontSize={14} color={"$textColor"}>
+            <MyText weight="bold" fontSize={14} color={"$textColor"}>
               {journalEntry.title}
             </MyText>
           </View>
-          <MyText bold fontSize={14} color={"$subtleTextColor"}>
+          <MyText weight="bold" fontSize={14} color={"$subtleTextColor"}>
             {formatTime(journalEntry.created_at)}
           </MyText>
         </Card.Header>

@@ -53,7 +53,7 @@ const inputStyles = StyleSheet.create({
     width: "100%",
     justifyContent: "flex-start",
     alignItems: "center",
-    fontFamily: "Montserrat_700Bold",
+    fontFamily: "Montserrat_500Medium",
     fontSize: 13,
     backgroundColor: "transparent",
     color: "$textColor",

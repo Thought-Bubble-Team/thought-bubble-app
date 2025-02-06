@@ -73,10 +73,10 @@ export default function Create() {
         padding={"$4"}
       >
         <XStack width={"100%"}>
-          <MyText bold fontSize={20} color={"$textColor"}>
+          <MyText weight="bold" fontSize={20} color={"$textColor"}>
             {day}
           </MyText>
-          <MyText bold fontSize={20} color={"$subtleTextColor"}>
+          <MyText weight="bold" fontSize={20} color={"$subtleTextColor"}>
             {formattedDate}
           </MyText>
         </XStack>

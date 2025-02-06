@@ -56,7 +56,7 @@ export default function Journals() {
             gap={"$4"}
             padding={"$4"}
           >
-            <MyText bold fontSize={30} color={"$textColor"}>
+            <MyText weight="bold" fontSize={30} color={"$textColor"}>
               Your Journey
             </MyText>
           </View>
@@ -98,10 +98,10 @@ const JournalEntry = (props: JournalEntryProps) => {
         margin={0}
       >
         <XStack>
-          <MyText bold fontSize={20} color={"$textColor"}>
+          <MyText weight="bold" fontSize={20} color={"$textColor"}>
             {splitDate[0]}
           </MyText>
-          <MyText bold fontSize={20} color={"$subtleTextColor"}>
+          <MyText weight="bold" fontSize={20} color={"$subtleTextColor"}>
             {splitDate[1]}
           </MyText>
         </XStack>

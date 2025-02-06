@@ -58,7 +58,7 @@ export default function Index() {
         gap={"$4"}
         padding={"$4"}
       >
-        <MyText bold fontSize={30} color={"$textColor"}>
+        <MyText weight="bold" fontSize={30} color={"$textColor"}>
           Hello, User!
         </MyText>
         <MySelect
