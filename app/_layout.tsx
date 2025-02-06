@@ -8,6 +8,7 @@ import { useColorScheme } from "react-native";
 import { TamaguiProvider } from "tamagui";
 import {
   Montserrat_400Regular,
+  Montserrat_500Medium,
   Montserrat_700Bold,
   useFonts,
 } from "@expo-google-fonts/montserrat";
@@ -20,6 +21,7 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded, error] = useFonts({
     Montserrat_400Regular,
+    Montserrat_500Medium,
     Montserrat_700Bold,
   });
 
