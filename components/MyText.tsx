@@ -5,27 +5,32 @@ interface MyTextProps extends TextProps {
   children?: React.ReactNode;
 }
 
+const TextStyled = styled(Text, {
+  name: "MyText",
+  variants: {
+    weight: {
+      light: {
+        fontFamily: "Montserrat_300Light",
+      },
+      regular: {
+        fontFamily: "Montserrat_400Regular",
+      },
+      medium: {
+        fontFamily: "Montserrat_500Medium",
+      },
+      bold: {
+        fontFamily: "Montserrat_700Bold",
+      },
+    },
+  },
+});
+
 export default function MyText(props: MyTextProps) {
-  const { children, ...restProps } = props;
+  const { children, weight, ...restProps } = props;
 
-  const TextStyled = styled(Text, {
-    fontFamily: fontWeight(props.weight || "regular"),
-  });
-
-  return <TextStyled {...restProps}>{children}</TextStyled>;
+  return (
+    <TextStyled weight={weight} {...restProps}>
+      {children}
+    </TextStyled>
+  );
 }
-
-const fontWeight = (weight: "light" | "regular" | "medium" | "bold") => {
-  switch (weight) {
-    case "light":
-      return "Montserrat_300Light";
-    case "regular":
-      return "Montserrat_400Regular";
-    case "medium":
-      return "Montserrat_500Medium";
-    case "bold":
-      return "Montserrat_700Bold";
-    default:
-      return "Montserrat_400Regular";
-  }
-};
