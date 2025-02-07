@@ -29284,10 +29284,12 @@
         "coloredBackground": "#D8C6BD",
         "textColor": "#443E3B",
         "subtleTextColor": "#7C7876",
+        "textColorAlt": "#ffffff",
+        "accent": "#CB806A",
         "id": "light"
       },
       "dark": {
-        "background": "#443E3B",
+        "background": "#4F3F39",
         "subtleBackground": "#4F3F39",
         "coloredBackground": "#9B8177",
         "textColor": "#ffffff",

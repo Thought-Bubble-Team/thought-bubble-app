@@ -24,9 +24,11 @@ const themes = {
     coloredBackground: myTokens.color.grey,
     textColor: myTokens.color.black,
     subtleTextColor: myTokens.color.darkGrey,
+    textColorAlt: myTokens.color.white,
+    accent: myTokens.color.redOrange,
   },
   dark: {
-    background: myTokens.color.black,
+    background: myTokens.color.darkRedOrange,
     subtleBackground: myTokens.color.darkRedOrange,
     coloredBackground: myTokens.color.brown,
     textColor: myTokens.color.white,
@@ -46,5 +48,5 @@ export default tamaguiConfig;
 export type Conf = typeof tamaguiConfig;
 
 declare module "tamagui" {
-  interface TamaguiCustomConfig extends Conf { }
+  interface TamaguiCustomConfig extends Conf {}
 }
