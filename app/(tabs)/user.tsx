@@ -1,8 +1,8 @@
 // This is a React Native file
 import "react-native-url-polyfill/auto";
 import { useEffect, useState } from "react";
-import { StyleSheet, Alert, TextInput, TouchableOpacity } from "react-native";
-import { AlertDialog, styled, View } from "tamagui";
+import { StyleSheet, Alert, TouchableOpacity } from "react-native";
+import { View } from "tamagui";
 import { supabase } from "@/utils/supabase/supabase";
 import { Session } from "@supabase/supabase-js";
 
@@ -186,13 +186,6 @@ export default function User() {
     </MyView>
   );
 }
-
-// const ButtonStyled = styled(Button, {
-//   padding: 0,
-//   margin: 0,
-//   backgroundColor: "$background",
-//   color: "$colorText",
-// });
 
 const buttonStyles = StyleSheet.create({
   ButtonStyledColored: {
