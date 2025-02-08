@@ -1,5 +1,5 @@
 import { TextInput, TextInputProps, StyleSheet } from "react-native";
-import { styled, Input, YStack, XStack } from "tamagui";
+import { styled, YStack, XStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import MyText from "@/components/MyText";
