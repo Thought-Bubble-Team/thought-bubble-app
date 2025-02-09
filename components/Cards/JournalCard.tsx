@@ -1,6 +1,6 @@
-import { Card, CardProps, View, Text, styled } from "tamagui";
+import { Card, CardProps, View, styled } from "tamagui";
 
-import MyText from "@/components/MyText";
+import Text from "@/components/Text";
 
 import { formatTime } from "@/utils/dateFormat";
 
@@ -51,16 +51,16 @@ export default function MyCard(props: MyCardProps) {
             alignItems="flex-start"
             gap={"$2"}
           >
-            <MyText weight="bold" fontSize={14} color={"$textColor"}>
+            <Text weight="bold" fontSize={14} color={"$textColor"}>
               {journalEntry.mood}
-            </MyText>
-            <MyText weight="bold" fontSize={14} color={"$textColor"}>
+            </Text>
+            <Text weight="bold" fontSize={14} color={"$textColor"}>
               {journalEntry.title}
-            </MyText>
+            </Text>
           </View>
-          <MyText weight="bold" fontSize={14} color={"$subtleTextColor"}>
+          <Text weight="bold" fontSize={14} color={"$subtleTextColor"}>
             {formatTime(journalEntry.created_at)}
-          </MyText>
+          </Text>
         </Card.Header>
       )}
       <View
@@ -73,9 +73,9 @@ export default function MyCard(props: MyCardProps) {
         borderBottomRightRadius={"$4"}
       >
         {journalEntry && (
-          <MyText fontSize={14} color={"$textColor"}>
+          <Text fontSize={14} color={"$textColor"}>
             {journalEntry.content}
-          </MyText>
+          </Text>
         )}
         {children}
       </View>

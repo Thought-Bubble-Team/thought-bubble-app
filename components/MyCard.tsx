@@ -3,14 +3,13 @@ import {
   CardProps,
   Button,
   View,
-  Text,
   Paragraph,
   styled,
   XStack,
   YStack,
 } from "tamagui";
 
-import MyText from "@/components/MyText";
+import Text from "@/components/Text";
 
 interface MyCardProps extends CardProps {
   headerTitle?: string | undefined;
@@ -42,9 +41,9 @@ export default function MyCard(props: MyCardProps) {
           backgroundColor={"$coloredBackground"}
           borderTopRightRadius={"$4"}
         >
-          <MyText weight="bold" fontSize={14} color={"$textColor"}>
+          <Text weight="bold" fontSize={14} color={"$textColor"}>
             {headerTitle}
-          </MyText>
+          </Text>
         </Card.Header>
       )}
       <View

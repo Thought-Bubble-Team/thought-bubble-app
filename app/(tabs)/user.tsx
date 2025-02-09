@@ -6,7 +6,7 @@ import { styled, View } from "tamagui";
 
 // Component Imports
 import MyView from "@/components/MyView";
-import MyText from "@/components/MyText";
+import Text from "@/components/Text";
 import Login from "@/components/Macro/Login";
 import SignUp from "@/components/Macro/SignUp";
 
@@ -33,7 +33,7 @@ export default function User() {
     <MainContainer>
       {session && session.user && (
         <View width={"100%"} gap={"$2"}>
-          <MyText weight="bold">Welcome {session.user.email}</MyText>
+          <Text weight="bold">Welcome {session.user.email}</Text>
           <TouchableOpacity
             style={buttonStyles.ButtonStyledColored}
             onPress={() => supabase.auth.signOut()}

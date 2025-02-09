@@ -1,8 +1,8 @@
-import { XStack, XStackProps, View, Text, styled } from "tamagui";
+import { XStack, XStackProps, View, styled } from "tamagui";
 
 import { formatDate } from "@/utils/dateFormat";
 
-import MyText from "./MyText";
+import Text from "./Text";
 
 interface Mood {
   emotion: string;
@@ -46,9 +46,9 @@ export default function ReoccuringWords() {
     <XStack gap={"$2"} flexWrap="wrap">
       {moods.map((mood, index) => (
         <View key={index} backgroundColor={mood.color} borderRadius={"$8"}>
-          <MyText fontSize={12} paddingVertical={"$2"} paddingHorizontal={"$3"}>
+          <Text fontSize={12} paddingVertical={"$2"} paddingHorizontal={"$3"}>
             {mood.emotion}
-          </MyText>
+          </Text>
         </View>
       ))}
     </XStack>

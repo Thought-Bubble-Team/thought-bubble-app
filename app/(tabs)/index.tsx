@@ -1,12 +1,12 @@
 import MyScrollView from "@/components/MyScrollView";
 import MyView from "@/components/MyView";
 import MyCard from "@/components/MyCard";
-import MyText from "@/components/MyText";
+import Text from "@/components/Text";
 import ReoccuringWords from "@/components/ReoccuringWords";
 import MySelect from "@/components/MySelect";
 import MonthYearSelect from "@/components/MonthYearSelect";
 
-import { View, Text, styled } from "tamagui";
+import { View, styled } from "tamagui";
 import { useState } from "react";
 
 const months = [
@@ -58,9 +58,9 @@ export default function Index() {
         gap={"$4"}
         padding={"$4"}
       >
-        <MyText weight="bold" fontSize={30} color={"$textColor"}>
+        <Text weight="bold" fontSize={30} color={"$textColor"}>
           Hello, User!
-        </MyText>
+        </Text>
         <MySelect
           color={"$subtleTextColor"}
           val={val}
@@ -73,13 +73,13 @@ export default function Index() {
           <ReoccuringWords />
         </MyCard>
         <MyCard headerTitle="Mood Calendar">
-          <MyText>{val}</MyText>
+          <Text>{val}</Text>
         </MyCard>
         <MyCard headerTitle="Mood Flow">
-          <MyText>Kunwari may Graph</MyText>
+          <Text>Kunwari may Graph</Text>
         </MyCard>
         <MyCard headerTitle="Mood Bar">
-          <MyText>Mood Bar</MyText>
+          <Text>Mood Bar</Text>
         </MyCard>
       </MyScrollView>
     </MyView>

@@ -2,7 +2,7 @@ import { TextInput, TextInputProps, StyleSheet } from "react-native";
 import { styled, YStack, XStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-import MyText from "@/components/MyText";
+import Text from "@/components/Text";
 
 interface MyInputProps extends TextInputProps {
   label?: string;
@@ -42,7 +42,7 @@ const InputContainer = styled(YStack, {
   alignItems: "flex-start",
 });
 
-const Label = styled(MyText, {
+const Label = styled(Text, {
   fontSize: 12,
   color: "$subtleTextColor",
 });

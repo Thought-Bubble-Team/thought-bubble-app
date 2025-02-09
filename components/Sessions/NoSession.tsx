@@ -1,5 +1,5 @@
-import MyText from "../MyText";
+import Text from "../Text";
 
 export default function NoSession() {
-  return <MyText>Please sign in</MyText>;
+  return <Text>Please sign in</Text>;
 }

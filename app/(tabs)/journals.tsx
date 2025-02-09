@@ -6,7 +6,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 import MyView from "@/components/MyView";
 import MyScrollView from "@/components/MyScrollView";
-import MyText from "@/components/MyText";
+import Text from "@/components/Text";
 import { JournalCard, JournalEntryType } from "@/components/Cards";
 import { NoSession } from "@/components/Sessions";
 
@@ -56,9 +56,9 @@ export default function Journals() {
             gap={"$4"}
             padding={"$4"}
           >
-            <MyText weight="bold" fontSize={30} color={"$textColor"}>
+            <Text weight="bold" fontSize={30} color={"$textColor"}>
               Your Journey
-            </MyText>
+            </Text>
           </View>
           <MyScrollView width={"100%"} height={"100%"}>
             {journals.map((journalEntrySample) => (
@@ -98,12 +98,12 @@ const JournalEntry = (props: JournalEntryProps) => {
         margin={0}
       >
         <XStack>
-          <MyText weight="bold" fontSize={20} color={"$textColor"}>
+          <Text weight="bold" fontSize={20} color={"$textColor"}>
             {splitDate[0]}
-          </MyText>
-          <MyText weight="bold" fontSize={20} color={"$subtleTextColor"}>
+          </Text>
+          <Text weight="bold" fontSize={20} color={"$subtleTextColor"}>
             {splitDate[1]}
-          </MyText>
+          </Text>
         </XStack>
         <ButtonStyled>
           <Ionicons name="settings-outline" size={18} color="#443E3B" />
