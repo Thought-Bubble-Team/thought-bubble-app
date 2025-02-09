@@ -10,7 +10,7 @@ export const createJournalEntry = async (
 ) => {
   try {
     const { data, error } = await supabase
-      .from("JournalEntry")
+      .from("journal_entry")
       .insert([journalEntry]);
 
     if (error) throw error;
@@ -23,7 +23,7 @@ export const createJournalEntry = async (
 export const getJournalEntries = async (user_id: string) => {
   try {
     const { data, error } = await supabase
-      .from("JournalEntry")
+      .from("journal_entry")
       .select("*")
       .eq("user_id", user_id)
       .order("created_at", { ascending: false });
@@ -35,7 +35,7 @@ export const getJournalEntries = async (user_id: string) => {
 export const deleteJournalEntry = async (entryId: string) => {
   try {
     const { error } = await supabase
-      .from("JournalEntry")
+      .from("journal_entry")
       .delete()
       .eq("id", entryId);
 
