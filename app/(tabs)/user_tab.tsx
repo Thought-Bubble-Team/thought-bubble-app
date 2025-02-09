@@ -9,12 +9,13 @@ import MyView from "@/components/MyView";
 import Text from "@/components/Text";
 import Login from "@/components/Macro/Login";
 import SignUp from "@/components/Macro/SignUp";
+import User from "@/components/Macro/User";
 
 // Utility Imports
 import { supabase } from "@/utils/supabase/supabase";
 import { Session } from "@supabase/supabase-js";
 
-export default function User() {
+export default function UserTab() {
   const [loading, setLoading] = useState<boolean>(false);
   const [session, setSession] = useState<Session | null>(null);
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
@@ -29,32 +30,40 @@ export default function User() {
     });
   }, []);
 
-  return (
-    <MainContainer>
-      {session && session.user && (
-        <View width={"100%"} gap={"$2"}>
-          <Text weight="bold">Welcome {session.user.email}</Text>
-          <TouchableOpacity
-            style={buttonStyles.ButtonStyledColored}
-            onPress={() => supabase.auth.signOut()}
-          >
-            Sign Out
-          </TouchableOpacity>
-        </View>
-      )}
-      {/** LOGIN SECTION */}
-      {!session && !isSignUp && (
-        <Login setIsSignUp={setIsSignUp} setLoading={setLoading} />
-      )}
-      {!session && isSignUp && (
-        <SignUp setIsSignUp={setIsSignUp} setLoading={setLoading} />
-      )}
-    </MainContainer>
-  );
+  if (session && session.user) {
+    return (
+      <UserContainer>
+        <User session={session} />
+      </UserContainer>
+    );
+  }
+
+  if (!session) {
+    return (
+      <FormContainer>
+        {/** LOGIN SECTION */}
+        {!isSignUp && (
+          <Login setIsSignUp={setIsSignUp} setLoading={setLoading} />
+        )}
+        {isSignUp && (
+          <SignUp setIsSignUp={setIsSignUp} setLoading={setLoading} />
+        )}
+      </FormContainer>
+    );
+  }
 }
 
 // Tamagui Styles
-const MainContainer = styled(View, {
+const UserContainer = styled(View, {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "flex-start",
+  width: "100%",
+  height: "100%",
+  backgroundColor: "$background",
+});
+
+const FormContainer = styled(View, {
   justifyContent: "center",
   alignItems: "center",
   height: "100%",
