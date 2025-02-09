@@ -5,7 +5,7 @@ import { styled, View } from "tamagui";
 
 // Component Imports
 import MyInput from "../Inputs/MyInput";
-import MyText from "../MyText";
+import Text from "../Text";
 
 // Utility Imports
 import { useState } from "react";
@@ -40,12 +40,12 @@ export default function Login(props: LoginProps) {
   return (
     <MainContainer>
       <Logo width={100} height={100} />
-      <MyText weight="bold" fontSize={18}>
+      <Text weight="bold" fontSize={18}>
         Welcome to Thought Bubble!
-      </MyText>
-      <MyText weight="light" fontSize={13}>
+      </Text>
+      <Text weight="light" fontSize={13}>
         Welcome back! Login to continue your journey.
-      </MyText>
+      </Text>
       <MyInput
         label="Email"
         placeholder="johnydoe@gmail.com"
@@ -62,16 +62,16 @@ export default function Login(props: LoginProps) {
         style={buttonStyles.ButtonStyledColored}
         onPress={signInWithEmail}
       >
-        <MyText weight="bold" fontSize={16} color={"$textColorAlt"}>
+        <Text weight="bold" fontSize={16} color={"$textColorAlt"}>
           LOGIN
-        </MyText>
+        </Text>
       </TouchableOpacity>
       <Footer>
-        <MyText weight="light">Don't have an account?</MyText>
+        <Text weight="light">Don't have an account?</Text>
         <TouchableOpacity onPress={() => setIsSignUp(true)}>
-          <MyText weight="bold" color={"$accent"}>
+          <Text weight="bold" color={"$accent"}>
             Signup
-          </MyText>
+          </Text>
         </TouchableOpacity>
       </Footer>
     </MainContainer>

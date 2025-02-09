@@ -1,11 +1,11 @@
-import { Text, TextProps, styled } from "tamagui";
+import { Text as TText, TextProps, styled } from "tamagui";
 
 interface MyTextProps extends TextProps {
   weight?: "light" | "regular" | "medium" | "bold";
   children?: React.ReactNode;
 }
 
-const TextStyled = styled(Text, {
+const TextStyled = styled(TText, {
   name: "MyText",
   variants: {
     weight: {
@@ -25,7 +25,7 @@ const TextStyled = styled(Text, {
   },
 });
 
-export default function MyText(props: MyTextProps) {
+export default function Text(props: MyTextProps) {
   const { children, weight, ...restProps } = props;
 
   return (

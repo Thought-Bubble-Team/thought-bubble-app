@@ -5,7 +5,7 @@ import { styled, View } from "tamagui";
 
 // Component Imports
 import MyInput from "../Inputs/MyInput";
-import MyText from "../MyText";
+import Text from "../Text";
 
 // Utility Imports
 import { useState } from "react";
@@ -51,12 +51,12 @@ export default function SignUp(props: SignUpProps) {
   return (
     <MainContainer>
       <Logo width={100} height={100} />
-      <MyText weight="bold" fontSize={18} textAlign="center">
+      <Text weight="bold" fontSize={18} textAlign="center">
         Welcome to Thought Bubble!
-      </MyText>
-      <MyText weight="light" fontSize={13} textAlign="center">
+      </Text>
+      <Text weight="light" fontSize={13} textAlign="center">
         Let your thoughts flow. Join us and start your journey today!
-      </MyText>
+      </Text>
       <MyInput
         label="Email"
         placeholder="johnydoe@gmail.com"
@@ -79,16 +79,16 @@ export default function SignUp(props: SignUpProps) {
         style={buttonStyles.ButtonStyledColored}
         onPress={signUpWithEmail}
       >
-        <MyText weight="bold" fontSize={16} color={"$textColorAlt"}>
+        <Text weight="bold" fontSize={16} color={"$textColorAlt"}>
           SIGNUP
-        </MyText>
+        </Text>
       </TouchableOpacity>
       <Footer>
-        <MyText weight="light">Already have an account?</MyText>
+        <Text weight="light">Already have an account?</Text>
         <TouchableOpacity onPress={() => setIsSignUp(false)}>
-          <MyText weight="bold" color={"$accent"}>
+          <Text weight="bold" color={"$accent"}>
             Login
-          </MyText>
+          </Text>
         </TouchableOpacity>
       </Footer>
     </MainContainer>

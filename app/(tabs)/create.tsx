@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { View, Text, XStack, useWindowDimensions } from "tamagui";
+import { View, XStack, useWindowDimensions } from "tamagui";
 import { supabase } from "@/utils/supabase/supabase";
 import { Session } from "@supabase/supabase-js";
 
 import MyView from "@/components/MyView";
-import MyText from "@/components/MyText";
+import Text from "@/components/Text";
 import MyScrollView from "@/components/MyScrollView";
 import MyCard from "@/components/MyCard";
 import JournalEntry from "@/components/JournalEntry";
@@ -73,19 +73,19 @@ export default function Create() {
         padding={"$4"}
       >
         <XStack width={"100%"}>
-          <MyText weight="bold" fontSize={20} color={"$textColor"}>
+          <Text weight="bold" fontSize={20} color={"$textColor"}>
             {day}
-          </MyText>
-          <MyText weight="bold" fontSize={20} color={"$subtleTextColor"}>
+          </Text>
+          <Text weight="bold" fontSize={20} color={"$subtleTextColor"}>
             {formattedDate}
-          </MyText>
+          </Text>
         </XStack>
       </View>
       <MyScrollView width={"100%"}>
         {session && session.user && <JournalEntry />}
         {!session && (
           <View>
-            <MyText>Please sign in to create a journal entry.</MyText>
+            <Text>Please sign in to create a journal entry.</Text>
           </View>
         )}
       </MyScrollView>
