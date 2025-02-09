@@ -1,23 +1,22 @@
-// This is a React Native file
+// Style Imports
 import "react-native-url-polyfill/auto";
 import { useEffect, useState } from "react";
-import { StyleSheet, Alert, TextInput, TouchableOpacity } from "react-native";
+import { StyleSheet, Alert, TouchableOpacity } from "react-native";
 import { styled, View } from "tamagui";
+
+// Component Imports
+import MyView from "@/components/MyView";
+import MyText from "@/components/MyText";
+import Login from "@/components/Macro/Login";
+import SignUp from "@/components/Macro/SignUp";
+
+// Utility Imports
 import { supabase } from "@/utils/supabase/supabase";
 import { Session } from "@supabase/supabase-js";
 
-import Logo from "@/assets/icons/logoTemp.svg";
-
-import MyView from "@/components/MyView";
-import MyText from "@/components/MyText";
-import MyInput from "@/components/Inputs/MyInput";
-
 export default function User() {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [session, setSession] = useState<Session | null>(null);
-
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
 
   useEffect(() => {
@@ -30,34 +29,8 @@ export default function User() {
     });
   }, []);
 
-  const signInWithEmail = async () => {
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) {
-      Alert.alert("Error", error.message);
-    }
-    setLoading(false);
-  };
-
-  const signUpWithEmail = async () => {
-    setLoading(true);
-    const { data: session, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-    if (error) {
-      Alert.alert("Error", error.message);
-    }
-    if (!session)
-      Alert.alert("Please check your inbox for email verification!");
-    setLoading(false);
-  };
-
   return (
-    <MyView padding={"$8"} backgroundColor={"$background"}>
+    <MainContainer>
       {session && session.user && (
         <View width={"100%"} gap={"$2"}>
           <MyText weight="bold">Welcome {session.user.email}</MyText>
@@ -69,92 +42,27 @@ export default function User() {
           </TouchableOpacity>
         </View>
       )}
+      {/** LOGIN SECTION */}
       {!session && !isSignUp && (
-        <View
-          width={"100%"}
-          gap={"$6"}
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Logo width={100} height={100} />
-          <MyText weight="bold" fontSize={18}>
-            Welcome to Thought Bubble!
-          </MyText>
-          <MyText weight="light" fontSize={13}>
-            Welcome back! Login to continue your journey.
-          </MyText>
-          <MyInput
-            label="Email"
-            placeholder="johnydoe@gmail.com"
-            value={email}
-            onChangeText={setEmail}
-          />
-          {/* <TextInput
-            placeholder="Password"
-            secureTextEntry
-            onChangeText={setPassword}
-          /> */}
-          <MyInput
-            label="Password"
-            placeholder="********"
-            secureTextEntry
-            onChangeText={setPassword}
-          />
-          <TouchableOpacity
-            style={buttonStyles.ButtonStyledColored}
-            onPress={signInWithEmail}
-          >
-            <MyText weight="bold" fontSize={16} color={"$textColorAlt"}>
-              LOGIN
-            </MyText>
-          </TouchableOpacity>
-          <View
-            flexDirection="row"
-            gap={"$2"}
-            alignItems="center"
-            marginTop={"$15"}
-          >
-            <MyText weight="light">Don't have an account?</MyText>
-            <TouchableOpacity onPress={() => setIsSignUp(true)}>
-              <MyText weight="bold" color={"$accent"}>
-                Signup
-              </MyText>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <Login setIsSignUp={setIsSignUp} setLoading={setLoading} />
       )}
-      {isSignUp && (
-        <View width={"100%"} gap={"$2"}>
-          <MyText weight="bold">Please Sign Up</MyText>
-          <TextInput
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-          />
-          <TextInput
-            placeholder="Password"
-            secureTextEntry
-            onChangeText={setPassword}
-          />
-          <TouchableOpacity onPress={signUpWithEmail}>
-            <MyText>Submit</MyText>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setIsSignUp(false)}>
-            <MyText>Have an account? Sign In</MyText>
-          </TouchableOpacity>
-        </View>
+      {!session && isSignUp && (
+        <SignUp setIsSignUp={setIsSignUp} setLoading={setLoading} />
       )}
-    </MyView>
+    </MainContainer>
   );
 }
 
-// const ButtonStyled = styled(Button, {
-//   padding: 0,
-//   margin: 0,
-//   backgroundColor: "$background",
-//   color: "$colorText",
-// });
+// Tamagui Styles
+const MainContainer = styled(View, {
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100%",
+  padding: "$8",
+  backgroundColor: "$background",
+});
 
+// React Native Styles
 const buttonStyles = StyleSheet.create({
   ButtonStyledColored: {
     display: "flex",
