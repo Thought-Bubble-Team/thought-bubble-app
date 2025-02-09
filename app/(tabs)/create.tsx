@@ -6,7 +6,6 @@ import { Session } from "@supabase/supabase-js";
 import MyView from "@/components/MyView";
 import Text from "@/components/Text";
 import MyScrollView from "@/components/MyScrollView";
-import MyCard from "@/components/MyCard";
 import JournalEntry from "@/components/JournalEntry";
 
 export default function Create() {
@@ -43,8 +42,6 @@ export default function Create() {
   const month = months[date.getMonth()]; // e.g., "Nov"
 
   const formattedDate = `, ${dayOfMonth} ${month}`;
-
-  const { height } = useWindowDimensions();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
