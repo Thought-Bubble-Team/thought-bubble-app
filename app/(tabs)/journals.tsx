@@ -1,16 +1,19 @@
-import { useEffect, useMemo, useState } from "react";
-import { supabase } from "@/utils/supabase/supabase";
-import { Session } from "@supabase/supabase-js";
+// Style Imports
 import { styled, View, XStack, Button } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
+// Components Imports
 import MyView from "@/components/MyView";
 import MyScrollView from "@/components/MyScrollView";
 import Text from "@/components/Text";
 import { JournalCard, JournalEntryType } from "@/components/Cards";
 import { NoSession } from "@/components/Sessions";
 
+// Utilities Imports
+import { useEffect, useState } from "react";
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
+import { supabase } from "@/utils/supabase/supabase";
+import { Session } from "@supabase/supabase-js";
 
 const journalEntrySample: JournalEntryType = {
   entry_id: 1,
