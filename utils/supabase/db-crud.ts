@@ -1,22 +1,21 @@
 import { supabase } from "@/utils/supabase/supabase";
 
 export interface JournalEntry {
-  journal_title: string;
-  journal_content: string;
+  title: string;
+  content: string;
 }
 
 export const createJournalEntry = async (
   journalEntry: Partial<JournalEntry>
 ) => {
-  try {
-    const { data, error } = await supabase
-      .from("journal_entry")
-      .insert([journalEntry]);
+  const { data, error } = await supabase
+    .from("journal_entry")
+    .insert([journalEntry]);
 
-    if (error) throw error;
-    return { data, error: null };
-  } catch (error) {
+  if (error) {
     return { data: null, error };
+  } else {
+    return { data, error: null };
   }
 };
 

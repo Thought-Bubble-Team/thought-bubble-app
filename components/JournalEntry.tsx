@@ -16,18 +16,13 @@ import {
 import MyScrollView from "./MyScrollView";
 
 import { createJournalEntry } from "@/utils/supabase/db-crud";
-
-type JournalEntryType = {
-  user_id: string;
-  journal_title: string;
-  journal_content: string;
-};
+import { PostgrestError } from "@supabase/supabase-js";
 
 export default function JournalEntry() {
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [message, setMessage] = useState("");
   const [images, setImages] = useState<string[] | undefined>(undefined);
-  const [error, setError] = useState<any | null>(null);
+  const [error, setError] = useState<PostgrestError | null>(null);
   const [loading, setLoading] = useState(false);
 
   // Image Picker
@@ -58,11 +53,16 @@ export default function JournalEntry() {
   const submitJournalEntry = async () => {
     setLoading(true);
     const journalEntryObject = {
-      journal_title: title,
-      journal_content: message,
+      title: title,
+      content: message,
     };
 
     const { error } = await createJournalEntry(journalEntryObject);
+    if (error) {
+      Alert.alert("Error", error.message);
+    } else {
+      Alert.alert("Success", "Journal entry created successfully!");
+    }
     setError(error);
     setLoading(false);
   };
@@ -115,83 +115,9 @@ export default function JournalEntry() {
         <ButtonStyled onPress={pickImageAsync}>
           <Ionicons name="images-outline" size={35} color="#443E3B" />
         </ButtonStyled>
-        <AlertDialog native>
-          <AlertDialog.Trigger asChild>
-            <ButtonStyled onPress={submitJournalEntry}>
-              <Ionicons
-                name="checkmark-done-outline"
-                size={35}
-                color="#443E3B"
-              />
-            </ButtonStyled>
-          </AlertDialog.Trigger>
-          <AlertDialog.Portal>
-            <AlertDialog.Overlay
-              key="overlay"
-              animation="quick"
-              opacity={0.5}
-              enterStyle={{ opacity: 0 }}
-              exitStyle={{ opacity: 0 }}
-            />
-            <AlertDialog.Content
-              bordered
-              elevate
-              key="content"
-              animation={[
-                "quick",
-                {
-                  opacity: {
-                    overshootClamping: true,
-                  },
-                },
-              ]}
-              enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
-              exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
-              x={0}
-              scale={1}
-              opacity={1}
-              y={0}
-            >
-              {loading && (
-                <YStack>
-                  <Spinner size="large" color={"$textColor"} />
-                </YStack>
-              )}
-              {error && (
-                <YStack>
-                  <AlertDialog.Title>Error</AlertDialog.Title>
-                  <AlertDialog.Description>
-                    {error.message}
-                  </AlertDialog.Description>
-                  <XStack gap="$3" justifyContent="flex-end">
-                    <AlertDialog.Cancel asChild>
-                      <Button>Cancel</Button>
-                    </AlertDialog.Cancel>
-                    <AlertDialog.Action asChild>
-                      <Button>Accept</Button>
-                    </AlertDialog.Action>
-                  </XStack>
-                </YStack>
-              )}
-              {error === null && (
-                <YStack>
-                  <AlertDialog.Title>Success</AlertDialog.Title>
-                  <AlertDialog.Description>
-                    Your journal entry has been saved.
-                  </AlertDialog.Description>
-                  <XStack gap="$3" justifyContent="flex-end">
-                    <AlertDialog.Cancel asChild>
-                      <Button>Cancel</Button>
-                    </AlertDialog.Cancel>
-                    <AlertDialog.Action asChild>
-                      <Button>Accept</Button>
-                    </AlertDialog.Action>
-                  </XStack>
-                </YStack>
-              )}
-            </AlertDialog.Content>
-          </AlertDialog.Portal>
-        </AlertDialog>
+        <ButtonStyled onPress={submitJournalEntry}>
+          <Ionicons name="checkmark-done-outline" size={35} color="#443E3B" />
+        </ButtonStyled>
       </Footer>
     </ViewStyled>
   );
