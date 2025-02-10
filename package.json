@@ -27,11 +27,11 @@
     "@tamagui/config": "^1.121.6",
     "@tamagui/theme-builder": "^1.123.0",
     "expo": "~52.0.23",
-    "expo-blur": "~14.0.1",
     "expo-constants": "~17.0.3",
     "expo-dev-client": "~5.0.11",
     "expo-font": "~13.0.3",
     "expo-haptics": "~14.0.0",
+    "expo-image": "~2.0.4",
     "expo-image-picker": "~16.0.5",
     "expo-linking": "~7.0.3",
     "expo-router": "~4.0.15",
@@ -52,8 +52,7 @@
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
-    "tamagui": "^1.121.6",
-    "expo-image": "~2.0.4"
+    "tamagui": "^1.121.6"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
