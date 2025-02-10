@@ -19,6 +19,21 @@ export const createJournalEntry = async (
   }
 };
 
+export const getAllJournalEntries = async () => {
+  const { data, error } = await supabase
+    .from("journal_entry")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    return { data: null, error };
+  }
+
+  if (data && !error) {
+    return { data, error: null };
+  }
+};
+
 export const getJournalEntries = async (user_id: string) => {
   try {
     const { data, error } = await supabase

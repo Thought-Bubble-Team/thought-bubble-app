@@ -14,22 +14,22 @@ import { useEffect, useState } from "react";
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
 import { supabase } from "@/utils/supabase/supabase";
 import { Session } from "@supabase/supabase-js";
+import { getAllJournalEntries } from "@/utils/supabase/db-crud";
+import { Alert, TouchableOpacity } from "react-native";
 
-const journalEntrySample: JournalEntryType = {
-  entry_id: 1,
-  title: "Today's Journal",
-  mood: "happy",
-  created_at: "2025-01-28 06:43:22.077857",
-  updated_at: "2025-01-28 06:43:22.077857",
-  content:
-    "Today was a good day. I had a lot of fun with my friends and family. I'm grateful for the time I spent with them.",
-};
+// const journalEntrySample: JournalEntryType = {
+//   entry_id: 1,
+//   title: "Today's Journal",
+//   mood: "happy",
+//   created_at: "2025-01-28 06:43:22.077857",
+//   updated_at: "2025-01-28 06:43:22.077857",
+//   content:
+//     "Today was a good day. I had a lot of fun with my friends and family. I'm grateful for the time I spent with them.",
+// };
 
 export default function Journals() {
   const [session, setSession] = useState<Session | null>(null);
-  const [journals, setJournals] = useState<JournalEntryType[]>([
-    journalEntrySample,
-  ]);
+  const [journals, setJournals] = useState<JournalEntryType[]>([]);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -39,7 +39,25 @@ export default function Journals() {
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
+
+    getAllJournalEntries().then((data) => {
+      if (data && Array.isArray(data.data)) {
+        setJournals([...data.data]);
+      } else {
+        Alert.alert("Error", "Failed to fetch journal entries");
+      }
+    });
   }, []);
+
+  const refresh = () => {
+    getAllJournalEntries().then((data) => {
+      if (data && Array.isArray(data.data)) {
+        setJournals([...data.data]);
+      } else {
+        Alert.alert("Error", "Failed to fetch journal entries");
+      }
+    });
+  };
 
   return (
     <MyView
@@ -62,6 +80,24 @@ export default function Journals() {
             <Text weight="bold" fontSize={30} color={"$textColor"}>
               Your Journey
             </Text>
+          </View>
+          <View
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            width={"100%"}
+            gap={"$4"}
+            padding={"$4"}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                refresh();
+              }}
+            >
+              <Text weight="bold" fontSize={12} color={"$textColor"}>
+                Refresh
+              </Text>
+            </TouchableOpacity>
           </View>
           <MyScrollView width={"100%"} height={"100%"}>
             {journals.map((journalEntrySample) => (
@@ -112,7 +148,7 @@ const JournalEntry = (props: JournalEntryProps) => {
           <Ionicons name="settings-outline" size={18} color="#443E3B" />
         </ButtonStyled>
       </View>
-      <JournalCard journalEntry={journalEntrySample}></JournalCard>
+      <JournalCard journalEntry={journalEntry}></JournalCard>
     </View>
   );
 };

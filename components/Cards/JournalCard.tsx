@@ -1,4 +1,6 @@
 import { Card, CardProps, View, styled } from "tamagui";
+//@ts-ignore
+import SmugIcon from "@/assets/icons/smugIcon.svg";
 
 import Text from "@/components/Text";
 
@@ -6,9 +8,9 @@ import { formatTime } from "@/utils/dateFormat";
 
 export type JournalEntryType = {
   entry_id: number;
+  user_id: string;
   title: string;
   content: string;
-  mood: string;
   created_at: string;
   updated_at: string;
 };
@@ -44,16 +46,19 @@ export default function MyCard(props: MyCardProps) {
           borderTopRightRadius={"$4"}
           flexDirection="row"
           justifyContent="space-between"
+          alignItems="center"
         >
           <View
             display="flex"
             flexDirection="row"
-            alignItems="flex-start"
+            justifyContent="flex-start"
+            alignItems="center"
             gap={"$2"}
           >
-            <Text weight="bold" fontSize={14} color={"$textColor"}>
+            {/* <Text weight="bold" fontSize={14} color={"$textColor"}>
               {journalEntry.mood}
-            </Text>
+            </Text> */}
+            <SmugIcon width={24} height={24} />
             <Text weight="bold" fontSize={14} color={"$textColor"}>
               {journalEntry.title}
             </Text>
@@ -65,7 +70,7 @@ export default function MyCard(props: MyCardProps) {
       )}
       <View
         display="flex"
-        alignItems="center"
+        alignItems="flex-start"
         justifyContent="center"
         padding={"$5"}
         backgroundColor={"$subtleBackground"}
