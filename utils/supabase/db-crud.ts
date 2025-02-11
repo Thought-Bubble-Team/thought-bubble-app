@@ -5,6 +5,44 @@ export interface JournalEntry {
   content: string;
 }
 
+export type SentimentType = {
+  sentiment_id: number;
+  entry_id: number;
+  sentiment: string;
+  confidence_score: number;
+  created_at: string;
+  emotions: {
+    joy: number;
+    fear: number;
+    love: number;
+    anger: number;
+    grief: number;
+    pride: number;
+    caring: number;
+    desire: number;
+    relief: number;
+    disgust: number;
+    neutral: number;
+    remorse: number;
+    sadness: number;
+    approval: number;
+    optimism: number;
+    surprise: number;
+    amusement: number;
+    annoyance: number;
+    confusion: number;
+    curiosity: number;
+    gratitude: number;
+    admiration: number;
+    excitement: number;
+    disapproval: number;
+    nervousness: number;
+    realization: number;
+    embarrassment: number;
+    disappointment: number;
+  };
+};
+
 export const createJournalEntry = async (
   journalEntry: Partial<JournalEntry>
 ) => {
@@ -31,6 +69,23 @@ export const getAllJournalEntries = async () => {
 
   if (data && !error) {
     return { data, error: null };
+  }
+};
+
+export const getJournalSentiment = async (entryId: number) => {
+  const { data, error } = await supabase
+    .from("sentiment_analysis")
+    .select("*")
+    .eq("entry_id", entryId);
+
+  const sentimentData = data as SentimentType[];
+
+  if (error) {
+    return { sentimentData: null, error };
+  }
+
+  if (data && !error) {
+    return { sentimentData, error: null };
   }
 };
 

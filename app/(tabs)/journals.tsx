@@ -1,5 +1,5 @@
 // Style Imports
-import { styled, View, XStack, Button } from "tamagui";
+import { styled, View, XStack, Button, setupNativeSheet } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 // Components Imports
