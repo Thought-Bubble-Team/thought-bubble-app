@@ -15,11 +15,12 @@ import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
 import { supabase } from "@/utils/supabase/supabase";
 import { Session } from "@supabase/supabase-js";
 import { getAllJournalEntries } from "@/utils/supabase/db-crud";
-import { Alert, TouchableOpacity } from "react-native";
+import {Alert, RefreshControl, TouchableOpacity} from "react-native";
 
 export default function Journals() {
   const [session, setSession] = useState<Session | null>(null);
   const [journals, setJournals] = useState<JournalEntryType[]>([]);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -40,11 +41,14 @@ export default function Journals() {
   }, []);
 
   const refresh = () => {
+    setRefreshing(true);
     getAllJournalEntries().then((data) => {
       if (data && Array.isArray(data.data)) {
         setJournals([...data.data]);
+        setRefreshing(false);
       } else {
         Alert.alert("Error", "Failed to fetch journal entries");
+        setRefreshing(false);
       }
     });
   };
@@ -58,14 +62,9 @@ export default function Journals() {
               Your Journey
             </Text>
           </Header>
-          <RefreshContainer>
-            <TouchableOpacity onPress={refresh}>
-              <Text weight="bold" fontSize={12} color={"$textColor"}>
-                Refresh
-              </Text>
-            </TouchableOpacity>
-          </RefreshContainer>
-          <MyScrollView width={"100%"} height={"100%"}>
+          <MyScrollView width={"100%"} height={"100%"} refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+          }>
             {journals.map((journalEntrySample) => (
               <JournalEntry
                 key={journalEntrySample.entry_id}
