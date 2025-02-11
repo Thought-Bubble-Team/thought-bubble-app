@@ -17,16 +17,6 @@ import { Session } from "@supabase/supabase-js";
 import { getAllJournalEntries } from "@/utils/supabase/db-crud";
 import { Alert, TouchableOpacity } from "react-native";
 
-// const journalEntrySample: JournalEntryType = {
-//   entry_id: 1,
-//   title: "Today's Journal",
-//   mood: "happy",
-//   created_at: "2025-01-28 06:43:22.077857",
-//   updated_at: "2025-01-28 06:43:22.077857",
-//   content:
-//     "Today was a good day. I had a lot of fun with my friends and family. I'm grateful for the time I spent with them.",
-// };
-
 export default function Journals() {
   const [session, setSession] = useState<Session | null>(null);
   const [journals, setJournals] = useState<JournalEntryType[]>([]);
@@ -60,45 +50,21 @@ export default function Journals() {
   };
 
   return (
-    <MyView
-      paddingHorizontal={"$3"}
-      paddingVertical={"$1"}
-      backgroundColor={"$background"}
-    >
+    <MainView>
       {session && (
-        <View width={"100%"} height={"100%"}>
-          <View
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            borderBottomWidth={"$1"}
-            borderBottomColor={"#EAE2DE"}
-            width={"100%"}
-            gap={"$4"}
-            padding={"$4"}
-          >
+        <Container>
+          <Header>
             <Text weight="bold" fontSize={30} color={"$textColor"}>
               Your Journey
             </Text>
-          </View>
-          <View
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            width={"100%"}
-            gap={"$4"}
-            padding={"$4"}
-          >
-            <TouchableOpacity
-              onPress={() => {
-                refresh();
-              }}
-            >
+          </Header>
+          <RefreshContainer>
+            <TouchableOpacity onPress={refresh}>
               <Text weight="bold" fontSize={12} color={"$textColor"}>
                 Refresh
               </Text>
             </TouchableOpacity>
-          </View>
+          </RefreshContainer>
           <MyScrollView width={"100%"} height={"100%"}>
             {journals.map((journalEntrySample) => (
               <JournalEntry
@@ -107,10 +73,10 @@ export default function Journals() {
               />
             ))}
           </MyScrollView>
-        </View>
+        </Container>
       )}
       {!session && <NoSession />}
-    </MyView>
+    </MainView>
   );
 }
 
@@ -122,20 +88,11 @@ const JournalEntry = (props: JournalEntryProps) => {
   const { journalEntry } = props;
 
   const formattedDate = formatDate(journalEntry.created_at);
-
   const splitDate = splitFormattedDate(formattedDate);
 
   return (
-    <View display="flex" flexDirection="column" marginTop={"$4"} gap={0}>
-      <View
-        width={"100%"}
-        paddingHorizontal={"$4"}
-        display="flex"
-        flexDirection="row"
-        justifyContent="space-between"
-        alignItems="center"
-        margin={0}
-      >
+    <EntryContainer>
+      <EntryHeader>
         <XStack>
           <Text weight="bold" fontSize={20} color={"$textColor"}>
             {splitDate[0]}
@@ -147,11 +104,58 @@ const JournalEntry = (props: JournalEntryProps) => {
         <ButtonStyled>
           <Ionicons name="settings-outline" size={18} color="#443E3B" />
         </ButtonStyled>
-      </View>
+      </EntryHeader>
       <JournalCard journalEntry={journalEntry}></JournalCard>
-    </View>
+    </EntryContainer>
   );
 };
+
+const MainView = styled(MyView, {
+  paddingHorizontal: "$3",
+  paddingVertical: "$1",
+  backgroundColor: "$background",
+});
+
+const Container = styled(View, {
+  width: "100%",
+  height: "100%",
+});
+
+const Header = styled(View, {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  borderBottomWidth: "$1",
+  borderBottomColor: "#EAE2DE",
+  width: "100%",
+  gap: "$4",
+  padding: "$4",
+});
+
+const RefreshContainer = styled(View, {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "100%",
+  gap: "$4",
+  padding: "$4",
+});
+
+const EntryContainer = styled(View, {
+  display: "flex",
+  flexDirection: "column",
+  gap: 0,
+});
+
+const EntryHeader = styled(View, {
+  width: "100%",
+  paddingHorizontal: "$4",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  margin: 0,
+});
 
 const ButtonStyled = styled(Button, {
   display: "flex",
