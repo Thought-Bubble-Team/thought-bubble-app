@@ -1,3 +1,3 @@
-import JournalCard, { JournalEntryType } from "./JournalCard";
+import JournalCard, { JournalEntryType, SentimentType } from "./JournalCard";
 
-export { JournalCard, JournalEntryType };
+export { JournalCard, JournalEntryType, SentimentType };

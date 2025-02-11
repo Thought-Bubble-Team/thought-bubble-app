@@ -1,32 +1,26 @@
-import { useEffect, useMemo, useState } from "react";
-import { supabase } from "@/utils/supabase/supabase";
-import { Session } from "@supabase/supabase-js";
-import { styled, View, XStack, Button } from "tamagui";
+// Style Imports
+import { styled, View, XStack, Button, setupNativeSheet } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
+// Components Imports
 import MyView from "@/components/MyView";
 import MyScrollView from "@/components/MyScrollView";
 import Text from "@/components/Text";
 import { JournalCard, JournalEntryType } from "@/components/Cards";
 import { NoSession } from "@/components/Sessions";
 
+// Utilities Imports
+import { useEffect, useState } from "react";
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
-
-const journalEntrySample: JournalEntryType = {
-  entry_id: 1,
-  title: "Today's Journal",
-  mood: "happy",
-  created_at: "2025-01-28 06:43:22.077857",
-  updated_at: "2025-01-28 06:43:22.077857",
-  content:
-    "Today was a good day. I had a lot of fun with my friends and family. I'm grateful for the time I spent with them.",
-};
+import { supabase } from "@/utils/supabase/supabase";
+import { Session } from "@supabase/supabase-js";
+import { getAllJournalEntries } from "@/utils/supabase/db-crud";
+import {Alert, RefreshControl, TouchableOpacity} from "react-native";
 
 export default function Journals() {
   const [session, setSession] = useState<Session | null>(null);
-  const [journals, setJournals] = useState<JournalEntryType[]>([
-    journalEntrySample,
-  ]);
+  const [journals, setJournals] = useState<JournalEntryType[]>([]);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -36,31 +30,41 @@ export default function Journals() {
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
+
+    getAllJournalEntries().then((data) => {
+      if (data && Array.isArray(data.data)) {
+        setJournals([...data.data]);
+      } else {
+        Alert.alert("Error", "Failed to fetch journal entries");
+      }
+    });
   }, []);
 
+  const refresh = () => {
+    setRefreshing(true);
+    getAllJournalEntries().then((data) => {
+      if (data && Array.isArray(data.data)) {
+        setJournals([...data.data]);
+        setRefreshing(false);
+      } else {
+        Alert.alert("Error", "Failed to fetch journal entries");
+        setRefreshing(false);
+      }
+    });
+  };
+
   return (
-    <MyView
-      paddingHorizontal={"$3"}
-      paddingVertical={"$1"}
-      backgroundColor={"$background"}
-    >
+    <MainView>
       {session && (
-        <View width={"100%"} height={"100%"}>
-          <View
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            borderBottomWidth={"$1"}
-            borderBottomColor={"#EAE2DE"}
-            width={"100%"}
-            gap={"$4"}
-            padding={"$4"}
-          >
+        <Container>
+          <Header>
             <Text weight="bold" fontSize={30} color={"$textColor"}>
               Your Journey
             </Text>
-          </View>
-          <MyScrollView width={"100%"} height={"100%"}>
+          </Header>
+          <MyScrollView width={"100%"} height={"100%"} refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+          }>
             {journals.map((journalEntrySample) => (
               <JournalEntry
                 key={journalEntrySample.entry_id}
@@ -68,10 +72,10 @@ export default function Journals() {
               />
             ))}
           </MyScrollView>
-        </View>
+        </Container>
       )}
       {!session && <NoSession />}
-    </MyView>
+    </MainView>
   );
 }
 
@@ -83,20 +87,11 @@ const JournalEntry = (props: JournalEntryProps) => {
   const { journalEntry } = props;
 
   const formattedDate = formatDate(journalEntry.created_at);
-
   const splitDate = splitFormattedDate(formattedDate);
 
   return (
-    <View display="flex" flexDirection="column" marginTop={"$4"} gap={0}>
-      <View
-        width={"100%"}
-        paddingHorizontal={"$4"}
-        display="flex"
-        flexDirection="row"
-        justifyContent="space-between"
-        alignItems="center"
-        margin={0}
-      >
+    <EntryContainer>
+      <EntryHeader>
         <XStack>
           <Text weight="bold" fontSize={20} color={"$textColor"}>
             {splitDate[0]}
@@ -108,11 +103,58 @@ const JournalEntry = (props: JournalEntryProps) => {
         <ButtonStyled>
           <Ionicons name="settings-outline" size={18} color="#443E3B" />
         </ButtonStyled>
-      </View>
-      <JournalCard journalEntry={journalEntrySample}></JournalCard>
-    </View>
+      </EntryHeader>
+      <JournalCard journalEntry={journalEntry}></JournalCard>
+    </EntryContainer>
   );
 };
+
+const MainView = styled(MyView, {
+  paddingHorizontal: "$3",
+  paddingVertical: "$1",
+  backgroundColor: "$background",
+});
+
+const Container = styled(View, {
+  width: "100%",
+  height: "100%",
+});
+
+const Header = styled(View, {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  borderBottomWidth: "$1",
+  borderBottomColor: "#EAE2DE",
+  width: "100%",
+  gap: "$4",
+  padding: "$4",
+});
+
+const RefreshContainer = styled(View, {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "100%",
+  gap: "$4",
+  padding: "$4",
+});
+
+const EntryContainer = styled(View, {
+  display: "flex",
+  flexDirection: "column",
+  gap: 0,
+});
+
+const EntryHeader = styled(View, {
+  width: "100%",
+  paddingHorizontal: "$4",
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  margin: 0,
+});
 
 const ButtonStyled = styled(Button, {
   display: "flex",
