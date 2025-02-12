@@ -13,12 +13,13 @@ import { NoSession } from "@/components/Sessions";
 import { useEffect, useState } from "react";
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
 import { supabase } from "@/utils/supabase/supabase";
-import { Session } from "@supabase/supabase-js";
 import { getAllJournalEntries } from "@/utils/supabase/db-crud";
-import {Alert, RefreshControl, TouchableOpacity} from "react-native";
+import { Alert, RefreshControl, TouchableOpacity } from "react-native";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
 
 export default function Journals() {
-  const [session, setSession] = useState<Session | null>(null);
+  const session = useSessionStore((state) => state.session);
+  const setSession = useSessionStore((state) => state.setSession);
   const [journals, setJournals] = useState<JournalEntryType[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
@@ -62,9 +63,13 @@ export default function Journals() {
               Your Journey
             </Text>
           </Header>
-          <MyScrollView width={"100%"} height={"100%"} refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={refresh} />
-          }>
+          <MyScrollView
+            width={"100%"}
+            height={"100%"}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+            }
+          >
             {journals.map((journalEntrySample) => (
               <JournalEntry
                 key={journalEntrySample.entry_id}

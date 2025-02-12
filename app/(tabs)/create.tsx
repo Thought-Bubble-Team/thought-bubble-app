@@ -1,15 +1,20 @@
+// Style Import
 import { useEffect, useState } from "react";
 import { View, XStack, useWindowDimensions } from "tamagui";
-import { supabase } from "@/utils/supabase/supabase";
-import { Session } from "@supabase/supabase-js";
 
+// Components Import
 import MyView from "@/components/MyView";
 import Text from "@/components/Text";
 import MyScrollView from "@/components/MyScrollView";
 import JournalEntry from "@/components/JournalEntry";
 
+// Utilities Import
+import { supabase } from "@/utils/supabase/supabase";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
+
 export default function Create() {
-  const [session, setSession] = useState<Session | null>(null);
+  const session = useSessionStore((state) => state.session);
+  const setSession = useSessionStore((state) => state.setSession);
   const date = new Date(); // Example date
 
   // Get day, date, and month

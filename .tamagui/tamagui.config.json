@@ -8,13 +8,6 @@
             "acceptsClassName": true,
             "defaultProps": {},
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -187,7 +180,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             }
           }
         },
@@ -215,13 +214,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -418,13 +410,6 @@
             "acceptsClassName": true,
             "defaultProps": {},
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -597,7 +582,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             }
           }
         },
@@ -607,13 +598,6 @@
             "memo": true,
             "componentName": "Spacer",
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -786,7 +770,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "defaultProps": {
               "tag": "span",
@@ -858,13 +848,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -1092,13 +1075,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -1301,13 +1277,6 @@
               "tag": "fieldset"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -1480,7 +1449,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -1622,13 +1597,6 @@
             "memo": true,
             "componentName": "Spacer",
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -1801,7 +1769,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "defaultProps": {
               "tag": "span",
@@ -1838,13 +1812,6 @@
               "flexDirection": "column"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -2017,7 +1984,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -2047,13 +2020,6 @@
             "acceptsClassName": true,
             "defaultProps": {},
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -2226,7 +2192,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             }
           }
         },
@@ -2260,13 +2232,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -2580,13 +2545,6 @@
             "acceptsClassName": true,
             "defaultProps": {},
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -2759,7 +2717,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             }
           }
         },
@@ -2771,13 +2735,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -2950,7 +2907,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -3059,11 +3022,9 @@
               },
               "open": {
                 "true": {
-                  "opacity": 1,
                   "pointerEvents": "auto"
                 },
                 "false": {
-                  "opacity": 0,
                   "pointerEvents": "none"
                 }
               },
@@ -3095,13 +3056,6 @@
               "zIndex": 0
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -3274,7 +3228,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -3310,13 +3270,6 @@
               "zIndex": 0
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -3489,7 +3442,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -3524,13 +3483,6 @@
               "overflow": "hidden"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -3703,7 +3655,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -3832,13 +3790,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -4011,7 +3962,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -4190,13 +4147,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -4369,7 +4319,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -4576,13 +4532,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -4790,13 +4739,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -4969,7 +4911,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -5106,13 +5054,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -5285,7 +5226,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -5419,13 +5366,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -5598,7 +5538,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -5736,13 +5682,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -5915,7 +5854,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -6052,13 +5997,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -6231,7 +6169,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -6369,13 +6313,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -6548,7 +6485,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -6689,7 +6632,7 @@
                   },
                   "pressStyle": {
                     "borderColor": "$borderColor",
-                    "backgroundColor": "$backgroundColor"
+                    "backgroundColor": "$background"
                   },
                   "focusStyle": {
                     "outlineWidth": 0
@@ -6721,13 +6664,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -6900,7 +6836,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -7041,7 +6983,7 @@
                   },
                   "pressStyle": {
                     "borderColor": "$borderColor",
-                    "backgroundColor": "$backgroundColor"
+                    "backgroundColor": "$background"
                   },
                   "focusStyle": {
                     "outlineWidth": 0
@@ -7071,13 +7013,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -7250,7 +7185,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -7379,13 +7320,6 @@
               "tag": "button"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -7558,7 +7492,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "componentName": "DialogClose",
             "isReactNative": false,
@@ -7578,13 +7518,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -7757,7 +7690,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -7930,13 +7869,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -8141,13 +8073,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -8320,7 +8245,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -8429,11 +8360,9 @@
               },
               "open": {
                 "true": {
-                  "opacity": 1,
                   "pointerEvents": "auto"
                 },
                 "false": {
-                  "opacity": 0,
                   "pointerEvents": "none"
                 }
               },
@@ -8463,13 +8392,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -8642,7 +8564,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -8751,11 +8679,9 @@
               },
               "open": {
                 "true": {
-                  "opacity": 1,
                   "pointerEvents": "auto"
                 },
                 "false": {
-                  "opacity": 0,
                   "pointerEvents": "none"
                 }
               },
@@ -8784,13 +8710,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -8963,7 +8882,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -9039,13 +8964,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -9247,13 +9165,6 @@
             "acceptsClassName": true,
             "defaultProps": {},
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -9426,7 +9337,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "componentName": "DialogTrigger",
             "isReactNative": false,
@@ -9443,13 +9360,6 @@
               "tag": "form"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -9622,7 +9532,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "componentName": "Form",
             "isReactNative": false,
@@ -9639,13 +9555,6 @@
               "tag": "form"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -9818,7 +9727,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "componentName": "Form",
             "isReactNative": false,
@@ -9831,13 +9746,6 @@
             "acceptsClassName": true,
             "defaultProps": {},
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -10010,7 +9918,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "componentName": "FormTrigger",
             "isReactNative": false,
@@ -10028,13 +9942,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -10207,7 +10114,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -10340,13 +10253,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -10519,7 +10425,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -10650,13 +10562,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -10829,7 +10734,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -10962,13 +10873,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -11141,7 +11045,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -11274,13 +11184,6 @@
               "flexDirection": "column"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -11453,7 +11356,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "componentName": "Article",
             "isReactNative": false,
@@ -11469,13 +11378,6 @@
               "flexDirection": "column"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -11648,7 +11550,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "componentName": "Aside",
             "isReactNative": false,
@@ -11664,13 +11572,6 @@
               "flexDirection": "column"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -11843,7 +11744,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "componentName": "Footer",
             "isReactNative": false,
@@ -11860,13 +11767,6 @@
               "flexDirection": "column"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -12039,7 +11939,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "componentName": "Header",
             "isReactNative": false,
@@ -12055,13 +11961,6 @@
               "flexDirection": "column"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -12234,7 +12133,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "componentName": "Main",
             "isReactNative": false,
@@ -12250,13 +12155,6 @@
               "flexDirection": "column"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -12429,7 +12327,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "componentName": "Nav",
             "isReactNative": false,
@@ -12446,13 +12350,6 @@
               "accessibilityRole": "summary"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -12625,7 +12522,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "componentName": "Section",
             "isReactNative": false,
@@ -12691,13 +12594,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -12943,13 +12839,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -13156,13 +13045,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -13335,7 +13217,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -13494,13 +13382,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -13673,7 +13554,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -13864,13 +13751,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -14107,13 +13987,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -14350,13 +14223,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -14559,13 +14425,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -14738,7 +14597,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -14782,13 +14647,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -14961,7 +14819,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -15098,13 +14962,6 @@
               "flexDirection": "column"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -15277,7 +15134,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -15310,13 +15173,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -15489,7 +15345,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -15533,13 +15395,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -15712,7 +15567,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -15848,13 +15709,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -16027,7 +15881,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -16164,13 +16024,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -16343,7 +16196,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -16478,13 +16337,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -16657,7 +16509,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -16791,13 +16649,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -16970,7 +16821,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -17101,13 +16958,6 @@
               "flexDirection": "column"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -17280,7 +17130,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -17413,13 +17269,6 @@
               "flexDirection": "column"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -17592,7 +17441,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -17724,13 +17579,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -17903,7 +17751,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -18038,13 +17892,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -18217,7 +18064,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -18364,7 +18217,7 @@
                   },
                   "pressStyle": {
                     "borderColor": "$borderColor",
-                    "backgroundColor": "$backgroundColor"
+                    "backgroundColor": "$background"
                   },
                   "focusVisibleStyle": {
                     "outlineWidth": 0
@@ -18418,13 +18271,6 @@
               "width": "100%"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -18597,7 +18443,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -18630,13 +18482,6 @@
               "children": "Component"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -18809,7 +18654,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -18848,13 +18699,6 @@
               "y": -0.5
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -19027,7 +18871,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "vertical": {
@@ -19063,13 +18913,6 @@
               "y": -0.5
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -19242,7 +19085,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "vertical": {
@@ -19273,13 +19122,6 @@
               "justifyContent": "center"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -19452,7 +19294,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -19580,13 +19428,6 @@
               "circular": true
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -19759,7 +19600,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -19885,13 +19732,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -20064,7 +19904,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -20110,13 +19956,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -20289,7 +20128,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -20308,6 +20153,7 @@
               "inset": "Function",
               "open": {
                 "true": {
+                  "opacity": 1,
                   "pointerEvents": "auto"
                 },
                 "false": {
@@ -20347,13 +20193,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -20526,7 +20365,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -20635,11 +20480,9 @@
               },
               "open": {
                 "true": {
-                  "opacity": 1,
                   "pointerEvents": "auto"
                 },
                 "false": {
-                  "opacity": 0,
                   "pointerEvents": "none"
                 }
               },
@@ -20670,13 +20513,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -20849,7 +20685,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -20868,6 +20710,7 @@
               "inset": "Function",
               "open": {
                 "true": {
+                  "opacity": 1,
                   "pointerEvents": "auto"
                 },
                 "false": {
@@ -20907,13 +20750,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -21086,7 +20922,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -21195,11 +21037,9 @@
               },
               "open": {
                 "true": {
-                  "opacity": 1,
                   "pointerEvents": "auto"
                 },
                 "false": {
-                  "opacity": 0,
                   "pointerEvents": "none"
                 }
               },
@@ -21230,13 +21070,6 @@
               "position": "relative"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -21409,7 +21242,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -21445,13 +21284,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -21624,7 +21456,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -21764,13 +21602,6 @@
               "position": "absolute"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -21943,7 +21774,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -21981,13 +21818,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -22160,7 +21990,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -22209,13 +22045,6 @@
               "flexDirection": "row"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -22388,7 +22217,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -22418,13 +22253,6 @@
               "flexDirection": "column"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -22597,7 +22425,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -22628,13 +22462,6 @@
               "position": "relative"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -22807,7 +22634,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -22839,13 +22672,6 @@
               "flexDirection": "row"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -23018,7 +22844,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -23096,13 +22928,6 @@
               "flexDirection": "column"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -23275,7 +23100,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -23398,13 +23229,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -23577,7 +23401,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -23636,13 +23466,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -23815,7 +23638,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -23870,13 +23699,6 @@
               "unstyled": false
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -24049,7 +23871,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -24187,13 +24015,6 @@
               "flexDirection": "row"
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -24366,7 +24187,13 @@
               "scaleZ": true,
               "shadowOpacity": true,
               "boxShadow": true,
-              "filter": true
+              "filter": true,
+              "boxSizing": true,
+              "mixBlendMode": true,
+              "outlineWidth": true,
+              "outlineStyle": true,
+              "outlineSpread": true,
+              "outlineColor": true
             },
             "variants": {
               "fullscreen": {
@@ -24474,13 +24301,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -24718,13 +24538,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -24961,13 +24774,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -25207,13 +25013,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -25453,13 +25252,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -25699,13 +25491,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -25945,13 +25730,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -26191,13 +25969,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -26437,13 +26208,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
@@ -26689,13 +26453,6 @@
               }
             },
             "validStyles": {
-              "enterStyle": true,
-              "exitStyle": true,
-              "hoverStyle": true,
-              "pressStyle": true,
-              "focusStyle": true,
-              "disabledStyle": true,
-              "focusWithinStyle": true,
               "backfaceVisibility": true,
               "borderBottomEndRadius": true,
               "borderBottomStartRadius": true,
