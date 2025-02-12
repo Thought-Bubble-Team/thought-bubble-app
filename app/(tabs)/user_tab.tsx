@@ -13,21 +13,28 @@ import User from "@/components/Macro/User";
 
 // Utility Imports
 import { supabase } from "@/utils/supabase/supabase";
-import { Session } from "@supabase/supabase-js";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
 
 export default function UserTab() {
   const [loading, setLoading] = useState<boolean>(false);
-  const [session, setSession] = useState<Session | null>(null);
+  const session = useSessionStore((state) => state.session);
+  const setSession = useSessionStore((state) => state.setSession);
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session !== session) setSession(data.session);
     });
 
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
+      }
+    );
+
+    return () => {
+      authListener?.subscription.unsubscribe();
+    };
   }, []);
 
   if (session && session.user) {
