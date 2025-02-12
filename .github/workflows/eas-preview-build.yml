@@ -24,6 +24,6 @@ jobs:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
       - name: Install dependencies
-        run: yarn install --immutable --immutable-cache --check-cache
+        run: yarn install --immutable
       - name: Build on EAS
         run: eas build --platform android --profile preview --non-interactive --no-wait
