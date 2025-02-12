@@ -5,8 +5,6 @@ import { StyleSheet, Alert, TouchableOpacity } from "react-native";
 import { styled, View } from "tamagui";
 
 // Component Imports
-import MyView from "@/components/MyView";
-import Text from "@/components/Text";
 import Login from "@/components/Macro/Login";
 import SignUp from "@/components/Macro/SignUp";
 import User from "@/components/Macro/User";
