@@ -18,9 +18,6 @@ export default function TabLayout() {
         },
         headerShown: false,
         tabBarStyle: {
-          position: "absolute",
-          bottom: 0,
-          left: 0,
           height: 60,
           backgroundColor: colorScheme === "dark" ? "#1a141f" : "#ffffff",
           borderColor: "transparent",
@@ -31,7 +28,7 @@ export default function TabLayout() {
             width: 0,
             height: 5,
           },
-          shadowOpacity: 0.25,
+          shadowOpacity: 0.5,
           shadowRadius: 3.84,
         },
         tabBarShowLabel: false,
