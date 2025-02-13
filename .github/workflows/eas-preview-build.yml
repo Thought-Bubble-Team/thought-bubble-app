@@ -10,20 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Enable Corepack
-        run: corepack enable
       - uses: actions/setup-node@v4
         with:
           node-version: 18.x
-          cache: yarn
-      - name: Use Yarn 4
-        run: yarn set version berry
+          cache: npm
       - name: Setup Expo and EAS
         uses: expo/expo-github-action@v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
       - name: Install dependencies
-        run: yarn install --immutable --immutable-cache --check-cache
+        run: npm ci
       - name: Build on EAS
         run: eas build --platform android --profile preview --non-interactive --no-wait
