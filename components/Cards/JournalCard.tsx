@@ -101,7 +101,7 @@ export default function MyCard(props: MyCardProps) {
     <CardStyled
       elevate
       {...restProps}
-      padded
+        paddingVertical={"$3"}
       borderRadius={"$0"}
       width={"100%"}
     >

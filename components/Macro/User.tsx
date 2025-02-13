@@ -181,7 +181,7 @@ const MainContainer = styled(View, {
   height: "100%",
   width: "100%",
   backgroundColor: "$background",
-  paddingHorizontal: "$5",
+  paddingHorizontal: "$3",
 });
 
 const UtilitiesContainer = styled(View, {

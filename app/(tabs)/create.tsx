@@ -61,20 +61,15 @@ export default function Create() {
 
   return (
     <MyView
-      paddingHorizontal={"$5"}
+      paddingHorizontal={"$3"}
       paddingVertical={"$1"}
       backgroundColor={"$background"}
     >
-      <Header
-          borderBottomColor={"$textColor"}
+      <Header borderBottomColor={"$textColor"}
       >
         <XStack width={"100%"}>
-          <Text weight="bold" fontSize={20} color={"$textColor"}>
-            {day}
-          </Text>
-          <Text weight="bold" fontSize={20} color={"$subtleTextColor"}>
-            {formattedDate}
-          </Text>
+          <Text weight="bold" fontSize={20} color={"$textColor"}>{day}</Text>
+          <Text weight="bold" fontSize={20} color={"$subtleTextColor"}>{formattedDate}</Text>
         </XStack>
       </Header>
       <MyScrollView width={"100%"}>

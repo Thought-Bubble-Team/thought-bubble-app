@@ -60,9 +60,7 @@ export default function Journals() {
       {session && (
         <Container>
           <Header>
-            <Text weight="bold" fontSize={30} color={"$textColor"}>
-              Your Journey
-            </Text>
+            <Text weight="bold" fontSize={30} color={"$textColor"}>Your Journey</Text>
           </Header>
           <MyScrollView
             width={"100%"}
@@ -96,7 +94,7 @@ const JournalEntry = (props: JournalEntryProps) => {
   const splitDate = splitFormattedDate(formattedDate);
 
   return (
-    <EntryContainer>
+    <EntryContainer borderBottomColor={"$subtleTextColor"} borderBottomWidth={1} paddingVertical={"$3"}>
       <EntryHeader>
         <XStack>
           <Text weight="bold" fontSize={20} color={"$textColor"}>

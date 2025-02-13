@@ -47,19 +47,16 @@ export default function Index() {
       paddingVertical={"$1"}
       backgroundColor={"$background"}
     >
-      <Header
-      >
-        <Text weight="bold" fontSize={30} color={"$textColor"}>
-          Hello, User!
-        </Text>
+      <Header>
+        <Text weight="bold" fontSize={30} color={"$textColor"}>Hello, User!</Text>
         <MySelect
-          color={"$subtleTextColor"}
-          val={val}
-          setVal={setVal}
-          date={dateOptions}
+            color={"$subtleTextColor"}
+            val={val}
+            setVal={setVal}
+            date={dateOptions}
         />
       </Header>
-      <MyScrollView>
+      <MyScrollView width={"100%"} height={"100%"}>
         <MyCard headerTitle="Reoccuring Words">
           <ReoccuringWords />
         </MyCard>
