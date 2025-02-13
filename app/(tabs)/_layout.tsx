@@ -18,10 +18,21 @@ export default function TabLayout() {
         },
         headerShown: false,
         tabBarStyle: {
+          position: "absolute",
+          bottom: 0,
+          left: 0,
           height: 60,
           backgroundColor: colorScheme === "dark" ? "#1a141f" : "#ffffff",
           borderColor: "transparent",
-          elevation: 0,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 5,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
         },
         tabBarShowLabel: false,
       }}
