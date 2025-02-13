@@ -132,7 +132,7 @@ const IconContainer = styled(View, {
   top: 10,
 });
 
-const PenButton = styled(View, {
+const PenButton = styled(Button, {
   width: 80,
   height: 80,
   display: "flex",

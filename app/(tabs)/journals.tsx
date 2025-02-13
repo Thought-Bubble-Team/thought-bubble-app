@@ -3,11 +3,12 @@ import { styled, View, XStack, Button, setupNativeSheet } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 // Components Imports
-import MyView from "@/components/MyView";
-import MyScrollView from "@/components/MyScrollView";
-import Text from "@/components/Text";
+import MyView from "@/components/Micro/MyView";
+import MyScrollView from "@/components/Micro/MyScrollView";
+import Text from "@/components/Micro/Text";
 import { JournalCard, JournalEntryType } from "@/components/Cards";
 import { NoSession } from "@/components/Sessions";
+import Header from "@/components/Micro/Header";
 
 // Utilities Imports
 import { useEffect, useState } from "react";
@@ -123,17 +124,6 @@ const MainView = styled(MyView, {
 const Container = styled(View, {
   width: "100%",
   height: "100%",
-});
-
-const Header = styled(View, {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  borderBottomWidth: "$1",
-  borderBottomColor: "#EAE2DE",
-  width: "100%",
-  gap: "$4",
-  padding: "$4",
 });
 
 const RefreshContainer = styled(View, {
