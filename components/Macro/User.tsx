@@ -7,8 +7,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import BackLine from "@/assets/icons/backLine.svg";
 
 // Component Imports
-import Text from "../Text";
-import MyScrollView from "../MyScrollView";
+import Text from "../Micro/Text";
+import MyScrollView from "../Micro/MyScrollView";
 import { supabase } from "@/utils/supabase/supabase";
 
 // Utility Imports

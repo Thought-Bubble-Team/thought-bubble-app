@@ -2,7 +2,7 @@ import { XStack, XStackProps, View, styled } from "tamagui";
 
 import { formatDate } from "@/utils/dateFormat";
 
-import Text from "./Text";
+import Text from "../Micro/Text";
 
 interface Mood {
   emotion: string;

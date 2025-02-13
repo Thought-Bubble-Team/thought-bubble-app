@@ -9,7 +9,7 @@ import {
   YStack,
 } from "tamagui";
 
-import Text from "@/components/Text";
+import Text from "@/components/Micro/Text";
 
 interface MyCardProps extends CardProps {
   headerTitle?: string | undefined;

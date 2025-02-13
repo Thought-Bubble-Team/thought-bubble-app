@@ -5,7 +5,7 @@ import { styled, View } from "tamagui";
 
 // Component Imports
 import MyInput from "../Inputs/MyInput";
-import Text from "../Text";
+import Text from "../Micro/Text";
 
 // Utility Imports
 import { useState } from "react";
