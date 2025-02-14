@@ -5,17 +5,17 @@ interface HeaderProps extends TViewProps {
 }
 
 const ViewStyled = styled(TView, {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    borderBottomWidth: "$1",
-    borderBottomColor: "#EAE2DE",
-    width: "100%",
-    gap: "$4",
-    padding: "$4",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  borderBottomWidth: "$1",
+  borderBottomColor: "#EAE2DE",
+  width: "100%",
+  gap: "$4",
+  padding: "$4",
 });
 
 export default function Header(props: HeaderProps) {
   const { children, ...restProps } = props;
-  return <ViewStyled {...restProps}> {children} </ViewStyled>;
+  return <ViewStyled {...restProps}>{children}</ViewStyled>;
 }

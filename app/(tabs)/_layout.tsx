@@ -21,15 +21,7 @@ export default function TabLayout() {
           height: 60,
           backgroundColor: colorScheme === "dark" ? "#1a141f" : "#ffffff",
           borderColor: "transparent",
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 5,
-          },
-          shadowOpacity: 0.5,
-          shadowRadius: 3.84,
+          elevation: 0,
         },
         tabBarShowLabel: false,
       }}
@@ -132,7 +124,7 @@ const IconContainer = styled(View, {
   top: 10,
 });
 
-const PenButton = styled(Button, {
+const PenButton = styled(View, {
   width: 80,
   height: 80,
   display: "flex",

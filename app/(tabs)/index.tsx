@@ -48,12 +48,14 @@ export default function Index() {
       backgroundColor={"$background"}
     >
       <Header>
-        <Text weight="bold" fontSize={30} color={"$textColor"}>Hello, User!</Text>
+        <Text weight="bold" fontSize={30} color={"$textColor"}>
+          Hello, User!
+        </Text>
         <MySelect
-            color={"$subtleTextColor"}
-            val={val}
-            setVal={setVal}
-            date={dateOptions}
+          color={"$subtleTextColor"}
+          val={val}
+          setVal={setVal}
+          date={dateOptions}
         />
       </Header>
       <MyScrollView width={"100%"} height={"100%"}>
