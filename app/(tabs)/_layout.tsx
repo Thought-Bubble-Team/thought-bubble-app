@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
-import { useColorScheme } from "react-native";
-import { styled, View, Button } from "tamagui";
+import { useColorScheme, StyleSheet, View } from "react-native";
+import { Button } from "@rneui/themed";
 
 import TabIcons from "@/components/Icons/TabIcons";
 
@@ -31,14 +31,14 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ size, focused }) => (
-            <IconContainer>
+            <View>
               <TabIcons
                 colorScheme={colorScheme}
                 focused={focused}
                 type={"chart"}
                 size={size * 1.3}
               />
-            </IconContainer>
+            </View>
           ),
         }}
       />
@@ -47,14 +47,14 @@ export default function TabLayout() {
         options={{
           title: "Journals",
           tabBarIcon: ({ size, focused }) => (
-            <IconContainer>
+            <View>
               <TabIcons
                 colorScheme={colorScheme}
                 focused={focused}
                 type={"note"}
                 size={size * 1.3}
               />
-            </IconContainer>
+            </View>
           ),
         }}
       />
@@ -78,14 +78,14 @@ export default function TabLayout() {
         options={{
           title: "Flower",
           tabBarIcon: ({ size, focused }) => (
-            <IconContainer>
+            <View style={styles.IconContainer}>
               <TabIcons
                 colorScheme={colorScheme}
                 focused={focused}
                 type={"flower"}
                 size={size * 1.5}
               />
-            </IconContainer>
+            </View>
           ),
         }}
       />
@@ -94,14 +94,14 @@ export default function TabLayout() {
         options={{
           title: "User",
           tabBarIcon: ({ size, focused }) => (
-            <IconContainer>
+            <View style={styles.IconContainer}>
               <TabIcons
                 colorScheme={colorScheme}
                 focused={focused}
                 type={"user"}
                 size={size * 1.3}
               />
-            </IconContainer>
+            </View>
           ),
         }}
       />
@@ -111,28 +111,34 @@ export default function TabLayout() {
 
 const CustomTabBarButton = ({ children, onPress }: BottomTabBarButtonProps) => {
   return (
-    <PenButton onPress={onPress}>
+    <Button
+      containerStyle={styles.PenButton}
+      size="lg"
+      radius="xxxl"
+      color="white"
+      onPress={onPress}
+    >
       <View>{children}</View>
-    </PenButton>
+    </Button>
   );
 };
 
-const IconContainer = styled(View, {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  top: 10,
-});
-
-const PenButton = styled(View, {
-  width: 80,
-  height: 80,
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  borderRadius: 50,
-  backgroundColor: "#ffffff",
-  padding: 20,
-  top: -25,
-  elevationAndroid: 5,
+const styles = StyleSheet.create({
+  IconContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    top: 10,
+  },
+  PenButton: {
+    width: 80,
+    height: 80,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    padding: 20,
+    top: -25,
+    elevation: 5,
+  },
 });

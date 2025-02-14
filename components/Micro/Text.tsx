@@ -1,36 +1,39 @@
-import { Text as TText, TextProps, styled } from "tamagui";
+// import { Text as TText, TextProps, styled } from "tamagui";
+import { Text as RNEText, TextProps as RNETextProps } from "@rneui/themed";
 
-interface MyTextProps extends TextProps {
-  weight?: "light" | "regular" | "medium" | "bold";
+export enum FontFamily {
+  Light = "Montserrat_300Light",
+  Regular = "Montserrat_400Regular",
+  Medium = "Montserrat_500Medium",
+  Bold = "Montserrat_700Bold",
+}
+
+interface MyTextProps extends RNETextProps {
+  weight?: FontFamily;
   children?: React.ReactNode;
 }
 
-const TextStyled = styled(TText, {
-  name: "MyText",
-  variants: {
-    weight: {
-      light: {
-        fontFamily: "Montserrat_300Light",
-      },
-      regular: {
-        fontFamily: "Montserrat_400Regular",
-      },
-      medium: {
-        fontFamily: "Montserrat_500Medium",
-      },
-      bold: {
-        fontFamily: "Montserrat_700Bold",
-      },
-    },
-  },
-});
-
-export default function Text(props: MyTextProps) {
+export function Text(props: MyTextProps) {
   const { children, weight, ...restProps } = props;
 
+  const textStyle = {
+    h1Style: {
+      fontFamily: weight,
+    },
+    h2Style: {
+      fontFamily: weight,
+    },
+    h3Style: {
+      fontFamily: weight,
+    },
+    h4Style: {
+      fontFamily: weight,
+    },
+  };
+
   return (
-    <TextStyled weight={weight} {...restProps}>
+    <RNEText {...textStyle} {...restProps}>
       {children}
-    </TextStyled>
+    </RNEText>
   );
 }

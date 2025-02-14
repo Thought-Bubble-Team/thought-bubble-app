@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { View, XStack } from "tamagui";
 
 // Components Import
-import MyView from "@/components/Micro/MyView";
-import Text from "@/components/Micro/Text";
+import ScreenView from "@/components/Micro/ScreenView";
+import { Text, FontFamily } from "@/components/Micro/Text";
 import MyScrollView from "@/components/Micro/MyScrollView";
 import JournalEntry from "@/components/Macro/JournalEntry";
 import Header from "@/components/Micro/Header";
@@ -60,17 +60,13 @@ export default function Create() {
   }, []);
 
   return (
-    <MyView
-      paddingHorizontal={"$3"}
-      paddingVertical={"$1"}
-      backgroundColor={"$background"}
-    >
-      <Header borderBottomColor={"$textColor"}>
+    <ScreenView>
+      <Header>
         <XStack width={"100%"}>
-          <Text weight="bold" fontSize={20} color={"$textColor"}>
+          <Text h1 weight={FontFamily.Bold}>
             {day}
           </Text>
-          <Text weight="bold" fontSize={20} color={"$subtleTextColor"}>
+          <Text h1 weight={FontFamily.Bold}>
             {formattedDate}
           </Text>
         </XStack>
@@ -83,6 +79,6 @@ export default function Create() {
           </View>
         )}
       </MyScrollView>
-    </MyView>
+    </ScreenView>
   );
 }

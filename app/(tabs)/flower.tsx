@@ -1,9 +1,5 @@
-import { View, Text } from "tamagui";
+import { ThemeProvider, Button } from "@rneui/themed";
 
 export default function Flower() {
-  return (
-    <View>
-      <Text>Welcome to Flower Page</Text>
-    </View>
-  );
+  return <Button title="HELLO" size="sm" />;
 }

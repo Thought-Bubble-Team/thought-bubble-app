@@ -1,4 +1,4 @@
-import { useState, useMemo, SetStateAction, Dispatch } from "react";
+import { useMemo, SetStateAction, Dispatch } from "react";
 import { Select, SelectProps, Adapt, Sheet, YStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 

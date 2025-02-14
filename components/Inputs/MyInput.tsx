@@ -2,7 +2,7 @@ import { TextInput, TextInputProps, StyleSheet } from "react-native";
 import { styled, YStack, XStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-import Text from "@/components/Micro/Text";
+import { Text, FontFamily } from "@/components/Micro/Text";
 
 interface MyInputProps extends TextInputProps {
   label?: string;
@@ -14,7 +14,7 @@ export default function MyInput(props: MyInputProps) {
   return (
     <ViewContainer>
       <InputContainer>
-        <Label>{label ? label : "Label"}</Label>
+        <Text>{label ? label : "Label"}</Text>
         <TextInput {...restProps} style={inputStyles.input} />
       </InputContainer>
       {!label && <Ionicons name="help" size={24} color={"#7c7876"} />}
@@ -40,11 +40,6 @@ const ViewContainer = styled(XStack, {
 
 const InputContainer = styled(YStack, {
   alignItems: "flex-start",
-});
-
-const Label = styled(Text, {
-  fontSize: 12,
-  color: "$subtleTextColor",
 });
 
 const inputStyles = StyleSheet.create({

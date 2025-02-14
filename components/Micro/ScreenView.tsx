@@ -1,4 +1,3 @@
-// import { styled, View as TView, ViewProps as TViewProps } from "tamagui";
 import {
   StyleSheet,
   View as RNView,
@@ -6,25 +5,24 @@ import {
   ViewStyle,
 } from "react-native";
 
-interface HeaderProps extends RNViewProps {
+interface ViewProps extends RNViewProps {
   children?: React.ReactNode;
   style?: ViewStyle | ViewStyle[];
 }
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    borderBottomWidth: 1,
-    // borderBottomColor: theme.colors.divider,
-    width: "100%",
-    // gap: theme.spacing.md,
-    // padding: theme.spacing.md,
+    paddingHorizontal: 12,
+    paddingVertical: 2,
+    // backgroundColor: theme.colors.background,
+    gap: 18,
   },
 });
 
-export default function Header(props: HeaderProps) {
+export default function ScreenView(props: ViewProps) {
   const { children, style } = props;
   return <RNView style={[styles.container, style]}>{children}</RNView>;
 }

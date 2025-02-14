@@ -3,9 +3,9 @@ import { styled, View, XStack, Button, setupNativeSheet } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 // Components Imports
-import MyView from "@/components/Micro/MyView";
+import ScreenView from "@/components/Micro/ScreenView";
 import MyScrollView from "@/components/Micro/MyScrollView";
-import Text from "@/components/Micro/Text";
+import { Text, FontFamily } from "@/components/Micro/Text";
 import { JournalCard, JournalEntryType } from "@/components/Cards";
 import { NoSession } from "@/components/Sessions";
 import Header from "@/components/Micro/Header";
@@ -56,11 +56,13 @@ export default function Journals() {
   };
 
   return (
-    <MainView>
+    <ScreenView>
       {session && (
         <Container>
           <Header>
-            <Text weight="bold" fontSize={30} color={"$textColor"}>Your Journey</Text>
+            <Text h1 weight={FontFamily.Bold}>
+              Your Journey
+            </Text>
           </Header>
           <MyScrollView
             width={"100%"}
@@ -79,7 +81,7 @@ export default function Journals() {
         </Container>
       )}
       {!session && <NoSession />}
-    </MainView>
+    </ScreenView>
   );
 }
 
@@ -94,13 +96,17 @@ const JournalEntry = (props: JournalEntryProps) => {
   const splitDate = splitFormattedDate(formattedDate);
 
   return (
-    <EntryContainer borderBottomColor={"$subtleTextColor"} borderBottomWidth={1} paddingVertical={"$3"}>
+    <EntryContainer
+      borderBottomColor={"$subtleTextColor"}
+      borderBottomWidth={1}
+      paddingVertical={"$3"}
+    >
       <EntryHeader>
         <XStack>
-          <Text weight="bold" fontSize={20} color={"$textColor"}>
+          <Text h1 weight={FontFamily.Bold}>
             {splitDate[0]}
           </Text>
-          <Text weight="bold" fontSize={20} color={"$subtleTextColor"}>
+          <Text h1 weight={FontFamily.Bold}>
             {splitDate[1]}
           </Text>
         </XStack>
@@ -112,12 +118,6 @@ const JournalEntry = (props: JournalEntryProps) => {
     </EntryContainer>
   );
 };
-
-const MainView = styled(MyView, {
-  paddingHorizontal: "$3",
-  paddingVertical: "$1",
-  backgroundColor: "$background",
-});
 
 const Container = styled(View, {
   width: "100%",

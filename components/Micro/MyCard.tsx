@@ -9,7 +9,7 @@ import {
   YStack,
 } from "tamagui";
 
-import Text from "@/components/Micro/Text";
+import { Text, FontFamily } from "@/components/Micro/Text";
 
 interface MyCardProps extends CardProps {
   headerTitle?: string | undefined;
@@ -20,18 +20,13 @@ const CardStyled = styled(Card, {
   backgroundColor: "$colorTransparent",
 });
 
-const JournalDateText = styled(Text, {
-  fontSize: 18,
-  fontWeight: "bold",
-});
-
 export default function MyCard(props: MyCardProps) {
   const { headerTitle, children, ...restProps } = props;
   return (
     <CardStyled
       elevate
       {...restProps}
-        paddingVertical={"$3"}
+      paddingVertical={"$3"}
       borderRadius={"$0"}
       width={"100%"}
     >
@@ -41,7 +36,7 @@ export default function MyCard(props: MyCardProps) {
           backgroundColor={"$coloredBackground"}
           borderTopRightRadius={"$4"}
         >
-          <Text weight="bold" fontSize={14} color={"$textColor"}>
+          <Text weight={FontFamily.Bold} style={{ fontSize: 18 }}>
             {headerTitle}
           </Text>
         </Card.Header>

@@ -7,7 +7,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import BackLine from "@/assets/icons/backLine.svg";
 
 // Component Imports
-import Text from "../Micro/Text";
+import { Text, FontFamily } from "../Micro/Text";
 import MyScrollView from "../Micro/MyScrollView";
 import { supabase } from "@/utils/supabase/supabase";
 
@@ -38,7 +38,7 @@ export default function User(props: UserProps) {
           >
             <BackLine width={24} height={24} />
           </TouchableOpacity>
-          <Text weight="bold" fontSize={20} color={"$textColor"}>
+          <Text weight={FontFamily.Bold} style={{ fontSize: 20 }}>
             Profile
           </Text>
         </XStack>
@@ -52,19 +52,17 @@ export default function User(props: UserProps) {
           transition={1000}
         />
         <YStack gap={"$1"}>
-          <Text weight="bold" fontSize={24} color={"$textColor"}>
+          <Text weight={FontFamily.Bold} style={{ fontSize: 24 }}>
             John Doe
           </Text>
-          <Text fontSize={12} color={"$subtleTextColor"}>
+          <Text weight={FontFamily.Bold} style={{ fontSize: 12 }}>
             {session.user.email}
           </Text>
           <TouchableOpacity
             style={{ ...buttonStyles.ButtonStyledColored, marginTop: 16 }}
             onPress={ButtonTester}
           >
-            <Text color="#fff" fontSize={12}>
-              Edit Profile
-            </Text>
+            <Text style={{ fontSize: 12 }}>Edit Profile</Text>
           </TouchableOpacity>
         </YStack>
       </ProfileContainer>
@@ -78,10 +76,8 @@ const Settings = () => {
     <SettingsContainer>
       <SettingsContent>
         <Text
-          weight="medium"
-          fontSize={16}
-          color={"$textColor"}
-          marginVertical={16}
+          weight={FontFamily.Medium}
+          style={{ fontSize: 16, marginVertical: 16 }}
         >
           PERSONALIZE
         </Text>
@@ -89,7 +85,7 @@ const Settings = () => {
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16} color={"$textColor"}>
+          <Text weight={FontFamily.Medium} style={{ fontSize: 16 }}>
             Preferences
           </Text>
           <Ionicons name="chevron-forward-outline" size={24} color="#443E3B" />
@@ -98,7 +94,7 @@ const Settings = () => {
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16} color={"$textColor"}>
+          <Text weight={FontFamily.Medium} style={{ fontSize: 16 }}>
             Appearance
           </Text>
           <Ionicons name="chevron-forward-outline" size={24} color="#443E3B" />
@@ -106,10 +102,8 @@ const Settings = () => {
       </SettingsContent>
       <SettingsContent>
         <Text
-          weight="medium"
-          fontSize={16}
-          color={"$textColor"}
-          marginVertical={16}
+          weight={FontFamily.Medium}
+          style={{ fontSize: 16, marginVertical: 16 }}
         >
           ACCOUNT
         </Text>
@@ -117,7 +111,7 @@ const Settings = () => {
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16} color={"$textColor"}>
+          <Text weight={FontFamily.Medium} style={{ fontSize: 16 }}>
             About Premium
           </Text>
           <Ionicons name="chevron-forward-outline" size={24} color="#443E3B" />
@@ -126,7 +120,7 @@ const Settings = () => {
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16} color={"$textColor"}>
+          <Text weight={FontFamily.Medium} style={{ fontSize: 16 }}>
             Your Data
           </Text>
           <Ionicons name="chevron-forward-outline" size={24} color="#443E3B" />
@@ -134,10 +128,8 @@ const Settings = () => {
       </SettingsContent>
       <SettingsContent>
         <Text
-          weight="medium"
-          fontSize={16}
-          color={"$textColor"}
-          marginVertical={16}
+          weight={FontFamily.Medium}
+          style={{ fontSize: 16, marginVertical: 16 }}
         >
           HELP AND SUPPORT
         </Text>
@@ -145,7 +137,7 @@ const Settings = () => {
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16} color={"$textColor"}>
+          <Text weight={FontFamily.Medium} style={{ fontSize: 16 }}>
             Frequently Asked Questions
           </Text>
           <Ionicons name="chevron-forward-outline" size={24} color="#443E3B" />
@@ -154,7 +146,7 @@ const Settings = () => {
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16} color={"$textColor"}>
+          <Text weight={FontFamily.Medium} style={{ fontSize: 16 }}>
             Report Bugs
           </Text>
           <Ionicons name="chevron-forward-outline" size={24} color="#443E3B" />
@@ -168,7 +160,7 @@ const Settings = () => {
           }}
           onPress={() => supabase.auth.signOut()}
         >
-          <Text weight="medium" fontSize={16} color={"$textColorAlt"}>
+          <Text weight={FontFamily.Medium} style={{ fontSize: 16 }}>
             SIGN OUT
           </Text>
         </TouchableOpacity>

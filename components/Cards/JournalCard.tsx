@@ -2,7 +2,7 @@ import { Card, CardProps, View, styled } from "tamagui";
 //@ts-ignore
 import SmugIcon from "@/assets/icons/smugIcon.svg";
 
-import Text from "@/components/Micro/Text";
+import { Text, FontFamily } from "@/components/Micro/Text";
 
 import { useEffect, useState } from "react";
 import { formatTime } from "@/utils/dateFormat";
@@ -64,11 +64,6 @@ const CardStyled = styled(Card, {
   backgroundColor: "$colorTransparent",
 });
 
-const JournalDateText = styled(Text, {
-  fontSize: 18,
-  fontWeight: "bold",
-});
-
 export function getHighestEmotion(sentiment: SentimentType): string {
   const emotions = sentiment.emotions;
   let highestEmotion = "";
@@ -101,7 +96,7 @@ export default function MyCard(props: MyCardProps) {
     <CardStyled
       elevate
       {...restProps}
-        paddingVertical={"$3"}
+      paddingVertical={"$3"}
       borderRadius={"$0"}
       width={"100%"}
     >
@@ -121,14 +116,12 @@ export default function MyCard(props: MyCardProps) {
             alignItems="center"
             gap={"$2"}
           >
-            {!emotion &&
-                <SmugIcon width={24} height={24} />
-            }
-            <Text weight="bold" fontSize={14} color={"$textColor"}>
+            {!emotion && <SmugIcon width={24} height={24} />}
+            <Text h4 weight={FontFamily.Bold}>
               {journalEntry.title}
             </Text>
           </View>
-          <Text weight="bold" fontSize={14} color={"$subtleTextColor"}>
+          <Text h4 weight={FontFamily.Bold}>
             {formatTime(journalEntry.created_at)}
           </Text>
         </Card.Header>
@@ -143,7 +136,7 @@ export default function MyCard(props: MyCardProps) {
         borderBottomRightRadius={"$4"}
       >
         {journalEntry && (
-          <Text fontSize={14} color={"$textColor"}>
+          <Text h4 weight={FontFamily.Regular}>
             {journalEntry.content}
           </Text>
         )}

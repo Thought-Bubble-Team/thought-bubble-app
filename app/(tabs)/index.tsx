@@ -1,12 +1,12 @@
 import MyScrollView from "@/components/Micro/MyScrollView";
-import MyView from "@/components/Micro/MyView";
+import ScreenView from "@/components/Micro/ScreenView";
 import MyCard from "@/components/Micro/MyCard";
-import Text from "@/components/Micro/Text";
+import { Text, FontFamily } from "@/components/Micro/Text";
 import ReoccuringWords from "@/components/Macro/ReoccuringWords";
 import MySelect from "@/components/Micro/MySelect";
 import Header from "@/components/Micro/Header";
 
-import { useState } from "react";
+import React, { useState } from "react";
 
 const months = [
   "Jan",
@@ -42,13 +42,9 @@ export default function Index() {
   const [val, setVal] = useState<string>("Jan 2025");
 
   return (
-    <MyView
-      paddingHorizontal={"$3"}
-      paddingVertical={"$1"}
-      backgroundColor={"$background"}
-    >
+    <ScreenView>
       <Header>
-        <Text weight="bold" fontSize={30} color={"$textColor"}>
+        <Text h1 weight={FontFamily.Bold}>
           Hello, User!
         </Text>
         <MySelect
@@ -72,6 +68,6 @@ export default function Index() {
           <Text>Mood Bar</Text>
         </MyCard>
       </MyScrollView>
-    </MyView>
+    </ScreenView>
   );
 }
