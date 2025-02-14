@@ -13,7 +13,7 @@ import {
   Spinner,
 } from "tamagui";
 
-import MyScrollView from "./MyScrollView";
+import MyScrollView from "../Micro/MyScrollView";
 
 import { createJournalEntry } from "@/utils/supabase/db-crud";
 import { PostgrestError } from "@supabase/supabase-js";

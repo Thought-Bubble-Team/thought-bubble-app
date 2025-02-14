@@ -2,7 +2,7 @@ import { TextInput, TextInputProps, StyleSheet } from "react-native";
 import { styled, YStack, XStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-import Text from "@/components/Text";
+import Text from "@/components/Micro/Text";
 
 interface MyInputProps extends TextInputProps {
   label?: string;

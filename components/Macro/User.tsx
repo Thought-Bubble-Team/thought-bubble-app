@@ -7,8 +7,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import BackLine from "@/assets/icons/backLine.svg";
 
 // Component Imports
-import Text from "../Text";
-import MyScrollView from "../MyScrollView";
+import Text from "../Micro/Text";
+import MyScrollView from "../Micro/MyScrollView";
 import { supabase } from "@/utils/supabase/supabase";
 
 // Utility Imports
@@ -181,7 +181,7 @@ const MainContainer = styled(View, {
   height: "100%",
   width: "100%",
   backgroundColor: "$background",
-  paddingHorizontal: "$5",
+  paddingHorizontal: "$3",
 });
 
 const UtilitiesContainer = styled(View, {

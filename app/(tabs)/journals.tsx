@@ -3,11 +3,12 @@ import { styled, View, XStack, Button, setupNativeSheet } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 // Components Imports
-import MyView from "@/components/MyView";
-import MyScrollView from "@/components/MyScrollView";
-import Text from "@/components/Text";
+import MyView from "@/components/Micro/MyView";
+import MyScrollView from "@/components/Micro/MyScrollView";
+import Text from "@/components/Micro/Text";
 import { JournalCard, JournalEntryType } from "@/components/Cards";
 import { NoSession } from "@/components/Sessions";
+import Header from "@/components/Micro/Header";
 
 // Utilities Imports
 import { useEffect, useState } from "react";
@@ -59,9 +60,7 @@ export default function Journals() {
       {session && (
         <Container>
           <Header>
-            <Text weight="bold" fontSize={30} color={"$textColor"}>
-              Your Journey
-            </Text>
+            <Text weight="bold" fontSize={30} color={"$textColor"}>Your Journey</Text>
           </Header>
           <MyScrollView
             width={"100%"}
@@ -95,7 +94,7 @@ const JournalEntry = (props: JournalEntryProps) => {
   const splitDate = splitFormattedDate(formattedDate);
 
   return (
-    <EntryContainer>
+    <EntryContainer borderBottomColor={"$subtleTextColor"} borderBottomWidth={1} paddingVertical={"$3"}>
       <EntryHeader>
         <XStack>
           <Text weight="bold" fontSize={20} color={"$textColor"}>
@@ -123,17 +122,6 @@ const MainView = styled(MyView, {
 const Container = styled(View, {
   width: "100%",
   height: "100%",
-});
-
-const Header = styled(View, {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  borderBottomWidth: "$1",
-  borderBottomColor: "#EAE2DE",
-  width: "100%",
-  gap: "$4",
-  padding: "$4",
 });
 
 const RefreshContainer = styled(View, {

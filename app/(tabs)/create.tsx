@@ -1,12 +1,13 @@
 // Style Import
-import { useEffect, useState } from "react";
-import { View, XStack, useWindowDimensions } from "tamagui";
+import { useEffect } from "react";
+import { View, XStack } from "tamagui";
 
 // Components Import
-import MyView from "@/components/MyView";
-import Text from "@/components/Text";
-import MyScrollView from "@/components/MyScrollView";
-import JournalEntry from "@/components/JournalEntry";
+import MyView from "@/components/Micro/MyView";
+import Text from "@/components/Micro/Text";
+import MyScrollView from "@/components/Micro/MyScrollView";
+import JournalEntry from "@/components/Macro/JournalEntry";
+import Header from "@/components/Micro/Header";
 
 // Utilities Import
 import { supabase } from "@/utils/supabase/supabase";
@@ -60,20 +61,11 @@ export default function Create() {
 
   return (
     <MyView
-      paddingHorizontal={"$5"}
+      paddingHorizontal={"$3"}
       paddingVertical={"$1"}
       backgroundColor={"$background"}
     >
-      <View
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        borderBottomWidth={"$1"}
-        borderBottomColor={"$textColor"}
-        width={"100%"}
-        gap={"$4"}
-        padding={"$4"}
-      >
+      <Header borderBottomColor={"$textColor"}>
         <XStack width={"100%"}>
           <Text weight="bold" fontSize={20} color={"$textColor"}>
             {day}
@@ -82,7 +74,7 @@ export default function Create() {
             {formattedDate}
           </Text>
         </XStack>
-      </View>
+      </Header>
       <MyScrollView width={"100%"}>
         {session && session.user && <JournalEntry />}
         {!session && (

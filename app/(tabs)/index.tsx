@@ -1,12 +1,11 @@
-import MyScrollView from "@/components/MyScrollView";
-import MyView from "@/components/MyView";
-import MyCard from "@/components/MyCard";
-import Text from "@/components/Text";
-import ReoccuringWords from "@/components/ReoccuringWords";
-import MySelect from "@/components/MySelect";
-import MonthYearSelect from "@/components/MonthYearSelect";
+import MyScrollView from "@/components/Micro/MyScrollView";
+import MyView from "@/components/Micro/MyView";
+import MyCard from "@/components/Micro/MyCard";
+import Text from "@/components/Micro/Text";
+import ReoccuringWords from "@/components/Macro/ReoccuringWords";
+import MySelect from "@/components/Micro/MySelect";
+import Header from "@/components/Micro/Header";
 
-import { View, styled } from "tamagui";
 import { useState } from "react";
 
 const months = [
@@ -48,16 +47,7 @@ export default function Index() {
       paddingVertical={"$1"}
       backgroundColor={"$background"}
     >
-      <View
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        borderBottomWidth={"$1"}
-        borderBottomColor={"#EAE2DE"}
-        width={"100%"}
-        gap={"$4"}
-        padding={"$4"}
-      >
+      <Header>
         <Text weight="bold" fontSize={30} color={"$textColor"}>
           Hello, User!
         </Text>
@@ -67,8 +57,8 @@ export default function Index() {
           setVal={setVal}
           date={dateOptions}
         />
-      </View>
-      <MyScrollView>
+      </Header>
+      <MyScrollView width={"100%"} height={"100%"}>
         <MyCard headerTitle="Reoccuring Words">
           <ReoccuringWords />
         </MyCard>
