@@ -1,10 +1,10 @@
-// import { styled, View as TView, ViewProps as TViewProps } from "tamagui";
 import {
   StyleSheet,
   View as RNView,
   ViewProps as RNViewProps,
   ViewStyle,
 } from "react-native";
+import { useTheme } from "@rneui/themed";
 
 interface HeaderProps extends RNViewProps {
   children?: React.ReactNode;
@@ -17,14 +17,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderBottomWidth: 1,
-    // borderBottomColor: theme.colors.divider,
     width: "100%",
-    // gap: theme.spacing.md,
-    // padding: theme.spacing.md,
   },
 });
 
 export default function Header(props: HeaderProps) {
   const { children, style } = props;
-  return <RNView style={[styles.container, style]}>{children}</RNView>;
+  const { theme } = useTheme();
+
+  const extraStyles = {
+    borderBottomColor: theme.colors.divider,
+    gap: theme.spacing.sm,
+    padding: theme.spacing.sm,
+  };
+
+  return (
+    <RNView style={[styles.container, extraStyles, style]}>{children}</RNView>
+  );
 }

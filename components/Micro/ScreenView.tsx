@@ -4,6 +4,7 @@ import {
   ViewProps as RNViewProps,
   ViewStyle,
 } from "react-native";
+import { useTheme } from "@rneui/themed";
 
 interface ViewProps extends RNViewProps {
   children?: React.ReactNode;
@@ -17,12 +18,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingHorizontal: 12,
     paddingVertical: 2,
-    // backgroundColor: theme.colors.background,
     gap: 18,
   },
 });
 
 export default function ScreenView(props: ViewProps) {
   const { children, style } = props;
-  return <RNView style={[styles.container, style]}>{children}</RNView>;
+  const {
+    theme: { colors },
+  } = useTheme();
+
+  return (
+    <RNView
+      style={[styles.container, { backgroundColor: colors.background }, style]}
+    >
+      {children}
+    </RNView>
+  );
 }

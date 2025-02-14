@@ -44,7 +44,7 @@ export default function Index() {
   return (
     <ScreenView>
       <Header>
-        <Text h1 weight={FontFamily.Bold}>
+        <Text h2 weight={FontFamily.Bold}>
           Hello, User!
         </Text>
         <MySelect

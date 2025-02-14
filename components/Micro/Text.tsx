@@ -1,4 +1,3 @@
-// import { Text as TText, TextProps, styled } from "tamagui";
 import { Text as RNEText, TextProps as RNETextProps } from "@rneui/themed";
 
 export enum FontFamily {
@@ -27,6 +26,18 @@ export function Text(props: MyTextProps) {
       fontFamily: weight,
     },
     h4Style: {
+      fontFamily: weight,
+    },
+    h5Style: {
+      fontFamily: weight,
+    },
+    h6Style: {
+      fontFamily: weight,
+    },
+    pStyle: {
+      fontFamily: weight,
+    },
+    smStyle: {
       fontFamily: weight,
     },
   };
