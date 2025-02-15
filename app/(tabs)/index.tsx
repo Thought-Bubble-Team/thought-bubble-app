@@ -5,6 +5,7 @@ import MySelect from "@/components/Micro/MySelect";
 import Header from "@/components/Micro/Header";
 import ScrollView from "@/components/Micro/ScrollView";
 import ScreenView from "@/components/Micro/ScreenView";
+import Card from "@/components/Micro/Card";
 
 import React, { useState } from "react";
 
@@ -67,6 +68,9 @@ export default function Index() {
         <MyCard headerTitle="Mood Bar">
           <Text>Mood Bar</Text>
         </MyCard>
+        <Card headerTitle="Mood Pie">
+          <Text>Mood Pie</Text>
+        </Card>
       </ScrollView>
     </ScreenView>
   );
