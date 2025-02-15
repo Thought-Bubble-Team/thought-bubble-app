@@ -1,8 +1,10 @@
-import { styled, View as TView, ViewProps as TViewProps } from "tamagui";
-
-interface HeaderProps extends TViewProps {
-  children?: React.ReactNode;
-}
+import { forwardRef } from "react";
+import {
+  styled,
+  TamaguiElement,
+  View as TView,
+  ViewProps as TViewProps,
+} from "tamagui";
 
 const ViewStyled = styled(TView, {
   display: "flex",
@@ -15,7 +17,8 @@ const ViewStyled = styled(TView, {
   padding: "$4",
 });
 
-export default function Header(props: HeaderProps) {
-  const { children, ...restProps } = props;
-  return <ViewStyled {...restProps}>{children}</ViewStyled>;
-}
+const Header = forwardRef<TamaguiElement, TViewProps>((props, ref) => {
+  return <ViewStyled ref={ref} {...props} />;
+});
+
+export default Header;

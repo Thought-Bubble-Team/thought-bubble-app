@@ -75,17 +75,3 @@ const FormContainer = styled(View, {
   padding: "$8",
   backgroundColor: "$background",
 });
-
-// React Native Styles
-const buttonStyles = StyleSheet.create({
-  ButtonStyledColored: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    padding: 16,
-    backgroundColor: "#CB806A",
-    color: "#fff",
-    borderRadius: 32,
-  },
-});
