@@ -1,10 +1,10 @@
-import MyScrollView from "@/components/Micro/MyScrollView";
-import ScreenView from "@/components/Micro/ScreenView";
 import MyCard from "@/components/Micro/MyCard";
 import { Text, FontFamily } from "@/components/Micro/Text";
 import ReoccuringWords from "@/components/Macro/ReoccuringWords";
 import MySelect from "@/components/Micro/MySelect";
 import Header from "@/components/Micro/Header";
+import ScrollView from "@/components/Micro/ScrollView";
+import ScreenView from "@/components/Micro/ScreenView";
 
 import React, { useState } from "react";
 
@@ -54,7 +54,7 @@ export default function Index() {
           date={dateOptions}
         />
       </Header>
-      <MyScrollView width={"100%"} height={"100%"}>
+      <ScrollView>
         <MyCard headerTitle="Reoccuring Words">
           <ReoccuringWords />
         </MyCard>
@@ -67,7 +67,7 @@ export default function Index() {
         <MyCard headerTitle="Mood Bar">
           <Text>Mood Bar</Text>
         </MyCard>
-      </MyScrollView>
+      </ScrollView>
     </ScreenView>
   );
 }

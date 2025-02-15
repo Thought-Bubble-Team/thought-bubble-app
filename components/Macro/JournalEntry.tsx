@@ -13,7 +13,7 @@ import {
   Spinner,
 } from "tamagui";
 
-import MyScrollView from "../Micro/MyScrollView";
+import ScrollView from "../Micro/ScrollView";
 
 import { createJournalEntry } from "@/utils/supabase/db-crud";
 import { PostgrestError } from "@supabase/supabase-js";
@@ -79,7 +79,7 @@ export default function JournalEntry() {
       </View>
 
       {/* Editable Message */}
-      <MyScrollView backgroundColor={"$subtleBackground"}>
+      <ScrollView backgroundColor={"$subtleBackground"}>
         <MessageInput
           multiline
           placeholder="Enter your message..."
@@ -87,11 +87,11 @@ export default function JournalEntry() {
           onChangeText={setMessage}
           backgroundColor={"$subtleBackground"}
         />
-      </MyScrollView>
+      </ScrollView>
 
       {/* Images */}
       {images !== undefined && (
-        <MyScrollView horizontal backgroundColor={"$subtleBackground"}>
+        <ScrollView horizontal backgroundColor={"$subtleBackground"}>
           {images.map((image, index) => (
             <ImageWrapper key={index} style={{ zIndex: images.length - index }}>
               <ImageStyled source={{ uri: image }} />
@@ -107,7 +107,7 @@ export default function JournalEntry() {
               </RemoveImageWrapper>
             </ImageWrapper>
           ))}
-        </MyScrollView>
+        </ScrollView>
       )}
 
       {/* Footer - Buttons */}

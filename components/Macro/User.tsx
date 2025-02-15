@@ -8,7 +8,7 @@ import BackLine from "@/assets/icons/backLine.svg";
 
 // Component Imports
 import { Text, FontFamily } from "../Micro/Text";
-import MyScrollView from "../Micro/MyScrollView";
+import ScrollView from "../Micro/ScrollView";
 import { supabase } from "@/utils/supabase/supabase";
 
 // Utility Imports
@@ -199,7 +199,7 @@ const ProfileContainer = styled(View, {
   borderBottomColor: "$coloredBackground",
 });
 
-const SettingsContainer = styled(MyScrollView, {
+const SettingsContainer = styled(ScrollView, {
   width: "100%",
   paddingVertical: 8,
   gap: "$5",

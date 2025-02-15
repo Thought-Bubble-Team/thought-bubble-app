@@ -4,7 +4,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 
 // Components Imports
 import ScreenView from "@/components/Micro/ScreenView";
-import MyScrollView from "@/components/Micro/MyScrollView";
+import ScrollView from "@/components/Micro/ScrollView";
 import { Text, FontFamily } from "@/components/Micro/Text";
 import { JournalCard, JournalEntryType } from "@/components/Cards";
 import { NoSession } from "@/components/Sessions";
@@ -64,7 +64,7 @@ export default function Journals() {
               Your Journey
             </Text>
           </Header>
-          <MyScrollView
+          <ScrollView
             width={"100%"}
             height={"100%"}
             refreshControl={
@@ -77,7 +77,7 @@ export default function Journals() {
                 journalEntry={journalEntrySample}
               />
             ))}
-          </MyScrollView>
+          </ScrollView>
         </Container>
       )}
       {!session && <NoSession />}
