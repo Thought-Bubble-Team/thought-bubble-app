@@ -1,14 +1,14 @@
 // Style Imports
 import React from "react";
 import { StyleSheet, TouchableOpacity, Alert } from "react-native";
-import { styled, TamaguiElement, View } from "tamagui";
+import { styled, View } from "tamagui";
 
 // Component Imports
 import MyInput from "../Inputs/MyInput";
 import Text from "../Micro/Text";
 
 // Utility Imports
-import { useState, forwardRef } from "react";
+import { useState } from "react";
 import { supabase } from "@/utils/supabase/supabase";
 
 // @ts-ignore
@@ -19,7 +19,7 @@ interface LoginProps {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Login = forwardRef<TamaguiElement, LoginProps>((props, ref) => {
+export default function Login(props: LoginProps) {
   const { setIsSignUp, setLoading } = props;
 
   const [email, setEmail] = useState<string>("");
@@ -38,7 +38,7 @@ const Login = forwardRef<TamaguiElement, LoginProps>((props, ref) => {
   };
 
   return (
-    <MainContainer ref={ref}>
+    <MainContainer>
       <Logo width={100} height={100} />
       <Text weight="bold" fontSize={18}>
         Welcome to Thought Bubble!
@@ -76,7 +76,7 @@ const Login = forwardRef<TamaguiElement, LoginProps>((props, ref) => {
       </Footer>
     </MainContainer>
   );
-});
+}
 
 // Tamagui Styles
 const MainContainer = styled(View, {
@@ -106,5 +106,3 @@ const buttonStyles = StyleSheet.create({
     borderRadius: 32,
   },
 });
-
-export default Login;

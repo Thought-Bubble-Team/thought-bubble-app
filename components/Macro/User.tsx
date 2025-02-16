@@ -14,7 +14,6 @@ import { supabase } from "@/utils/supabase/supabase";
 // Utility Imports
 import { Session } from "@supabase/supabase-js";
 import { Image } from "expo-image";
-import { forwardRef } from "react";
 
 interface UserProps {
   session: Session;
@@ -27,10 +26,10 @@ const ButtonTester = () => {
   Alert.alert("Button Pressed");
 };
 
-const User = forwardRef<TamaguiElement, UserProps>((props, ref) => {
+export default function User(props: UserProps) {
   const { session } = props;
   return (
-    <MainContainer ref={ref}>
+    <MainContainer>
       <UtilitiesContainer>
         <XStack gap="$5" alignItems="center">
           <TouchableOpacity
@@ -72,7 +71,7 @@ const User = forwardRef<TamaguiElement, UserProps>((props, ref) => {
       <Settings />
     </MainContainer>
   );
-});
+}
 
 const Settings = () => {
   return (
@@ -273,5 +272,3 @@ const imageStyles = StyleSheet.create({
     borderRadius: 48,
   },
 });
-
-export default User;

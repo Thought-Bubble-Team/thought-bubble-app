@@ -1,20 +1,24 @@
 import { TextInput, TextInputProps, StyleSheet } from "react-native";
-import { styled, YStack, XStack } from "tamagui";
+import { styled, YStack, XStack, TamaguiElement } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import Text from "@/components/Micro/Text";
 
+import { forwardRef } from "react";
+
 interface MyInputProps extends TextInputProps {
-  label?: string;
+  label: string;
 }
 
-export default function MyInput(props: MyInputProps) {
+const MyInput = forwardRef<TamaguiElement, MyInputProps>((props, ref) => {
   const { label, ...restProps } = props;
 
   return (
     <ViewContainer>
       <InputContainer>
-        <Label>{label ? label : "Label"}</Label>
+        <Text weight="light" fontSize={12} color={"$subtleTextColor"}>
+          {label}
+        </Text>
         <TextInput {...restProps} style={inputStyles.input} />
       </InputContainer>
       {!label && <Ionicons name="help" size={24} color={"#7c7876"} />}
@@ -26,7 +30,7 @@ export default function MyInput(props: MyInputProps) {
       )}
     </ViewContainer>
   );
-}
+});
 
 const ViewContainer = styled(XStack, {
   width: "100%",
@@ -42,11 +46,6 @@ const InputContainer = styled(YStack, {
   alignItems: "flex-start",
 });
 
-const Label = styled(Text, {
-  fontSize: 12,
-  color: "$subtleTextColor",
-});
-
 const inputStyles = StyleSheet.create({
   input: {
     display: "flex",
@@ -60,3 +59,5 @@ const inputStyles = StyleSheet.create({
     paddingVertical: 4,
   },
 });
+
+export default MyInput;

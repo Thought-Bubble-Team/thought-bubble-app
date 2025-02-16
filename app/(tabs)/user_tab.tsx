@@ -1,6 +1,6 @@
 // Style Imports
 import "react-native-url-polyfill/auto";
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { styled, View } from "tamagui";
 
 // Component Imports
