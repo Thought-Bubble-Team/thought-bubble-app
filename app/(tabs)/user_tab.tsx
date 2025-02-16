@@ -1,7 +1,6 @@
 // Style Imports
 import "react-native-url-polyfill/auto";
-import { useEffect, useState } from "react";
-import { StyleSheet, Alert, TouchableOpacity } from "react-native";
+import { ReactElement, useEffect, useState } from "react";
 import { styled, View } from "tamagui";
 
 // Component Imports
@@ -74,18 +73,4 @@ const FormContainer = styled(View, {
   height: "100%",
   padding: "$8",
   backgroundColor: "$background",
-});
-
-// React Native Styles
-const buttonStyles = StyleSheet.create({
-  ButtonStyledColored: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    padding: 16,
-    backgroundColor: "#CB806A",
-    color: "#fff",
-    borderRadius: 32,
-  },
 });

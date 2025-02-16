@@ -1,8 +1,5 @@
-import { View, ViewProps, styled } from "tamagui";
-
-interface MyViewProps extends ViewProps {
-  children?: React.ReactNode;
-}
+import { forwardRef } from "react";
+import { TamaguiElement, View, ViewProps, styled } from "tamagui";
 
 const ViewStyled = styled(View, {
   flex: 1,
@@ -11,7 +8,8 @@ const ViewStyled = styled(View, {
   gap: "$3",
 });
 
-export default function MyView(props: MyViewProps) {
-  const { children, ...restProps } = props;
-  return <ViewStyled {...restProps}>{children}</ViewStyled>;
-}
+const MyView = forwardRef<TamaguiElement, ViewProps>((props, ref) => {
+  return <ViewStyled ref={ref} {...props} />;
+});
+
+export default MyView;
