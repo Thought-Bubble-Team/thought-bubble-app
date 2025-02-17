@@ -1,3 +1,4 @@
+// Components Import
 import MyScrollView from "@/components/Micro/MyScrollView";
 import MyView from "@/components/Micro/MyView";
 import MyCard from "@/components/Micro/MyCard";
@@ -6,6 +7,7 @@ import ReoccuringWords from "@/components/Macro/ReoccuringWords";
 import MySelect from "@/components/Micro/MySelect";
 import Header from "@/components/Micro/Header";
 
+// Utilities Import
 import { useState } from "react";
 
 const months = [
@@ -40,6 +42,7 @@ for (let year = startYear; year <= currentYear; year++) {
 
 export default function Index() {
   const [val, setVal] = useState<string>("Jan 2025");
+  const [loading, setLoading] = useState<boolean>(false);
 
   return (
     <MyView
