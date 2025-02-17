@@ -34,6 +34,7 @@ const Modal = (props: ModalProps) => {
 const defaultProps: RNModalProps = {
   animationType: "fade",
   statusBarTranslucent: true,
+  transparent: true,
 };
 
 const localStyles = StyleSheet.create({
@@ -41,8 +42,8 @@ const localStyles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#000",
-    opacity: 0.5,
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    padding: 16,
   },
 });
 
