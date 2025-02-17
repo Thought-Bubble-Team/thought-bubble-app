@@ -1,3 +1,4 @@
+// Components Import
 import MyScrollView from "@/components/Micro/MyScrollView";
 import MyView from "@/components/Micro/MyView";
 import MyCard from "@/components/Micro/MyCard";
@@ -5,11 +6,9 @@ import Text from "@/components/Micro/Text";
 import ReoccuringWords from "@/components/Macro/ReoccuringWords";
 import MySelect from "@/components/Micro/MySelect";
 import Header from "@/components/Micro/Header";
-import Modal from "@/components/Micro/Modal";
-import Alert from "@/components/Macro/Alert";
 
+// Utilities Import
 import { useState } from "react";
-import { Button } from "tamagui";
 
 const months = [
   "Jan",
@@ -45,13 +44,6 @@ export default function Index() {
   const [val, setVal] = useState<string>("Jan 2025");
   const [loading, setLoading] = useState<boolean>(false);
 
-  const toggleLoading = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  };
-
   return (
     <MyView
       paddingHorizontal={"$3"}
@@ -82,20 +74,6 @@ export default function Index() {
         <MyCard headerTitle="Mood Bar">
           <Text>Mood Bar</Text>
         </MyCard>
-        <Button
-          onPress={() => {
-            setLoading(true);
-          }}
-        >
-          Toggle Modal
-        </Button>
-        <Alert
-          modalVisible={loading}
-          setModalVisible={setLoading}
-          header="Alert"
-          message="This is an alert"
-          buttonText="OK"
-        />
       </MyScrollView>
     </MyView>
   );
