@@ -15,15 +15,50 @@ import {
 
 import MyScrollView from "../Micro/MyScrollView";
 
-import { createJournalEntry } from "@/utils/supabase/db-crud";
+import {
+  createJournalEntry,
+  getJournalEntry,
+  updateJournalEntry,
+} from "@/utils/supabase/db-crud";
 import { PostgrestError } from "@supabase/supabase-js";
+import { useLocalSearchParams } from "expo-router";
+
+type FormMode = "create" | "update";
 
 export default function JournalEntry() {
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [message, setMessage] = useState("");
   const [images, setImages] = useState<string[] | undefined>(undefined);
+  const [mode, setMode] = useState<FormMode>("create");
   const [error, setError] = useState<PostgrestError | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const { id } = useLocalSearchParams();
+
+  useEffect(() => {
+    const fetchJournalEntry = async () => {
+      const response = await getJournalEntry(Number(id));
+      if (!response) {
+        Alert.alert("Error", "Failed to fetch journal entry");
+        return;
+      }
+
+      if (response.error) {
+        Alert.alert("Error", response.error.message);
+        return;
+      }
+
+      if (response.journalEntryData) {
+        setTitle(response.journalEntryData[0].title); // Assuming it's an array
+        setMessage(response.journalEntryData[0].content);
+      }
+    };
+
+    if (id && typeof id === "string") {
+      setMode("update");
+      fetchJournalEntry();
+    }
+  }, [id]);
 
   // Image Picker
   const pickImageAsync = async () => {
@@ -47,25 +82,80 @@ export default function JournalEntry() {
     }
   };
 
-  {
-    /* Temporary function to test the right button */
-  }
-  const submitJournalEntry = async () => {
+  const handleSubmit = async () => {
     setLoading(true);
     const journalEntryObject = {
       title: title,
       content: message,
     };
 
-    const { error } = await createJournalEntry(journalEntryObject);
-    if (error) {
-      Alert.alert("Error", error.message);
-    } else {
-      Alert.alert("Success", "Journal entry created successfully!");
+    try {
+      const { error } =
+        mode === "create"
+          ? await createJournalEntry(journalEntryObject)
+          : await updateJournalEntry(Number(id), journalEntryObject);
+
+      if (error) {
+        Alert.alert("Error", error.message);
+        setError(error);
+      } else {
+        Alert.alert(
+          "Success",
+          `Journal entry ${
+            mode === "create" ? "created" : "updated"
+          } successfully!`
+        );
+      }
+
+      if (mode === "create") {
+        setTitle("");
+        setMessage("");
+        setImages(undefined);
+      }
+    } catch (error) {
+      Alert.alert(
+        "Error",
+        "An error occurred while submitting the journal entry"
+      );
+    } finally {
+      setLoading(false);
     }
-    setError(error);
-    setLoading(false);
   };
+
+  // const submitJournalEntry = async () => {
+  //   setLoading(true);
+  //   const journalEntryObject = {
+  //     title: title,
+  //     content: message,
+  //   };
+
+  //   const { error } = await createJournalEntry(journalEntryObject);
+  //   if (error) {
+  //     Alert.alert("Error", error.message);
+  //   } else {
+  //     Alert.alert("Success", "Journal entry created successfully!");
+  //   }
+  //   setError(error);
+  //   setLoading(false);
+  // };
+
+  // const updateJournalEntry = async () => {
+  //   setLoading(true);
+  //   const journalEntryObject = {
+  //     title: title,
+  //     content: message,
+  //   };
+
+  //   const { error } = await updateJournalEntry(Number(id), journalEntryObject);
+
+  //   if (error) {
+  //     Alert.alert("Error", error.message);
+  //   } else {
+  //     Alert.alert("Success", "Journal entry updated successfully!");
+  //   }
+  //   setError(error);
+  //   setLoading
+  // };
 
   return (
     <ViewStyled>
@@ -115,7 +205,7 @@ export default function JournalEntry() {
         <ButtonStyled onPress={pickImageAsync}>
           <Ionicons name="images-outline" size={35} color="#443E3B" />
         </ButtonStyled>
-        <ButtonStyled onPress={submitJournalEntry}>
+        <ButtonStyled onPress={handleSubmit}>
           <Ionicons name="checkmark-done-outline" size={35} color="#443E3B" />
         </ButtonStyled>
       </Footer>
