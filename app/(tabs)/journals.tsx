@@ -17,6 +17,7 @@ import { supabase } from "@/utils/supabase/supabase";
 import { getAllJournalEntries } from "@/utils/supabase/db-crud";
 import { Alert, RefreshControl, TouchableOpacity } from "react-native";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
+import {Link} from "expo-router";
 
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
@@ -70,10 +71,10 @@ export default function Journals() {
             }
           >
             {journals.map((journalEntrySample) => (
-              <JournalEntry
-                key={journalEntrySample.entry_id}
-                journalEntry={journalEntrySample}
-              />
+                  <JournalEntry
+                      key={journalEntrySample.entry_id}
+                      journalEntry={journalEntrySample}
+                  />
             ))}
           </MyScrollView>
         </Container>
@@ -108,7 +109,12 @@ const JournalEntry = (props: JournalEntryProps) => {
           <Ionicons name="settings-outline" size={18} color="#443E3B" />
         </ButtonStyled>
       </EntryHeader>
-      <JournalCard journalEntry={journalEntry}></JournalCard>
+      {/*<TouchableOpacity onPress={() => Alert.alert("Edit Journal Entry")}>*/}
+      {/*  <JournalCard journalEntry={journalEntry}></JournalCard>*/}
+      {/*</TouchableOpacity>*/}
+      <Link href={{ pathname: "/create", params: { id: journalEntry.entry_id } }}>
+        <JournalCard journalEntry={journalEntry}></JournalCard>
+      </Link>
     </EntryContainer>
   );
 };
