@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Image, StyleSheet, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -21,7 +21,7 @@ import {
   updateJournalEntry,
 } from "@/utils/supabase/db-crud";
 import { PostgrestError } from "@supabase/supabase-js";
-import { useLocalSearchParams } from "expo-router";
+import { useFocusEffect, useLocalSearchParams } from "expo-router";
 
 type FormMode = "create" | "update";
 
@@ -30,14 +30,33 @@ export default function JournalEntry() {
   const [message, setMessage] = useState("");
   const [images, setImages] = useState<string[] | undefined>(undefined);
   const [mode, setMode] = useState<FormMode>("create");
+  const [entryId, setEntryId] = useState<number | undefined>(undefined);
   const [error, setError] = useState<PostgrestError | null>(null);
   const [loading, setLoading] = useState(false);
 
   const { id } = useLocalSearchParams();
 
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     return () => {
+  //       if (mode === "update") {
+  //         setMode("create");
+  //         setTitle("");
+  //         setMessage("");
+  //         setImages(undefined);
+  //         setError(null);
+  //         setEntryId(undefined);
+  //       }
+  //     };
+  //   }, [mode])
+  // );
+
   useEffect(() => {
+    setEntryId(Number(id));
+
     const fetchJournalEntry = async () => {
-      const response = await getJournalEntry(Number(id));
+      const response =
+        entryId !== undefined ? await getJournalEntry(entryId) : null;
       if (!response) {
         Alert.alert("Error", "Failed to fetch journal entry");
         return;
@@ -54,7 +73,7 @@ export default function JournalEntry() {
       }
     };
 
-    if (id && typeof id === "string") {
+    if (entryId !== undefined) {
       setMode("update");
       fetchJournalEntry();
     }
@@ -91,9 +110,9 @@ export default function JournalEntry() {
 
     try {
       const { error } =
-        mode === "create"
+        entryId === undefined
           ? await createJournalEntry(journalEntryObject)
-          : await updateJournalEntry(Number(id), journalEntryObject);
+          : await updateJournalEntry(entryId, journalEntryObject);
 
       if (error) {
         Alert.alert("Error", error.message);
@@ -102,12 +121,12 @@ export default function JournalEntry() {
         Alert.alert(
           "Success",
           `Journal entry ${
-            mode === "create" ? "created" : "updated"
+            entryId === undefined ? "created" : "updated"
           } successfully!`
         );
       }
 
-      if (mode === "create") {
+      if (entryId === undefined) {
         setTitle("");
         setMessage("");
         setImages(undefined);
@@ -118,44 +137,10 @@ export default function JournalEntry() {
         "An error occurred while submitting the journal entry"
       );
     } finally {
+      setEntryId(undefined);
       setLoading(false);
     }
   };
-
-  // const submitJournalEntry = async () => {
-  //   setLoading(true);
-  //   const journalEntryObject = {
-  //     title: title,
-  //     content: message,
-  //   };
-
-  //   const { error } = await createJournalEntry(journalEntryObject);
-  //   if (error) {
-  //     Alert.alert("Error", error.message);
-  //   } else {
-  //     Alert.alert("Success", "Journal entry created successfully!");
-  //   }
-  //   setError(error);
-  //   setLoading(false);
-  // };
-
-  // const updateJournalEntry = async () => {
-  //   setLoading(true);
-  //   const journalEntryObject = {
-  //     title: title,
-  //     content: message,
-  //   };
-
-  //   const { error } = await updateJournalEntry(Number(id), journalEntryObject);
-
-  //   if (error) {
-  //     Alert.alert("Error", error.message);
-  //   } else {
-  //     Alert.alert("Success", "Journal entry updated successfully!");
-  //   }
-  //   setError(error);
-  //   setLoading
-  // };
 
   return (
     <ViewStyled>
