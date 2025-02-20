@@ -11,21 +11,32 @@ import { NoSession } from "@/components/Sessions";
 import Header from "@/components/Micro/Header";
 
 // Utilities Imports
-import { useEffect, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
 import { supabase } from "@/utils/supabase/supabase";
 import { getAllJournalEntries } from "@/utils/supabase/db-crud";
 import { Alert, RefreshControl, TouchableOpacity } from "react-native";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
-import {Link} from "expo-router";
+import {Link, useFocusEffect} from "expo-router";
+import Modal from "@/components/Micro/Modal";
+import JournalForm from "@/components/Macro/JournalForm";
+
+const RefreshScheduler = ({ onRefresh }: { onRefresh: () => void }) => {
+
+    useEffect(() => {
+    }, []);
+    return null;
+}
 
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
   const setSession = useSessionStore((state) => state.setSession);
   const [journals, setJournals] = useState<JournalEntryType[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [time, setTime] = useState<number>(0);
 
   useEffect(() => {
+    refresh();
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
     });
@@ -90,6 +101,7 @@ interface JournalEntryProps {
 
 const JournalEntry = (props: JournalEntryProps) => {
   const { journalEntry } = props;
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const formattedDate = formatDate(journalEntry.created_at);
   const splitDate = splitFormattedDate(formattedDate);
@@ -109,12 +121,12 @@ const JournalEntry = (props: JournalEntryProps) => {
           <Ionicons name="settings-outline" size={18} color="#443E3B" />
         </ButtonStyled>
       </EntryHeader>
-      {/*<TouchableOpacity onPress={() => Alert.alert("Edit Journal Entry")}>*/}
-      {/*  <JournalCard journalEntry={journalEntry}></JournalCard>*/}
-      {/*</TouchableOpacity>*/}
-      <Link href={{ pathname: "/create", params: { id: journalEntry.entry_id } }}>
+      <TouchableOpacity onPress={() => setModalVisible(true)}>
         <JournalCard journalEntry={journalEntry}></JournalCard>
-      </Link>
+      </TouchableOpacity>
+      <Modal modalVisible={modalVisible} setModalVisible={setModalVisible}>
+        <JournalForm journalEntry={journalEntry} setModalVisible={setModalVisible} />
+      </Modal>
     </EntryContainer>
   );
 };

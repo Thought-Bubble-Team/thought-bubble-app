@@ -17,7 +17,7 @@ import MyScrollView from "../Micro/MyScrollView";
 
 import {
   createJournalEntry,
-  getJournalEntry,
+  getJournalEntry, JournalEntryType,
   updateJournalEntry,
 } from "@/utils/supabase/db-crud";
 import { PostgrestError } from "@supabase/supabase-js";
@@ -25,38 +25,37 @@ import { useFocusEffect, useLocalSearchParams } from "expo-router";
 
 type FormMode = "create" | "update";
 
-export default function JournalEntry() {
+interface JournalEntryProps {
+  journalEntry?: JournalEntryType;
+  setModalVisible?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function JournalForm(props: JournalEntryProps) {
+  const { journalEntry, setModalVisible } = props;
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [message, setMessage] = useState("");
   const [images, setImages] = useState<string[] | undefined>(undefined);
   const [mode, setMode] = useState<FormMode>("create");
-  const [entryId, setEntryId] = useState<number | undefined>(undefined);
   const [error, setError] = useState<PostgrestError | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const { id } = useLocalSearchParams();
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     return () => {
-  //       if (mode === "update") {
-  //         setMode("create");
-  //         setTitle("");
-  //         setMessage("");
-  //         setImages(undefined);
-  //         setError(null);
-  //         setEntryId(undefined);
-  //       }
-  //     };
-  //   }, [mode])
-  // );
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        if (mode === "update") {
+          setMode("create");
+          setTitle("");
+          setMessage("");
+          setImages(undefined);
+          setError(null);
+        }
+      };
+    }, [mode])
+  );
 
   useEffect(() => {
-    setEntryId(Number(id));
-
-    const fetchJournalEntry = async () => {
-      const response =
-        entryId !== undefined ? await getJournalEntry(entryId) : null;
+    const fetchJournalEntry = async (entry_id: number) => {
+      const response = await getJournalEntry(entry_id);
       if (!response) {
         Alert.alert("Error", "Failed to fetch journal entry");
         return;
@@ -73,11 +72,11 @@ export default function JournalEntry() {
       }
     };
 
-    if (entryId !== undefined) {
+    if (journalEntry) {
       setMode("update");
-      fetchJournalEntry();
+      fetchJournalEntry(journalEntry.entry_id);
     }
-  }, [id]);
+  }, []);
 
   // Image Picker
   const pickImageAsync = async () => {
@@ -110,9 +109,9 @@ export default function JournalEntry() {
 
     try {
       const { error } =
-        entryId === undefined
+        journalEntry === undefined
           ? await createJournalEntry(journalEntryObject)
-          : await updateJournalEntry(entryId, journalEntryObject);
+          : await updateJournalEntry(journalEntry.entry_id, journalEntryObject);
 
       if (error) {
         Alert.alert("Error", error.message);
@@ -121,12 +120,12 @@ export default function JournalEntry() {
         Alert.alert(
           "Success",
           `Journal entry ${
-            entryId === undefined ? "created" : "updated"
+            journalEntry === undefined ? "created" : "updated"
           } successfully!`
         );
       }
 
-      if (entryId === undefined) {
+      if (journalEntry === undefined) {
         setTitle("");
         setMessage("");
         setImages(undefined);
@@ -137,7 +136,7 @@ export default function JournalEntry() {
         "An error occurred while submitting the journal entry"
       );
     } finally {
-      setEntryId(undefined);
+      setModalVisible && setModalVisible(false);
       setLoading(false);
     }
   };
@@ -145,12 +144,15 @@ export default function JournalEntry() {
   return (
     <ViewStyled>
       {/* Editable Title */}
-      <View width={"100%"} justifyContent="flex-start">
+      <View width={"100%"} flexDirection={"row"} justifyContent="space-between" alignItems={"center"}>
         <TitleInput
           value={title}
           onChangeText={setTitle}
           placeholder="Enter title..."
         />
+        <Button backgroundColor={"transparent"} onPress={() => setModalVisible && setModalVisible(false)}>
+          <Ionicons name="close-outline" size={24} color="#443E3B" />
+        </Button>
       </View>
 
       {/* Editable Message */}
