@@ -5,6 +5,15 @@ export interface JournalEntry {
   content: string;
 }
 
+export type JournalEntryType = {
+  entry_id: number;
+  user_id: string;
+  title: string;
+  content: string;
+  created_at: string;
+  updated_at: string;
+};
+
 export type SentimentType = {
   sentiment_id: number;
   entry_id: number;
@@ -54,6 +63,39 @@ export const createJournalEntry = async (
     return { data: null, error };
   } else {
     return { data, error: null };
+  }
+};
+
+export const updateJournalEntry = async (
+  entry_id: number,
+  journalEntry: Partial<JournalEntry>
+) => {
+  const { data, error } = await supabase
+    .from("journal_entry")
+    .update(journalEntry)
+    .eq("entry_id", entry_id);
+
+  if (error) {
+    return { data: null, error };
+  } else {
+    return { data, error: null };
+  }
+};
+
+export const getJournalEntry = async (entry_id: number) => {
+  const { data, error } = await supabase
+    .from("journal_entry")
+    .select("*")
+    .eq("entry_id", entry_id);
+
+  const journalEntryData = data as JournalEntryType[];
+
+  if (error) {
+    return { journalEntryData: null, error };
+  }
+
+  if (journalEntryData && !error) {
+    return { journalEntryData, error: null };
   }
 };
 

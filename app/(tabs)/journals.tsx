@@ -1,5 +1,5 @@
 // Style Imports
-import { styled, View, XStack, Button, setupNativeSheet } from "tamagui";
+import { styled, View, XStack, Button } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 // Components Imports
@@ -11,20 +11,24 @@ import { NoSession } from "@/components/Sessions";
 import Header from "@/components/Micro/Header";
 
 // Utilities Imports
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
 import { supabase } from "@/utils/supabase/supabase";
 import { getAllJournalEntries } from "@/utils/supabase/db-crud";
 import { Alert, RefreshControl, TouchableOpacity } from "react-native";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
+import Modal from "@/components/Micro/Modal";
+import JournalForm from "@/components/Macro/JournalForm";
 
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
   const setSession = useSessionStore((state) => state.setSession);
   const [journals, setJournals] = useState<JournalEntryType[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [time, setTime] = useState<number>(0);
 
   useEffect(() => {
+    refresh();
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
     });
@@ -60,7 +64,9 @@ export default function Journals() {
       {session && (
         <Container>
           <Header>
-            <Text weight="bold" fontSize={30} color={"$textColor"}>Your Journey</Text>
+            <Text weight="bold" fontSize={30} color={"$textColor"}>
+              Your Journey
+            </Text>
           </Header>
           <MyScrollView
             width={"100%"}
@@ -89,12 +95,17 @@ interface JournalEntryProps {
 
 const JournalEntry = (props: JournalEntryProps) => {
   const { journalEntry } = props;
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const formattedDate = formatDate(journalEntry.created_at);
   const splitDate = splitFormattedDate(formattedDate);
 
   return (
-    <EntryContainer borderBottomColor={"$subtleTextColor"} borderBottomWidth={1} paddingVertical={"$3"}>
+    <EntryContainer
+      borderBottomColor={"$subtleTextColor"}
+      borderBottomWidth={1}
+      paddingVertical={"$3"}
+    >
       <EntryHeader>
         <XStack>
           <Text weight="bold" fontSize={20} color={"$textColor"}>
@@ -108,7 +119,15 @@ const JournalEntry = (props: JournalEntryProps) => {
           <Ionicons name="settings-outline" size={18} color="#443E3B" />
         </ButtonStyled>
       </EntryHeader>
-      <JournalCard journalEntry={journalEntry}></JournalCard>
+      <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <JournalCard journalEntry={journalEntry}></JournalCard>
+      </TouchableOpacity>
+      <Modal modalVisible={modalVisible} setModalVisible={setModalVisible}>
+        <JournalForm
+          journalEntry={journalEntry}
+          setModalVisible={setModalVisible}
+        />
+      </Modal>
     </EntryContainer>
   );
 };

@@ -1,29 +1,74 @@
-import { useState, useEffect } from "react";
-import { Image, StyleSheet, Alert } from "react-native";
+import { useState, useEffect, useCallback } from "react";
+import { Image, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import {
-  styled,
-  View,
-  Input,
-  AlertDialog,
-  Button,
-  YStack,
-  XStack,
-  Spinner,
-} from "tamagui";
+import { styled, View, Input, Button, Spinner } from "tamagui";
 
 import MyScrollView from "../Micro/MyScrollView";
 
-import { createJournalEntry } from "@/utils/supabase/db-crud";
+import {
+  createJournalEntry,
+  getJournalEntry,
+  JournalEntryType,
+  updateJournalEntry,
+} from "@/utils/supabase/db-crud";
 import { PostgrestError } from "@supabase/supabase-js";
+import { useFocusEffect } from "expo-router";
 
-export default function JournalEntry() {
+type FormMode = "create" | "update";
+
+interface JournalEntryProps {
+  journalEntry?: JournalEntryType;
+  setModalVisible?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function JournalForm(props: JournalEntryProps) {
+  const { journalEntry, setModalVisible } = props;
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [message, setMessage] = useState("");
   const [images, setImages] = useState<string[] | undefined>(undefined);
+  const [mode, setMode] = useState<FormMode>("create");
   const [error, setError] = useState<PostgrestError | null>(null);
   const [loading, setLoading] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        if (mode === "update") {
+          setMode("create");
+          setTitle("");
+          setMessage("");
+          setImages(undefined);
+          setError(null);
+        }
+      };
+    }, [mode]),
+  );
+
+  useEffect(() => {
+    const fetchJournalEntry = async (entry_id: number) => {
+      const response = await getJournalEntry(entry_id);
+      if (!response) {
+        Alert.alert("Error", "Failed to fetch journal entry");
+        return;
+      }
+
+      if (response.error) {
+        Alert.alert("Error", response.error.message);
+        return;
+      }
+
+      if (response.journalEntryData) {
+        setTitle(response.journalEntryData[0].title); // Assuming it's an array
+        setMessage(response.journalEntryData[0].content);
+      }
+    };
+
+    if (journalEntry) {
+      setMode("update");
+      fetchJournalEntry(journalEntry.entry_id);
+    }
+  }, []);
 
   // Image Picker
   const pickImageAsync = async () => {
@@ -47,35 +92,67 @@ export default function JournalEntry() {
     }
   };
 
-  {
-    /* Temporary function to test the right button */
-  }
-  const submitJournalEntry = async () => {
+  const handleSubmit = async () => {
     setLoading(true);
     const journalEntryObject = {
       title: title,
       content: message,
     };
 
-    const { error } = await createJournalEntry(journalEntryObject);
-    if (error) {
-      Alert.alert("Error", error.message);
-    } else {
-      Alert.alert("Success", "Journal entry created successfully!");
+    try {
+      const { error } =
+        journalEntry === undefined
+          ? await createJournalEntry(journalEntryObject)
+          : await updateJournalEntry(journalEntry.entry_id, journalEntryObject);
+
+      if (error) {
+        Alert.alert("Error", error.message);
+        setError(error);
+      } else {
+        Alert.alert(
+          "Success",
+          `Journal entry ${
+            journalEntry === undefined ? "created" : "updated"
+          } successfully!`,
+        );
+      }
+
+      if (journalEntry === undefined) {
+        setTitle("");
+        setMessage("");
+        setImages(undefined);
+      }
+    } catch (error) {
+      Alert.alert(
+        "Error",
+        "An error occurred while submitting the journal entry",
+      );
+    } finally {
+      setModalVisible && setModalVisible(false);
+      setLoading(false);
     }
-    setError(error);
-    setLoading(false);
   };
 
   return (
     <ViewStyled>
       {/* Editable Title */}
-      <View width={"100%"} justifyContent="flex-start">
+      <View
+        width={"100%"}
+        flexDirection={"row"}
+        justifyContent="space-between"
+        alignItems={"center"}
+      >
         <TitleInput
           value={title}
           onChangeText={setTitle}
           placeholder="Enter title..."
         />
+        <Button
+          backgroundColor={"transparent"}
+          onPress={() => setModalVisible && setModalVisible(false)}
+        >
+          <Ionicons name="close-outline" size={24} color="#443E3B" />
+        </Button>
       </View>
 
       {/* Editable Message */}
@@ -115,7 +192,7 @@ export default function JournalEntry() {
         <ButtonStyled onPress={pickImageAsync}>
           <Ionicons name="images-outline" size={35} color="#443E3B" />
         </ButtonStyled>
-        <ButtonStyled onPress={submitJournalEntry}>
+        <ButtonStyled onPress={handleSubmit}>
           <Ionicons name="checkmark-done-outline" size={35} color="#443E3B" />
         </ButtonStyled>
       </Footer>

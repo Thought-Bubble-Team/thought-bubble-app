@@ -60,6 +60,7 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="create"
+        initialParams={{ id: "new" }}
         options={{
           title: "Create",
           tabBarIcon: ({ size, focused }) => (

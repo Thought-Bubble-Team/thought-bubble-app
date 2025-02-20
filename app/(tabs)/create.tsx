@@ -6,7 +6,7 @@ import { View, XStack } from "tamagui";
 import MyView from "@/components/Micro/MyView";
 import Text from "@/components/Micro/Text";
 import MyScrollView from "@/components/Micro/MyScrollView";
-import JournalEntry from "@/components/Macro/JournalEntry";
+import JournalForm from "@/components/Macro/JournalForm";
 import Header from "@/components/Micro/Header";
 
 // Utilities Import
@@ -76,7 +76,7 @@ export default function Create() {
         </XStack>
       </Header>
       <MyScrollView width={"100%"}>
-        {session && session.user && <JournalEntry />}
+        {session && session.user && <JournalForm />}
         {!session && (
           <View>
             <Text>Please sign in to create a journal entry.</Text>
