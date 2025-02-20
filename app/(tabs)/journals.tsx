@@ -1,5 +1,5 @@
 // Style Imports
-import { styled, View, XStack, Button, setupNativeSheet } from "tamagui";
+import { styled, View, XStack, Button } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 // Components Imports
@@ -11,22 +11,14 @@ import { NoSession } from "@/components/Sessions";
 import Header from "@/components/Micro/Header";
 
 // Utilities Imports
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
 import { supabase } from "@/utils/supabase/supabase";
 import { getAllJournalEntries } from "@/utils/supabase/db-crud";
 import { Alert, RefreshControl, TouchableOpacity } from "react-native";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
-import {Link, useFocusEffect} from "expo-router";
 import Modal from "@/components/Micro/Modal";
 import JournalForm from "@/components/Macro/JournalForm";
-
-const RefreshScheduler = ({ onRefresh }: { onRefresh: () => void }) => {
-
-    useEffect(() => {
-    }, []);
-    return null;
-}
 
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
@@ -72,7 +64,9 @@ export default function Journals() {
       {session && (
         <Container>
           <Header>
-            <Text weight="bold" fontSize={30} color={"$textColor"}>Your Journey</Text>
+            <Text weight="bold" fontSize={30} color={"$textColor"}>
+              Your Journey
+            </Text>
           </Header>
           <MyScrollView
             width={"100%"}
@@ -82,10 +76,10 @@ export default function Journals() {
             }
           >
             {journals.map((journalEntrySample) => (
-                  <JournalEntry
-                      key={journalEntrySample.entry_id}
-                      journalEntry={journalEntrySample}
-                  />
+              <JournalEntry
+                key={journalEntrySample.entry_id}
+                journalEntry={journalEntrySample}
+              />
             ))}
           </MyScrollView>
         </Container>
@@ -107,7 +101,11 @@ const JournalEntry = (props: JournalEntryProps) => {
   const splitDate = splitFormattedDate(formattedDate);
 
   return (
-    <EntryContainer borderBottomColor={"$subtleTextColor"} borderBottomWidth={1} paddingVertical={"$3"}>
+    <EntryContainer
+      borderBottomColor={"$subtleTextColor"}
+      borderBottomWidth={1}
+      paddingVertical={"$3"}
+    >
       <EntryHeader>
         <XStack>
           <Text weight="bold" fontSize={20} color={"$textColor"}>
@@ -125,7 +123,10 @@ const JournalEntry = (props: JournalEntryProps) => {
         <JournalCard journalEntry={journalEntry}></JournalCard>
       </TouchableOpacity>
       <Modal modalVisible={modalVisible} setModalVisible={setModalVisible}>
-        <JournalForm journalEntry={journalEntry} setModalVisible={setModalVisible} />
+        <JournalForm
+          journalEntry={journalEntry}
+          setModalVisible={setModalVisible}
+        />
       </Modal>
     </EntryContainer>
   );

@@ -1,27 +1,19 @@
 import { useState, useEffect, useCallback } from "react";
-import { Image, StyleSheet, Alert } from "react-native";
+import { Image, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import {
-  styled,
-  View,
-  Input,
-  AlertDialog,
-  Button,
-  YStack,
-  XStack,
-  Spinner,
-} from "tamagui";
+import { styled, View, Input, Button, Spinner } from "tamagui";
 
 import MyScrollView from "../Micro/MyScrollView";
 
 import {
   createJournalEntry,
-  getJournalEntry, JournalEntryType,
+  getJournalEntry,
+  JournalEntryType,
   updateJournalEntry,
 } from "@/utils/supabase/db-crud";
 import { PostgrestError } from "@supabase/supabase-js";
-import { useFocusEffect, useLocalSearchParams } from "expo-router";
+import { useFocusEffect } from "expo-router";
 
 type FormMode = "create" | "update";
 
@@ -50,7 +42,7 @@ export default function JournalForm(props: JournalEntryProps) {
           setError(null);
         }
       };
-    }, [mode])
+    }, [mode]),
   );
 
   useEffect(() => {
@@ -121,7 +113,7 @@ export default function JournalForm(props: JournalEntryProps) {
           "Success",
           `Journal entry ${
             journalEntry === undefined ? "created" : "updated"
-          } successfully!`
+          } successfully!`,
         );
       }
 
@@ -133,7 +125,7 @@ export default function JournalForm(props: JournalEntryProps) {
     } catch (error) {
       Alert.alert(
         "Error",
-        "An error occurred while submitting the journal entry"
+        "An error occurred while submitting the journal entry",
       );
     } finally {
       setModalVisible && setModalVisible(false);
@@ -144,13 +136,21 @@ export default function JournalForm(props: JournalEntryProps) {
   return (
     <ViewStyled>
       {/* Editable Title */}
-      <View width={"100%"} flexDirection={"row"} justifyContent="space-between" alignItems={"center"}>
+      <View
+        width={"100%"}
+        flexDirection={"row"}
+        justifyContent="space-between"
+        alignItems={"center"}
+      >
         <TitleInput
           value={title}
           onChangeText={setTitle}
           placeholder="Enter title..."
         />
-        <Button backgroundColor={"transparent"} onPress={() => setModalVisible && setModalVisible(false)}>
+        <Button
+          backgroundColor={"transparent"}
+          onPress={() => setModalVisible && setModalVisible(false)}
+        >
           <Ionicons name="close-outline" size={24} color="#443E3B" />
         </Button>
       </View>
