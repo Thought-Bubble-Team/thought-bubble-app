@@ -3,12 +3,17 @@ import MyScrollView from "@/components/Micro/MyScrollView";
 import MyView from "@/components/Micro/MyView";
 import MyCard from "@/components/Micro/MyCard";
 import Text from "@/components/Micro/Text";
-import ReoccuringWords from "@/components/Macro/ReoccuringWords";
+import ReoccurringWords from "@/components/Macro/ReoccurringWords";
 import MySelect from "@/components/Micro/MySelect";
 import Header from "@/components/Micro/Header";
 
 // Utilities Import
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Alert } from "react-native";
+import {
+  useBoolVariation,
+  useLDClient,
+} from "@launchdarkly/react-native-client-sdk";
 
 const months = [
   "Jan",
@@ -44,6 +49,24 @@ export default function Index() {
   const [val, setVal] = useState<string>("Jan 2025");
   const [loading, setLoading] = useState<boolean>(false);
 
+  const FEATURE_FLAGS = {
+    DASHBOARD_CHARTS: {
+      REOCCURRING_WORDS: useBoolVariation("reoccurring-words", false),
+      MOOD_BAR: useBoolVariation("mood-bar", false),
+      MOOD_CALENDAR: useBoolVariation("mood-calendar", false),
+      MOOD_FLOW: useBoolVariation("mood-flow", false),
+    },
+  };
+
+  const ldc = useLDClient();
+
+  useEffect(() => {
+    // Identifies these components as this
+    ldc
+      .identify({ kind: "user", key: "example-user-key", name: "Sandy" })
+      .catch((e: any) => Alert.alert(("Error: " + e) as string));
+  }, []);
+
   return (
     <MyView
       paddingHorizontal={"$3"}
@@ -62,18 +85,26 @@ export default function Index() {
         />
       </Header>
       <MyScrollView width={"100%"} height={"100%"}>
-        <MyCard headerTitle="Reoccuring Words">
-          <ReoccuringWords />
-        </MyCard>
-        <MyCard headerTitle="Mood Calendar">
-          <Text>{val}</Text>
-        </MyCard>
-        <MyCard headerTitle="Mood Flow">
-          <Text>Kunwari may Graph</Text>
-        </MyCard>
-        <MyCard headerTitle="Mood Bar">
-          <Text>Mood Bar</Text>
-        </MyCard>
+        {FEATURE_FLAGS.DASHBOARD_CHARTS.REOCCURRING_WORDS && (
+          <MyCard headerTitle="Reoccuring Words">
+            <ReoccurringWords />
+          </MyCard>
+        )}
+        {FEATURE_FLAGS.DASHBOARD_CHARTS.MOOD_CALENDAR && (
+          <MyCard headerTitle="Mood Calendar">
+            <Text>{val}</Text>
+          </MyCard>
+        )}
+        {FEATURE_FLAGS.DASHBOARD_CHARTS.MOOD_FLOW && (
+          <MyCard headerTitle="Mood Flow">
+            <Text>Kunwari may Graph</Text>
+          </MyCard>
+        )}
+        {FEATURE_FLAGS.DASHBOARD_CHARTS.MOOD_BAR && (
+          <MyCard headerTitle="Mood Bar">
+            <Text>Mood Bar</Text>
+          </MyCard>
+        )}
       </MyScrollView>
     </MyView>
   );
