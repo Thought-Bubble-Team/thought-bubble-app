@@ -9,6 +9,7 @@ import Header from "@/components/Micro/Header";
 
 // Utilities Import
 import { useState } from "react";
+import { FEATURE_FLAGS } from "@/utils/featureFlags";
 
 const months = [
   "Jan",
@@ -62,18 +63,26 @@ export default function Index() {
         />
       </Header>
       <MyScrollView width={"100%"} height={"100%"}>
-        <MyCard headerTitle="Reoccuring Words">
-          <ReoccuringWords />
-        </MyCard>
-        <MyCard headerTitle="Mood Calendar">
-          <Text>{val}</Text>
-        </MyCard>
-        <MyCard headerTitle="Mood Flow">
-          <Text>Kunwari may Graph</Text>
-        </MyCard>
-        <MyCard headerTitle="Mood Bar">
-          <Text>Mood Bar</Text>
-        </MyCard>
+        {FEATURE_FLAGS.DASHBOARD_CHARTS.REOCCURING_WORDS && (
+          <MyCard headerTitle="Reoccuring Words">
+            <ReoccuringWords />
+          </MyCard>
+        )}
+        {FEATURE_FLAGS.DASHBOARD_CHARTS.MOOD_CALENDAR && (
+          <MyCard headerTitle="Mood Calendar">
+            <Text>{val}</Text>
+          </MyCard>
+        )}
+        {FEATURE_FLAGS.DASHBOARD_CHARTS.MOOD_FLOW && (
+          <MyCard headerTitle="Mood Flow">
+            <Text>Kunwari may Graph</Text>
+          </MyCard>
+        )}
+        {FEATURE_FLAGS.DASHBOARD_CHARTS.MOOD_BAR && (
+          <MyCard headerTitle="Mood Bar">
+            <Text>Mood Bar</Text>
+          </MyCard>
+        )}
       </MyScrollView>
     </MyView>
   );
