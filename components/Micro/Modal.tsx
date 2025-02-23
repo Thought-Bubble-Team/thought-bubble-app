@@ -25,19 +25,15 @@ const Modal = (props: ModalProps) => {
       onRequestClose={() => {
         setModalVisible && setModalVisible(false);
       }}
-      {...defaultProps}
+      animationType="fade"
+      statusBarTranslucent={true}
+      transparent={true}
       {...restProps}
       ref={ref}
     >
       <TView style={[localStyles.modal, styles]}>{children}</TView>
     </RNModal>
   );
-};
-
-const defaultProps: RNModalProps = {
-  animationType: "fade",
-  statusBarTranslucent: true,
-  transparent: true,
 };
 
 const localStyles = StyleSheet.create({
