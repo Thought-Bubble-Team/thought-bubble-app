@@ -25,7 +25,7 @@ interface ReoccuringWordsProps {
   emotions: EmotionType[];
 }
 
-export default function ReoccuringWords() {
+export default function ReoccurringWords() {
   // const { emotions } = props;
 
   // const selectedDate = formatDate(emotions[0].created_at);
