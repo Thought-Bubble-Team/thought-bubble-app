@@ -114,6 +114,7 @@ const Settings = () => {
       justifyContent: "space-between",
       alignItems: "center",
       width: "100%",
+      borderRadius: 20,
       paddingVertical: 20,
       paddingHorizontal: 24,
       backgroundColor: theme.grey1?.val,
