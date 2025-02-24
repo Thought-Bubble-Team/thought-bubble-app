@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import { useColorScheme } from "react-native";
-import { styled, View, Button } from "tamagui";
+import { styled, View, useTheme } from "tamagui";
 
 import TabIcons from "@/components/Icons/TabIcons";
 
@@ -8,18 +8,20 @@ import { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const theme = useTheme();
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: colorScheme === "light" ? "#1a141f" : "#fdfcfd",
+        tabBarActiveTintColor: theme.text?.val,
         headerStyle: {
-          backgroundColor: colorScheme === "dark" ? "#1a141f" : "#fdfcfd",
+          backgroundColor: theme.background.val,
           elevation: 0,
         },
         headerShown: false,
         tabBarStyle: {
           height: 60,
-          backgroundColor: colorScheme === "dark" ? "#1a141f" : "#ffffff",
+          backgroundColor: theme.background.val,
           borderColor: "transparent",
           elevation: 0,
         },
@@ -132,7 +134,7 @@ const PenButton = styled(View, {
   justifyContent: "center",
   alignItems: "center",
   borderRadius: 50,
-  backgroundColor: "#ffffff",
+  backgroundColor: "$background",
   padding: 20,
   top: -25,
   elevationAndroid: 5,
