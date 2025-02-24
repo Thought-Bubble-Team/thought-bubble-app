@@ -1,10 +1,9 @@
 import {
-  StyleSheet,
   Modal as RNModal,
   ModalProps as RNModalProps,
   ViewStyle as RNViewStyle,
 } from "react-native";
-import { TamaguiElement, View as TView } from "tamagui";
+import { styled, View as TView } from "tamagui";
 
 interface ModalProps extends RNModalProps {
   children?: React.ReactNode;
@@ -31,19 +30,18 @@ const Modal = (props: ModalProps) => {
       {...restProps}
       ref={ref}
     >
-      <TView style={[localStyles.modal, styles]}>{children}</TView>
+      <ViewStyled>{children}</ViewStyled>
     </RNModal>
   );
 };
 
-const localStyles = StyleSheet.create({
-  modal: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-    padding: 16,
-  },
+const ViewStyled = styled(TView, {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "$grey5",
+  padding: 16,
+  opacity: 0.5,
 });
 
 export default Modal;
