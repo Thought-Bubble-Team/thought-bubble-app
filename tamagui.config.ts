@@ -47,10 +47,11 @@ const myTokens = createTokens({
 
 const themes = {
   light: {
-    primary: "#FF5733",
+    primary: "#CB806A",
     secondary: "#33A1FF",
     background: "#F5F5F5",
-    text: "#1a141f",
+    black: "#443E3B",
+    white: "#ffffff",
     grey0: "#F6EFEC",
     grey1: "#EAE2DE",
     grey2: "#E9D9D0",
