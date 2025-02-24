@@ -14,6 +14,7 @@ import { supabase } from "@/utils/supabase/supabase";
 // Utility Imports
 import { Session } from "@supabase/supabase-js";
 import { Image } from "expo-image";
+import { useTheme } from "tamagui";
 
 interface UserProps {
   session: Session;
@@ -28,6 +29,33 @@ const ButtonTester = () => {
 
 export default function User(props: UserProps) {
   const { session } = props;
+  const theme = useTheme();
+
+  const buttonStyles = StyleSheet.create({
+    ButtonStyledColored: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      width: "100%",
+      padding: 5,
+      borderRadius: 32,
+    },
+    ButtonTransparent: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "transparent",
+    },
+  });
+
+  const imageStyles = StyleSheet.create({
+    image: {
+      width: 85,
+      height: 85,
+      borderRadius: 48,
+    },
+  });
+
   return (
     <MainContainer>
       <UtilitiesContainer>
@@ -38,7 +66,7 @@ export default function User(props: UserProps) {
           >
             <BackLine width={24} height={24} />
           </TouchableOpacity>
-          <Text weight="bold" fontSize={20} color={"$textColor"}>
+          <Text weight="bold" fontSize={20}>
             Profile
           </Text>
         </XStack>
@@ -52,14 +80,17 @@ export default function User(props: UserProps) {
           transition={1000}
         />
         <YStack gap={"$1"}>
-          <Text weight="bold" fontSize={24} color={"$textColor"}>
+          <Text weight="bold" fontSize={24}>
             John Doe
           </Text>
-          <Text fontSize={12} color={"$subtleTextColor"}>
+          <Text fontSize={12} color={"$black"} opacity={0.57}>
             {session.user.email}
           </Text>
           <TouchableOpacity
-            style={{ ...buttonStyles.ButtonStyledColored, marginTop: 16 }}
+            style={[
+              buttonStyles.ButtonStyledColored,
+              { backgroundColor: theme.primary?.val, marginTop: 16 },
+            ]}
             onPress={ButtonTester}
           >
             <Text color="#fff" fontSize={12}>
@@ -74,90 +105,114 @@ export default function User(props: UserProps) {
 }
 
 const Settings = () => {
+  const theme = useTheme();
+
+  const settingsButtonStyles = StyleSheet.create({
+    ButtonStyleSubtle: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      width: "100%",
+      paddingVertical: 20,
+      paddingHorizontal: 24,
+      backgroundColor: theme.grey1?.val,
+    },
+  });
+
   return (
     <SettingsContainer>
       <SettingsContent>
-        <Text
-          weight="medium"
-          fontSize={16}
-          color={"$textColor"}
-          marginVertical={16}
-        >
+        <Text weight="medium" fontSize={16} marginVertical={16}>
           PERSONALIZE
         </Text>
         <TouchableOpacity
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16} color={"$textColor"}>
+          <Text weight="medium" fontSize={16}>
             Preferences
           </Text>
-          <Ionicons name="chevron-forward-outline" size={24} color="#443E3B" />
+          <Ionicons
+            name="chevron-forward-outline"
+            size={24}
+            color={theme.black?.val}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16} color={"$textColor"}>
+          <Text weight="medium" fontSize={16}>
             Appearance
           </Text>
-          <Ionicons name="chevron-forward-outline" size={24} color="#443E3B" />
+          <Ionicons
+            name="chevron-forward-outline"
+            size={24}
+            color={theme.black?.val}
+          />
         </TouchableOpacity>
       </SettingsContent>
       <SettingsContent>
-        <Text
-          weight="medium"
-          fontSize={16}
-          color={"$textColor"}
-          marginVertical={16}
-        >
+        <Text weight="medium" fontSize={16} marginVertical={16}>
           ACCOUNT
         </Text>
         <TouchableOpacity
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16} color={"$textColor"}>
+          <Text weight="medium" fontSize={16}>
             About Premium
           </Text>
-          <Ionicons name="chevron-forward-outline" size={24} color="#443E3B" />
+          <Ionicons
+            name="chevron-forward-outline"
+            size={24}
+            color={theme.black?.val}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16} color={"$textColor"}>
+          <Text weight="medium" fontSize={16}>
             Your Data
           </Text>
-          <Ionicons name="chevron-forward-outline" size={24} color="#443E3B" />
+          <Ionicons
+            name="chevron-forward-outline"
+            size={24}
+            color={theme.black?.val}
+          />
         </TouchableOpacity>
       </SettingsContent>
       <SettingsContent>
-        <Text
-          weight="medium"
-          fontSize={16}
-          color={"$textColor"}
-          marginVertical={16}
-        >
+        <Text weight="medium" fontSize={16} marginVertical={16}>
           HELP AND SUPPORT
         </Text>
         <TouchableOpacity
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16} color={"$textColor"}>
+          <Text weight="medium" fontSize={16}>
             Frequently Asked Questions
           </Text>
-          <Ionicons name="chevron-forward-outline" size={24} color="#443E3B" />
+          <Ionicons
+            name="chevron-forward-outline"
+            size={24}
+            color={theme.black?.val}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16} color={"$textColor"}>
+          <Text weight="medium" fontSize={16}>
             Report Bugs
           </Text>
-          <Ionicons name="chevron-forward-outline" size={24} color="#443E3B" />
+          <Ionicons
+            name="chevron-forward-outline"
+            size={24}
+            color={theme.black?.val}
+          />
         </TouchableOpacity>
       </SettingsContent>
       <SettingsContainer marginBottom={16}>
@@ -168,7 +223,7 @@ const Settings = () => {
           }}
           onPress={() => supabase.auth.signOut()}
         >
-          <Text weight="medium" fontSize={16} color={"$textColorAlt"}>
+          <Text weight="medium" fontSize={16} color={"$white"}>
             SIGN OUT
           </Text>
         </TouchableOpacity>
@@ -204,7 +259,7 @@ const ProfileContainer = styled(View, {
   paddingBottom: 24,
   gap: "$5",
   borderBottomWidth: 2,
-  borderBottomColor: "$coloredBackground",
+  borderBottomColor: "$grey2",
 });
 
 const SettingsContainer = styled(MyScrollView, {
@@ -221,54 +276,4 @@ const SettingsContent = styled(View, {
   justifyContent: "center",
   alignItems: "flex-start",
   gap: 8,
-});
-
-const buttonStyles = StyleSheet.create({
-  ButtonStyledColored: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    padding: 5,
-    backgroundColor: "#CB806A",
-    color: "#fff",
-    borderRadius: 32,
-  },
-  ButtonStyleSubtle: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-    padding: 12,
-    backgroundColor: "#F6EFEC",
-    color: "#443E3B",
-    borderRadius: 0,
-  },
-  ButtonTransparent: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "transparent",
-  },
-});
-
-const settingsButtonStyles = StyleSheet.create({
-  ButtonStyleSubtle: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-    paddingVertical: 20,
-    paddingHorizontal: 24,
-    backgroundColor: "#F6EFEC",
-  },
-});
-
-const imageStyles = StyleSheet.create({
-  image: {
-    width: 85,
-    height: 85,
-    borderRadius: 48,
-  },
 });
