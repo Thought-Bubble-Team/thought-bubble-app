@@ -53,10 +53,10 @@ export default function SignUp(props: SignUpProps) {
   return (
     <MainContainer>
       <Logo width={100} height={100} />
-      <Text weight="bold" fontSize={18} textAlign="center">
+      <Text weight="bold" fontSize="$xl" textAlign="center">
         Welcome to Thought Bubble!
       </Text>
-      <Text weight="light" fontSize={13} textAlign="center">
+      <Text weight="light" fontSize="$md" textAlign="center">
         Let your thoughts flow. Join us and start your journey today!
       </Text>
       <MyInput
@@ -84,7 +84,7 @@ export default function SignUp(props: SignUpProps) {
         ]}
         onPress={signUpWithEmail}
       >
-        <Text weight="bold" fontSize={16} color={"$white"}>
+        <Text weight="bold" fontSize="$lg" color={"$white"}>
           SIGNUP
         </Text>
       </TouchableOpacity>

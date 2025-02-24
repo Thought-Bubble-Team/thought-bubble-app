@@ -42,10 +42,10 @@ export default function Login(props: LoginProps) {
   return (
     <MainContainer>
       <Logo width={100} height={100} />
-      <Text weight="bold" fontSize={18}>
+      <Text weight="bold" fontSize="$xl">
         Welcome to Thought Bubble!
       </Text>
-      <Text weight="light" fontSize={13}>
+      <Text weight="light" fontSize="$md">
         Welcome back! Login to continue your journey.
       </Text>
       <MyInput
@@ -67,7 +67,7 @@ export default function Login(props: LoginProps) {
         ]}
         onPress={signInWithEmail}
       >
-        <Text weight="bold" fontSize={16} color={"$white"}>
+        <Text weight="bold" fontSize="$lg" color={"$white"}>
           LOGIN
         </Text>
       </TouchableOpacity>

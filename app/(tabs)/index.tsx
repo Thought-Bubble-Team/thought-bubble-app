@@ -74,7 +74,7 @@ export default function Index() {
       backgroundColor={"$background"}
     >
       <Header>
-        <Text weight="bold" fontSize={30} color={"$black"}>
+        <Text weight="bold" fontSize="$xxxl" color={"$black"}>
           Hello, User!
         </Text>
         <MySelect

@@ -67,10 +67,10 @@ export default function Create() {
     >
       <Header borderBottomColor={"$black"}>
         <XStack width={"100%"}>
-          <Text weight="bold" fontSize={20} color={"$black"}>
+          <Text weight="bold" fontSize="$xl" color={"$black"}>
             {day}
           </Text>
-          <Text weight="bold" fontSize={20} color={"$black"} opacity={0.4}>
+          <Text weight="bold" fontSize="$xl" color={"$black"} opacity={0.4}>
             {formattedDate}
           </Text>
         </XStack>

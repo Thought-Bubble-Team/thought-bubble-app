@@ -66,7 +66,7 @@ export default function Journals() {
       {session && (
         <Container>
           <Header>
-            <Text weight="bold" fontSize={30}>
+            <Text weight="bold" fontSize="$xxxl">
               Your Journey
             </Text>
           </Header>
@@ -111,10 +111,10 @@ const JournalEntry = (props: JournalEntryProps) => {
     >
       <EntryHeader>
         <XStack>
-          <Text weight="bold" fontSize={20}>
+          <Text weight="bold" fontSize="$xl">
             {splitDate[0]}
           </Text>
-          <Text weight="bold" fontSize={20} opacity={0.57}>
+          <Text weight="bold" fontSize="$xl" opacity={0.57}>
             {splitDate[1]}
           </Text>
         </XStack>

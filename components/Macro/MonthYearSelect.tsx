@@ -36,7 +36,7 @@ const MonthYearSelect = () => {
 
   return (
     <YStack space="$4" padding="$4">
-      <Text fontSize={16} fontWeight="bold">
+      <Text fontSize="$lg" fontWeight="bold">
         Select Month & Year:
       </Text>
       <Select value={selectedDate} onValueChange={setSelectedDate}>

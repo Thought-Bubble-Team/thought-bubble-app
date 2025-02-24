@@ -66,7 +66,7 @@ export default function User(props: UserProps) {
           >
             <BackLine width={24} height={24} />
           </TouchableOpacity>
-          <Text weight="bold" fontSize={20}>
+          <Text weight="bold" fontSize="$xl">
             Profile
           </Text>
         </XStack>
@@ -80,10 +80,10 @@ export default function User(props: UserProps) {
           transition={1000}
         />
         <YStack gap={"$1"}>
-          <Text weight="bold" fontSize={24}>
+          <Text weight="bold" fontSize="$xxl">
             John Doe
           </Text>
-          <Text fontSize={12} color={"$black"} opacity={0.57}>
+          <Text fontSize="$md" color={"$black"} opacity={0.57}>
             {session.user.email}
           </Text>
           <TouchableOpacity
@@ -93,7 +93,7 @@ export default function User(props: UserProps) {
             ]}
             onPress={ButtonTester}
           >
-            <Text color="#fff" fontSize={12}>
+            <Text color="$white" fontSize="$md">
               Edit Profile
             </Text>
           </TouchableOpacity>
@@ -124,14 +124,14 @@ const Settings = () => {
   return (
     <SettingsContainer>
       <SettingsContent>
-        <Text weight="medium" fontSize={16} marginVertical={16}>
+        <Text weight="medium" fontSize="$lg" marginVertical={16}>
           PERSONALIZE
         </Text>
         <TouchableOpacity
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16}>
+          <Text weight="medium" fontSize="$lg">
             Preferences
           </Text>
           <Ionicons
@@ -144,7 +144,7 @@ const Settings = () => {
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16}>
+          <Text weight="medium" fontSize="$lg">
             Appearance
           </Text>
           <Ionicons
@@ -155,14 +155,14 @@ const Settings = () => {
         </TouchableOpacity>
       </SettingsContent>
       <SettingsContent>
-        <Text weight="medium" fontSize={16} marginVertical={16}>
+        <Text weight="medium" fontSize="$lg" marginVertical={16}>
           ACCOUNT
         </Text>
         <TouchableOpacity
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16}>
+          <Text weight="medium" fontSize="$lg">
             About Premium
           </Text>
           <Ionicons
@@ -175,7 +175,7 @@ const Settings = () => {
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16}>
+          <Text weight="medium" fontSize="$lg">
             Your Data
           </Text>
           <Ionicons
@@ -186,14 +186,14 @@ const Settings = () => {
         </TouchableOpacity>
       </SettingsContent>
       <SettingsContent>
-        <Text weight="medium" fontSize={16} marginVertical={16}>
+        <Text weight="medium" fontSize="$lg" marginVertical={16}>
           HELP AND SUPPORT
         </Text>
         <TouchableOpacity
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16}>
+          <Text weight="medium" fontSize="$lg">
             Frequently Asked Questions
           </Text>
           <Ionicons
@@ -206,7 +206,7 @@ const Settings = () => {
           style={settingsButtonStyles.ButtonStyleSubtle}
           onPress={ButtonTester}
         >
-          <Text weight="medium" fontSize={16}>
+          <Text weight="medium" fontSize="$lg">
             Report Bugs
           </Text>
           <Ionicons
@@ -224,7 +224,7 @@ const Settings = () => {
           }}
           onPress={() => supabase.auth.signOut()}
         >
-          <Text weight="medium" fontSize={16} color={"$white"}>
+          <Text weight="medium" fontSize="$lg" color={"$white"}>
             SIGN OUT
           </Text>
         </TouchableOpacity>

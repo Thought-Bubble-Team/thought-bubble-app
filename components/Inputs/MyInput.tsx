@@ -32,7 +32,7 @@ const MyInput = forwardRef<TamaguiElement, MyInputProps>((props, ref) => {
   return (
     <ViewContainer ref={ref}>
       <InputContainer>
-        <Text weight="light" fontSize={12} color={"$black"} opacity={0.57}>
+        <Text weight="light" fontSize="$sm" color={"$black"} opacity={0.57}>
           {label}
         </Text>
         <TextInput {...restProps} style={inputStyles.input} />
