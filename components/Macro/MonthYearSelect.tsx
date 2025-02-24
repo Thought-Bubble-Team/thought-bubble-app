@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import React, { useState } from "react";
 import { Select, Adapt, Sheet, YStack, Text } from "tamagui";
 
 const MonthYearSelect = () => {
