@@ -17,7 +17,7 @@ interface MyCardProps extends CardProps {
 }
 
 const CardStyled = styled(Card, {
-  backgroundColor: "$colorTransparent",
+  backgroundColor: "transparent",
 });
 
 const JournalDateText = styled(Text, {
@@ -31,17 +31,17 @@ export default function MyCard(props: MyCardProps) {
     <CardStyled
       elevate
       {...restProps}
-        paddingVertical={"$3"}
+      paddingVertical={"$3"}
       borderRadius={"$0"}
       width={"100%"}
     >
       {headerTitle !== undefined && (
         <Card.Header
           padded
-          backgroundColor={"$coloredBackground"}
+          backgroundColor={"$grey2"}
           borderTopRightRadius={"$4"}
         >
-          <Text weight="bold" fontSize={14} color={"$textColor"}>
+          <Text weight="bold" fontSize={14} color={"$text"}>
             {headerTitle}
           </Text>
         </Card.Header>
@@ -51,7 +51,7 @@ export default function MyCard(props: MyCardProps) {
         alignItems="center"
         justifyContent="center"
         padding={"$5"}
-        backgroundColor={"$subtleBackground"}
+        backgroundColor={"$grey0"}
         borderBottomLeftRadius={"$4"}
         borderBottomRightRadius={"$4"}
       >

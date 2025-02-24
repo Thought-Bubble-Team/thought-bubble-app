@@ -11,7 +11,7 @@ const ViewStyled = styled(TView, {
   alignItems: "center",
   justifyContent: "center",
   borderBottomWidth: "$1",
-  borderBottomColor: "#EAE2DE",
+  borderBottomColor: "$grey1",
   width: "100%",
   gap: "$4",
   padding: "$4",
