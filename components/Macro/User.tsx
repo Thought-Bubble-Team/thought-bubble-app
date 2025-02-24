@@ -1,6 +1,6 @@
 // Style Imports
 import { StyleSheet, TouchableOpacity, Alert } from "react-native";
-import { Button, styled, TamaguiElement, View, XStack, YStack } from "tamagui";
+import { styled, View, XStack, YStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 //@ts-ignore
