@@ -1,21 +1,15 @@
-import {
-  Modal as RNModal,
-  ModalProps as RNModalProps,
-  ViewStyle as RNViewStyle,
-} from "react-native";
-import { styled, View as TView } from "tamagui";
+import { Modal as RNModal } from "react-native";
+import { styled, View as TView, ViewProps as TViewProps } from "tamagui";
 
-interface ModalProps extends RNModalProps {
+interface ModalProps extends TViewProps {
   children?: React.ReactNode;
   modalVisible: boolean;
   setModalVisible?: React.Dispatch<React.SetStateAction<boolean>>;
-  styles?: RNViewStyle | RNViewStyle[];
   ref?: React.ForwardedRef<RNModal>;
 }
 
 const Modal = (props: ModalProps) => {
-  const { children, modalVisible, styles, ref, setModalVisible, ...restProps } =
-    props;
+  const { children, modalVisible, ref, setModalVisible, ...restProps } = props;
 
   return (
     <RNModal
@@ -27,10 +21,9 @@ const Modal = (props: ModalProps) => {
       animationType="fade"
       statusBarTranslucent={true}
       transparent={true}
-      {...restProps}
       ref={ref}
     >
-      <ViewStyled>{children}</ViewStyled>
+      <ViewStyled {...restProps}>{children}</ViewStyled>
     </RNModal>
   );
 };
@@ -39,9 +32,8 @@ const ViewStyled = styled(TView, {
   flex: 1,
   justifyContent: "center",
   alignItems: "center",
-  backgroundColor: "$grey5",
+  backgroundColor: "rgba(132, 98, 88, 0.55)",
   padding: 16,
-  opacity: 0.5,
 });
 
 export default Modal;
