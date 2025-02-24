@@ -122,11 +122,11 @@ export default function MyCard(props: MyCardProps) {
             gap={"$2"}
           >
             {!emotion && <SmugIcon width={24} height={24} />}
-            <Text weight="bold" fontSize={14} color={"$text"} opacity={0.8}>
+            <Text weight="bold" fontSize={14} color={"$black"}>
               {journalEntry.title}
             </Text>
           </View>
-          <Text weight="bold" fontSize={14} color={"$text"} opacity={0.4}>
+          <Text weight="bold" fontSize={14} color={"$black"} opacity={0.4}>
             {formatTime(journalEntry.created_at)}
           </Text>
         </Card.Header>
@@ -141,7 +141,7 @@ export default function MyCard(props: MyCardProps) {
         borderBottomRightRadius={"$4"}
       >
         {journalEntry && (
-          <Text fontSize={14} color={"$text"} opacity={0.8}>
+          <Text fontSize={14} color={"$black"}>
             {journalEntry.content}
           </Text>
         )}

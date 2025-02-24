@@ -10,6 +10,7 @@ import Text from "../Micro/Text";
 // Utility Imports
 import { useState } from "react";
 import { supabase } from "@/utils/supabase/supabase";
+import { useTheme } from "tamagui";
 
 // @ts-ignore
 import Logo from "../../assets/icons/logoTemp.svg";
@@ -21,6 +22,7 @@ interface SignUpProps {
 
 export default function SignUp(props: SignUpProps) {
   const { setIsSignUp, setLoading } = props;
+  const theme = useTheme();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -76,17 +78,20 @@ export default function SignUp(props: SignUpProps) {
         onChangeText={setConfirmPassword}
       />
       <TouchableOpacity
-        style={buttonStyles.ButtonStyledColored}
+        style={[
+          buttonStyles.ButtonStyledColored,
+          { backgroundColor: theme.primary?.val },
+        ]}
         onPress={signUpWithEmail}
       >
-        <Text weight="bold" fontSize={16} color={"$textColorAlt"}>
+        <Text weight="bold" fontSize={16} color={"$white"}>
           SIGNUP
         </Text>
       </TouchableOpacity>
       <Footer>
         <Text weight="light">Already have an account?</Text>
         <TouchableOpacity onPress={() => setIsSignUp(false)}>
-          <Text weight="bold" color={"$accent"}>
+          <Text weight="bold" color={"$primary"}>
             Login
           </Text>
         </TouchableOpacity>
@@ -118,8 +123,6 @@ const buttonStyles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     padding: 16,
-    backgroundColor: "#CB806A",
-    color: "#fff",
     borderRadius: 32,
   },
 });

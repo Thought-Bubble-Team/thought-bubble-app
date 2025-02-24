@@ -24,7 +24,7 @@ const MyInput = forwardRef<TamaguiElement, MyInputProps>((props, ref) => {
       fontFamily: "Montserrat_500Medium",
       fontSize: 13,
       backgroundColor: "transparent",
-      color: "$text",
+      color: "$black",
       paddingVertical: 4,
     },
   });
@@ -32,17 +32,17 @@ const MyInput = forwardRef<TamaguiElement, MyInputProps>((props, ref) => {
   return (
     <ViewContainer ref={ref}>
       <InputContainer>
-        <Text weight="light" fontSize={12} color={"$text"} opacity={0.55}>
+        <Text weight="light" fontSize={12} color={"$black"} opacity={0.57}>
           {label}
         </Text>
         <TextInput {...restProps} style={inputStyles.input} />
       </InputContainer>
-      {!label && <Ionicons name="help" size={24} color={theme.text?.val} />}
+      {!label && <Ionicons name="help" size={24} color={theme.black?.val} />}
       {label === "Email" && (
         <Ionicons
           name="mail"
           size={24}
-          color={theme.text?.val}
+          color={theme.black?.val}
           style={{ opacity: 0.55 }}
         />
       )}
@@ -50,7 +50,7 @@ const MyInput = forwardRef<TamaguiElement, MyInputProps>((props, ref) => {
         <Ionicons
           name="eye"
           size={24}
-          color={theme.text?.val}
+          color={theme.black?.val}
           style={{ opacity: 0.55 }}
         />
       )}

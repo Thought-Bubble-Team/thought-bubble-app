@@ -41,7 +41,7 @@ export default function MyCard(props: MyCardProps) {
           backgroundColor={"$grey2"}
           borderTopRightRadius={"$4"}
         >
-          <Text weight="bold" fontSize={14} color={"$text"}>
+          <Text weight="bold" fontSize={14} color={"$black"}>
             {headerTitle}
           </Text>
         </Card.Header>
