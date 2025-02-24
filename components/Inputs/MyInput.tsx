@@ -5,6 +5,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import Text from "@/components/Micro/Text";
 
 import { forwardRef } from "react";
+import { useTheme } from "tamagui";
 
 interface MyInputProps extends TextInputProps {
   label: string;
@@ -12,21 +13,46 @@ interface MyInputProps extends TextInputProps {
 
 const MyInput = forwardRef<TamaguiElement, MyInputProps>((props, ref) => {
   const { label, ...restProps } = props;
+  const theme = useTheme();
+
+  const inputStyles = StyleSheet.create({
+    input: {
+      display: "flex",
+      width: "100%",
+      justifyContent: "flex-start",
+      alignItems: "center",
+      fontFamily: "Montserrat_500Medium",
+      fontSize: 13,
+      backgroundColor: "transparent",
+      color: "$text",
+      paddingVertical: 4,
+    },
+  });
 
   return (
-    <ViewContainer>
+    <ViewContainer ref={ref}>
       <InputContainer>
-        <Text weight="light" fontSize={12} color={"$subtleTextColor"}>
+        <Text weight="light" fontSize={12} color={"$text"} opacity={0.55}>
           {label}
         </Text>
         <TextInput {...restProps} style={inputStyles.input} />
       </InputContainer>
-      {!label && <Ionicons name="help" size={24} color={"#7c7876"} />}
+      {!label && <Ionicons name="help" size={24} color={theme.text?.val} />}
       {label === "Email" && (
-        <Ionicons name="mail" size={24} color={"#7c7876"} />
+        <Ionicons
+          name="mail"
+          size={24}
+          color={theme.text?.val}
+          style={{ opacity: 0.55 }}
+        />
       )}
       {label === "Password" && (
-        <Ionicons name="eye" size={24} color={"#7c7876"} />
+        <Ionicons
+          name="eye"
+          size={24}
+          color={theme.text?.val}
+          style={{ opacity: 0.55 }}
+        />
       )}
     </ViewContainer>
   );
@@ -39,25 +65,11 @@ const ViewContainer = styled(XStack, {
   paddingVertical: 6,
   justifyContent: "space-between",
   alignItems: "center",
-  backgroundColor: "$coloredBackground",
+  backgroundColor: "$grey2",
 });
 
 const InputContainer = styled(YStack, {
   alignItems: "flex-start",
-});
-
-const inputStyles = StyleSheet.create({
-  input: {
-    display: "flex",
-    width: "100%",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    fontFamily: "Montserrat_500Medium",
-    fontSize: 13,
-    backgroundColor: "transparent",
-    color: "$textColor",
-    paddingVertical: 4,
-  },
 });
 
 export default MyInput;
