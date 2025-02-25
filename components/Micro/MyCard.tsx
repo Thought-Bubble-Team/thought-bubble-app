@@ -1,13 +1,4 @@
-import {
-  Card,
-  CardProps,
-  Button,
-  View,
-  Paragraph,
-  styled,
-  XStack,
-  YStack,
-} from "tamagui";
+import { Card, CardProps, View, styled } from "tamagui";
 
 import Text from "@/components/Micro/Text";
 
@@ -20,10 +11,10 @@ const CardStyled = styled(Card, {
   backgroundColor: "transparent",
 });
 
-const JournalDateText = styled(Text, {
-  fontSize: 18,
-  fontWeight: "bold",
-});
+// const JournalDateText = styled(Text, {
+//   fontSize: 18,
+//   fontWeight: "bold",
+// });
 
 export default function MyCard(props: MyCardProps) {
   const { headerTitle, children, ...restProps } = props;

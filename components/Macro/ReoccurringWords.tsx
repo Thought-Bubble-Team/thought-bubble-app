@@ -1,7 +1,5 @@
 import { XStack, View } from "tamagui";
 
-import { formatDate } from "@/utils/dateFormat";
-
 import Text from "@/components/Micro/Text";
 
 interface Mood {
@@ -21,9 +19,9 @@ type EmotionType = {
   created_at: string;
 };
 
-interface ReoccurringWordsProps {
-  emotions: EmotionType[];
-}
+// interface ReoccurringWordsProps {
+//   emotions: EmotionType[];
+// }
 
 export default function ReoccurringWords() {
   // const { emotions } = props;
