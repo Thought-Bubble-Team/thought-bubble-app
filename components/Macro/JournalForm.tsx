@@ -6,6 +6,8 @@ import { styled, View, Input, Button, Spinner } from "tamagui";
 
 import MyScrollView from "../Micro/MyScrollView";
 
+import { useTheme } from "tamagui";
+
 import {
   createJournalEntry,
   getJournalEntry,
@@ -24,6 +26,8 @@ interface JournalEntryProps {
 
 export default function JournalForm(props: JournalEntryProps) {
   const { journalEntry, setModalVisible } = props;
+  const theme = useTheme();
+
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [message, setMessage] = useState("");
   const [images, setImages] = useState<string[] | undefined>(undefined);
@@ -151,24 +155,24 @@ export default function JournalForm(props: JournalEntryProps) {
           backgroundColor={"transparent"}
           onPress={() => setModalVisible && setModalVisible(false)}
         >
-          <Ionicons name="close-outline" size={24} color="#443E3B" />
+          <Ionicons name="close-outline" size={24} color={theme.black?.val} />
         </Button>
       </View>
 
       {/* Editable Message */}
-      <MyScrollView backgroundColor={"$subtleBackground"}>
+      <MyScrollView backgroundColor={"$grey0"}>
         <MessageInput
           multiline
           placeholder="Enter your message..."
           value={message}
           onChangeText={setMessage}
-          backgroundColor={"$subtleBackground"}
+          backgroundColor={"$grey0"}
         />
       </MyScrollView>
 
       {/* Images */}
       {images !== undefined && (
-        <MyScrollView horizontal backgroundColor={"$subtleBackground"}>
+        <MyScrollView horizontal backgroundColor={"$grey0"}>
           {images.map((image, index) => (
             <ImageWrapper key={index} style={{ zIndex: images.length - index }}>
               <ImageStyled source={{ uri: image }} />
@@ -177,7 +181,7 @@ export default function JournalForm(props: JournalEntryProps) {
                   <Ionicons
                     name="close-outline"
                     size={12}
-                    color="#fff"
+                    color={theme.white?.val}
                     style={{ zIndex: 15 }}
                   />
                 </RemoveButton>
@@ -190,10 +194,14 @@ export default function JournalForm(props: JournalEntryProps) {
       {/* Footer - Buttons */}
       <Footer>
         <ButtonStyled onPress={pickImageAsync}>
-          <Ionicons name="images-outline" size={35} color="#443E3B" />
+          <Ionicons name="images-outline" size={35} color={theme.black?.val} />
         </ButtonStyled>
         <ButtonStyled onPress={handleSubmit}>
-          <Ionicons name="checkmark-done-outline" size={35} color="#443E3B" />
+          <Ionicons
+            name="checkmark-done-outline"
+            size={35}
+            color={theme.black?.val}
+          />
         </ButtonStyled>
       </Footer>
     </ViewStyled>
@@ -202,7 +210,7 @@ export default function JournalForm(props: JournalEntryProps) {
 
 const ViewStyled = styled(View, {
   width: "100%",
-  backgroundColor: "$subtleBackground",
+  backgroundColor: "$grey0",
   borderBottomLeftRadius: "$4",
   borderBottomRightRadius: "$4",
   padding: "$5",
@@ -221,8 +229,8 @@ const RemoveImageWrapper = styled(View, {
   height: 24,
   borderRadius: 32,
   borderWidth: 2,
-  borderColor: "$subtleBackground",
-  backgroundColor: "$coloredBackground",
+  borderColor: "$grey0",
+  backgroundColor: "$grey2",
   justifyContent: "center",
   alignItems: "center",
   zIndex: 10,
@@ -246,8 +254,8 @@ const TitleInput = styled(Input, {
   fontFamily: "Montserrat_700Bold",
   fontSize: 15,
   borderWidth: 0,
-  backgroundColor: "$subtleBackground",
-  color: "$textColor",
+  backgroundColor: "$grey0",
+  color: "$black",
   paddingHorizontal: 0,
   paddingVertical: "$3",
 });
@@ -257,7 +265,7 @@ const MessageInput = styled(Input, {
   fontSize: 16,
   textAlignVertical: "top",
   borderWidth: 0,
-  borderColor: "$subtleTextColor",
+  borderColor: "$grey0",
   paddingHorizontal: 0,
   paddingVertical: "$3",
 });
@@ -272,6 +280,6 @@ const ButtonStyled = styled(Button, {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  backgroundColor: "$subtleBackground",
+  backgroundColor: "$grey0",
   borderWidth: 0,
 });

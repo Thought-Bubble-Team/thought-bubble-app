@@ -61,7 +61,7 @@ interface MyCardProps extends CardProps {
 }
 
 const CardStyled = styled(Card, {
-  backgroundColor: "$colorTransparent",
+  backgroundColor: "transparent",
 });
 
 const JournalDateText = styled(Text, {
@@ -101,14 +101,14 @@ export default function MyCard(props: MyCardProps) {
     <CardStyled
       elevate
       {...restProps}
-        paddingVertical={"$3"}
+      paddingVertical={"$3"}
       borderRadius={"$0"}
       width={"100%"}
     >
       {journalEntry && (
         <Card.Header
           padded
-          backgroundColor={"$coloredBackground"}
+          backgroundColor={"$grey2"}
           borderTopRightRadius={"$4"}
           flexDirection="row"
           justifyContent="space-between"
@@ -121,14 +121,12 @@ export default function MyCard(props: MyCardProps) {
             alignItems="center"
             gap={"$2"}
           >
-            {!emotion &&
-                <SmugIcon width={24} height={24} />
-            }
-            <Text weight="bold" fontSize={14} color={"$textColor"}>
+            {!emotion && <SmugIcon width={24} height={24} />}
+            <Text weight="bold" fontSize="$lg" color={"$black"}>
               {journalEntry.title}
             </Text>
           </View>
-          <Text weight="bold" fontSize={14} color={"$subtleTextColor"}>
+          <Text weight="bold" fontSize="$lg" color={"$black"} opacity={0.4}>
             {formatTime(journalEntry.created_at)}
           </Text>
         </Card.Header>
@@ -138,12 +136,12 @@ export default function MyCard(props: MyCardProps) {
         alignItems="flex-start"
         justifyContent="center"
         padding={"$5"}
-        backgroundColor={"$subtleBackground"}
+        backgroundColor={"$grey0"}
         borderBottomLeftRadius={"$4"}
         borderBottomRightRadius={"$4"}
       >
         {journalEntry && (
-          <Text fontSize={14} color={"$textColor"}>
+          <Text fontSize="$lg" color={"$black"}>
             {journalEntry.content}
           </Text>
         )}

@@ -1,13 +1,4 @@
-import {
-  Card,
-  CardProps,
-  Button,
-  View,
-  Paragraph,
-  styled,
-  XStack,
-  YStack,
-} from "tamagui";
+import { Card, CardProps, View, styled } from "tamagui";
 
 import Text from "@/components/Micro/Text";
 
@@ -17,13 +8,13 @@ interface MyCardProps extends CardProps {
 }
 
 const CardStyled = styled(Card, {
-  backgroundColor: "$colorTransparent",
+  backgroundColor: "transparent",
 });
 
-const JournalDateText = styled(Text, {
-  fontSize: 18,
-  fontWeight: "bold",
-});
+// const JournalDateText = styled(Text, {
+//   fontSize: 18,
+//   fontWeight: "bold",
+// });
 
 export default function MyCard(props: MyCardProps) {
   const { headerTitle, children, ...restProps } = props;
@@ -31,17 +22,17 @@ export default function MyCard(props: MyCardProps) {
     <CardStyled
       elevate
       {...restProps}
-        paddingVertical={"$3"}
+      paddingVertical={"$sm"}
       borderRadius={"$0"}
       width={"100%"}
     >
       {headerTitle !== undefined && (
         <Card.Header
           padded
-          backgroundColor={"$coloredBackground"}
+          backgroundColor={"$grey2"}
           borderTopRightRadius={"$4"}
         >
-          <Text weight="bold" fontSize={14} color={"$textColor"}>
+          <Text weight="bold" fontSize="$md" color={"$black"}>
             {headerTitle}
           </Text>
         </Card.Header>
@@ -50,8 +41,8 @@ export default function MyCard(props: MyCardProps) {
         display="flex"
         alignItems="center"
         justifyContent="center"
-        padding={"$5"}
-        backgroundColor={"$subtleBackground"}
+        padding={"$xxl"}
+        backgroundColor={"$grey0"}
         borderBottomLeftRadius={"$4"}
         borderBottomRightRadius={"$4"}
       >

@@ -26,10 +26,15 @@ const TextStyled = styled(TText, {
 });
 
 export default function Text(props: MyTextProps) {
-  const { children, weight, ...restProps } = props;
+  const { children, weight, color, ...restProps } = props;
 
   return (
-    <TextStyled weight={weight} {...restProps}>
+    <TextStyled
+      testID={"textID"}
+      weight={weight}
+      color={!color ? "$black" : color}
+      {...restProps}
+    >
       {children}
     </TextStyled>
   );

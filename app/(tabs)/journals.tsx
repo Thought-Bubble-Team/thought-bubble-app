@@ -19,8 +19,10 @@ import { Alert, RefreshControl, TouchableOpacity } from "react-native";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
 import Modal from "@/components/Micro/Modal";
 import JournalForm from "@/components/Macro/JournalForm";
+import { useTheme } from "tamagui";
 
 export default function Journals() {
+  const theme = useTheme();
   const session = useSessionStore((state) => state.session);
   const setSession = useSessionStore((state) => state.setSession);
   const [journals, setJournals] = useState<JournalEntryType[]>([]);
@@ -64,7 +66,7 @@ export default function Journals() {
       {session && (
         <Container>
           <Header>
-            <Text weight="bold" fontSize={30} color={"$textColor"}>
+            <Text weight="bold" fontSize="$xxxl">
               Your Journey
             </Text>
           </Header>
@@ -95,6 +97,7 @@ interface JournalEntryProps {
 
 const JournalEntry = (props: JournalEntryProps) => {
   const { journalEntry } = props;
+  const theme = useTheme();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const formattedDate = formatDate(journalEntry.created_at);
@@ -102,22 +105,26 @@ const JournalEntry = (props: JournalEntryProps) => {
 
   return (
     <EntryContainer
-      borderBottomColor={"$subtleTextColor"}
+      borderBottomColor={"$divider"}
       borderBottomWidth={1}
-      paddingVertical={"$3"}
+      paddingVertical={"$5"}
     >
       <EntryHeader>
         <XStack>
-          <Text weight="bold" fontSize={20} color={"$textColor"}>
+          <Text weight="bold" fontSize="$xl">
             {splitDate[0]}
           </Text>
-          <Text weight="bold" fontSize={20} color={"$subtleTextColor"}>
+          <Text weight="bold" fontSize="$xl" opacity={0.57}>
             {splitDate[1]}
           </Text>
         </XStack>
-        <ButtonStyled>
-          <Ionicons name="settings-outline" size={18} color="#443E3B" />
-        </ButtonStyled>
+        {/*<ButtonStyled>*/}
+        {/*  <Ionicons*/}
+        {/*    name="settings-outline"*/}
+        {/*    size={18}*/}
+        {/*    color={theme.black?.val}*/}
+        {/*  />*/}
+        {/*</ButtonStyled>*/}
       </EntryHeader>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <JournalCard journalEntry={journalEntry}></JournalCard>

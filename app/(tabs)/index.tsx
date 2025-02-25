@@ -74,11 +74,12 @@ export default function Index() {
       backgroundColor={"$background"}
     >
       <Header>
-        <Text weight="bold" fontSize={30} color={"$textColor"}>
+        <Text weight="bold" fontSize="$xxxl" color={"$black"}>
           Hello, User!
         </Text>
         <MySelect
-          color={"$subtleTextColor"}
+          color={"$black"}
+          opacity={0.57}
           val={val}
           setVal={setVal}
           date={dateOptions}

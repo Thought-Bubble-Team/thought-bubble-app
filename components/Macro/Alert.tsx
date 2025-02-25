@@ -28,7 +28,7 @@ const Alert = (props: AlertProps) => {
     <Modal
       modalVisible={modalVisible}
       setModalVisible={setModalVisible}
-      styles={{ paddingHorizontal: 48 }}
+      paddingHorizontal={48}
       {...restProps}
     >
       <MyCard headerTitle={header}>

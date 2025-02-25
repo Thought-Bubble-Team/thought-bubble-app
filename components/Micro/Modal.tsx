@@ -1,22 +1,15 @@
-import {
-  StyleSheet,
-  Modal as RNModal,
-  ModalProps as RNModalProps,
-  ViewStyle as RNViewStyle,
-} from "react-native";
-import { TamaguiElement, View as TView } from "tamagui";
+import { Modal as RNModal } from "react-native";
+import { styled, View as TView, ViewProps as TViewProps } from "tamagui";
 
-interface ModalProps extends RNModalProps {
+interface ModalProps extends TViewProps {
   children?: React.ReactNode;
   modalVisible: boolean;
   setModalVisible?: React.Dispatch<React.SetStateAction<boolean>>;
-  styles?: RNViewStyle | RNViewStyle[];
   ref?: React.ForwardedRef<RNModal>;
 }
 
 const Modal = (props: ModalProps) => {
-  const { children, modalVisible, styles, ref, setModalVisible, ...restProps } =
-    props;
+  const { children, modalVisible, ref, setModalVisible, ...restProps } = props;
 
   return (
     <RNModal
@@ -28,22 +21,19 @@ const Modal = (props: ModalProps) => {
       animationType="fade"
       statusBarTranslucent={true}
       transparent={true}
-      {...restProps}
       ref={ref}
     >
-      <TView style={[localStyles.modal, styles]}>{children}</TView>
+      <ViewStyled {...restProps}>{children}</ViewStyled>
     </RNModal>
   );
 };
 
-const localStyles = StyleSheet.create({
-  modal: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-    padding: 16,
-  },
+const ViewStyled = styled(TView, {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "rgba(132, 98, 88, 0.55)",
+  padding: "$lg",
 });
 
 export default Modal;

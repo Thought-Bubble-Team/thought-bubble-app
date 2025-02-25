@@ -10,6 +10,7 @@ import Text from "../Micro/Text";
 // Utility Imports
 import { useState } from "react";
 import { supabase } from "@/utils/supabase/supabase";
+import { useTheme } from "tamagui";
 
 // @ts-ignore
 import Logo from "@/assets/icons/logoTemp.svg";
@@ -21,6 +22,7 @@ interface LoginProps {
 
 export default function Login(props: LoginProps) {
   const { setIsSignUp, setLoading } = props;
+  const theme = useTheme();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -40,10 +42,10 @@ export default function Login(props: LoginProps) {
   return (
     <MainContainer>
       <Logo width={100} height={100} />
-      <Text weight="bold" fontSize={18}>
+      <Text weight="bold" fontSize="$xl">
         Welcome to Thought Bubble!
       </Text>
-      <Text weight="light" fontSize={13}>
+      <Text weight="light" fontSize="$md">
         Welcome back! Login to continue your journey.
       </Text>
       <MyInput
@@ -59,17 +61,20 @@ export default function Login(props: LoginProps) {
         onChangeText={setPassword}
       />
       <TouchableOpacity
-        style={buttonStyles.ButtonStyledColored}
+        style={[
+          buttonStyles.ButtonStyledColored,
+          { backgroundColor: theme.primary?.val },
+        ]}
         onPress={signInWithEmail}
       >
-        <Text weight="bold" fontSize={16} color={"$textColorAlt"}>
+        <Text weight="bold" fontSize="$lg" color={"$white"}>
           LOGIN
         </Text>
       </TouchableOpacity>
       <Footer>
         <Text weight="light">Don't have an account?</Text>
         <TouchableOpacity onPress={() => setIsSignUp(true)}>
-          <Text weight="bold" color={"$accent"}>
+          <Text weight="bold" color={"$primary"}>
             Signup
           </Text>
         </TouchableOpacity>
@@ -101,8 +106,6 @@ const buttonStyles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     padding: 16,
-    backgroundColor: "#CB806A",
-    color: "#fff",
     borderRadius: 32,
   },
 });

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import React, { useState } from "react";
 import { Select, Adapt, Sheet, YStack, Text } from "tamagui";
 
 const MonthYearSelect = () => {
@@ -36,7 +35,7 @@ const MonthYearSelect = () => {
 
   return (
     <YStack space="$4" padding="$4">
-      <Text fontSize={16} fontWeight="bold">
+      <Text fontSize="$lg" fontWeight="bold">
         Select Month & Year:
       </Text>
       <Select value={selectedDate} onValueChange={setSelectedDate}>

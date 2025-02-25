@@ -5,7 +5,7 @@ const ViewStyled = styled(View, {
   flex: 1,
   alignItems: "center",
   justifyContent: "center",
-  gap: "$3",
+  gap: "$sm",
 });
 
 const MyView = forwardRef<TamaguiElement, ViewProps>((props, ref) => {

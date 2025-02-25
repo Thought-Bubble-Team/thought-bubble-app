@@ -1,6 +1,8 @@
-import { useState, useMemo, SetStateAction, Dispatch } from "react";
+import { useMemo, SetStateAction, Dispatch } from "react";
 import { Select, SelectProps, Adapt, Sheet, YStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
+
+import { useTheme } from "tamagui";
 
 interface MySelectProps extends SelectProps {
   val: string;
@@ -8,6 +10,7 @@ interface MySelectProps extends SelectProps {
   date: { id: number; date: string }[];
   borderWidth?: number;
   color?: string;
+  opacity?: number;
 }
 
 export default function MySelect({
@@ -16,13 +19,25 @@ export default function MySelect({
   date,
   borderWidth,
   color,
+  opacity,
   ...restProps
 }: MySelectProps) {
+  const theme = useTheme();
   return (
     <Select value={val} onValueChange={setVal} disablePreventBodyScroll>
       <Select.Trigger width={125} borderWidth={borderWidth}>
-        <Select.Value placeholder="Jan 2025" color={color} size={16} />
-        <Ionicons name="chevron-down-sharp" size={16} color={"#7C7876"} />
+        <Select.Value
+          placeholder="Jan 2025"
+          color={color}
+          size={16}
+          opacity={opacity}
+        />
+        <Ionicons
+          name="chevron-down-sharp"
+          size={16}
+          color={theme.black?.val}
+          style={{ opacity: opacity }}
+        />
       </Select.Trigger>
 
       <Adapt when="sm" platform="touch">
@@ -75,7 +90,7 @@ export default function MySelect({
                     </Select.ItemIndicator>
                   </Select.Item>
                 )),
-              [date]
+              [date],
             )}
           </Select.Group>
         </Select.Viewport>
