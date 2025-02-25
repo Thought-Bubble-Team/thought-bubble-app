@@ -33,7 +33,7 @@ const ViewStyled = styled(TView, {
   justifyContent: "center",
   alignItems: "center",
   backgroundColor: "rgba(132, 98, 88, 0.55)",
-  padding: 16,
+  padding: "$lg",
 });
 
 export default Modal;

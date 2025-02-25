@@ -26928,14 +26928,14 @@
           "isVar": true,
           "key": "$sm",
           "name": "t-size-sm",
-          "val": 10,
+          "val": 12,
           "variable": ""
         },
         "md": {
           "isVar": true,
           "key": "$md",
           "name": "t-size-md",
-          "val": 12,
+          "val": 14,
           "variable": ""
         },
         "lg": {
@@ -27378,14 +27378,14 @@
           "isVar": true,
           "key": "$sm",
           "name": "t-space-sm",
-          "val": 10,
+          "val": 12,
           "variable": ""
         },
         "md": {
           "isVar": true,
           "key": "$md",
           "name": "t-space-md",
-          "val": 12,
+          "val": 14,
           "variable": ""
         },
         "lg": {
@@ -29400,14 +29400,14 @@
         "isVar": true,
         "key": "$sm",
         "name": "t-size-sm",
-        "val": 10,
+        "val": 12,
         "variable": ""
       },
       "$size.md": {
         "isVar": true,
         "key": "$md",
         "name": "t-size-md",
-        "val": 12,
+        "val": 14,
         "variable": ""
       },
       "$size.lg": {
@@ -29848,14 +29848,14 @@
         "isVar": true,
         "key": "$sm",
         "name": "t-space-sm",
-        "val": 10,
+        "val": 12,
         "variable": ""
       },
       "$space.md": {
         "isVar": true,
         "key": "$md",
         "name": "t-space-md",
-        "val": 12,
+        "val": 14,
         "variable": ""
       },
       "$space.lg": {

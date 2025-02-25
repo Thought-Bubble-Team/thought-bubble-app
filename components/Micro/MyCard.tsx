@@ -31,7 +31,7 @@ export default function MyCard(props: MyCardProps) {
     <CardStyled
       elevate
       {...restProps}
-      paddingVertical={"$3"}
+      paddingVertical={"$sm"}
       borderRadius={"$0"}
       width={"100%"}
     >
@@ -50,7 +50,7 @@ export default function MyCard(props: MyCardProps) {
         display="flex"
         alignItems="center"
         justifyContent="center"
-        padding={"$5"}
+        padding={"$xxl"}
         backgroundColor={"$grey0"}
         borderBottomLeftRadius={"$4"}
         borderBottomRightRadius={"$4"}

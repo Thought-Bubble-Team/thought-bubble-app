@@ -26,7 +26,7 @@ export default function UserTab() {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setSession(session);
-      }
+      },
     );
 
     return () => {
@@ -71,6 +71,6 @@ const FormContainer = styled(View, {
   justifyContent: "center",
   alignItems: "center",
   height: "100%",
-  padding: "$8",
+  padding: "$xxxl",
   backgroundColor: "$background",
 });

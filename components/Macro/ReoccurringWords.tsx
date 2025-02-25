@@ -43,10 +43,14 @@ export default function ReoccurringWords() {
   ];
 
   return (
-    <XStack gap={"$2"} flexWrap="wrap">
+    <XStack gap={"$xs"} flexWrap="wrap">
       {moods.map((mood, index) => (
         <View key={index} backgroundColor={mood.color} borderRadius={"$8"}>
-          <Text fontSize="$md" paddingVertical={"$2"} paddingHorizontal={"$3"}>
+          <Text
+            fontSize="$md"
+            paddingVertical={"$xs"}
+            paddingHorizontal={"$sm"}
+          >
             {mood.emotion}
           </Text>
         </View>

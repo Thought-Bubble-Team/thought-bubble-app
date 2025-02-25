@@ -13,8 +13,7 @@ const ViewStyled = styled(TView, {
   borderBottomWidth: "$1",
   borderBottomColor: "$grey1",
   width: "100%",
-  gap: "$4",
-  padding: "$4",
+  padding: "$lg",
 });
 
 const Header = forwardRef<TamaguiElement, TViewProps>((props, ref) => {
