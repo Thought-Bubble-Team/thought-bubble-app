@@ -67,7 +67,7 @@ export const ButtonText = styled(Text, {
       },
       navigation: {
         color: "$black",
-        weight: "regular",
+        weight: "medium",
       },
       icon: {
         color: "$primary",
