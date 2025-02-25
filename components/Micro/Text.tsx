@@ -30,6 +30,7 @@ export default function Text(props: MyTextProps) {
 
   return (
     <TextStyled
+      testID={"textID"}
       weight={weight}
       color={!color ? "$black" : color}
       {...restProps}
