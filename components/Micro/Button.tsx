@@ -6,7 +6,7 @@ import {
 } from "tamagui";
 import { styled, View, Spinner } from "tamagui";
 import Text from "@/components/Micro/Text";
-import React, { forwardRef } from "react";
+import React, { forwardRef, isValidElement } from "react";
 
 export const ButtonContext = createStyledContext({
   type: "normal",
@@ -94,7 +94,7 @@ const ButtonIcon = (props: { children: React.ReactNode }) => {
     ? null
     : React.cloneElement(props.children, {
         ...props.children.props,
-        color: colorToken,
+        // color: colorToken,
         size: sizeToken,
       });
 };
