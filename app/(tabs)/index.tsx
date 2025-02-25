@@ -1,3 +1,5 @@
+import Ionicons from "@expo/vector-icons/Ionicons";
+
 // Components Import
 import MyScrollView from "@/components/Micro/MyScrollView";
 import MyView from "@/components/Micro/MyView";
@@ -6,9 +8,10 @@ import Text from "@/components/Micro/Text";
 import ReoccurringWords from "@/components/Macro/ReoccurringWords";
 import MySelect from "@/components/Micro/MySelect";
 import Header from "@/components/Micro/Header";
+import { Button } from "@/components/Micro/Button";
 
 // Utilities Import
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Alert } from "react-native";
 import {
   useBoolVariation,
@@ -47,6 +50,7 @@ for (let year = startYear; year <= currentYear; year++) {
 
 export default function Index() {
   const [val, setVal] = useState<string>("Jan 2025");
+  const buttonRef = useRef(null);
   const [loading, setLoading] = useState<boolean>(false);
 
   const FEATURE_FLAGS = {
@@ -66,6 +70,13 @@ export default function Index() {
       .identify({ kind: "user", key: "example-user-key", name: "Sandy" })
       .catch((e: any) => Alert.alert(("Error: " + e) as string));
   }, []);
+
+  const handlePress = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
 
   return (
     <MyView

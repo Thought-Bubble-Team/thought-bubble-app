@@ -1,4 +1,5 @@
-import { Text as TText, TextProps, styled } from "tamagui";
+import { Text as TText, TextProps, styled, TamaguiTextElement } from "tamagui";
+import { forwardRef } from "react";
 
 interface MyTextProps extends TextProps {
   weight?: "light" | "regular" | "medium" | "bold";
@@ -6,7 +7,6 @@ interface MyTextProps extends TextProps {
 }
 
 const TextStyled = styled(TText, {
-  name: "MyText",
   variants: {
     weight: {
       light: {
@@ -25,7 +25,7 @@ const TextStyled = styled(TText, {
   },
 });
 
-export default function Text(props: MyTextProps) {
+const Text = forwardRef<TamaguiTextElement, MyTextProps>((props, ref) => {
   const { children, weight, color, ...restProps } = props;
 
   return (
@@ -34,8 +34,11 @@ export default function Text(props: MyTextProps) {
       weight={weight}
       color={!color ? "$black" : color}
       {...restProps}
+      ref={ref}
     >
       {children}
     </TextStyled>
   );
-}
+});
+
+export default Text;

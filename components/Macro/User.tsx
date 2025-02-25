@@ -1,5 +1,5 @@
 // Style Imports
-import { StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, Alert } from "react-native";
 import { styled, View, XStack, YStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
@@ -7,8 +7,9 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import BackLine from "@/assets/icons/backLine.svg";
 
 // Component Imports
-import Text from "../Micro/Text";
-import MyScrollView from "../Micro/MyScrollView";
+import Text from "@/components/Micro/Text";
+import MyScrollView from "@/components/Micro/MyScrollView";
+import { Button } from "@/components/Micro/Button";
 import { supabase } from "@/utils/supabase/supabase";
 
 // Utility Imports
@@ -29,24 +30,6 @@ const ButtonTester = () => {
 
 export default function User(props: UserProps) {
   const { session } = props;
-  const theme = useTheme();
-
-  const buttonStyles = StyleSheet.create({
-    ButtonStyledColored: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      width: "100%",
-      padding: 5,
-      borderRadius: 32,
-    },
-    ButtonTransparent: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      backgroundColor: "transparent",
-    },
-  });
 
   const imageStyles = StyleSheet.create({
     image: {
@@ -60,12 +43,9 @@ export default function User(props: UserProps) {
     <MainContainer>
       <UtilitiesContainer>
         <XStack gap="$5" alignItems="center">
-          <TouchableOpacity
-            style={buttonStyles.ButtonTransparent}
-            onPress={ButtonTester}
-          >
+          <Button type={"icon"} onPress={ButtonTester}>
             <BackLine width={24} height={24} />
-          </TouchableOpacity>
+          </Button>
           <Text weight="bold" fontSize="$xl">
             Profile
           </Text>
@@ -86,17 +66,15 @@ export default function User(props: UserProps) {
           <Text fontSize="$md" color={"$black"} opacity={0.57}>
             {session.user.email}
           </Text>
-          <TouchableOpacity
-            style={[
-              buttonStyles.ButtonStyledColored,
-              { backgroundColor: theme.primary?.val, marginTop: 16 },
-            ]}
+          <Button
+            type={"normal"}
+            width="80%"
+            padding={5}
+            marginTop={16}
             onPress={ButtonTester}
           >
-            <Text color="$white" fontSize="$md">
-              Edit Profile
-            </Text>
-          </TouchableOpacity>
+            <Button.Text fontSize="$md">Edit Profile</Button.Text>
+          </Button>
         </YStack>
       </ProfileContainer>
       <Settings />
@@ -107,127 +85,81 @@ export default function User(props: UserProps) {
 const Settings = () => {
   const theme = useTheme();
 
-  const settingsButtonStyles = StyleSheet.create({
-    ButtonStyleSubtle: {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      width: "100%",
-      borderRadius: 20,
-      paddingVertical: 20,
-      paddingHorizontal: 24,
-      backgroundColor: theme.grey1?.val,
-    },
-  });
-
   return (
     <SettingsContainer>
       <SettingsContent>
         <Text weight="medium" fontSize="$lg" marginVertical={16}>
           PERSONALIZE
         </Text>
-        <TouchableOpacity
-          style={settingsButtonStyles.ButtonStyleSubtle}
-          onPress={ButtonTester}
-        >
-          <Text weight="medium" fontSize="$lg">
-            Preferences
-          </Text>
+        <Button type={"navigation"} onPress={ButtonTester}>
+          <Button.Text fontSize="$lg">Preferences</Button.Text>
           <Ionicons
             name="chevron-forward-outline"
             size={24}
             color={theme.black?.val}
           />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={settingsButtonStyles.ButtonStyleSubtle}
-          onPress={ButtonTester}
-        >
-          <Text weight="medium" fontSize="$lg">
-            Appearance
-          </Text>
+        </Button>
+        <Button type={"navigation"} onPress={ButtonTester}>
+          <Button.Text fontSize="$lg">Appearance</Button.Text>
           <Ionicons
             name="chevron-forward-outline"
             size={24}
             color={theme.black?.val}
           />
-        </TouchableOpacity>
+        </Button>
       </SettingsContent>
       <SettingsContent>
         <Text weight="medium" fontSize="$lg" marginVertical={16}>
           ACCOUNT
         </Text>
-        <TouchableOpacity
-          style={settingsButtonStyles.ButtonStyleSubtle}
-          onPress={ButtonTester}
-        >
-          <Text weight="medium" fontSize="$lg">
-            About Premium
-          </Text>
+        <Button type={"navigation"} onPress={ButtonTester}>
+          <Button.Text fontSize="$lg">About Premium</Button.Text>
           <Ionicons
             name="chevron-forward-outline"
             size={24}
             color={theme.black?.val}
           />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={settingsButtonStyles.ButtonStyleSubtle}
-          onPress={ButtonTester}
-        >
-          <Text weight="medium" fontSize="$lg">
-            Your Data
-          </Text>
+        </Button>
+        <Button type={"navigation"} onPress={ButtonTester}>
+          <Button.Text fontSize="$lg">Your Data</Button.Text>
           <Ionicons
             name="chevron-forward-outline"
             size={24}
             color={theme.black?.val}
           />
-        </TouchableOpacity>
+        </Button>
       </SettingsContent>
       <SettingsContent>
         <Text weight="medium" fontSize="$lg" marginVertical={16}>
           HELP AND SUPPORT
         </Text>
-        <TouchableOpacity
-          style={settingsButtonStyles.ButtonStyleSubtle}
-          onPress={ButtonTester}
-        >
-          <Text weight="medium" fontSize="$lg">
-            Frequently Asked Questions
-          </Text>
+        <Button type={"navigation"} onPress={ButtonTester}>
+          <Button.Text fontSize="$lg">Frequently Asked Questions</Button.Text>
           <Ionicons
             name="chevron-forward-outline"
             size={24}
             color={theme.black?.val}
           />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={settingsButtonStyles.ButtonStyleSubtle}
-          onPress={ButtonTester}
-        >
-          <Text weight="medium" fontSize="$lg">
-            Report Bugs
-          </Text>
+        </Button>
+        <Button type={"navigation"} onPress={ButtonTester}>
+          <Button.Text fontSize="$lg">Report Bugs</Button.Text>
           <Ionicons
             name="chevron-forward-outline"
             size={24}
             color={theme.black?.val}
           />
-        </TouchableOpacity>
+        </Button>
       </SettingsContent>
       <SettingsContainer marginBottom={16}>
-        <TouchableOpacity
-          style={{
-            ...settingsButtonStyles.ButtonStyleSubtle,
-            backgroundColor: "#F88379",
-          }}
+        <Button
+          type={"navigation"}
           onPress={() => supabase.auth.signOut()}
+          backgroundColor="#F88379"
         >
-          <Text weight="medium" fontSize="$lg" color={"$white"}>
+          <Button.Text fontSize="$lg" color="$white">
             SIGN OUT
-          </Text>
-        </TouchableOpacity>
+          </Button.Text>
+        </Button>
       </SettingsContainer>
     </SettingsContainer>
   );
