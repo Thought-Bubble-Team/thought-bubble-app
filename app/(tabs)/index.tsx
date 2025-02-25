@@ -96,12 +96,6 @@ export default function Index() {
           date={dateOptions}
         />
       </Header>
-      <Button type={"normal"}>
-        <Button.Text>Hello There</Button.Text>
-        <Button.Icon>
-          <Ionicons name={"search"} />
-        </Button.Icon>
-      </Button>
       <MyScrollView width={"100%"} height={"100%"}>
         {FEATURE_FLAGS.DASHBOARD_CHARTS.REOCCURRING_WORDS && (
           <MyCard headerTitle="Reoccuring Words">

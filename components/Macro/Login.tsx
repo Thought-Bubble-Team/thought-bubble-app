@@ -4,8 +4,9 @@ import { StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { styled, View } from "tamagui";
 
 // Component Imports
-import MyInput from "../Inputs/MyInput";
-import Text from "../Micro/Text";
+import MyInput from "@/components/Inputs/MyInput";
+import Text from "@/components/Micro/Text";
+import { Button } from "@/components/Micro/Button";
 
 // Utility Imports
 import { useState } from "react";
@@ -17,11 +18,12 @@ import Logo from "@/assets/icons/logoTemp.svg";
 
 interface LoginProps {
   setIsSignUp: React.Dispatch<React.SetStateAction<boolean>>;
+  loading?: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Login(props: LoginProps) {
-  const { setIsSignUp, setLoading } = props;
+  const { setIsSignUp, loading, setLoading } = props;
   const theme = useTheme();
 
   const [email, setEmail] = useState<string>("");
@@ -60,24 +62,31 @@ export default function Login(props: LoginProps) {
         secureTextEntry
         onChangeText={setPassword}
       />
-      <TouchableOpacity
-        style={[
-          buttonStyles.ButtonStyledColored,
-          { backgroundColor: theme.primary?.val },
-        ]}
-        onPress={signInWithEmail}
-      >
-        <Text weight="bold" fontSize="$lg" color={"$white"}>
-          LOGIN
-        </Text>
-      </TouchableOpacity>
+      {/*<TouchableOpacity*/}
+      {/*  style={[*/}
+      {/*    buttonStyles.ButtonStyledColored,*/}
+      {/*    { backgroundColor: theme.primary?.val },*/}
+      {/*  ]}*/}
+      {/*  onPress={signInWithEmail}*/}
+      {/*>*/}
+      {/*  <Text weight="bold" fontSize="$lg" color={"$white"}>*/}
+      {/*    LOGIN*/}
+      {/*  </Text>*/}
+      {/*</TouchableOpacity>*/}
+      <Button type={"normal"} onPress={signInWithEmail}>
+        {!loading && <Button.Text>LOGIN</Button.Text>}
+        {loading && <Button.Spinner />}
+      </Button>
       <Footer>
         <Text weight="light">Don't have an account?</Text>
-        <TouchableOpacity onPress={() => setIsSignUp(true)}>
-          <Text weight="bold" color={"$primary"}>
-            Signup
-          </Text>
-        </TouchableOpacity>
+        {/*<TouchableOpacity onPress={() => setIsSignUp(true)}>*/}
+        {/*  <Text weight="bold" color={"$primary"}>*/}
+        {/*    Signup*/}
+        {/*  </Text>*/}
+        {/*</TouchableOpacity>*/}
+        <Button type={"icon"} onPress={() => setIsSignUp(true)}>
+          <Button.Text>Signup</Button.Text>
+        </Button>
       </Footer>
     </MainContainer>
   );

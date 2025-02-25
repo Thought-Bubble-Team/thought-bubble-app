@@ -47,7 +47,7 @@ export const ButtonFrame = styled(
         icon: {
           backgroundColor: "$transparent",
           pressStyle: {
-            backgroundColor: "$grey0",
+            opacity: 0.57,
           },
         },
       },
@@ -71,6 +71,7 @@ export const ButtonText = styled(Text, {
       },
       icon: {
         color: "$primary",
+        weight: "bold",
       },
     },
   } as const,
@@ -94,7 +95,7 @@ const ButtonIcon = (props: { children: React.ReactNode }) => {
     ? null
     : React.cloneElement(props.children, {
         ...props.children.props,
-        // color: colorToken,
+        color: colorToken,
         size: sizeToken,
       });
 };

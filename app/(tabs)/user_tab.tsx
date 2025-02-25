@@ -47,10 +47,18 @@ export default function UserTab() {
       <FormContainer>
         {/** LOGIN SECTION */}
         {!isSignUp && (
-          <Login setIsSignUp={setIsSignUp} setLoading={setLoading} />
+          <Login
+            setIsSignUp={setIsSignUp}
+            loading={loading}
+            setLoading={setLoading}
+          />
         )}
         {isSignUp && (
-          <SignUp setIsSignUp={setIsSignUp} setLoading={setLoading} />
+          <SignUp
+            setIsSignUp={setIsSignUp}
+            loading={loading}
+            setLoading={setLoading}
+          />
         )}
       </FormContainer>
     );
