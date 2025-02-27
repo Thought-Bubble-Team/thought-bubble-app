@@ -6,6 +6,7 @@ import MyView from "@/components/Micro/MyView";
 import MyCard from "@/components/Micro/MyCard";
 import Text from "@/components/Micro/Text";
 import ReoccurringWords from "@/components/Macro/ReoccurringWords";
+import MoodCalendar from "@/components/Macro/MoodCalendar/MoodCalendar";
 import MySelect from "@/components/Micro/MySelect";
 import Header from "@/components/Micro/Header";
 import { Button } from "@/components/Micro/Button";
@@ -71,13 +72,6 @@ export default function Index() {
       .catch((e: any) => Alert.alert(("Error: " + e) as string));
   }, []);
 
-  const handlePress = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  };
-
   return (
     <MyView
       paddingHorizontal={"$3"}
@@ -107,6 +101,9 @@ export default function Index() {
             <Text>{val}</Text>
           </MyCard>
         )}
+        <MyCard headerTitle="Mood Calendar">
+          <MoodCalendar initialDate="Feb 2025" />
+        </MyCard>
         {FEATURE_FLAGS.DASHBOARD_CHARTS.MOOD_FLOW && (
           <MyCard headerTitle="Mood Flow">
             <Text>Kunwari may Graph</Text>
