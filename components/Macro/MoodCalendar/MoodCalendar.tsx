@@ -4,8 +4,9 @@ import Day from "@/components/Macro/MoodCalendar/Day";
 import Text from "@/components/Micro/Text";
 
 import { parseInitialDate } from "@/utils/dateFormat";
-import sampleSentimentData, {
+import {
   SimpleSentimentData,
+  provideSampleSentimentData,
 } from "@/utils/sampleSentimentData";
 
 const DayContainer = styled(View, {
@@ -27,6 +28,8 @@ const MoodCalendar = (props: { initialDate: string | Date }) => {
   console.log("initialDate: ", initialDate);
   const currentMonth = parseInitialDate(initialDate);
   console.log("currentMonth: ", currentMonth);
+  const sampleSentimentData = provideSampleSentimentData(initialDate);
+  console.log("sampleSentimentData: ", sampleSentimentData);
 
   const renderCalendarCells = () => {
     const getDaysInMonth = (date: Date) => {

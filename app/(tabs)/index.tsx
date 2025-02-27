@@ -102,7 +102,7 @@ export default function Index() {
           </MyCard>
         )}
         <MyCard headerTitle="Mood Calendar">
-          <MoodCalendar initialDate="Feb 2025" />
+          <MoodCalendar initialDate={val} />
         </MyCard>
         {FEATURE_FLAGS.DASHBOARD_CHARTS.MOOD_FLOW && (
           <MyCard headerTitle="Mood Flow">
