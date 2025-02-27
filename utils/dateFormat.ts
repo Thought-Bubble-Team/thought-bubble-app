@@ -8,6 +8,7 @@ const formatDate = (datetime: string): string => {
 
   return `${weekday}, ${day} ${month}`;
 };
+
 const formatTime = (datetime: string): string => {
   const date = new Date(datetime);
   return date.toLocaleTimeString("en-US", {
@@ -27,4 +28,44 @@ const splitFormattedDate = (formattedDate: string): [string, string] => {
   return [formattedDate, ""];
 };
 
-export { formatDate, formatTime, splitFormattedDate };
+const formatDayOnly = (datetime: string): string => {
+  const fixedDatetime = datetime.replace(" ", "T");
+  const date = new Date(fixedDatetime);
+
+  return date.toLocaleDateString("en-GB", { day: "2-digit" });
+};
+
+export { formatDate, formatTime, splitFormattedDate, formatDayOnly };
+
+export const parseInitialDate = (initialDate: string | Date): Date => {
+  if (typeof initialDate === "string") {
+    const [month, year] = initialDate.split(" ");
+
+    const monthMap: { [key: string]: number } = {
+      Jan: 0,
+      Feb: 1,
+      Mar: 2,
+      Apr: 3,
+      May: 4,
+      Jun: 5,
+      Jul: 6,
+      Aug: 7,
+      Sep: 8,
+      Oct: 9,
+      Nov: 10,
+      Dec: 11,
+    };
+
+    const monthIndex = monthMap[month];
+    const parsedYear = parseInt(year, 10);
+
+    if (monthIndex === undefined || isNaN(parsedYear)) {
+      console.error("Invalid date string format:", initialDate);
+      return new Date(); // Default to current date if parsing fails
+    }
+
+    return new Date(Date.UTC(parsedYear, monthIndex, 1));
+  }
+
+  return new Date(initialDate);
+};
