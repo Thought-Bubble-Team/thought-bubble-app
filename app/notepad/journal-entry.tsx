@@ -77,7 +77,7 @@ const JournalEntry = () => {
           </Text>
         </XStack>
       </Header>
-      <Separator borderWidth="$0.5" borderColor="$grey4" width="100%" />
+      <Separator borderColor="$grey4" width="100%" />
       <MyScrollView width={"100%"}>
         {session && session.user && <JournalForm />}
         {!session && (
