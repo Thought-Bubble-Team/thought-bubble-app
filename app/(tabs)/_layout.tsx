@@ -86,9 +86,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="flower"
+        name="gratitude"
         options={{
-          title: "Flower",
+          title: "Gratitude",
           tabBarIcon: ({ size, focused }) => (
             <IconContainer>
               <TabIcons
@@ -194,7 +194,6 @@ const NotepadMenu = () => {
         borderLeftColor="transparent"
         borderRightColor="transparent"
         borderTopColor="$grey3"
-        elevationAndroid={5}
       ></View>
     </Animated.View>
   );
