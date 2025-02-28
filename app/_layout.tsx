@@ -5,7 +5,7 @@ import {
 } from "@react-navigation/native";
 import { Stack } from "expo-router";
 import { useColorScheme, View } from "react-native";
-import { TamaguiProvider } from "tamagui";
+import { TamaguiProvider, useTheme } from "tamagui";
 import {
   Montserrat_300Light,
   Montserrat_400Regular,
@@ -86,7 +86,14 @@ export default function RootLayout() {
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
           <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-            <Stack>
+            <Stack
+              screenOptions={{
+                headerStyle: {
+                  backgroundColor: "#F5F5F5",
+                },
+                headerShadowVisible: false,
+              }}
+            >
               <Stack.Screen
                 name="(tabs)"
                 options={{
@@ -105,7 +112,7 @@ export default function RootLayout() {
                 name="graph"
                 options={{
                   title: "Graph",
-                  contentStyle: { backgroundColor: "#fff" },
+                  contentStyle: { backgroundColor: "#F5F5F5" },
                 }}
               />
             </Stack>
