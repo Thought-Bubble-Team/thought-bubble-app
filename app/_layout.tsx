@@ -43,7 +43,7 @@ const featureClient = new ReactNativeLDClient(
       id: "ld-rn-test-app",
       version: "0.0.1",
     },
-  },
+  }
 );
 
 export default function RootLayout() {
@@ -91,6 +91,20 @@ export default function RootLayout() {
                 name="(tabs)"
                 options={{
                   headerShown: false,
+                  contentStyle: { backgroundColor: "#fff" },
+                }}
+              />
+              <Stack.Screen
+                name="user"
+                options={{
+                  title: "User",
+                  contentStyle: { backgroundColor: "#fff" },
+                }}
+              />
+              <Stack.Screen
+                name="graph"
+                options={{
+                  title: "Graph",
                   contentStyle: { backgroundColor: "#fff" },
                 }}
               />

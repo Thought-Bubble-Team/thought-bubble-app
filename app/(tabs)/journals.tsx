@@ -1,6 +1,5 @@
 // Style Imports
-import { styled, View, XStack, Button } from "tamagui";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { styled, View, XStack } from "tamagui";
 
 // Components Imports
 import MyView from "@/components/Micro/MyView";
@@ -9,17 +8,19 @@ import Text from "@/components/Micro/Text";
 import { JournalCard, JournalEntryType } from "@/components/Cards";
 import { NoSession } from "@/components/Sessions";
 import Header from "@/components/Micro/Header";
+import { Button } from "@/components/Micro/Button";
+import Modal from "@/components/Micro/Modal";
+import JournalForm from "@/components/Macro/JournalForm";
 
 // Utilities Imports
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
 import { supabase } from "@/utils/supabase/supabase";
 import { getAllJournalEntries } from "@/utils/supabase/db-crud";
 import { Alert, RefreshControl, TouchableOpacity } from "react-native";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
-import Modal from "@/components/Micro/Modal";
-import JournalForm from "@/components/Macro/JournalForm";
 import { useTheme } from "tamagui";
+import { router } from "expo-router";
 
 export default function Journals() {
   const theme = useTheme();
@@ -118,23 +119,27 @@ const JournalEntry = (props: JournalEntryProps) => {
             {splitDate[1]}
           </Text>
         </XStack>
-        {/*<ButtonStyled>*/}
-        {/*  <Ionicons*/}
-        {/*    name="settings-outline"*/}
-        {/*    size={18}*/}
-        {/*    color={theme.black?.val}*/}
-        {/*  />*/}
-        {/*</ButtonStyled>*/}
       </EntryHeader>
-      <TouchableOpacity onPress={() => setModalVisible(true)}>
+      {/* <TouchableOpacity onPress={() => setModalVisible(true)}>
         <JournalCard journalEntry={journalEntry}></JournalCard>
-      </TouchableOpacity>
-      <Modal modalVisible={modalVisible} setModalVisible={setModalVisible}>
+      </TouchableOpacity> */}
+      {/* <Modal modalVisible={modalVisible} setModalVisible={setModalVisible}>
         <JournalForm
           journalEntry={journalEntry}
           setModalVisible={setModalVisible}
         />
-      </Modal>
+      </Modal> */}
+      <Button
+        type="icon"
+        onPress={() =>
+          router.navigate({
+            pathname: "/journals/[id]/summary",
+            params: { id: journalEntry.entry_id },
+          })
+        }
+      >
+        <JournalCard journalEntry={journalEntry}></JournalCard>
+      </Button>
     </EntryContainer>
   );
 };
@@ -173,12 +178,4 @@ const EntryHeader = styled(View, {
   justifyContent: "space-between",
   alignItems: "center",
   margin: 0,
-});
-
-const ButtonStyled = styled(Button, {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  backgroundColor: "$background",
-  borderWidth: 0,
 });

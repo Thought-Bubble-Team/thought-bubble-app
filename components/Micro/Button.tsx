@@ -6,15 +6,16 @@ import {
 } from "tamagui";
 import { styled, View, Spinner } from "tamagui";
 import Text from "@/components/Micro/Text";
-import React, { forwardRef, isValidElement } from "react";
+import React, { forwardRef } from "react";
 
 export const ButtonContext = createStyledContext({
   type: "normal",
+  size: "$sm",
 });
 
 export const ButtonFrame = styled(
   forwardRef<TamaguiElement, React.ComponentProps<typeof View>>(
-    (props, ref) => <View ref={ref} {...props} />,
+    (props, ref) => <View ref={ref} {...props} />
   ),
   {
     context: ButtonContext,
@@ -51,8 +52,15 @@ export const ButtonFrame = styled(
           },
         },
       },
+      size: {
+        "...size": (name, { tokens }) => {
+          return {
+            padding: tokens.size[name],
+          };
+        },
+      },
     } as const,
-  },
+  }
 );
 
 export const ButtonText = styled(Text, {
@@ -72,6 +80,13 @@ export const ButtonText = styled(Text, {
       icon: {
         color: "$primary",
         weight: "bold",
+      },
+    },
+    size: {
+      "...size": (name, { tokens }) => {
+        return {
+          fontSize: tokens.size[name],
+        };
       },
     },
   } as const,

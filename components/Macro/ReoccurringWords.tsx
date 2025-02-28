@@ -1,4 +1,4 @@
-import { XStack, View } from "tamagui";
+import { XStack, View, ViewProps } from "tamagui";
 
 import Text from "@/components/Micro/Text";
 
@@ -23,7 +23,7 @@ type EmotionType = {
 //   emotions: EmotionType[];
 // }
 
-export default function ReoccurringWords() {
+export default function ReoccurringWords(props: ViewProps) {
   // const { emotions } = props;
 
   // const selectedDate = formatDate(emotions[0].created_at);
@@ -41,7 +41,7 @@ export default function ReoccurringWords() {
   ];
 
   return (
-    <XStack gap={"$xs"} flexWrap="wrap">
+    <XStack gap={"$xs"} flexWrap="wrap" {...props}>
       {moods.map((mood, index) => (
         <View key={index} backgroundColor={mood.color} borderRadius={"$8"}>
           <Text
