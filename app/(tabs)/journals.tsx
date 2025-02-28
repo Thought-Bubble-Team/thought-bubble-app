@@ -99,17 +99,12 @@ interface JournalEntryProps {
 const JournalEntry = (props: JournalEntryProps) => {
   const { journalEntry } = props;
   const theme = useTheme();
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const formattedDate = formatDate(journalEntry.created_at);
   const splitDate = splitFormattedDate(formattedDate);
 
   return (
-    <EntryContainer
-      borderBottomColor={"$divider"}
-      borderBottomWidth={1}
-      paddingVertical={"$5"}
-    >
+    <EntryContainer>
       <EntryHeader>
         <XStack>
           <Text weight="bold" fontSize="$xl">
@@ -129,7 +124,7 @@ const JournalEntry = (props: JournalEntryProps) => {
           setModalVisible={setModalVisible}
         />
       </Modal> */}
-      <Button
+      {/* <Button
         type="icon"
         onPress={() =>
           router.navigate({
@@ -137,9 +132,11 @@ const JournalEntry = (props: JournalEntryProps) => {
             params: { id: journalEntry.entry_id },
           })
         }
+        padding={0}
       >
         <JournalCard journalEntry={journalEntry}></JournalCard>
-      </Button>
+      </Button> */}
+      <JournalCard journalEntry={journalEntry}></JournalCard>
     </EntryContainer>
   );
 };
@@ -165,14 +162,18 @@ const RefreshContainer = styled(View, {
 });
 
 const EntryContainer = styled(View, {
+  width: "100%",
   display: "flex",
   flexDirection: "column",
   gap: 0,
+  borderBottomColor: "$divider",
+  borderBottomWidth: 1,
+  paddingVertical: "$5",
 });
 
 const EntryHeader = styled(View, {
   width: "100%",
-  paddingHorizontal: "$4",
+  // paddingHorizontal: "$4",
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-between",
