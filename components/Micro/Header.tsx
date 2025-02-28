@@ -10,8 +10,8 @@ const ViewStyled = styled(TView, {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  // borderBottomWidth: "$1",
-  // borderBottomColor: "$grey1",
+  borderBottomWidth: "$1",
+  borderBottomColor: "$grey1",
   width: "100%",
   padding: "$lg",
 });
