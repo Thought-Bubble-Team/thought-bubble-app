@@ -1,4 +1,4 @@
-import { styled, View, XStack } from "tamagui";
+import { styled, View, ViewProps, XStack } from "tamagui";
 
 import Day from "@/components/Macro/MoodCalendar/Day";
 import Text from "@/components/Micro/Text";
@@ -23,8 +23,12 @@ const XStackStyled = styled(XStack, {
   alignItems: "center",
 });
 
-const MoodCalendar = (props: { initialDate: string | Date }) => {
-  const { initialDate } = props;
+interface MoodCalendarProps extends ViewProps {
+  initialDate: string | Date;
+}
+
+const MoodCalendar = (props: MoodCalendarProps) => {
+  const { initialDate, ...restProps } = props;
   console.log("initialDate: ", initialDate);
   const currentMonth = parseInitialDate(initialDate);
   console.log("currentMonth: ", currentMonth);
@@ -99,6 +103,7 @@ const MoodCalendar = (props: { initialDate: string | Date }) => {
       flexDirection="column"
       alignItems="center"
       justifyContent="flex-start"
+      {...restProps}
     >
       <XStackStyled>
         <DayContainer>
