@@ -12,12 +12,14 @@ import Header from "@/components/Micro/Header";
 import { Button } from "@/components/Micro/Button";
 
 // Utilities Import
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import {
   useBoolVariation,
   useLDClient,
 } from "@launchdarkly/react-native-client-sdk";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
+import { router } from "expo-router";
 
 const months = [
   "Jan",
@@ -51,8 +53,8 @@ for (let year = startYear; year <= currentYear; year++) {
 
 export default function Index() {
   const [val, setVal] = useState<string>("Jan 2025");
-  const buttonRef = useRef(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const session = useSessionStore((state) => state.session);
 
   const FEATURE_FLAGS = {
     DASHBOARD_CHARTS: {
@@ -93,7 +95,19 @@ export default function Index() {
       <MyScrollView width={"100%"} height={"100%"}>
         {FEATURE_FLAGS.DASHBOARD_CHARTS.REOCCURRING_WORDS && (
           <MyCard headerTitle="Reoccuring Words">
-            <ReoccurringWords />
+            {session && (
+              <ReoccurringWords
+                onPress={() =>
+                  router.navigate({
+                    pathname: "/graph/[id]/reoccurring-words",
+                    params: { id: session.user.id },
+                  })
+                }
+              />
+            )}
+            {!session && (
+              <Text>Please Login to see your Reoccurring Words data</Text>
+            )}
           </MyCard>
         )}
         {FEATURE_FLAGS.DASHBOARD_CHARTS.MOOD_CALENDAR && (
@@ -102,7 +116,18 @@ export default function Index() {
           </MyCard>
         )}
         <MyCard headerTitle="Mood Calendar">
-          <MoodCalendar initialDate={val} />
+          {session && (
+            <MoodCalendar
+              initialDate={val}
+              onPress={() =>
+                router.navigate({
+                  pathname: "/graph/[id]/mood-calendar",
+                  params: { id: session.user.id },
+                })
+              }
+            />
+          )}
+          {!session && <Text>Please Login to see your Mood Calendar data</Text>}
         </MyCard>
         {FEATURE_FLAGS.DASHBOARD_CHARTS.MOOD_FLOW && (
           <MyCard headerTitle="Mood Flow">
