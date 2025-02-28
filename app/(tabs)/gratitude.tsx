@@ -1,6 +1,6 @@
 import { View, Text } from "tamagui";
 
-export default function Flower() {
+export default function Gratitude() {
   return (
     <View>
       <Text>Welcome to Flower Page</Text>
