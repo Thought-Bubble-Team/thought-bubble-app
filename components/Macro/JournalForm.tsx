@@ -15,9 +15,9 @@ import {
   updateJournalEntry,
 } from "@/utils/supabase/db-crud";
 import { PostgrestError } from "@supabase/supabase-js";
-import { useFocusEffect } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 
-type FormMode = "create" | "update";
+type FormMode = "new" | "edit" | "gratitude";
 
 interface JournalEntryProps {
   journalEntry?: JournalEntryType;
@@ -31,23 +31,25 @@ export default function JournalForm(props: JournalEntryProps) {
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [message, setMessage] = useState("");
   const [images, setImages] = useState<string[] | undefined>(undefined);
-  const [mode, setMode] = useState<FormMode>("create");
+  // const [mode, setMode] = useState<FormMode>("new");
   const [error, setError] = useState<PostgrestError | null>(null);
   const [loading, setLoading] = useState(false);
 
-  useFocusEffect(
-    useCallback(() => {
-      return () => {
-        if (mode === "update") {
-          setMode("create");
-          setTitle("");
-          setMessage("");
-          setImages(undefined);
-          setError(null);
-        }
-      };
-    }, [mode]),
-  );
+  const { id } = useLocalSearchParams();
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     return () => {
+  //       if (mode === "edit") {
+  //         setMode("new");
+  //         setTitle("");
+  //         setMessage("");
+  //         setImages(undefined);
+  //         setError(null);
+  //       }
+  //     };
+  //   }, [mode])
+  // );
 
   useEffect(() => {
     const fetchJournalEntry = async (entry_id: number) => {
@@ -68,9 +70,14 @@ export default function JournalForm(props: JournalEntryProps) {
       }
     };
 
-    if (journalEntry) {
-      setMode("update");
-      fetchJournalEntry(journalEntry.entry_id);
+    if (id !== "gratitude" && id !== "new") {
+      fetchJournalEntry(Number(id));
+    }
+
+    if (id === "gratitude") {
+      setTitle("Today I'm grateful for...");
+      setMessage("");
+      setImages(undefined);
     }
   }, []);
 
@@ -90,6 +97,7 @@ export default function JournalForm(props: JournalEntryProps) {
       }
     }
   };
+
   const removeImage = (index: number) => {
     if (images !== undefined) {
       setImages(images.filter((_, i) => i !== index));
@@ -104,35 +112,64 @@ export default function JournalForm(props: JournalEntryProps) {
     };
 
     try {
-      const { error } =
-        journalEntry === undefined
-          ? await createJournalEntry(journalEntryObject)
-          : await updateJournalEntry(journalEntry.entry_id, journalEntryObject);
+      // const { error } =
+      //   journalEntry === undefined
+      //     ? await createJournalEntry(journalEntryObject)
+      //     : await updateJournalEntry(journalEntry.entry_id, journalEntryObject);
 
-      if (error) {
-        Alert.alert("Error", error.message);
-        setError(error);
-      } else {
-        Alert.alert(
-          "Success",
-          `Journal entry ${
-            journalEntry === undefined ? "created" : "updated"
-          } successfully!`,
+      if (id === "gratitude") {
+      } // Do nothing
+
+      if (id === "new") {
+        const { error } = await createJournalEntry(journalEntryObject);
+
+        if (error) {
+          Alert.alert("Error", error.message);
+          setError(error);
+        } else {
+          Alert.alert("Success", "Journal entry created successfully!");
+          router.navigate({ pathname: "/journals" });
+        }
+      }
+
+      if (id !== "new" && id !== "gratitude") {
+        const { error } = await updateJournalEntry(
+          Number(id),
+          journalEntryObject
         );
+
+        if (error) {
+          Alert.alert("Error", error.message);
+          setError(error);
+        } else {
+          Alert.alert("Success", "Journal entry updated successfully!");
+        }
       }
 
-      if (journalEntry === undefined) {
-        setTitle("");
-        setMessage("");
-        setImages(undefined);
-      }
+      // if (error) {
+      //   Alert.alert("Error", error.message);
+      //   setError(error);
+      // } else {
+      //   Alert.alert(
+      //     "Success",
+      //     `Journal entry ${
+      //       journalEntry === undefined ? "created" : "updated"
+      //     } successfully!`
+      //   );
+      // }
+
+      // if (journalEntry === undefined) {
+      //   setTitle("");
+      //   setMessage("");
+      //   setImages(undefined);
+      // }
     } catch (error) {
       Alert.alert(
         "Error",
-        "An error occurred while submitting the journal entry",
+        "An error occurred while submitting the journal entry"
       );
     } finally {
-      setModalVisible && setModalVisible(false);
+      // setModalVisible && setModalVisible(false);
       setLoading(false);
     }
   };
