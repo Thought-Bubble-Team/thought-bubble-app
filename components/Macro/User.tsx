@@ -16,6 +16,8 @@ import { supabase } from "@/utils/supabase/supabase";
 import { Session } from "@supabase/supabase-js";
 import { Image } from "expo-image";
 import { useTheme } from "tamagui";
+import { router, Href } from "expo-router";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
 
 interface UserProps {
   session: Session;
@@ -26,6 +28,11 @@ const blurhash =
 
 const ButtonTester = () => {
   Alert.alert("Button Pressed");
+};
+
+const routerTester = (props: { href: Href }) => {
+  const { href } = props;
+  router.navigate(href);
 };
 
 export default function User(props: UserProps) {
@@ -71,18 +78,26 @@ export default function User(props: UserProps) {
             width="80%"
             padding={5}
             marginTop={16}
-            onPress={ButtonTester}
+            onPress={() =>
+              routerTester({
+                href: {
+                  pathname: "/user/[id]/edit-profile",
+                  params: { id: session.user.id },
+                },
+              })
+            }
           >
             <Button.Text fontSize="$md">Edit Profile</Button.Text>
           </Button>
         </YStack>
       </ProfileContainer>
-      <Settings />
+      <Settings session={session} />
     </MainContainer>
   );
 }
 
-const Settings = () => {
+const Settings = (props: { session: Session }) => {
+  const { session } = props;
   const theme = useTheme();
 
   return (
@@ -91,7 +106,15 @@ const Settings = () => {
         <Text weight="medium" fontSize="$lg" marginVertical={16}>
           PERSONALIZE
         </Text>
-        <Button type={"navigation"} onPress={ButtonTester}>
+        <Button
+          type={"navigation"}
+          onPress={() =>
+            router.navigate({
+              pathname: "/user/[id]/edit-profile",
+              params: { id: session.user.id },
+            })
+          }
+        >
           <Button.Text fontSize="$lg">Preferences</Button.Text>
           <Ionicons
             name="chevron-forward-outline"
@@ -99,7 +122,15 @@ const Settings = () => {
             color={theme.black?.val}
           />
         </Button>
-        <Button type={"navigation"} onPress={ButtonTester}>
+        <Button
+          type={"navigation"}
+          onPress={() =>
+            router.navigate({
+              pathname: "/user/[id]/appearance",
+              params: { id: session.user.id },
+            })
+          }
+        >
           <Button.Text fontSize="$lg">Appearance</Button.Text>
           <Ionicons
             name="chevron-forward-outline"
@@ -120,7 +151,15 @@ const Settings = () => {
             color={theme.black?.val}
           />
         </Button>
-        <Button type={"navigation"} onPress={ButtonTester}>
+        <Button
+          type={"navigation"}
+          onPress={() =>
+            router.navigate({
+              pathname: "/user/[id]/my-data",
+              params: { id: session.user.id },
+            })
+          }
+        >
           <Button.Text fontSize="$lg">Your Data</Button.Text>
           <Ionicons
             name="chevron-forward-outline"
