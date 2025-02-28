@@ -1,6 +1,12 @@
 import { router, Tabs } from "expo-router";
 import { useColorScheme } from "react-native";
 import { styled, View, useTheme } from "tamagui";
+import Animated, {
+  FadeIn,
+  FadeOut,
+  SlideInDown,
+  SlideOutDown,
+} from "react-native-reanimated";
 
 import TabIcons from "@/components/Icons/TabIcons";
 import { Button } from "@/components/Micro/Button";
@@ -117,7 +123,12 @@ export default function TabLayout() {
 
 const NotepadMenu = () => {
   return (
-    <View position="relative" alignItems="center">
+    <Animated.View
+      style={{
+        position: "relative",
+        alignItems: "center",
+      }}
+    >
       <View
         position="absolute"
         top={-250}
@@ -185,7 +196,7 @@ const NotepadMenu = () => {
         borderTopColor="$grey3"
         elevationAndroid={5}
       ></View>
-    </View>
+    </Animated.View>
   );
 };
 
