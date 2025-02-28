@@ -1,4 +1,4 @@
-// Style Import
+// Libraries Import
 import { useEffect } from "react";
 import { Separator, View, XStack } from "tamagui";
 
@@ -8,11 +8,11 @@ import Text from "@/components/Micro/Text";
 import MyScrollView from "@/components/Micro/MyScrollView";
 import JournalForm from "@/components/Macro/JournalForm";
 import Header from "@/components/Micro/Header";
+import Navigation from "@/components/Micro/Navigation";
 
 // Utilities Import
 import { supabase } from "@/utils/supabase/supabase";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
-import { Stack } from "expo-router";
 
 const JournalEntry = () => {
   const session = useSessionStore((state) => state.session);
@@ -66,7 +66,7 @@ const JournalEntry = () => {
       paddingVertical={"$1"}
       backgroundColor={"$background"}
     >
-      <Stack.Screen options={{ title: "Journal Entry" }} />
+      <Navigation title="Journal Entry" />
       <Header>
         <XStack width={"100%"}>
           <Text weight="bold" fontSize="$xl" color={"$black"}>
