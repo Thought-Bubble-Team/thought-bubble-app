@@ -48,7 +48,7 @@ export default function User(props: UserProps) {
 
   return (
     <MainContainer>
-      <UtilitiesContainer>
+      {/* <UtilitiesContainer>
         <XStack gap="$5" alignItems="center">
           <Button type={"icon"} onPress={ButtonTester}>
             <BackLine width={24} height={24} />
@@ -57,7 +57,7 @@ export default function User(props: UserProps) {
             Profile
           </Text>
         </XStack>
-      </UtilitiesContainer>
+      </UtilitiesContainer> */}
       <ProfileContainer>
         <Image
           style={imageStyles.image}
