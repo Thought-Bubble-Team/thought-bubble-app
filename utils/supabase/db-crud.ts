@@ -172,12 +172,26 @@ export const getJournalEntries = async (user_id: string) => {
   }
 };
 
-export const deleteJournalEntry = async (entryId: string) => {
+export const deleteJournalEntry = async (entryId: number) => {
   try {
     const { error } = await supabase
       .from("journal_entry")
       .delete()
-      .eq("id", entryId);
+      .eq("entry_id", entryId);
+
+    if (error) throw error;
+    return { error: null };
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const deleteGratitudeEntry = async (entryId: number) => {
+  try {
+    const { error } = await supabase
+      .from("gratitude_entry")
+      .delete()
+      .eq("entry_id", entryId);
 
     if (error) throw error;
     return { error: null };
