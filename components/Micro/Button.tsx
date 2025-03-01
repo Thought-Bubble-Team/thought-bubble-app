@@ -134,6 +134,13 @@ const ButtonSpinner = styled(Spinner, {
         color: "$primary",
       },
     },
+    size: {
+      "...size": (name, { tokens }) => {
+        return {
+          fontSize: tokens.size[name],
+        };
+      },
+    },
   } as const,
 });
 
