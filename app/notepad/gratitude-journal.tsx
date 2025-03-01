@@ -1,6 +1,6 @@
 // Libraries Import
 import { useEffect } from "react";
-import { Separator, View, XStack } from "tamagui";
+import { View, XStack } from "tamagui";
 
 // Components Import
 import MyView from "@/components/Micro/MyView";
@@ -77,7 +77,6 @@ const GratitudeEntry = () => {
           </Text>
         </XStack>
       </Header>
-      <Separator borderWidth="$0.5" borderColor="$grey4" width="100%" />
       <MyScrollView width={"100%"}>
         {session && session.user && <JournalForm />}
         {!session && (
