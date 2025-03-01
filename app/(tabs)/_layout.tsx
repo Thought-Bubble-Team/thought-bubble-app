@@ -160,7 +160,7 @@ const NotepadMenu = () => {
           onPress={() =>
             router.push({
               pathname: "/notepad/gratitude-journal",
-              params: { id: "new" },
+              params: { id: "gratitude" },
             })
           }
           size="$sm"
