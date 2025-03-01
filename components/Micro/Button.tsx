@@ -3,6 +3,7 @@ import {
   createStyledContext,
   withStaticProperties,
   TamaguiElement,
+  getTokens,
 } from "tamagui";
 import { styled, View, Spinner } from "tamagui";
 import Text from "@/components/Micro/Text";
@@ -93,17 +94,16 @@ export const ButtonText = styled(Text, {
 });
 
 const ButtonIcon = (props: { children: React.ReactNode }) => {
-  const { type } = React.useContext(ButtonContext);
+  const { type, size } = React.useContext(ButtonContext);
   const theme = useTheme();
+  const tokens = getTokens();
 
   let colorToken = theme.black.get();
-  let sizeToken = 16;
+  let sizeToken = tokens.size[size].val * 3;
   if (type === "normal") {
     colorToken = theme.white.get();
-    sizeToken = 24;
   } else if (type === "navigation") {
     colorToken = theme.black.get();
-    sizeToken = 24;
   }
 
   return !React.isValidElement(props.children)
