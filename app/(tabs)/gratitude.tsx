@@ -33,7 +33,7 @@ export default function Gratitudes() {
   const setSession = useSessionStore((state) => state.setSession);
   const [gratitudes, setGratitudes] = useState<JournalEntryType[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [time, setTime] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     refresh();
@@ -45,13 +45,19 @@ export default function Gratitudes() {
       setSession(session);
     });
 
-    getAllGratitudeEntries().then((data) => {
-      if (data && Array.isArray(data.data)) {
-        setGratitudes([...data.data]);
-      } else {
-        Alert.alert("Error", "Failed to fetch gratitude entries");
-      }
-    });
+    const fetchData = async () => {
+      setLoading(true);
+      getAllGratitudeEntries().then((data) => {
+        if (data && Array.isArray(data.data)) {
+          setGratitudes([...data.data]);
+        } else {
+          Alert.alert("Error", "Failed to fetch gratitude entries");
+        }
+      });
+      setLoading(false);
+    };
+
+    fetchData();
   }, []);
 
   const refresh = () => {
@@ -66,6 +72,48 @@ export default function Gratitudes() {
       }
     });
   };
+
+  if (loading) {
+    return (
+      <MainView>
+        {session && (
+          <Container>
+            <Header>
+              <Text weight="bold" fontSize="$xxxl">
+                Your Journey
+              </Text>
+            </Header>
+            <Container justifyContent="center" alignItems="center">
+              <Spinner size="large" color="$grey3" />
+            </Container>
+          </Container>
+        )}
+        {!session && <NoSession />}
+      </MainView>
+    );
+  }
+
+  if (gratitudes.length === 0) {
+    return (
+      <MainView>
+        {session && (
+          <Container>
+            <Header>
+              <Text weight="bold" fontSize="$xxxl">
+                Your Journey
+              </Text>
+            </Header>
+            <Container justifyContent="center" alignItems="center">
+              <Text weight="bold" fontSize="$xl">
+                Looks like you haven't written any gratitude entries yet!
+              </Text>
+            </Container>
+          </Container>
+        )}
+        {!session && <NoSession />}
+      </MainView>
+    );
+  }
 
   return (
     <MainView>
