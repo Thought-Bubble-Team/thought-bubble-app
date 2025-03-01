@@ -66,6 +66,20 @@ export const createJournalEntry = async (
   }
 };
 
+export const createGratitudeEntry = async (
+  journalEntry: Partial<JournalEntry>
+) => {
+  const { data, error } = await supabase
+    .from("gratitude_entry")
+    .insert([journalEntry]);
+
+  if (error) {
+    return { data: null, error };
+  } else {
+    return { data, error: null };
+  }
+};
+
 export const updateJournalEntry = async (
   entry_id: number,
   journalEntry: Partial<JournalEntry>
@@ -102,6 +116,21 @@ export const getJournalEntry = async (entry_id: number) => {
 export const getAllJournalEntries = async () => {
   const { data, error } = await supabase
     .from("journal_entry")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    return { data: null, error };
+  }
+
+  if (data && !error) {
+    return { data, error: null };
+  }
+};
+
+export const getAllGratitudeEntries = async () => {
+  const { data, error } = await supabase
+    .from("gratitude_entry")
     .select("*")
     .order("created_at", { ascending: false });
 
