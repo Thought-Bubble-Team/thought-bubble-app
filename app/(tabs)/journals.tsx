@@ -1,5 +1,8 @@
-// Style Imports
+// Libraries Imports
+import { useEffect, useState } from "react";
+import { useTheme } from "tamagui";
 import { styled, View, XStack } from "tamagui";
+import { router } from "expo-router";
 
 // Components Imports
 import MyView from "@/components/Micro/MyView";
@@ -13,14 +16,11 @@ import Modal from "@/components/Micro/Modal";
 import JournalForm from "@/components/Macro/JournalForm";
 
 // Utilities Imports
-import { useEffect, useState } from "react";
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
 import { supabase } from "@/utils/supabase/supabase";
 import { getAllJournalEntries } from "@/utils/supabase/db-crud";
 import { Alert, RefreshControl, TouchableOpacity } from "react-native";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
-import { useTheme } from "tamagui";
-import { router } from "expo-router";
 
 export default function Journals() {
   const theme = useTheme();
@@ -173,7 +173,6 @@ const EntryContainer = styled(View, {
 
 const EntryHeader = styled(View, {
   width: "100%",
-  // paddingHorizontal: "$4",
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-between",
