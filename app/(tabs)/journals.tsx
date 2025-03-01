@@ -1,9 +1,9 @@
 // Libraries Imports
 import { useEffect, useState } from "react";
-import { useTheme } from "tamagui";
-import { styled, View, XStack } from "tamagui";
+import { Spinner, styled, View, XStack } from "tamagui";
 import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { Alert, RefreshControl } from "react-native";
 
 // Components Imports
 import MyView from "@/components/Micro/MyView";
@@ -14,6 +14,7 @@ import { NoSession } from "@/components/Sessions";
 import Header from "@/components/Micro/Header";
 import { Button } from "@/components/Micro/Button";
 import Modal from "@/components/Micro/Modal";
+import AlertDialog from "@/components/Macro/AlertDialog";
 
 // Utilities Imports
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
@@ -22,15 +23,14 @@ import {
   deleteJournalEntry,
   getAllJournalEntries,
 } from "@/utils/supabase/db-crud";
-import { Alert, RefreshControl } from "react-native";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
-import AlertDialog from "@/components/Macro/AlertDialog";
 
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
   const setSession = useSessionStore((state) => state.setSession);
   const [journals, setJournals] = useState<JournalEntryType[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     refresh();
@@ -42,13 +42,19 @@ export default function Journals() {
       setSession(session);
     });
 
-    getAllJournalEntries().then((data) => {
-      if (data && Array.isArray(data.data)) {
-        setJournals([...data.data]);
-      } else {
-        Alert.alert("Error", "Failed to fetch journal entries");
-      }
-    });
+    const fetchData = async () => {
+      setLoading(true);
+      getAllJournalEntries().then((data) => {
+        if (data && Array.isArray(data.data)) {
+          setJournals([...data.data]);
+        } else {
+          Alert.alert("Error", "Failed to fetch journal entries");
+        }
+      });
+      setLoading(false);
+    };
+
+    fetchData();
   }, []);
 
   const refresh = () => {
@@ -63,6 +69,48 @@ export default function Journals() {
       }
     });
   };
+
+  if (loading) {
+    return (
+      <MainView>
+        {session && (
+          <Container>
+            <Header>
+              <Text weight="bold" fontSize="$xxxl">
+                Your Journey
+              </Text>
+            </Header>
+            <Container justifyContent="center" alignItems="center">
+              <Spinner size="large" color="$grey3" />
+            </Container>
+          </Container>
+        )}
+        {!session && <NoSession />}
+      </MainView>
+    );
+  }
+
+  if (journals.length === 0) {
+    return (
+      <MainView>
+        {session && (
+          <Container>
+            <Header>
+              <Text weight="bold" fontSize="$xxxl">
+                Your Journey
+              </Text>
+            </Header>
+            <Container justifyContent="center" alignItems="center">
+              <Text weight="bold" fontSize="$xl">
+                Looks like you haven't made any entries yet!
+              </Text>
+            </Container>
+          </Container>
+        )}
+        {!session && <NoSession />}
+      </MainView>
+    );
+  }
 
   return (
     <MainView>
@@ -172,15 +220,6 @@ const MainView = styled(MyView, {
 const Container = styled(View, {
   width: "100%",
   height: "100%",
-});
-
-const RefreshContainer = styled(View, {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  width: "100%",
-  gap: "$4",
-  padding: "$4",
 });
 
 const EntryContainer = styled(View, {
