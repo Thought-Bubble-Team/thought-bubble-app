@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useTheme } from "tamagui";
 import { styled, View, XStack } from "tamagui";
 import { router } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 // Components Imports
 import MyView from "@/components/Micro/MyView";
@@ -13,22 +14,23 @@ import { NoSession } from "@/components/Sessions";
 import Header from "@/components/Micro/Header";
 import { Button } from "@/components/Micro/Button";
 import Modal from "@/components/Micro/Modal";
-import JournalForm from "@/components/Macro/JournalForm";
 
 // Utilities Imports
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
 import { supabase } from "@/utils/supabase/supabase";
-import { getAllJournalEntries } from "@/utils/supabase/db-crud";
-import { Alert, RefreshControl, TouchableOpacity } from "react-native";
+import {
+  deleteJournalEntry,
+  getAllJournalEntries,
+} from "@/utils/supabase/db-crud";
+import { Alert, RefreshControl } from "react-native";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
+import AlertDialog from "@/components/Macro/AlertDialog";
 
 export default function Journals() {
-  const theme = useTheme();
   const session = useSessionStore((state) => state.session);
   const setSession = useSessionStore((state) => state.setSession);
   const [journals, setJournals] = useState<JournalEntryType[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [time, setTime] = useState<number>(0);
 
   useEffect(() => {
     refresh();
@@ -98,10 +100,20 @@ interface JournalEntryProps {
 
 const JournalEntry = (props: JournalEntryProps) => {
   const { journalEntry } = props;
-  const theme = useTheme();
 
   const formattedDate = formatDate(journalEntry.created_at);
   const splitDate = splitFormattedDate(formattedDate);
+
+  const handleDelete = async (entry_id: number) => {
+    const { error } = await deleteJournalEntry(entry_id);
+
+    if (error) {
+      Alert.alert("Error", "Failed to delete entry");
+      console.log(error);
+    } else {
+      Alert.alert("Success", "Entry deleted successfully");
+    }
+  };
 
   return (
     <EntryContainer>
@@ -114,10 +126,20 @@ const JournalEntry = (props: JournalEntryProps) => {
             {splitDate[1]}
           </Text>
         </XStack>
+        <XStack>
+          <AlertDialog
+            title="Delete Entry?"
+            acceptText="Delete"
+            accept={() => handleDelete(journalEntry.entry_id)}
+          >
+            <Button type="icon" size="$xs">
+              <Button.Icon>
+                <Ionicons name="trash-sharp" />
+              </Button.Icon>
+            </Button>
+          </AlertDialog>
+        </XStack>
       </EntryHeader>
-      {/* <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <JournalCard journalEntry={journalEntry}></JournalCard>
-      </TouchableOpacity> */}
       {/* <Modal modalVisible={modalVisible} setModalVisible={setModalVisible}>
         <JournalForm
           journalEntry={journalEntry}

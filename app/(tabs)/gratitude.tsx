@@ -1,6 +1,6 @@
 // Libraries Imports
 import { useEffect, useState } from "react";
-import { useTheme } from "tamagui";
+import { Spinner, useTheme } from "tamagui";
 import { styled, View, XStack } from "tamagui";
 import { router } from "expo-router";
 
@@ -18,9 +18,14 @@ import JournalForm from "@/components/Macro/JournalForm";
 // Utilities Imports
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
 import { supabase } from "@/utils/supabase/supabase";
-import { getAllGratitudeEntries } from "@/utils/supabase/db-crud";
+import {
+  deleteGratitudeEntry,
+  getAllGratitudeEntries,
+} from "@/utils/supabase/db-crud";
 import { Alert, RefreshControl, TouchableOpacity } from "react-native";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
+import AlertDialog from "@/components/Macro/AlertDialog";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function Gratitudes() {
   const theme = useTheme();
@@ -78,15 +83,10 @@ export default function Gratitudes() {
               <RefreshControl refreshing={refreshing} onRefresh={refresh} />
             }
           >
-            {gratitudes.length === 0 && (
-              <Text weight="bold" fontSize="$xl" opacity={0.57}>
-                No gratitudes yet
-              </Text>
-            )}
-            {gratitudes.map((journalEntrySample) => (
+            {gratitudes.map((gratitudeEntry) => (
               <GratitudeEntry
-                key={journalEntrySample.entry_id}
-                gratitudeEntry={journalEntrySample}
+                key={gratitudeEntry.entry_id}
+                gratitudeEntry={gratitudeEntry}
               />
             ))}
           </MyScrollView>
@@ -103,10 +103,20 @@ interface JournalEntryProps {
 
 const GratitudeEntry = (props: JournalEntryProps) => {
   const { gratitudeEntry } = props;
-  const theme = useTheme();
 
   const formattedDate = formatDate(gratitudeEntry.created_at);
   const splitDate = splitFormattedDate(formattedDate);
+
+  const handleDelete = async (entry_id: number) => {
+    const { error } = await deleteGratitudeEntry(entry_id);
+
+    if (error) {
+      Alert.alert("Error", "Failed to delete entry");
+      console.log(error);
+    } else {
+      Alert.alert("Success", "Entry deleted successfully");
+    }
+  };
 
   return (
     <EntryContainer>
@@ -118,6 +128,19 @@ const GratitudeEntry = (props: JournalEntryProps) => {
           <Text weight="bold" fontSize="$xl" opacity={0.57}>
             {splitDate[1]}
           </Text>
+        </XStack>
+        <XStack>
+          <AlertDialog
+            title="Delete Entry?"
+            acceptText="Delete"
+            accept={() => handleDelete(gratitudeEntry.entry_id)}
+          >
+            <Button type="icon" size="$xs">
+              <Button.Icon>
+                <Ionicons name="trash-sharp" />
+              </Button.Icon>
+            </Button>
+          </AlertDialog>
         </XStack>
       </EntryHeader>
       {/* <TouchableOpacity onPress={() => setModalVisible(true)}>
