@@ -47,14 +47,16 @@ export default function Gratitudes() {
 
     const fetchData = async () => {
       setLoading(true);
-      getAllGratitudeEntries().then((data) => {
+      try {
+        const data = await getAllGratitudeEntries();
         if (data && Array.isArray(data.data)) {
           setGratitudes([...data.data]);
         } else {
           Alert.alert("Error", "Failed to fetch gratitude entries");
         }
-      });
-      setLoading(false);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
@@ -76,19 +78,16 @@ export default function Gratitudes() {
   if (loading) {
     return (
       <MainView>
-        {session && (
-          <Container>
-            <Header>
-              <Text weight="bold" fontSize="$xxxl">
-                Your Journey
-              </Text>
-            </Header>
-            <Container justifyContent="center" alignItems="center">
-              <Spinner size="large" color="$grey3" />
-            </Container>
+        <Container>
+          <Header>
+            <Text weight="bold" fontSize="$xxxl">
+              Your Journey
+            </Text>
+          </Header>
+          <Container justifyContent="center" alignItems="center">
+            <Spinner size="large" color="$grey3" />
           </Container>
-        )}
-        {!session && <NoSession />}
+        </Container>
       </MainView>
     );
   }
