@@ -1,10 +1,19 @@
-import { Tabs } from "expo-router";
+import { router, Tabs } from "expo-router";
 import { useColorScheme } from "react-native";
 import { styled, View, useTheme } from "tamagui";
+import Animated, {
+  FadeIn,
+  FadeOut,
+  SlideInDown,
+  SlideOutDown,
+} from "react-native-reanimated";
 
 import TabIcons from "@/components/Icons/TabIcons";
+import { Button } from "@/components/Micro/Button";
 
 import { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs";
+import Text from "@/components/Micro/Text";
+import { useState } from "react";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -77,9 +86,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="flower"
+        name="gratitude"
         options={{
-          title: "Flower",
+          title: "Gratitude",
           tabBarIcon: ({ size, focused }) => (
             <IconContainer>
               <TabIcons
@@ -112,10 +121,80 @@ export default function TabLayout() {
   );
 }
 
-const CustomTabBarButton = ({ children, onPress }: BottomTabBarButtonProps) => {
+const NotepadMenu = () => {
   return (
-    <PenButton onPress={onPress}>
+    <Animated.View
+      entering={FadeIn}
+      exiting={FadeOut}
+      style={{
+        position: "relative",
+        alignItems: "center",
+      }}
+    >
+      <View
+        position="absolute"
+        top={-195}
+        left={-120}
+        right={-120}
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        backgroundColor="$grey3"
+        padding={"$lg"}
+        borderRadius={"$4"}
+        gap={"$md"}
+        elevationAndroid={5}
+      >
+        <Button
+          type="normal"
+          onPress={() =>
+            router.push({
+              pathname: "/notepad/journal-entry",
+              params: { id: "new" },
+            })
+          }
+          size="$sm"
+        >
+          <Button.Text>New Journal Entry</Button.Text>
+        </Button>
+        <Button
+          type="normal"
+          onPress={() =>
+            router.push({
+              pathname: "/notepad/gratitude-journal",
+              params: { id: "gratitude" },
+            })
+          }
+          size="$sm"
+          backgroundColor={"$grey5"}
+        >
+          <Button.Text>New Gratitude Entry</Button.Text>
+        </Button>
+      </View>
+      <View
+        position="absolute"
+        top={-70}
+        width={0}
+        height={0}
+        borderTopWidth={15}
+        borderLeftWidth={15}
+        borderRightWidth={15}
+        borderStyle="solid"
+        borderLeftColor="transparent"
+        borderRightColor="transparent"
+        borderTopColor="$grey3"
+      ></View>
+    </Animated.View>
+  );
+};
+
+const CustomTabBarButton = ({ children, onPress }: BottomTabBarButtonProps) => {
+  const [notepadMenu, setNotepadMenu] = useState<boolean>(false);
+
+  return (
+    <PenButton onPress={() => setNotepadMenu(!notepadMenu)}>
       <View>{children}</View>
+      {notepadMenu && <NotepadMenu />}
     </PenButton>
   );
 };

@@ -1,7 +1,11 @@
-// Style Imports
+// Libraries Imports
 import { StyleSheet, Alert } from "react-native";
 import { styled, View, XStack, YStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import {
+  useBoolVariation,
+  useLDClient,
+} from "@launchdarkly/react-native-client-sdk";
 
 //@ts-ignore
 import BackLine from "@/assets/icons/backLine.svg";
@@ -16,6 +20,9 @@ import { supabase } from "@/utils/supabase/supabase";
 import { Session } from "@supabase/supabase-js";
 import { Image } from "expo-image";
 import { useTheme } from "tamagui";
+import { router, Href } from "expo-router";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
+import { useEffect } from "react";
 
 interface UserProps {
   session: Session;
@@ -31,6 +38,24 @@ const ButtonTester = () => {
 export default function User(props: UserProps) {
   const { session } = props;
 
+  const FEATURE_FLAGS = {
+    USER_SETTINGS: useBoolVariation("user-settings", false),
+  };
+  const ldc = useLDClient();
+
+  useEffect(() => {
+    const Prepare = () => {
+      try {
+        ldc
+          .identify({ kind: "user", key: "example-user-key", name: "Sandy" })
+          .catch((e: any) => Alert.alert(("Error: " + e) as string));
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    Prepare();
+  }, []);
+
   const imageStyles = StyleSheet.create({
     image: {
       width: 85,
@@ -41,7 +66,7 @@ export default function User(props: UserProps) {
 
   return (
     <MainContainer>
-      <UtilitiesContainer>
+      {/* <UtilitiesContainer>
         <XStack gap="$5" alignItems="center">
           <Button type={"icon"} onPress={ButtonTester}>
             <BackLine width={24} height={24} />
@@ -50,7 +75,7 @@ export default function User(props: UserProps) {
             Profile
           </Text>
         </XStack>
-      </UtilitiesContainer>
+      </UtilitiesContainer> */}
       <ProfileContainer>
         <Image
           style={imageStyles.image}
@@ -71,18 +96,29 @@ export default function User(props: UserProps) {
             width="80%"
             padding={5}
             marginTop={16}
-            onPress={ButtonTester}
+            onPress={() =>
+              FEATURE_FLAGS.USER_SETTINGS
+                ? router.navigate({
+                    pathname: "/user/[id]/edit-profile",
+                    params: { id: session.user.id },
+                  })
+                : ButtonTester()
+            }
           >
             <Button.Text fontSize="$md">Edit Profile</Button.Text>
           </Button>
         </YStack>
       </ProfileContainer>
-      <Settings />
+      <Settings session={session} featureFlags={FEATURE_FLAGS} />
     </MainContainer>
   );
 }
 
-const Settings = () => {
+const Settings = (props: {
+  session: Session;
+  featureFlags: { USER_SETTINGS: boolean };
+}) => {
+  const { session, featureFlags } = props;
   const theme = useTheme();
 
   return (
@@ -91,7 +127,17 @@ const Settings = () => {
         <Text weight="medium" fontSize="$lg" marginVertical={16}>
           PERSONALIZE
         </Text>
-        <Button type={"navigation"} onPress={ButtonTester}>
+        <Button
+          type={"navigation"}
+          onPress={() =>
+            featureFlags.USER_SETTINGS
+              ? router.navigate({
+                  pathname: "/user/[id]/edit-profile",
+                  params: { id: session.user.id },
+                })
+              : ButtonTester()
+          }
+        >
           <Button.Text fontSize="$lg">Preferences</Button.Text>
           <Ionicons
             name="chevron-forward-outline"
@@ -99,7 +145,17 @@ const Settings = () => {
             color={theme.black?.val}
           />
         </Button>
-        <Button type={"navigation"} onPress={ButtonTester}>
+        <Button
+          type={"navigation"}
+          onPress={() =>
+            featureFlags.USER_SETTINGS
+              ? router.navigate({
+                  pathname: "/user/[id]/appearance",
+                  params: { id: session.user.id },
+                })
+              : ButtonTester()
+          }
+        >
           <Button.Text fontSize="$lg">Appearance</Button.Text>
           <Ionicons
             name="chevron-forward-outline"
@@ -112,7 +168,12 @@ const Settings = () => {
         <Text weight="medium" fontSize="$lg" marginVertical={16}>
           ACCOUNT
         </Text>
-        <Button type={"navigation"} onPress={ButtonTester}>
+        <Button
+          type={"navigation"}
+          onPress={() =>
+            featureFlags.USER_SETTINGS ? ButtonTester() : ButtonTester()
+          }
+        >
           <Button.Text fontSize="$lg">About Premium</Button.Text>
           <Ionicons
             name="chevron-forward-outline"
@@ -120,7 +181,17 @@ const Settings = () => {
             color={theme.black?.val}
           />
         </Button>
-        <Button type={"navigation"} onPress={ButtonTester}>
+        <Button
+          type={"navigation"}
+          onPress={() =>
+            featureFlags.USER_SETTINGS
+              ? router.navigate({
+                  pathname: "/user/[id]/my-data",
+                  params: { id: session.user.id },
+                })
+              : ButtonTester()
+          }
+        >
           <Button.Text fontSize="$lg">Your Data</Button.Text>
           <Ionicons
             name="chevron-forward-outline"
@@ -133,7 +204,12 @@ const Settings = () => {
         <Text weight="medium" fontSize="$lg" marginVertical={16}>
           HELP AND SUPPORT
         </Text>
-        <Button type={"navigation"} onPress={ButtonTester}>
+        <Button
+          type={"navigation"}
+          onPress={() =>
+            featureFlags.USER_SETTINGS ? ButtonTester() : ButtonTester()
+          }
+        >
           <Button.Text fontSize="$lg">Frequently Asked Questions</Button.Text>
           <Ionicons
             name="chevron-forward-outline"
@@ -141,7 +217,12 @@ const Settings = () => {
             color={theme.black?.val}
           />
         </Button>
-        <Button type={"navigation"} onPress={ButtonTester}>
+        <Button
+          type={"navigation"}
+          onPress={() =>
+            featureFlags.USER_SETTINGS ? ButtonTester() : ButtonTester()
+          }
+        >
           <Button.Text fontSize="$lg">Report Bugs</Button.Text>
           <Ionicons
             name="chevron-forward-outline"

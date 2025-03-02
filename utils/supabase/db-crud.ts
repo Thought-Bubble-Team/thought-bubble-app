@@ -66,6 +66,20 @@ export const createJournalEntry = async (
   }
 };
 
+export const createGratitudeEntry = async (
+  journalEntry: Partial<JournalEntry>
+) => {
+  const { data, error } = await supabase
+    .from("gratitude_entry")
+    .insert([journalEntry]);
+
+  if (error) {
+    return { data: null, error };
+  } else {
+    return { data, error: null };
+  }
+};
+
 export const updateJournalEntry = async (
   entry_id: number,
   journalEntry: Partial<JournalEntry>
@@ -114,6 +128,21 @@ export const getAllJournalEntries = async () => {
   }
 };
 
+export const getAllGratitudeEntries = async () => {
+  const { data, error } = await supabase
+    .from("gratitude_entry")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    return { data: null, error };
+  }
+
+  if (data && !error) {
+    return { data, error: null };
+  }
+};
+
 export const getJournalSentiment = async (entryId: number) => {
   const { data, error } = await supabase
     .from("sentiment_analysis")
@@ -143,12 +172,26 @@ export const getJournalEntries = async (user_id: string) => {
   }
 };
 
-export const deleteJournalEntry = async (entryId: string) => {
+export const deleteJournalEntry = async (entryId: number) => {
   try {
     const { error } = await supabase
       .from("journal_entry")
       .delete()
-      .eq("id", entryId);
+      .eq("entry_id", entryId);
+
+    if (error) throw error;
+    return { error: null };
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const deleteGratitudeEntry = async (entryId: number) => {
+  try {
+    const { error } = await supabase
+      .from("gratitude_entry")
+      .delete()
+      .eq("entry_id", entryId);
 
     if (error) throw error;
     return { error: null };

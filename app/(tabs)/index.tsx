@@ -1,4 +1,10 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
+// Libraries Import
+import { useEffect, useState } from "react";
+import { Alert } from "react-native";
+import {
+  useBoolVariation,
+  useLDClient,
+} from "@launchdarkly/react-native-client-sdk";
 
 // Components Import
 import MyScrollView from "@/components/Micro/MyScrollView";
@@ -6,17 +12,16 @@ import MyView from "@/components/Micro/MyView";
 import MyCard from "@/components/Micro/MyCard";
 import Text from "@/components/Micro/Text";
 import ReoccurringWords from "@/components/Macro/ReoccurringWords";
+import MoodCalendar from "@/components/Macro/MoodCalendar/MoodCalendar";
 import MySelect from "@/components/Micro/MySelect";
 import Header from "@/components/Micro/Header";
 import { Button } from "@/components/Micro/Button";
 
 // Utilities Import
-import { useEffect, useRef, useState } from "react";
-import { Alert } from "react-native";
-import {
-  useBoolVariation,
-  useLDClient,
-} from "@launchdarkly/react-native-client-sdk";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
+import { router } from "expo-router";
+import { supabase } from "@/utils/supabase/supabase";
+import { Separator } from "tamagui";
 
 const months = [
   "Jan",
@@ -50,8 +55,9 @@ for (let year = startYear; year <= currentYear; year++) {
 
 export default function Index() {
   const [val, setVal] = useState<string>("Jan 2025");
-  const buttonRef = useRef(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const session = useSessionStore((state) => state.session);
+  const setSession = useSessionStore((state) => state.setSession);
 
   const FEATURE_FLAGS = {
     DASHBOARD_CHARTS: {
@@ -60,23 +66,37 @@ export default function Index() {
       MOOD_CALENDAR: useBoolVariation("mood-calendar", false),
       MOOD_FLOW: useBoolVariation("mood-flow", false),
     },
+    VERSION: {
+      v010: useBoolVariation("v0.1.0", false),
+    },
   };
 
   const ldc = useLDClient();
 
   useEffect(() => {
-    // Identifies these components as this
-    ldc
-      .identify({ kind: "user", key: "example-user-key", name: "Sandy" })
-      .catch((e: any) => Alert.alert(("Error: " + e) as string));
-  }, []);
+    const Prepare = async () => {
+      try {
+        setLoading(true);
+        ldc
+          .identify({ kind: "user", key: "example-user-key", name: "Sandy" })
+          .catch((e: any) => Alert.alert(("Error: " + e) as string));
 
-  const handlePress = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  };
+        supabase.auth.getSession().then(({ data: { session } }) => {
+          setSession(session);
+        });
+
+        supabase.auth.onAuthStateChange((_event, session) => {
+          setSession(session);
+        });
+      } catch (error) {
+        console.log("Error: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    Prepare();
+  }, []);
 
   return (
     <MyView
@@ -99,24 +119,37 @@ export default function Index() {
       <MyScrollView width={"100%"} height={"100%"}>
         {FEATURE_FLAGS.DASHBOARD_CHARTS.REOCCURRING_WORDS && (
           <MyCard headerTitle="Reoccuring Words">
-            <ReoccurringWords />
+            {session && (
+              <ReoccurringWords
+              // Disable pre v0.1.0
+              // onPress={() =>
+              //   router.navigate({
+              //     pathname: "/graph/[id]/reoccurring-words",
+              //     params: { id: session.user.id },
+              //   })
+              // }
+              />
+            )}
+            {!session && (
+              <Text>Please Login to see your Reoccurring Words data</Text>
+            )}
           </MyCard>
         )}
-        {FEATURE_FLAGS.DASHBOARD_CHARTS.MOOD_CALENDAR && (
-          <MyCard headerTitle="Mood Calendar">
-            <Text>{val}</Text>
-          </MyCard>
-        )}
-        {FEATURE_FLAGS.DASHBOARD_CHARTS.MOOD_FLOW && (
-          <MyCard headerTitle="Mood Flow">
-            <Text>Kunwari may Graph</Text>
-          </MyCard>
-        )}
-        {FEATURE_FLAGS.DASHBOARD_CHARTS.MOOD_BAR && (
-          <MyCard headerTitle="Mood Bar">
-            <Text>Mood Bar</Text>
-          </MyCard>
-        )}
+        <MyCard headerTitle="Mood Calendar">
+          {session && (
+            <MoodCalendar
+              initialDate={val}
+              // Disable pre v0.1.0
+              // onPress={() =>
+              //   router.navigate({
+              //     pathname: "/graph/[id]/mood-calendar",
+              //     params: { id: session.user.id },
+              //   })
+              // }
+            />
+          )}
+          {!session && <Text>Please Login to see your Mood Calendar data</Text>}
+        </MyCard>
       </MyScrollView>
     </MyView>
   );

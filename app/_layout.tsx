@@ -43,7 +43,7 @@ const featureClient = new ReactNativeLDClient(
       id: "ld-rn-test-app",
       version: "0.0.1",
     },
-  },
+  }
 );
 
 export default function RootLayout() {
@@ -86,12 +86,44 @@ export default function RootLayout() {
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
           <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-            <Stack>
+            <Stack
+              screenOptions={({ navigation }) => ({
+                headerShown: false,
+              })}
+            >
               <Stack.Screen
                 name="(tabs)"
                 options={{
                   headerShown: false,
                   contentStyle: { backgroundColor: "#fff" },
+                }}
+              />
+              <Stack.Screen
+                name="user"
+                options={{
+                  title: "User",
+                  contentStyle: { backgroundColor: "#fff" },
+                }}
+              />
+              <Stack.Screen
+                name="graph"
+                options={{
+                  title: "Graph",
+                  contentStyle: { backgroundColor: "#F5F5F5" },
+                }}
+              />
+              <Stack.Screen
+                name="notepad"
+                options={{
+                  title: "Notepad",
+                  contentStyle: { backgroundColor: "#F5F5F5" },
+                }}
+              />
+              <Stack.Screen
+                name="journals"
+                options={{
+                  title: "Journals",
+                  contentStyle: { backgroundColor: "#F5F5F5" },
                 }}
               />
             </Stack>

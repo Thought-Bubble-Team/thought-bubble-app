@@ -7,15 +7,18 @@ import {
 } from "tamagui";
 import { TouchableOpacity } from "react-native";
 
+import { Button } from "@/components/Micro/Button";
+
 interface AlertDialogProps extends TAlertDialogProps {
-  data?: any;
-  error?: any;
+  title: string;
+  accept: () => void;
+  acceptText: string;
   loading?: boolean;
   children: React.ReactNode;
 }
 
 export default function AlertDialog(props: AlertDialogProps) {
-  const { children, data, error, loading, ...restProps } = props;
+  const { children, title, accept, acceptText, loading, ...restProps } = props;
 
   return (
     <TAlertDialog native>
@@ -24,6 +27,7 @@ export default function AlertDialog(props: AlertDialogProps) {
         <TAlertDialog.Overlay
           key="overlay"
           animation="quick"
+          backgroundColor="$grey3"
           opacity={0.5}
           enterStyle={{ opacity: 0 }}
           exitStyle={{ opacity: 0 }}
@@ -52,34 +56,20 @@ export default function AlertDialog(props: AlertDialogProps) {
               <Spinner size="large" color={"$textColor"} />
             </YStack>
           )}
-          {!loading && error && (
+          {!loading && (
             <YStack>
-              <TAlertDialog.Title>Error</TAlertDialog.Title>
-              <TAlertDialog.Description>
-                {error.message}
-              </TAlertDialog.Description>
+              <TAlertDialog.Title>{title}</TAlertDialog.Title>
+              {/* <TAlertDialog.Description>{title}</TAlertDialog.Description> */}
               <XStack gap="$3" justifyContent="flex-end">
                 <TAlertDialog.Cancel asChild>
-                  <TouchableOpacity>Cancel</TouchableOpacity>
+                  <Button type="normal">
+                    <Button.Text>Cancel</Button.Text>
+                  </Button>
                 </TAlertDialog.Cancel>
-                <TAlertDialog.Action asChild>
-                  <TouchableOpacity>Accept</TouchableOpacity>
-                </TAlertDialog.Action>
-              </XStack>
-            </YStack>
-          )}
-          {!loading && !error && data && (
-            <YStack>
-              <TAlertDialog.Title>Success</TAlertDialog.Title>
-              <TAlertDialog.Description>
-                {data.message}
-              </TAlertDialog.Description>
-              <XStack gap="$3" justifyContent="flex-end">
-                <TAlertDialog.Cancel asChild>
-                  <TouchableOpacity>Cancel</TouchableOpacity>
-                </TAlertDialog.Cancel>
-                <TAlertDialog.Action asChild>
-                  <TouchableOpacity>Accept</TouchableOpacity>
+                <TAlertDialog.Action asChild onPress={accept}>
+                  <Button type="normal">
+                    <Button.Text>{acceptText}</Button.Text>
+                  </Button>
                 </TAlertDialog.Action>
               </XStack>
             </YStack>
