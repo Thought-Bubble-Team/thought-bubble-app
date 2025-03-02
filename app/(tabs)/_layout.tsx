@@ -124,6 +124,8 @@ export default function TabLayout() {
 const NotepadMenu = () => {
   return (
     <Animated.View
+      entering={FadeIn}
+      exiting={FadeOut}
       style={{
         position: "relative",
         alignItems: "center",
