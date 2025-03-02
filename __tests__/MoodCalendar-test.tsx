@@ -4,6 +4,7 @@ import { TamaguiProvider, Theme } from "tamagui";
 import config from "@/tamagui.config";
 import MoodCalendar from "@/components/Macro/MoodCalendar/MoodCalendar";
 import { parseInitialDate } from "@/utils/dateFormat";
+import { provideSampleSentimentData } from "@/utils/sampleSentimentData";
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <TamaguiProvider config={config}>
@@ -42,9 +43,42 @@ jest.mock("@/utils/sampleSentimentData", () => [
   },
 ]);
 
+jest.mock("@/utils/sampleSentimentData", () => ({
+  provideSampleSentimentData: jest.fn(),
+}));
+
 describe("MoodCalendar Component", () => {
   test("renders correctly", () => {
     customRender(<MoodCalendar initialDate="May 2023" />);
+    const {
+      provideSampleSentimentData,
+    } = require("@/utils/sampleSentimentData");
+    provideSampleSentimentData.mockReturnValue([
+      {
+        created_at: "2025-02-01T00:00:00Z",
+        emotion: "joy",
+      },
+      {
+        created_at: "2025-02-02T00:00:00Z",
+        emotion: "joy",
+      },
+      {
+        created_at: "2025-02-03T00:00:00Z",
+        emotion: "neutral",
+      },
+      {
+        created_at: "2025-02-04T00:00:00Z",
+        emotion: "anger",
+      },
+      {
+        created_at: "2025-02-05T00:00:00Z",
+        emotion: "sadness",
+      },
+      {
+        created_at: "2025-02-06T00:00:00Z",
+        emotion: "sadness",
+      },
+    ]);
 
     const dayContainer = screen.getAllByTestId("day-container");
     const emotionSlot = screen.getAllByTestId("emotion-slot");

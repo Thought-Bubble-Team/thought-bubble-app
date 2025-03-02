@@ -86,9 +86,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="flower"
+        name="gratitude"
         options={{
-          title: "Flower",
+          title: "Gratitude",
           tabBarIcon: ({ size, focused }) => (
             <IconContainer>
               <TabIcons
@@ -124,6 +124,8 @@ export default function TabLayout() {
 const NotepadMenu = () => {
   return (
     <Animated.View
+      entering={FadeIn}
+      exiting={FadeOut}
       style={{
         position: "relative",
         alignItems: "center",
@@ -131,7 +133,7 @@ const NotepadMenu = () => {
     >
       <View
         position="absolute"
-        top={-250}
+        top={-195}
         left={-120}
         right={-120}
         flexDirection="column"
@@ -160,26 +162,13 @@ const NotepadMenu = () => {
           onPress={() =>
             router.push({
               pathname: "/notepad/gratitude-journal",
-              params: { id: "new" },
+              params: { id: "gratitude" },
             })
           }
           size="$sm"
           backgroundColor={"$grey5"}
         >
           <Button.Text>New Gratitude Entry</Button.Text>
-        </Button>
-        <Button
-          type="normal"
-          onPress={() =>
-            router.push({
-              pathname: "/notepad/journals",
-              params: { id: "new" },
-            })
-          }
-          size="$sm"
-          backgroundColor={"$grey5"}
-        >
-          <Button.Text>Edit Entry</Button.Text>
         </Button>
       </View>
       <View
@@ -194,7 +183,6 @@ const NotepadMenu = () => {
         borderLeftColor="transparent"
         borderRightColor="transparent"
         borderTopColor="$grey3"
-        elevationAndroid={5}
       ></View>
     </Animated.View>
   );

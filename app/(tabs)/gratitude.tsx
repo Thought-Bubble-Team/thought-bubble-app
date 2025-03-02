@@ -1,9 +1,8 @@
 // Libraries Imports
 import { useEffect, useState } from "react";
-import { Spinner, styled, View, XStack } from "tamagui";
+import { Spinner, useTheme } from "tamagui";
+import { styled, View, XStack } from "tamagui";
 import { router } from "expo-router";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { Alert, RefreshControl } from "react-native";
 
 // Components Imports
 import MyView from "@/components/Micro/MyView";
@@ -14,21 +13,25 @@ import { NoSession } from "@/components/Sessions";
 import Header from "@/components/Micro/Header";
 import { Button } from "@/components/Micro/Button";
 import Modal from "@/components/Micro/Modal";
-import AlertDialog from "@/components/Macro/AlertDialog";
+import JournalForm from "@/components/Macro/JournalForm";
 
 // Utilities Imports
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
 import { supabase } from "@/utils/supabase/supabase";
 import {
-  deleteJournalEntry,
-  getAllJournalEntries,
+  deleteGratitudeEntry,
+  getAllGratitudeEntries,
 } from "@/utils/supabase/db-crud";
+import { Alert, RefreshControl, TouchableOpacity } from "react-native";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
+import AlertDialog from "@/components/Macro/AlertDialog";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
-export default function Journals() {
+export default function Gratitudes() {
+  const theme = useTheme();
   const session = useSessionStore((state) => state.session);
   const setSession = useSessionStore((state) => state.setSession);
-  const [journals, setJournals] = useState<JournalEntryType[]>([]);
+  const [gratitudes, setGratitudes] = useState<JournalEntryType[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -45,14 +48,12 @@ export default function Journals() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const data = await getAllJournalEntries();
+        const data = await getAllGratitudeEntries();
         if (data && Array.isArray(data.data)) {
-          setJournals([...data.data]);
+          setGratitudes([...data.data]);
         } else {
-          Alert.alert("Error", "Failed to fetch journal entries");
+          Alert.alert("Error", "Failed to fetch gratitude entries");
         }
-      } catch (e) {
-        console.log("Error fetching journal entries", e);
       } finally {
         setLoading(false);
       }
@@ -63,12 +64,12 @@ export default function Journals() {
 
   const refresh = () => {
     setRefreshing(true);
-    getAllJournalEntries().then((data) => {
+    getAllGratitudeEntries().then((data) => {
       if (data && Array.isArray(data.data)) {
-        setJournals([...data.data]);
+        setGratitudes([...data.data]);
         setRefreshing(false);
       } else {
-        Alert.alert("Error", "Failed to fetch journal entries");
+        Alert.alert("Error", "Failed to fetch gratitude entries");
         setRefreshing(false);
       }
     });
@@ -84,14 +85,14 @@ export default function Journals() {
             </Text>
           </Header>
           <Container justifyContent="center" alignItems="center">
-            <Spinner size="large" color="$grey3" testID="loading-spinner" />
+            <Spinner size="large" color="$grey3" />
           </Container>
         </Container>
       </MainView>
     );
   }
 
-  if (journals.length === 0) {
+  if (gratitudes.length === 0) {
     return (
       <MainView>
         {session && (
@@ -103,7 +104,7 @@ export default function Journals() {
             </Header>
             <Container justifyContent="center" alignItems="center">
               <Text weight="bold" fontSize="$xl">
-                Looks like you haven't made any entries yet!
+                Looks like you haven't written any gratitude entries yet!
               </Text>
             </Container>
           </Container>
@@ -129,10 +130,10 @@ export default function Journals() {
               <RefreshControl refreshing={refreshing} onRefresh={refresh} />
             }
           >
-            {journals.map((journalEntrySample) => (
-              <JournalEntry
-                key={journalEntrySample.entry_id}
-                journalEntry={journalEntrySample}
+            {gratitudes.map((gratitudeEntry) => (
+              <GratitudeEntry
+                key={gratitudeEntry.entry_id}
+                gratitudeEntry={gratitudeEntry}
               />
             ))}
           </MyScrollView>
@@ -144,17 +145,17 @@ export default function Journals() {
 }
 
 interface JournalEntryProps {
-  journalEntry: JournalEntryType;
+  gratitudeEntry: JournalEntryType;
 }
 
-const JournalEntry = (props: JournalEntryProps) => {
-  const { journalEntry } = props;
+const GratitudeEntry = (props: JournalEntryProps) => {
+  const { gratitudeEntry } = props;
 
-  const formattedDate = formatDate(journalEntry.created_at);
+  const formattedDate = formatDate(gratitudeEntry.created_at);
   const splitDate = splitFormattedDate(formattedDate);
 
   const handleDelete = async (entry_id: number) => {
-    const { error } = await deleteJournalEntry(entry_id);
+    const { error } = await deleteGratitudeEntry(entry_id);
 
     if (error) {
       Alert.alert("Error", "Failed to delete entry");
@@ -179,7 +180,7 @@ const JournalEntry = (props: JournalEntryProps) => {
           <AlertDialog
             title="Delete Entry?"
             acceptText="Delete"
-            accept={() => handleDelete(journalEntry.entry_id)}
+            accept={() => handleDelete(gratitudeEntry.entry_id)}
           >
             <Button type="icon" size="$xs">
               <Button.Icon>
@@ -189,6 +190,9 @@ const JournalEntry = (props: JournalEntryProps) => {
           </AlertDialog>
         </XStack>
       </EntryHeader>
+      {/* <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <JournalCard journalEntry={journalEntry}></JournalCard>
+      </TouchableOpacity> */}
       {/* <Modal modalVisible={modalVisible} setModalVisible={setModalVisible}>
         <JournalForm
           journalEntry={journalEntry}
@@ -207,7 +211,7 @@ const JournalEntry = (props: JournalEntryProps) => {
       >
         <JournalCard journalEntry={journalEntry}></JournalCard>
       </Button> */}
-      <JournalCard journalEntry={journalEntry}></JournalCard>
+      <JournalCard journalEntry={gratitudeEntry}></JournalCard>
     </EntryContainer>
   );
 };
@@ -221,6 +225,15 @@ const MainView = styled(MyView, {
 const Container = styled(View, {
   width: "100%",
   height: "100%",
+});
+
+const RefreshContainer = styled(View, {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "100%",
+  gap: "$4",
+  padding: "$4",
 });
 
 const EntryContainer = styled(View, {

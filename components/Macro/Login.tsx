@@ -62,18 +62,18 @@ export default function Login(props: LoginProps) {
         secureTextEntry
         onChangeText={setPassword}
       />
-      {/*<TouchableOpacity*/}
-      {/*  style={[*/}
-      {/*    buttonStyles.ButtonStyledColored,*/}
-      {/*    { backgroundColor: theme.primary?.val },*/}
-      {/*  ]}*/}
-      {/*  onPress={signInWithEmail}*/}
-      {/*>*/}
-      {/*  <Text weight="bold" fontSize="$lg" color={"$white"}>*/}
-      {/*    LOGIN*/}
-      {/*  </Text>*/}
-      {/*</TouchableOpacity>*/}
-      <Button type={"normal"} onPress={signInWithEmail}>
+      {/* <TouchableOpacity
+        style={[
+          buttonStyles.ButtonStyledColored,
+          { backgroundColor: theme.primary?.val },
+        ]}
+        onPress={signInWithEmail}
+      >
+        <Text weight="bold" fontSize="$lg" color={"$white"}>
+          LOGIN
+        </Text>
+      </TouchableOpacity> */}
+      <Button type={"normal"} size={"$md"} onPress={signInWithEmail}>
         {!loading && <Button.Text>LOGIN</Button.Text>}
         {loading && <Button.Spinner />}
       </Button>

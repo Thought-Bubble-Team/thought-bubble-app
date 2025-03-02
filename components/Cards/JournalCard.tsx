@@ -99,17 +99,16 @@ export default function MyCard(props: MyCardProps) {
 
   return (
     <CardStyled
-      elevate
       {...restProps}
-      paddingVertical={"$3"}
-      borderRadius={"$0"}
+      backgroundColor={"$grey2"}
+      borderTopRightRadius={"$4"}
+      marginVertical={"$sm"}
       width={"100%"}
+      elevationAndroid={2}
     >
       {journalEntry && (
         <Card.Header
           padded
-          backgroundColor={"$grey2"}
-          borderTopRightRadius={"$4"}
           flexDirection="row"
           justifyContent="space-between"
           alignItems="center"

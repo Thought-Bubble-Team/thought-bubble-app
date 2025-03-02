@@ -1,15 +1,92 @@
-import { View } from "tamagui";
+// Libraries Import
+import { useEffect } from "react";
+import { View, XStack } from "tamagui";
+
+// Components Import
+import MyView from "@/components/Micro/MyView";
 import Text from "@/components/Micro/Text";
+import MyScrollView from "@/components/Micro/MyScrollView";
+import JournalForm from "@/components/Macro/JournalForm";
+import Header from "@/components/Micro/Header";
+import Navigation from "@/components/Micro/Navigation";
 
-import { Stack } from "expo-router";
+// Utilities Import
+import { supabase } from "@/utils/supabase/supabase";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
 
-const GratitudeJournal = () => {
+const GratitudeEntry = () => {
+  const session = useSessionStore((state) => state.session);
+  const setSession = useSessionStore((state) => state.setSession);
+  const date = new Date(); // Example date
+
+  // Get day, date, and month
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const day = days[date.getDay()]; // e.g., "Saturday"
+  const dayOfMonth = date.getDate(); // e.g., 9
+  const month = months[date.getMonth()]; // e.g., "Nov"
+
+  const formattedDate = `, ${dayOfMonth} ${month}`;
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+  }, []);
+
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Stack.Screen options={{ title: "Gratitude Journal" }} />
-      <Text>Gratitude Journal</Text>
-    </View>
+    <MyView
+      paddingHorizontal={"$3"}
+      paddingVertical={"$1"}
+      backgroundColor={"$background"}
+    >
+      <Navigation title="Gratitude Journal" />
+      <Header>
+        <XStack width={"100%"}>
+          <Text weight="bold" fontSize="$xl" color={"$black"}>
+            {day}
+          </Text>
+          <Text weight="bold" fontSize="$xl" color={"$black"} opacity={0.4}>
+            {formattedDate}
+          </Text>
+        </XStack>
+      </Header>
+      <MyScrollView width={"100%"}>
+        {session && session.user && <JournalForm />}
+        {!session && (
+          <View>
+            <Text>Please sign in to create a journal entry.</Text>
+          </View>
+        )}
+      </MyScrollView>
+    </MyView>
   );
 };
 
-export default GratitudeJournal;
+export default GratitudeEntry;
