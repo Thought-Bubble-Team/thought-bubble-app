@@ -131,7 +131,7 @@ const NotepadMenu = () => {
     >
       <View
         position="absolute"
-        top={-250}
+        top={-195}
         left={-120}
         right={-120}
         flexDirection="column"
@@ -167,19 +167,6 @@ const NotepadMenu = () => {
           backgroundColor={"$grey5"}
         >
           <Button.Text>New Gratitude Entry</Button.Text>
-        </Button>
-        <Button
-          type="normal"
-          onPress={() =>
-            router.push({
-              pathname: "/notepad/journals",
-              params: { id: "new" },
-            })
-          }
-          size="$sm"
-          backgroundColor={"$grey5"}
-        >
-          <Button.Text>Edit Entry</Button.Text>
         </Button>
       </View>
       <View
