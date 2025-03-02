@@ -90,7 +90,10 @@ export default function SignUp(props: SignUpProps) {
       {/*    SIGNUP*/}
       {/*  </Text>*/}
       {/*</TouchableOpacity>*/}
-      <Button type={"normal"} onPress={signUpWithEmail}>
+      <Button
+        type={"normal"}
+        onPress={() => Alert.alert("Signup is not available yet!")}
+      >
         {!loading && <Button.Text>SIGNUP</Button.Text>}
         {loading && <Button.Spinner />}
       </Button>
@@ -101,7 +104,12 @@ export default function SignUp(props: SignUpProps) {
         {/*    Login*/}
         {/*  </Text>*/}
         {/*</TouchableOpacity>*/}
-        <Button type={"icon"} onPress={() => setIsSignUp(false)}>
+        <Button
+          type={"icon"}
+          size={"$md"}
+          padding={0}
+          onPress={() => setIsSignUp(false)}
+        >
           <Button.Text>Login</Button.Text>
         </Button>
       </Footer>

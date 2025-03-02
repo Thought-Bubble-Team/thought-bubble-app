@@ -84,7 +84,12 @@ export default function Login(props: LoginProps) {
         {/*    Signup*/}
         {/*  </Text>*/}
         {/*</TouchableOpacity>*/}
-        <Button type={"icon"} onPress={() => setIsSignUp(true)}>
+        <Button
+          type={"icon"}
+          size={"$md"}
+          padding={0}
+          onPress={() => setIsSignUp(true)}
+        >
           <Button.Text>Signup</Button.Text>
         </Button>
       </Footer>
