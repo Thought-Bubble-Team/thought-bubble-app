@@ -23,6 +23,7 @@ export const ButtonFrame = styled(
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
+    elevationAndroid: 2,
 
     variants: {
       type: {
