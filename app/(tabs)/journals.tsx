@@ -30,7 +30,7 @@ export default function Journals() {
   const setSession = useSessionStore((state) => state.setSession);
   const [journals, setJournals] = useState<JournalEntryType[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     refresh();
@@ -44,14 +44,18 @@ export default function Journals() {
 
     const fetchData = async () => {
       setLoading(true);
-      getAllJournalEntries().then((data) => {
+      try {
+        const data = await getAllJournalEntries();
         if (data && Array.isArray(data.data)) {
           setJournals([...data.data]);
         } else {
           Alert.alert("Error", "Failed to fetch journal entries");
         }
-      });
-      setLoading(false);
+      } catch (e) {
+        console.log("Error fetching journal entries", e);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
@@ -73,19 +77,16 @@ export default function Journals() {
   if (loading) {
     return (
       <MainView>
-        {session && (
-          <Container>
-            <Header>
-              <Text weight="bold" fontSize="$xxxl">
-                Your Journey
-              </Text>
-            </Header>
-            <Container justifyContent="center" alignItems="center">
-              <Spinner size="large" color="$grey3" />
-            </Container>
+        <Container>
+          <Header>
+            <Text weight="bold" fontSize="$xxxl">
+              Your Journey
+            </Text>
+          </Header>
+          <Container justifyContent="center" alignItems="center">
+            <Spinner size="large" color="$grey3" testID="loading-spinner" />
           </Container>
-        )}
-        {!session && <NoSession />}
+        </Container>
       </MainView>
     );
   }
