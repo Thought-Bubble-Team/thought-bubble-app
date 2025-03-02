@@ -20,11 +20,14 @@ export default function MyCard(props: MyCardProps) {
   const { headerTitle, children, ...restProps } = props;
   return (
     <CardStyled
-      elevate
       {...restProps}
-      paddingVertical={"$sm"}
-      borderRadius={"$0"}
+      // paddingVertical={"$sm"}
+      // borderRadius={"$0"}
+      backgroundColor={"$grey2"}
+      borderTopRightRadius={"$4"}
+      marginVertical={"$sm"}
       width={"100%"}
+      elevationAndroid={2}
     >
       {headerTitle !== undefined && (
         <Card.Header
