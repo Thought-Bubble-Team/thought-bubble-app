@@ -70,6 +70,8 @@ const ViewContainer = styled(XStack, {
 
 const InputContainer = styled(YStack, {
   alignItems: "flex-start",
+  flex: 1,
+  paddingRight: 16,
 });
 
 export default MyInput;
