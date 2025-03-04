@@ -17,12 +17,11 @@ import JournalForm from "@/components/Macro/JournalForm";
 
 // Utilities Imports
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
-import { supabase } from "@/utils/supabase/supabase";
 import {
   deleteGratitudeEntry,
   getAllGratitudeEntries,
 } from "@/utils/supabase/db-crud";
-import { Alert, RefreshControl, TouchableOpacity } from "react-native";
+import { Alert, RefreshControl } from "react-native";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
 import AlertDialog from "@/components/Macro/AlertDialog";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -30,37 +29,37 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 export default function Gratitudes() {
   const theme = useTheme();
   const session = useSessionStore((state) => state.session);
-  const setSession = useSessionStore((state) => state.setSession);
   const [gratitudes, setGratitudes] = useState<JournalEntryType[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    refresh();
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-
+    setLoading(true);
     const fetchData = async () => {
-      setLoading(true);
       try {
         const data = await getAllGratitudeEntries();
         if (data && Array.isArray(data.data)) {
           setGratitudes([...data.data]);
+          setLoading(false);
         } else {
           Alert.alert("Error", "Failed to fetch gratitude entries");
         }
-      } finally {
-        setLoading(false);
+      } catch (e) {
+        console.log("Error fetching gratitude entries", e);
       }
     };
 
-    fetchData();
-  }, []);
+    const PrepareComponent = async () => {
+      try {
+        fetchData();
+        refresh();
+      } catch (e) {
+        console.log("Error preparing page", e);
+      }
+    };
+
+    PrepareComponent();
+  }, [session]);
 
   const refresh = () => {
     setRefreshing(true);
@@ -75,41 +74,22 @@ export default function Gratitudes() {
     });
   };
 
-  if (loading) {
+  if (!session) {
     return (
       <MainView>
-        <Container>
-          <Header>
-            <Text weight="bold" fontSize="$xxxl">
-              Your Journey
-            </Text>
-          </Header>
-          <Container justifyContent="center" alignItems="center">
-            <Spinner size="large" color="$grey3" />
-          </Container>
+        <Container justifyContent="center" alignItems="center">
+          <NoSession />
         </Container>
       </MainView>
     );
   }
 
-  if (gratitudes.length === 0) {
+  if (loading) {
     return (
       <MainView>
-        {session && (
-          <Container>
-            <Header>
-              <Text weight="bold" fontSize="$xxxl">
-                Your Journey
-              </Text>
-            </Header>
-            <Container justifyContent="center" alignItems="center">
-              <Text weight="bold" fontSize="$xl">
-                Looks like you haven't written any gratitude entries yet!
-              </Text>
-            </Container>
-          </Container>
-        )}
-        {!session && <NoSession />}
+        <Container justifyContent="center" alignItems="center">
+          <Spinner size="large" color="$grey3" />
+        </Container>
       </MainView>
     );
   }
@@ -123,20 +103,29 @@ export default function Gratitudes() {
               Your Journey
             </Text>
           </Header>
-          <MyScrollView
-            width={"100%"}
-            height={"100%"}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={refresh} />
-            }
-          >
-            {gratitudes.map((gratitudeEntry) => (
-              <GratitudeEntry
-                key={gratitudeEntry.entry_id}
-                gratitudeEntry={gratitudeEntry}
-              />
-            ))}
-          </MyScrollView>
+          {gratitudes.length === 0 && (
+            <Container justifyContent="center" alignItems="center">
+              <Text weight="bold" fontSize="$xl">
+                Looks like you haven't written any gratitude entries yet!
+              </Text>
+            </Container>
+          )}
+          {gratitudes.length > 0 && (
+            <MyScrollView
+              width={"100%"}
+              height={"100%"}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+              }
+            >
+              {gratitudes.map((gratitudeEntry) => (
+                <GratitudeEntry
+                  key={gratitudeEntry.entry_id}
+                  gratitudeEntry={gratitudeEntry}
+                />
+              ))}
+            </MyScrollView>
+          )}
         </Container>
       )}
       {!session && <NoSession />}
