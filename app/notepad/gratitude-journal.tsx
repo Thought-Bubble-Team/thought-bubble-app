@@ -62,9 +62,12 @@ const GratitudeEntry = () => {
 
   return (
     <MyView
+      flex={1}
       paddingHorizontal={"$3"}
       paddingVertical={"$1"}
       backgroundColor={"$background"}
+      alignItems="center"
+      justifyContent="flex-start"
     >
       <Navigation title="Gratitude Journal" />
       <Header>
@@ -77,14 +80,12 @@ const GratitudeEntry = () => {
           </Text>
         </XStack>
       </Header>
-      <MyScrollView width={"100%"}>
-        {session && session.user && <JournalForm />}
-        {!session && (
-          <View>
-            <Text>Please sign in to create a journal entry.</Text>
-          </View>
-        )}
-      </MyScrollView>
+      {session && session.user && <JournalForm />}
+      {!session && (
+        <View>
+          <Text>Please sign in to create a journal entry.</Text>
+        </View>
+      )}
     </MyView>
   );
 };

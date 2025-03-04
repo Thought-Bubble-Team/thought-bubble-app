@@ -1,8 +1,8 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Image, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { styled, View, Input } from "tamagui";
+import { styled, View, Input, TextArea, YStack } from "tamagui";
 
 import MyScrollView from "@/components/Micro/MyScrollView";
 import { Button } from "@/components/Micro/Button";
@@ -114,10 +114,6 @@ export default function JournalForm(props: JournalEntryProps) {
     };
 
     try {
-      // const { error } =
-      //   journalEntry === undefined
-      //     ? await createJournalEntry(journalEntryObject)
-      //     : await updateJournalEntry(journalEntry.entry_id, journalEntryObject);
       if (
         journalEntryObject.title === undefined ||
         journalEntryObject.content === undefined
@@ -164,24 +160,6 @@ export default function JournalForm(props: JournalEntryProps) {
           Alert.alert("Success", "Journal entry updated successfully!");
         }
       }
-
-      // if (error) {
-      //   Alert.alert("Error", error.message);
-      //   setError(error);
-      // } else {
-      //   Alert.alert(
-      //     "Success",
-      //     `Journal entry ${
-      //       journalEntry === undefined ? "created" : "updated"
-      //     } successfully!`
-      //   );
-      // }
-
-      // if (journalEntry === undefined) {
-      //   setTitle("");
-      //   setMessage("");
-      //   setImages(undefined);
-      // }
     } catch (error) {
       Alert.alert(
         "Error",
@@ -195,40 +173,26 @@ export default function JournalForm(props: JournalEntryProps) {
 
   return (
     <ViewStyled>
-      {/* Editable Title */}
-      <View
-        width={"100%"}
-        flexDirection={"row"}
-        justifyContent="space-between"
-        alignItems={"center"}
-      >
-        <TitleInput
-          value={title}
-          onChangeText={setTitle}
-          placeholder="Enter title..."
-        />
-        {/* <Button
-          backgroundColor={"transparent"}
-          onPress={() => setModalVisible && setModalVisible(false)}
-        >
-          <Ionicons name="close-outline" size={24} color={theme.black?.val} />
-        </Button> */}
-      </View>
-
-      {/* Editable Message */}
-      <MyScrollView backgroundColor={"$grey0"}>
-        <MessageInput
-          multiline
-          placeholder="Enter your message..."
-          value={message}
-          onChangeText={setMessage}
-          backgroundColor={"$grey0"}
-        />
-      </MyScrollView>
+      {/* Footer - Buttons */}
+      <Footer>
+        <Button type="icon" padding={0} onPress={pickImageAsync}>
+          <Button.Icon>
+            <Ionicons name="images-outline" />
+          </Button.Icon>
+        </Button>
+        <Button type="icon" padding={0} size={"$sm"} onPress={handleSubmit}>
+          {!loading && (
+            <Button.Icon>
+              <Ionicons name="checkmark-done-outline" />
+            </Button.Icon>
+          )}
+          {loading && <Button.Spinner color={"$black"} />}
+        </Button>
+      </Footer>
 
       {/* Images */}
       {images !== undefined && (
-        <MyScrollView horizontal backgroundColor={"$grey0"}>
+        <MyScrollView horizontal backgroundColor={"$grey0"} maxHeight={100}>
           {images.map((image, index) => (
             <ImageWrapper key={index} style={{ zIndex: images.length - index }}>
               <ImageStyled source={{ uri: image }} />
@@ -247,42 +211,41 @@ export default function JournalForm(props: JournalEntryProps) {
         </MyScrollView>
       )}
 
-      {/* Footer - Buttons */}
-      <Footer>
-        {/* <ButtonStyled onPress={pickImageAsync}>
-          <Ionicons name="images-outline" size={35} color={theme.black?.val} />
-        </ButtonStyled> */}
-        <Button type="icon" onPress={pickImageAsync}>
-          <Button.Icon>
-            <Ionicons name="images-outline" />
-          </Button.Icon>
-        </Button>
-        <Button type="icon" size={"$sm"} onPress={handleSubmit}>
-          {!loading && (
-            <Button.Icon>
-              <Ionicons name="checkmark-done-outline" />
-            </Button.Icon>
-          )}
-          {loading && <Button.Spinner color={"$black"} />}
-        </Button>
-        {/* <ButtonStyled onPress={handleSubmit}>
-          <Ionicons
-            name="checkmark-done-outline"
-            size={35}
-            color={theme.black?.val}
-          />
-        </ButtonStyled> */}
-      </Footer>
+      {/* Editable Title */}
+      <View
+        flexDirection={"row"}
+        justifyContent="space-between"
+        alignItems={"center"}
+      >
+        <TitleInput
+          value={title}
+          width={"100%"}
+          onChangeText={setTitle}
+          placeholder="Enter title..."
+        />
+      </View>
+
+      {/* Editable Message */}
+      <View backgroundColor={"$grey0"} flex={1}>
+        <MessageInput
+          placeholder="Enter your message..."
+          value={message}
+          onChangeText={setMessage}
+          backgroundColor={"$grey0"}
+        />
+      </View>
     </ViewStyled>
   );
 }
 
-const ViewStyled = styled(View, {
+const ViewStyled = styled(YStack, {
   width: "100%",
+  height: "100%",
   backgroundColor: "$grey0",
   borderBottomLeftRadius: "$4",
   borderBottomRightRadius: "$4",
-  padding: "$5",
+  justifyContent: "flex-start",
+  padding: "$3",
 });
 
 const ImageWrapper = styled(View, {
@@ -329,7 +292,7 @@ const TitleInput = styled(Input, {
   paddingVertical: "$3",
 });
 
-const MessageInput = styled(Input, {
+const MessageInput = styled(TextArea, {
   fontFamily: "Montserrat_400Regular",
   fontSize: 16,
   textAlignVertical: "top",
@@ -337,18 +300,13 @@ const MessageInput = styled(Input, {
   borderColor: "$grey0",
   paddingHorizontal: 0,
   paddingVertical: "$3",
+  numberOfLines: 50,
+  maxLength: 3000,
+  flex: 1,
 });
 
 const Footer = styled(View, {
   flexDirection: "row",
   justifyContent: "space-between",
-  marginTop: "$4",
-});
-
-const ButtonStyled = styled(Button, {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  backgroundColor: "$grey0",
-  borderWidth: 0,
+  marginBottom: "$4",
 });
