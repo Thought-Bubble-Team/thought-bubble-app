@@ -86,6 +86,21 @@ export default function Index() {
         />
       </Header>
       <MyScrollView width={"100%"} height={"100%"}>
+        <MyCard headerTitle="Mood Calendar">
+          {session && (
+            <MoodCalendar
+              initialDate={val}
+              // Disable pre v0.1.0
+              // onPress={() =>
+              //   router.navigate({
+              //     pathname: "/graph/[id]/mood-calendar",
+              //     params: { id: session.user.id },
+              //   })
+              // }
+            />
+          )}
+          {!session && <Text>Please Login to see your Mood Calendar data</Text>}
+        </MyCard>
         {FEATURE_FLAGS.DASHBOARD_CHARTS.REOCCURRING_WORDS && (
           <MyCard headerTitle="Reoccuring Words">
             {session && (
@@ -104,21 +119,6 @@ export default function Index() {
             )}
           </MyCard>
         )}
-        <MyCard headerTitle="Mood Calendar">
-          {session && (
-            <MoodCalendar
-              initialDate={val}
-              // Disable pre v0.1.0
-              // onPress={() =>
-              //   router.navigate({
-              //     pathname: "/graph/[id]/mood-calendar",
-              //     params: { id: session.user.id },
-              //   })
-              // }
-            />
-          )}
-          {!session && <Text>Please Login to see your Mood Calendar data</Text>}
-        </MyCard>
       </MyScrollView>
     </MyView>
   );
