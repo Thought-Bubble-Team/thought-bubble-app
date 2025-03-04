@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, fireEvent, act } from "@testing-library/react-native";
 import { TamaguiProvider, Theme } from "tamagui";
 import config from "@/tamagui.config";
-import Text from "@/components/Micro/Text";
+import Text from "@/components/atoms/Text";
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <TamaguiProvider config={config}>

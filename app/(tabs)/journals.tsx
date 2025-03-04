@@ -6,14 +6,14 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Alert, RefreshControl } from "react-native";
 
 // Components Imports
-import MyView from "@/components/Micro/MyView";
-import MyScrollView from "@/components/Micro/MyScrollView";
-import Text from "@/components/Micro/Text";
+import MyView from "@/components/atoms/MyView";
+import MyScrollView from "@/components/atoms/MyScrollView";
+import Text from "@/components/atoms/Text";
 import { JournalCard, JournalEntryType } from "@/components/Cards";
 import { NoSession } from "@/components/Sessions";
-import Header from "@/components/Micro/Header";
-import { Button } from "@/components/Micro/Button";
-import Modal from "@/components/Micro/Modal";
+import Header from "@/components/atoms/Header";
+import { Button } from "@/components/atoms/Button";
+import Modal from "@/components/atoms/Modal";
 import AlertDialog from "@/components/Macro/AlertDialog";
 
 // Utilities Imports

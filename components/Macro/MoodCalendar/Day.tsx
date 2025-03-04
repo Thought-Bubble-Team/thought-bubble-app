@@ -1,6 +1,6 @@
 import { styled, View } from "tamagui";
 
-import Text from "@/components/Micro/Text";
+import Text from "@/components/atoms/Text";
 import MoodIcons from "@/components/Icons/MoodIcons";
 
 interface DayProps {

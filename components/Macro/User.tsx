@@ -11,9 +11,9 @@ import {
 import BackLine from "@/assets/icons/backLine.svg";
 
 // Component Imports
-import Text from "@/components/Micro/Text";
-import MyScrollView from "@/components/Micro/MyScrollView";
-import { Button } from "@/components/Micro/Button";
+import Text from "@/components/atoms/Text";
+import MyScrollView from "@/components/atoms/MyScrollView";
+import { Button } from "@/components/atoms/Button";
 import { supabase } from "@/utils/supabase/supabase";
 
 // Utility Imports

@@ -2,8 +2,8 @@
 import { styled, View, XStack } from "tamagui";
 
 // Components Import
-import { Button } from "@/components/Micro/Button";
-import Text from "@/components/Micro/Text";
+import { Button } from "@/components/atoms/Button";
+import Text from "@/components/atoms/Text";
 // @ts-ignore
 import BackLine from "@/assets/icons/backLine.svg";
 

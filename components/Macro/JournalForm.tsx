@@ -4,8 +4,8 @@ import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { styled, View, Input, TextArea, YStack } from "tamagui";
 
-import MyScrollView from "@/components/Micro/MyScrollView";
-import { Button } from "@/components/Micro/Button";
+import MyScrollView from "@/components/atoms/MyScrollView";
+import { Button } from "@/components/atoms/Button";
 
 import { useTheme } from "tamagui";
 

@@ -8,14 +8,14 @@ import {
 import { router } from "expo-router";
 
 // Components Import
-import MyScrollView from "@/components/Micro/MyScrollView";
-import MyView from "@/components/Micro/MyView";
-import MyCard from "@/components/Micro/MyCard";
-import Text from "@/components/Micro/Text";
+import MyScrollView from "@/components/atoms/MyScrollView";
+import MyView from "@/components/atoms/MyView";
+import MyCard from "@/components/atoms/MyCard";
+import Text from "@/components/atoms/Text";
 import ReoccurringWords from "@/components/Macro/ReoccurringWords";
 import MoodCalendar from "@/components/Macro/MoodCalendar/MoodCalendar";
-import MySelect from "@/components/Micro/MySelect";
-import Header from "@/components/Micro/Header";
+import MySelect from "@/components/atoms/MySelect";
+import Header from "@/components/atoms/Header";
 
 // Utilities Import
 import { useSessionStore } from "@/utils/stores/useSessionStore";

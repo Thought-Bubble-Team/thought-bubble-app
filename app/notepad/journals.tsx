@@ -1,5 +1,5 @@
 import { View } from "tamagui";
-import Text from "@/components/Micro/Text";
+import Text from "@/components/atoms/Text";
 
 import { Stack } from "expo-router";
 

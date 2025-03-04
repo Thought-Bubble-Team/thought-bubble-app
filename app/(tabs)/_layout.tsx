@@ -9,10 +9,10 @@ import Animated, {
 } from "react-native-reanimated";
 
 import TabIcons from "@/components/Icons/TabIcons";
-import { Button } from "@/components/Micro/Button";
+import { Button } from "@/components/atoms/Button";
 
 import { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs";
-import Text from "@/components/Micro/Text";
+import Text from "@/components/atoms/Text";
 import { useState } from "react";
 
 export default function TabLayout() {

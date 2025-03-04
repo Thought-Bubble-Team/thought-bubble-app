@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
 import { Text } from "react-native";
-import Modal from "../components/Micro/Modal";
+import Modal from "../components/atoms/Modal";
 import { TamaguiProvider, Theme } from "tamagui";
 import config from "../tamagui.config";
 

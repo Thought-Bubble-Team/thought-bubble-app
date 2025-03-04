@@ -7,7 +7,7 @@ import {
 } from "tamagui";
 import { TouchableOpacity } from "react-native";
 
-import { Button } from "@/components/Micro/Button";
+import { Button } from "@/components/atoms/Button";
 
 interface AlertDialogProps extends TAlertDialogProps {
   title: string;

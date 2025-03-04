@@ -1,7 +1,7 @@
 import { styled, View, ViewProps, XStack } from "tamagui";
 
 import Day from "@/components/Macro/MoodCalendar/Day";
-import Text from "@/components/Micro/Text";
+import Text from "@/components/atoms/Text";
 
 import { parseInitialDate } from "@/utils/dateFormat";
 import {

@@ -6,7 +6,7 @@ import {
   getTokens,
 } from "tamagui";
 import { styled, View, Spinner } from "tamagui";
-import Text from "@/components/Micro/Text";
+import Text from "@/components/atoms/Text";
 import React, { forwardRef } from "react";
 
 export const ButtonContext = createStyledContext({

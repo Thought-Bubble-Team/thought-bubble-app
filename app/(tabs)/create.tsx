@@ -3,11 +3,11 @@ import { useEffect } from "react";
 import { View, XStack } from "tamagui";
 
 // Components Import
-import MyView from "@/components/Micro/MyView";
-import Text from "@/components/Micro/Text";
-import MyScrollView from "@/components/Micro/MyScrollView";
+import MyView from "@/components/atoms/MyView";
+import Text from "@/components/atoms/Text";
+import MyScrollView from "@/components/atoms/MyScrollView";
 import JournalForm from "@/components/Macro/JournalForm";
-import Header from "@/components/Micro/Header";
+import Header from "@/components/atoms/Header";
 
 // Utilities Import
 import { supabase } from "@/utils/supabase/supabase";
