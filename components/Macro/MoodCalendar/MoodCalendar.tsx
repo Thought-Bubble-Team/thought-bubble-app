@@ -1,13 +1,19 @@
+// Libraries
 import { styled, View, ViewProps, XStack } from "tamagui";
 
+// Components
 import Day from "@/components/Macro/MoodCalendar/Day";
 import Text from "@/components/atoms/Text";
 
+// Utilities
 import { parseInitialDate } from "@/utils/dateFormat";
 import {
   SimpleSentimentData,
   provideSampleSentimentData,
 } from "@/utils/sampleSentimentData";
+import { useMoodCalendarDataStore } from "@/utils/stores/useChartDataStore";
+import { MoodCalendarDataType } from "@/utils/interfaces/dataTypes";
+import { useEffect } from "react";
 
 const DayContainer = styled(View, {
   width: "14.28%",
@@ -34,6 +40,33 @@ const MoodCalendar = (props: MoodCalendarProps) => {
   console.log("currentMonth: ", currentMonth);
   const sampleSentimentData = provideSampleSentimentData(initialDate);
   console.log("sampleSentimentData: ", sampleSentimentData);
+  const { moodCalendarData, fetchMoodCalendarData } =
+    useMoodCalendarDataStore();
+
+  // const fetchData = async () => {
+  //   const result = await fetchMoodCalendarData({
+  //     month: 2,
+  //     year: currentMonth.getFullYear(),
+  //     userId: "f55522f3-3089-413d-9338-e82ae53c2fe2",
+  //   });
+  //   if (result.result !== null) {
+  //     console.log(
+  //       `\x1b[35m"fetchData result: ", ${result.result.calendar[0].emotions}\x1b[0m`
+  //     );
+  //   }
+  // };
+  // fetchData();
+
+  useEffect(() => {
+    fetchMoodCalendarData(
+      "f55522f3-3089-413d-9338-e82ae53c2fe2",
+      currentMonth.getMonth() + 1,
+      currentMonth.getFullYear()
+    );
+  }, [fetchMoodCalendarData]);
+  console.log(
+    `\x1b[35m"fetchData result: ", ${moodCalendarData?.message}\x1b[0m`
+  );
 
   const renderCalendarCells = () => {
     const getDaysInMonth = (date: Date) => {
