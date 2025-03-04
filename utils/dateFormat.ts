@@ -69,3 +69,37 @@ export const parseInitialDate = (initialDate: string | Date): Date => {
 
   return new Date(initialDate);
 };
+
+export const getMonthYearList = (): { id: number; date: string }[] => {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const startYear = 2025;
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+
+  const dateOptions: { id: number; date: string }[] = [];
+  for (let year = startYear; year <= currentYear; year++) {
+    for (let monthIndex = 0; monthIndex < 12; monthIndex++) {
+      if (year === currentYear && monthIndex > currentMonth) break;
+      dateOptions.push({
+        id: dateOptions.length,
+        date: `${months[monthIndex]} ${year}`,
+      });
+    }
+  }
+
+  return dateOptions;
+};
