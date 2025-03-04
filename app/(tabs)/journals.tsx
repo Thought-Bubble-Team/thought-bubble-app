@@ -1,24 +1,21 @@
 // Libraries Imports
 import { useEffect, useState } from "react";
 import { Spinner, styled, View, XStack } from "tamagui";
-import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Alert, RefreshControl } from "react-native";
 
 // Components Imports
-import MyView from "@/components/Micro/MyView";
-import MyScrollView from "@/components/Micro/MyScrollView";
-import Text from "@/components/Micro/Text";
+import MyView from "@/components/atoms/MyView";
+import MyScrollView from "@/components/atoms/MyScrollView";
+import Text from "@/components/atoms/Text";
 import { JournalCard, JournalEntryType } from "@/components/Cards";
 import { NoSession } from "@/components/Sessions";
-import Header from "@/components/Micro/Header";
-import { Button } from "@/components/Micro/Button";
-import Modal from "@/components/Micro/Modal";
+import Header from "@/components/atoms/Header";
+import { Button } from "@/components/atoms/Button";
 import AlertDialog from "@/components/Macro/AlertDialog";
 
 // Utilities Imports
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
-import { supabase } from "@/utils/supabase/supabase";
 import {
   deleteJournalEntry,
   getAllJournalEntries,
@@ -27,39 +24,37 @@ import { useSessionStore } from "@/utils/stores/useSessionStore";
 
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
-  const setSession = useSessionStore((state) => state.setSession);
   const [journals, setJournals] = useState<JournalEntryType[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    refresh();
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-
+    setLoading(true);
     const fetchData = async () => {
-      setLoading(true);
       try {
         const data = await getAllJournalEntries();
         if (data && Array.isArray(data.data)) {
           setJournals([...data.data]);
+          setLoading(false);
         } else {
           Alert.alert("Error", "Failed to fetch journal entries");
         }
       } catch (e) {
         console.log("Error fetching journal entries", e);
-      } finally {
-        setLoading(false);
       }
     };
 
-    fetchData();
-  }, []);
+    const PrepareComponent = async () => {
+      try {
+        fetchData();
+        refresh();
+      } catch (e) {
+        console.log("Error preparing page", e);
+      }
+    };
+
+    PrepareComponent();
+  }, [session]);
 
   const refresh = () => {
     setRefreshing(true);
@@ -74,54 +69,42 @@ export default function Journals() {
     });
   };
 
-  if (loading) {
+  if (!session) {
     return (
       <MainView>
-        <Container>
-          <Header>
-            <Text weight="bold" fontSize="$xxxl">
-              Your Journey
-            </Text>
-          </Header>
-          <Container justifyContent="center" alignItems="center">
-            <Spinner size="large" color="$grey3" testID="loading-spinner" />
-          </Container>
+        <Container justifyContent="center" alignItems="center">
+          <NoSession />
         </Container>
       </MainView>
     );
   }
 
-  if (journals.length === 0) {
+  if (loading) {
     return (
       <MainView>
-        {session && (
-          <Container>
-            <Header>
-              <Text weight="bold" fontSize="$xxxl">
-                Your Journey
-              </Text>
-            </Header>
-            <Container justifyContent="center" alignItems="center">
-              <Text weight="bold" fontSize="$xl">
-                Looks like you haven't made any entries yet!
-              </Text>
-            </Container>
-          </Container>
-        )}
-        {!session && <NoSession />}
+        <Container justifyContent="center" alignItems="center">
+          <Spinner size="large" color="$grey3" testID="loading-spinner" />
+        </Container>
       </MainView>
     );
   }
 
   return (
     <MainView>
-      {session && (
-        <Container>
-          <Header>
-            <Text weight="bold" fontSize="$xxxl">
-              Your Journey
+      <Container>
+        <Header>
+          <Text weight="bold" fontSize="$xxxl">
+            Your Journey
+          </Text>
+        </Header>
+        {journals.length === 0 && (
+          <Container justifyContent="center" alignItems="center">
+            <Text weight="bold" fontSize="$xl">
+              No journal entries found
             </Text>
-          </Header>
+          </Container>
+        )}
+        {journals.length > 0 && (
           <MyScrollView
             width={"100%"}
             height={"100%"}
@@ -136,9 +119,8 @@ export default function Journals() {
               />
             ))}
           </MyScrollView>
-        </Container>
-      )}
-      {!session && <NoSession />}
+        )}
+      </Container>
     </MainView>
   );
 }
@@ -189,24 +171,6 @@ const JournalEntry = (props: JournalEntryProps) => {
           </AlertDialog>
         </XStack>
       </EntryHeader>
-      {/* <Modal modalVisible={modalVisible} setModalVisible={setModalVisible}>
-        <JournalForm
-          journalEntry={journalEntry}
-          setModalVisible={setModalVisible}
-        />
-      </Modal> */}
-      {/* <Button
-        type="icon"
-        onPress={() =>
-          router.navigate({
-            pathname: "/journals/[id]/summary",
-            params: { id: journalEntry.entry_id },
-          })
-        }
-        padding={0}
-      >
-        <JournalCard journalEntry={journalEntry}></JournalCard>
-      </Button> */}
       <JournalCard journalEntry={journalEntry}></JournalCard>
     </EntryContainer>
   );
@@ -228,9 +192,7 @@ const EntryContainer = styled(View, {
   display: "flex",
   flexDirection: "column",
   gap: 0,
-  borderBottomColor: "$divider",
-  borderBottomWidth: 1,
-  paddingVertical: "$5",
+  paddingVertical: "$3",
 });
 
 const EntryHeader = styled(View, {

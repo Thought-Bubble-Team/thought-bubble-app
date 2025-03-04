@@ -1,6 +1,6 @@
 import { XStack, View, ViewProps } from "tamagui";
 
-import Text from "@/components/Micro/Text";
+import Text from "@/components/atoms/Text";
 
 interface Mood {
   emotion: string;

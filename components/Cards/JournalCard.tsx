@@ -2,7 +2,7 @@ import { Card, CardProps, View, styled } from "tamagui";
 //@ts-ignore
 import SmugIcon from "@/assets/icons/smugIcon.svg";
 
-import Text from "@/components/Micro/Text";
+import Text from "@/components/atoms/Text";
 
 import { useEffect, useState } from "react";
 import { formatTime } from "@/utils/dateFormat";

@@ -3,12 +3,12 @@ import { useEffect } from "react";
 import { View, XStack } from "tamagui";
 
 // Components Import
-import MyView from "@/components/Micro/MyView";
-import Text from "@/components/Micro/Text";
-import MyScrollView from "@/components/Micro/MyScrollView";
+import MyView from "@/components/atoms/MyView";
+import Text from "@/components/atoms/Text";
+import MyScrollView from "@/components/atoms/MyScrollView";
 import JournalForm from "@/components/Macro/JournalForm";
-import Header from "@/components/Micro/Header";
-import Navigation from "@/components/Micro/Navigation";
+import Header from "@/components/atoms/Header";
+import Navigation from "@/components/atoms/Navigation";
 
 // Utilities Import
 import { supabase } from "@/utils/supabase/supabase";
@@ -62,9 +62,12 @@ const GratitudeEntry = () => {
 
   return (
     <MyView
+      flex={1}
       paddingHorizontal={"$3"}
       paddingVertical={"$1"}
       backgroundColor={"$background"}
+      alignItems="center"
+      justifyContent="flex-start"
     >
       <Navigation title="Gratitude Journal" />
       <Header>
@@ -77,14 +80,12 @@ const GratitudeEntry = () => {
           </Text>
         </XStack>
       </Header>
-      <MyScrollView width={"100%"}>
-        {session && session.user && <JournalForm />}
-        {!session && (
-          <View>
-            <Text>Please sign in to create a journal entry.</Text>
-          </View>
-        )}
-      </MyScrollView>
+      {session && session.user && <JournalForm />}
+      {!session && (
+        <View>
+          <Text>Please sign in to create a journal entry.</Text>
+        </View>
+      )}
     </MyView>
   );
 };

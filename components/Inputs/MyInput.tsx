@@ -2,7 +2,7 @@ import { TextInput, TextInputProps, StyleSheet } from "react-native";
 import { styled, YStack, XStack, TamaguiElement } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-import Text from "@/components/Micro/Text";
+import Text from "@/components/atoms/Text";
 
 import { forwardRef } from "react";
 import { useTheme } from "tamagui";
@@ -70,6 +70,8 @@ const ViewContainer = styled(XStack, {
 
 const InputContainer = styled(YStack, {
   alignItems: "flex-start",
+  flex: 1,
+  paddingRight: 16,
 });
 
 export default MyInput;

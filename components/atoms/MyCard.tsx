@@ -1,6 +1,6 @@
 import { Card, CardProps, View, styled } from "tamagui";
 
-import Text from "@/components/Micro/Text";
+import Text from "@/components/atoms/Text";
 
 interface MyCardProps extends CardProps {
   headerTitle?: string | undefined;
