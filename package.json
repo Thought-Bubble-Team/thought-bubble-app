@@ -27,6 +27,7 @@
     "@tamagui/babel-plugin": "^1.121.6",
     "@tamagui/config": "^1.121.6",
     "@tamagui/theme-builder": "^1.123.0",
+    "axios": "^1.8.1",
     "expo": "~52.0.23",
     "expo-constants": "~17.0.3",
     "expo-dev-client": "~5.0.11",
