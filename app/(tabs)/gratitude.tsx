@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { Spinner, useTheme } from "tamagui";
 import { styled, View, XStack } from "tamagui";
-import { router } from "expo-router";
 
 // Components Imports
 import MyView from "@/components/atoms/MyView";
@@ -12,8 +11,6 @@ import { JournalCard, JournalEntryType } from "@/components/Cards";
 import { NoSession } from "@/components/Sessions";
 import Header from "@/components/atoms/Header";
 import { Button } from "@/components/atoms/Button";
-import Modal from "@/components/atoms/Modal";
-import JournalForm from "@/components/Macro/JournalForm";
 
 // Utilities Imports
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
@@ -27,7 +24,6 @@ import AlertDialog from "@/components/Macro/AlertDialog";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function Gratitudes() {
-  const theme = useTheme();
   const session = useSessionStore((state) => state.session);
   const [gratitudes, setGratitudes] = useState<JournalEntryType[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
@@ -179,27 +175,6 @@ const GratitudeEntry = (props: JournalEntryProps) => {
           </AlertDialog>
         </XStack>
       </EntryHeader>
-      {/* <TouchableOpacity onPress={() => setModalVisible(true)}>
-        <JournalCard journalEntry={journalEntry}></JournalCard>
-      </TouchableOpacity> */}
-      {/* <Modal modalVisible={modalVisible} setModalVisible={setModalVisible}>
-        <JournalForm
-          journalEntry={journalEntry}
-          setModalVisible={setModalVisible}
-        />
-      </Modal> */}
-      {/* <Button
-        type="icon"
-        onPress={() =>
-          router.navigate({
-            pathname: "/journals/[id]/summary",
-            params: { id: journalEntry.entry_id },
-          })
-        }
-        padding={0}
-      >
-        <JournalCard journalEntry={journalEntry}></JournalCard>
-      </Button> */}
       <JournalCard journalEntry={gratitudeEntry}></JournalCard>
     </EntryContainer>
   );
@@ -216,23 +191,12 @@ const Container = styled(View, {
   height: "100%",
 });
 
-const RefreshContainer = styled(View, {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  width: "100%",
-  gap: "$4",
-  padding: "$4",
-});
-
 const EntryContainer = styled(View, {
   width: "100%",
   display: "flex",
   flexDirection: "column",
   gap: 0,
-  borderBottomColor: "$divider",
-  borderBottomWidth: 1,
-  paddingVertical: "$5",
+  paddingVertical: "$3",
 });
 
 const EntryHeader = styled(View, {

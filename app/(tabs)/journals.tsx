@@ -1,7 +1,6 @@
 // Libraries Imports
 import { useEffect, useState } from "react";
 import { Spinner, styled, View, XStack } from "tamagui";
-import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Alert, RefreshControl } from "react-native";
 
@@ -13,7 +12,6 @@ import { JournalCard, JournalEntryType } from "@/components/Cards";
 import { NoSession } from "@/components/Sessions";
 import Header from "@/components/atoms/Header";
 import { Button } from "@/components/atoms/Button";
-import Modal from "@/components/atoms/Modal";
 import AlertDialog from "@/components/Macro/AlertDialog";
 
 // Utilities Imports
@@ -173,24 +171,6 @@ const JournalEntry = (props: JournalEntryProps) => {
           </AlertDialog>
         </XStack>
       </EntryHeader>
-      {/* <Modal modalVisible={modalVisible} setModalVisible={setModalVisible}>
-        <JournalForm
-          journalEntry={journalEntry}
-          setModalVisible={setModalVisible}
-        />
-      </Modal> */}
-      {/* <Button
-        type="icon"
-        onPress={() =>
-          router.navigate({
-            pathname: "/journals/[id]/summary",
-            params: { id: journalEntry.entry_id },
-          })
-        }
-        padding={0}
-      >
-        <JournalCard journalEntry={journalEntry}></JournalCard>
-      </Button> */}
       <JournalCard journalEntry={journalEntry}></JournalCard>
     </EntryContainer>
   );
@@ -212,9 +192,7 @@ const EntryContainer = styled(View, {
   display: "flex",
   flexDirection: "column",
   gap: 0,
-  borderBottomColor: "$divider",
-  borderBottomWidth: 1,
-  paddingVertical: "$5",
+  paddingVertical: "$3",
 });
 
 const EntryHeader = styled(View, {
