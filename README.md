@@ -1,50 +1,79 @@
-# Welcome to your Expo app 👋
+# Thought Bubble
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+<p align="center">
+  <img src="assets/images/iconTemp.png" alt="Thought Bubble Logo" width="200"/>
+</p>
 
-## Get started
+<p align="center">
+  <b>A mindful journaling companion with AI-powered sentiment analysis</b>
+</p>
 
-1. Install dependencies
+<p align="center">
+  <img src="https://img.shields.io/badge/version-v0.1.0-blue" alt="App Version" />
+  <img src="https://img.shields.io/badge/platform-Android-brightgreen" alt="Platform" />
+  <img src="https://img.shields.io/badge/status-alpha-orange" alt="Status" />
+</p>
 
-   ```bash
-   npm install
-   ```
+## 📱 About
 
-2. Start the app
+Thought Bubble is a thoughtfully designed journaling application that helps users track their emotional well-being through the power of AI sentiment analysis. As you write your daily thoughts and reflections, our integrated AI technology automatically analyzes your entries to identify mood patterns and emotional themes.
 
-   ```bash
-    npx expo start
-   ```
+## ✨ Features
 
-In the output, you'll find options to open the app in a
+### **Intuitive Journal Interface** - Clean, distraction-free writing experience
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+![JournalForm](./assets/images/screenshots/Screenshot%202025-03-04%20185101.png)
+![JournalEntries](./assets/images/screenshots/Screenshot%202025-03-04%20190200.png)
+![AddingImages](./assets/images/screenshots/Screenshot%202025-03-04%20185739.png)
+![GratitudeJournaling](./assets/images/screenshots/Screenshot%202025-03-04%20190244.png)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### **AI Sentiment Analysis** - Automatic mood and emotion detection in journal entries
 
-## Get a fresh project
+### **Mood Tracking** - Visual representation of emotional patterns over time
 
-When you're ready, run:
+### **Secure & Private** - Your thoughts remain completely private and secure
 
-```bash
-npm run reset-project
-```
+### **Daily Reminders** - Gentle notifications to maintain your journaling habit
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 🚀 Getting Started
 
-## Learn more
+### Prerequisites
 
-To learn more about developing your project with Expo, look at the following resources:
+- Android device running Android 8.0 (Oreo) or higher
+- Stable internet connection for AI analysis features
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### Installation
 
-## Join the community
+1. Download the APK from our [releases page](https://github.com/thoughtbubble/releases)
+2. Enable installation from unknown sources in your device settings
+3. Install and launch Thought Bubble
 
-Join our community of developers creating universal apps.
+## 🛠️ Technology Stack
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- **Frontend**: React Native (Expo)
+- **Backend**: FastAPI
+- **AI Processing**: TensorFlow, Natural Language Processing
+- **Database**: Supabase
+- **Authentication**: Supabase Auth
+
+## 🔮 Roadmap
+
+- iOS version
+- Export and backup options
+- Local Storage
+- Enhanced visualization of emotional patterns
+- Dark Mode
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 📬 Contact
+
+Questions? Suggestions? Reach out to us at support@thoughtbubble.app
+
+---
+
+<p align="center">
+  <i>Reflect. Understand. Grow.</i>
+</p>
