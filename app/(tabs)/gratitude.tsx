@@ -49,7 +49,7 @@ export default function Gratitudes() {
   const refresh = async () => {
     setRefreshing(true);
     try {
-        const result = await fetchGratitudeEntries();
+        await fetchGratitudeEntries();
         setRefreshing(false);
     } catch (error) {
         Alert.alert("Error", "Failed to refresh");
