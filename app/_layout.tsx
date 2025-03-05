@@ -43,7 +43,7 @@ const featureClient = new ReactNativeLDClient(
       id: "ld-rn-test-app",
       version: "0.0.1",
     },
-  }
+  },
 );
 
 export default function RootLayout() {
@@ -91,6 +91,7 @@ export default function RootLayout() {
                 headerShown: false,
               })}
             >
+              <Stack.Screen name="index" options={{ presentation: "modal" }} />
               <Stack.Screen
                 name="(tabs)"
                 options={{
