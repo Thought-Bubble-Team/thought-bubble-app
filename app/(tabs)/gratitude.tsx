@@ -17,15 +17,16 @@ import AlertDialog from "@/components/Macro/AlertDialog";
 
 // Utilities Imports
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
-import {
-  deleteGratitudeEntry,
-} from "@/utils/supabase/db-crud";
+import { deleteGratitudeEntry } from "@/utils/supabase/db-crud";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
-import { useGratitudeEntriesStore} from "@/utils/stores/useEntriesStore";
+import { useGratitudeEntriesStore } from "@/utils/stores/useEntriesStore";
 
+// TODO: Make journal entries pressable
+// TODO: Limit the height of the journal entry card to a certain number of lines
 export default function Gratitudes() {
   const session = useSessionStore((state) => state.session);
-  const { gratitude_entries, fetchGratitudeEntries } = useGratitudeEntriesStore();
+  const { gratitude_entries, fetchGratitudeEntries } =
+    useGratitudeEntriesStore();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [localLoading, setLocalLoading] = useState<boolean>(false);
 
@@ -49,12 +50,12 @@ export default function Gratitudes() {
   const refresh = async () => {
     setRefreshing(true);
     try {
-        await fetchGratitudeEntries();
-        setRefreshing(false);
+      await fetchGratitudeEntries();
+      setRefreshing(false);
     } catch (error) {
-        Alert.alert("Error", "Failed to refresh");
-        console.log("Error: Gratitudes Refresh: ", error);
-        setRefreshing(false);
+      Alert.alert("Error", "Failed to refresh");
+      console.log("Error: Gratitudes Refresh: ", error);
+      setRefreshing(false);
     }
   };
 
@@ -102,12 +103,13 @@ export default function Gratitudes() {
                 <RefreshControl refreshing={refreshing} onRefresh={refresh} />
               }
             >
-              {gratitude_entries && gratitude_entries.map((gratitudeEntry) => (
-                <GratitudeEntry
-                  key={gratitudeEntry.entry_id}
-                  gratitudeEntry={gratitudeEntry}
-                />
-              ))}
+              {gratitude_entries &&
+                gratitude_entries.map((gratitudeEntry) => (
+                  <GratitudeEntry
+                    key={gratitudeEntry.entry_id}
+                    gratitudeEntry={gratitudeEntry}
+                  />
+                ))}
             </MyScrollView>
           )}
         </Container>
