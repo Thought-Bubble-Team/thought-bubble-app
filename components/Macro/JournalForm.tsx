@@ -19,39 +19,18 @@ import {
 import { PostgrestError } from "@supabase/supabase-js";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 
-type FormMode = "new" | "edit" | "gratitude";
-
-interface JournalEntryProps {
-  journalEntry?: JournalEntryType;
-  setModalVisible?: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export default function JournalForm(props: JournalEntryProps) {
-  const { journalEntry, setModalVisible } = props;
+// TODO: Add a way to disable editing when the journal entry is not new
+// REF: update handleSubmit to handle errors properly
+export default function JournalForm() {
   const theme = useTheme();
 
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [message, setMessage] = useState<string | undefined>(undefined);
   const [images, setImages] = useState<string[] | undefined>(undefined);
-  // const [mode, setMode] = useState<FormMode>("new");
   const [error, setError] = useState<PostgrestError | null>(null);
   const [loading, setLoading] = useState(false);
 
   const { id } = useLocalSearchParams();
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     return () => {
-  //       if (mode === "edit") {
-  //         setMode("new");
-  //         setTitle("");
-  //         setMessage("");
-  //         setImages(undefined);
-  //         setError(null);
-  //       }
-  //     };
-  //   }, [mode])
-  // );
 
   useEffect(() => {
     const fetchJournalEntry = async (entry_id: number) => {
@@ -133,6 +112,7 @@ export default function JournalForm(props: JournalEntryProps) {
           Alert.alert("Success", "Gratitude entry created successfully!");
           router.navigate({ pathname: "/gratitude" });
         }
+        setLoading(false);
       } // Do nothing
 
       if (id === "new") {
@@ -145,12 +125,13 @@ export default function JournalForm(props: JournalEntryProps) {
           Alert.alert("Success", "Journal entry created successfully!");
           router.navigate({ pathname: "/journals" });
         }
+        setLoading(false);
       }
 
       if (id !== "new" && id !== "gratitude") {
         const { error } = await updateJournalEntry(
           Number(id),
-          journalEntryObject
+          journalEntryObject,
         );
 
         if (error) {
@@ -158,16 +139,14 @@ export default function JournalForm(props: JournalEntryProps) {
           setError(error);
         } else {
           Alert.alert("Success", "Journal entry updated successfully!");
+          router.navigate({ pathname: "/journals" });
         }
       }
     } catch (error) {
       Alert.alert(
         "Error",
-        "An error occurred while submitting the journal entry"
+        "An error occurred while submitting the journal entry",
       );
-    } finally {
-      // setModalVisible && setModalVisible(false);
-      setLoading(false);
     }
   };
 
