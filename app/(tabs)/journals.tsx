@@ -21,6 +21,9 @@ import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { JournalEntryType } from "@/utils/interfaces/dataTypes";
 import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
 
+// TODO: Make journal entries pressable to view full entry
+// TODO: Limit the height of the journal entry card to a certain number of lines
+
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
   const { journal_entries, loading, fetchJournalEntries } =
@@ -36,13 +39,13 @@ export default function Journals() {
           await fetchJournalEntries();
         }
         setLocalLoading(false);
-        refresh();
+        void refresh();
       } catch (e) {
         console.log("Error preparing page", e);
       }
     };
 
-    PrepareComponent();
+    void PrepareComponent();
   }, [session]);
 
   const refresh = async () => {
