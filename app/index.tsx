@@ -13,6 +13,7 @@ import { useSessionStore } from "@/utils/stores/useSessionStore";
 
 // TODO: Sessions, Journal & Gratitude Entries, Charts, etc.
 // TODO: Refactor
+// TODO: Update useSessionStore
 const LoadingModal = () => {
   const sessionStore = useSessionStore();
   const journalEntriesStore = useJournalEntriesStore();
