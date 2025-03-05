@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Spinner, styled, View, XStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Alert, RefreshControl } from "react-native";
+import { router } from "expo-router";
 
 // Components Imports
 import MyView from "@/components/atoms/MyView";
@@ -21,7 +22,6 @@ import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { JournalEntryType } from "@/utils/interfaces/dataTypes";
 import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
 
-// TODO: Make journal entries pressable to view full entry
 // TODO: Limit the height of the journal entry card to a certain number of lines
 
 export default function Journals() {
@@ -162,7 +162,20 @@ const JournalEntry = (props: JournalEntryProps) => {
           </AlertDialog>
         </XStack>
       </EntryHeader>
-      <JournalCard journalEntry={journalEntry}></JournalCard>
+      <Button
+        type="icon"
+        padding={0}
+        onPress={() =>
+          router.navigate({
+            pathname: "/journals/[id]/summary",
+            params: { id: journalEntry.entry_id },
+          })
+        }
+      >
+        <Button.Icon>
+          <JournalCard journalEntry={journalEntry}></JournalCard>
+        </Button.Icon>
+      </Button>
     </EntryContainer>
   );
 };
