@@ -7,38 +7,45 @@ import {
   getAllGratitudeEntries,
   getAllJournalEntries,
 } from "@/utils/supabase/db-crud";
-import { JournalEntriesStoreType } from "@/utils/interfaces/storeTypes";
+import {
+  JournalEntriesStoreType,
+  GratitudeEntriesStoreType,
+} from "@/utils/interfaces/storeTypes";
 
-const useJournalEntriesStore = create<JournalEntriesStoreType>((set) => ({
-  journal_entries: null as JournalEntriesType | null,
-  loading: false,
-  error: null,
-  fetchJournalEntries: async () => {
-    set({ loading: true, error: null });
-    try {
-      const result = await getAllJournalEntries();
-      if (result && Array.isArray(result.data)) {
-        set({ journal_entries: result.data, loading: false });
+export const useJournalEntriesStore = create<JournalEntriesStoreType>(
+  (set) => ({
+    journal_entries: null as JournalEntriesType | null,
+    loading: false,
+    error: null,
+    fetchJournalEntries: async () => {
+      set({ loading: true, error: null });
+      try {
+        const result = await getAllJournalEntries();
+        if (result && Array.isArray(result.data)) {
+          set({ journal_entries: result.data, loading: false });
+        }
+      } catch (error) {
+        set({ error: error, loading: false });
       }
-    } catch (error) {
-      set({ error: error, loading: false });
-    }
-  },
-}));
+    },
+  }),
+);
 
-const useGratitudeEntriesStore = create((set) => ({
-  gratitude_entries: null as JournalEntriesType | null,
-  loading: false,
-  error: null,
-  fetchGratitudeEntries: async () => {
-    set({ loading: true, error: null });
-    try {
-      const result = await getAllGratitudeEntries();
-      if (result && Array.isArray(result.data)) {
-        set({ gratitude_entries: result.data, loading: false });
+export const useGratitudeEntriesStore = create<GratitudeEntriesStoreType>(
+  (set) => ({
+    gratitude_entries: null as JournalEntriesType | null,
+    loading: false,
+    error: null,
+    fetchGratitudeEntries: async () => {
+      set({ loading: true, error: null });
+      try {
+        const result = await getAllGratitudeEntries();
+        if (result && Array.isArray(result.data)) {
+          set({ gratitude_entries: result.data, loading: false });
+        }
+      } catch (error) {
+        set({ error: error, loading: false });
       }
-    } catch (error) {
-      set({ error: error, loading: false });
-    }
-  },
-}));
+    },
+  }),
+);

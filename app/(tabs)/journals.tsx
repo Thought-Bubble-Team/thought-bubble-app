@@ -1,6 +1,6 @@
 // Libraries Imports
 import { useEffect, useState } from "react";
-import { Spinner, styled, View, XStack } from "tamagui";
+import { setRef, Spinner, styled, View, XStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Alert, RefreshControl } from "react-native";
 
@@ -8,7 +8,7 @@ import { Alert, RefreshControl } from "react-native";
 import MyView from "@/components/atoms/MyView";
 import MyScrollView from "@/components/atoms/MyScrollView";
 import Text from "@/components/atoms/Text";
-import { JournalCard, JournalEntryType } from "@/components/Cards";
+import { JournalCard } from "@/components/Cards";
 import { NoSession } from "@/components/Sessions";
 import Header from "@/components/atoms/Header";
 import { Button } from "@/components/atoms/Button";
@@ -16,37 +16,26 @@ import AlertDialog from "@/components/Macro/AlertDialog";
 
 // Utilities Imports
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
-import {
-  deleteJournalEntry,
-  getAllJournalEntries,
-} from "@/utils/supabase/db-crud";
+import { deleteJournalEntry } from "@/utils/supabase/db-crud";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
+import { JournalEntryType } from "@/utils/interfaces/dataTypes";
+import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
 
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
-  const [journals, setJournals] = useState<JournalEntryType[]>([]);
+  const { journal_entries, loading, fetchJournalEntries } =
+    useJournalEntriesStore();
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [localLoading, setLocalLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    setLoading(true);
-    const fetchData = async () => {
-      try {
-        const data = await getAllJournalEntries();
-        if (data && Array.isArray(data.data)) {
-          setJournals([...data.data]);
-          setLoading(false);
-        } else {
-          Alert.alert("Error", "Failed to fetch journal entries");
-        }
-      } catch (e) {
-        console.log("Error fetching journal entries", e);
-      }
-    };
-
+    setLocalLoading(true);
     const PrepareComponent = async () => {
       try {
-        fetchData();
+        if (journal_entries === null) {
+          await fetchJournalEntries();
+        }
+        setLocalLoading(false);
         refresh();
       } catch (e) {
         console.log("Error preparing page", e);
@@ -56,17 +45,16 @@ export default function Journals() {
     PrepareComponent();
   }, [session]);
 
-  const refresh = () => {
+  const refresh = async () => {
     setRefreshing(true);
-    getAllJournalEntries().then((data) => {
-      if (data && Array.isArray(data.data)) {
-        setJournals([...data.data]);
-        setRefreshing(false);
-      } else {
-        Alert.alert("Error", "Failed to fetch journal entries");
-        setRefreshing(false);
-      }
-    });
+    try {
+      const result = await fetchJournalEntries();
+      setRefreshing(false);
+    } catch (error) {
+      Alert.alert("Error", "Failed to refresh");
+      console.log("Error: Journals Refresh: ", error);
+      setRefreshing(false);
+    }
   };
 
   if (!session) {
@@ -79,7 +67,7 @@ export default function Journals() {
     );
   }
 
-  if (loading) {
+  if (localLoading) {
     return (
       <MainView>
         <Container justifyContent="center" alignItems="center">
@@ -97,14 +85,14 @@ export default function Journals() {
             Your Journey
           </Text>
         </Header>
-        {journals.length === 0 && (
+        {journal_entries && journal_entries.length === 0 && (
           <Container justifyContent="center" alignItems="center">
             <Text weight="bold" fontSize="$xl">
               No journal entries found
             </Text>
           </Container>
         )}
-        {journals.length > 0 && (
+        {journal_entries && journal_entries.length > 0 && (
           <MyScrollView
             width={"100%"}
             height={"100%"}
@@ -112,12 +100,13 @@ export default function Journals() {
               <RefreshControl refreshing={refreshing} onRefresh={refresh} />
             }
           >
-            {journals.map((journalEntrySample) => (
-              <JournalEntry
-                key={journalEntrySample.entry_id}
-                journalEntry={journalEntrySample}
-              />
-            ))}
+            {journal_entries &&
+              journal_entries.map((journalEntrySample) => (
+                <JournalEntry
+                  key={journalEntrySample.entry_id}
+                  journalEntry={journalEntrySample}
+                />
+              ))}
           </MyScrollView>
         )}
       </Container>

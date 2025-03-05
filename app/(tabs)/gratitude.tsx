@@ -1,7 +1,9 @@
 // Libraries Imports
 import { useEffect, useState } from "react";
-import { Spinner, useTheme } from "tamagui";
+import { Spinner } from "tamagui";
 import { styled, View, XStack } from "tamagui";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Alert, RefreshControl } from "react-native";
 
 // Components Imports
 import MyView from "@/components/atoms/MyView";
@@ -11,43 +13,30 @@ import { JournalCard, JournalEntryType } from "@/components/Cards";
 import { NoSession } from "@/components/Sessions";
 import Header from "@/components/atoms/Header";
 import { Button } from "@/components/atoms/Button";
+import AlertDialog from "@/components/Macro/AlertDialog";
 
 // Utilities Imports
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
 import {
   deleteGratitudeEntry,
-  getAllGratitudeEntries,
 } from "@/utils/supabase/db-crud";
-import { Alert, RefreshControl } from "react-native";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
-import AlertDialog from "@/components/Macro/AlertDialog";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { useGratitudeEntriesStore} from "@/utils/stores/useEntriesStore";
 
 export default function Gratitudes() {
   const session = useSessionStore((state) => state.session);
-  const [gratitudes, setGratitudes] = useState<JournalEntryType[]>([]);
+  const { gratitude_entries, fetchGratitudeEntries } = useGratitudeEntriesStore();
   const [refreshing, setRefreshing] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [localLoading, setLocalLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    setLoading(true);
-    const fetchData = async () => {
-      try {
-        const data = await getAllGratitudeEntries();
-        if (data && Array.isArray(data.data)) {
-          setGratitudes([...data.data]);
-          setLoading(false);
-        } else {
-          Alert.alert("Error", "Failed to fetch gratitude entries");
-        }
-      } catch (e) {
-        console.log("Error fetching gratitude entries", e);
-      }
-    };
-
+    setLocalLoading(true);
     const PrepareComponent = async () => {
       try {
-        fetchData();
+        if (gratitude_entries === null) {
+          await fetchGratitudeEntries();
+        }
+        setLocalLoading(false);
         refresh();
       } catch (e) {
         console.log("Error preparing page", e);
@@ -57,17 +46,16 @@ export default function Gratitudes() {
     PrepareComponent();
   }, [session]);
 
-  const refresh = () => {
+  const refresh = async () => {
     setRefreshing(true);
-    getAllGratitudeEntries().then((data) => {
-      if (data && Array.isArray(data.data)) {
-        setGratitudes([...data.data]);
+    try {
+        await fetchGratitudeEntries();
         setRefreshing(false);
-      } else {
-        Alert.alert("Error", "Failed to fetch gratitude entries");
+    } catch (error) {
+        Alert.alert("Error", "Failed to refresh");
+        console.log("Error: Gratitudes Refresh: ", error);
         setRefreshing(false);
-      }
-    });
+    }
   };
 
   if (!session) {
@@ -80,7 +68,7 @@ export default function Gratitudes() {
     );
   }
 
-  if (loading) {
+  if (localLoading) {
     return (
       <MainView>
         <Container justifyContent="center" alignItems="center">
@@ -99,14 +87,14 @@ export default function Gratitudes() {
               Your Journey
             </Text>
           </Header>
-          {gratitudes.length === 0 && (
+          {gratitude_entries && gratitude_entries.length === 0 && (
             <Container justifyContent="center" alignItems="center">
               <Text weight="bold" fontSize="$xl">
                 Looks like you haven't written any gratitude entries yet!
               </Text>
             </Container>
           )}
-          {gratitudes.length > 0 && (
+          {gratitude_entries && gratitude_entries.length > 0 && (
             <MyScrollView
               width={"100%"}
               height={"100%"}
@@ -114,7 +102,7 @@ export default function Gratitudes() {
                 <RefreshControl refreshing={refreshing} onRefresh={refresh} />
               }
             >
-              {gratitudes.map((gratitudeEntry) => (
+              {gratitude_entries && gratitude_entries.map((gratitudeEntry) => (
                 <GratitudeEntry
                   key={gratitudeEntry.entry_id}
                   gratitudeEntry={gratitudeEntry}
