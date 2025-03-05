@@ -1,4 +1,5 @@
 import { JournalEntriesType } from "@/utils/interfaces/dataTypes";
+import { AuthError, Session } from "@supabase/supabase-js";
 
 export type JournalEntriesStoreType = {
   journal_entries: JournalEntriesType | null;
@@ -12,4 +13,12 @@ export type GratitudeEntriesStoreType = {
   loading: boolean;
   error: any;
   fetchGratitudeEntries: () => Promise<void>;
+};
+
+export type SessionStoreType = {
+  session: Session | null;
+  loading: boolean;
+  error: any;
+  setSession: (session: Session | null) => void;
+  fetchSession: () => Promise<void>;
 };
