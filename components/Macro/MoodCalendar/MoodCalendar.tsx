@@ -33,6 +33,9 @@ interface MoodCalendarProps extends ViewProps {
   initialDate: string | Date;
 }
 
+// TODO: Create a skeleton for this component
+// TODO: Modify MoodCalendar Data structure to add missing days
+// Main Component
 const MoodCalendar = (props: MoodCalendarProps) => {
   const { initialDate, ...restProps } = props;
   console.log("initialDate: ", initialDate);
@@ -43,29 +46,15 @@ const MoodCalendar = (props: MoodCalendarProps) => {
   const { moodCalendarData, fetchMoodCalendarData } =
     useMoodCalendarDataStore();
 
-  // const fetchData = async () => {
-  //   const result = await fetchMoodCalendarData({
-  //     month: 2,
-  //     year: currentMonth.getFullYear(),
-  //     userId: "f55522f3-3089-413d-9338-e82ae53c2fe2",
-  //   });
-  //   if (result.result !== null) {
-  //     console.log(
-  //       `\x1b[35m"fetchData result: ", ${result.result.calendar[0].emotions}\x1b[0m`
-  //     );
-  //   }
-  // };
-  // fetchData();
-
   useEffect(() => {
     fetchMoodCalendarData(
       "f55522f3-3089-413d-9338-e82ae53c2fe2",
-      currentMonth.getMonth() + 1,
-      currentMonth.getFullYear()
+      2,
+      currentMonth.getFullYear(),
     );
   }, [fetchMoodCalendarData]);
   console.log(
-    `\x1b[35m"fetchData result: ", ${moodCalendarData?.message}\x1b[0m`
+    `\x1b[35m"fetchData result: ", ${moodCalendarData?.message}\x1b[0m`,
   );
 
   const renderCalendarCells = () => {
@@ -78,7 +67,7 @@ const MoodCalendar = (props: MoodCalendarProps) => {
     };
 
     const getSentimentForDate = (
-      date: Date
+      date: Date,
     ): SimpleSentimentData | undefined => {
       const dateString = date.toISOString().split("T")[0];
 
@@ -105,7 +94,7 @@ const MoodCalendar = (props: MoodCalendarProps) => {
     console.log("DaySlot & BlankSlot Loop: \n");
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(
-        Date.UTC(currentMonth.getFullYear(), currentMonth.getMonth(), day)
+        Date.UTC(currentMonth.getFullYear(), currentMonth.getMonth(), day),
       );
       console.log("date", date);
       const sentimentData = getSentimentForDate(date);
