@@ -1,5 +1,5 @@
 import { JournalEntriesType } from "@/utils/interfaces/dataTypes";
-import { AuthError, Session } from "@supabase/supabase-js";
+import { Session } from "@supabase/supabase-js";
 
 export type JournalEntriesStoreType = {
   journal_entries: JournalEntriesType | null;
