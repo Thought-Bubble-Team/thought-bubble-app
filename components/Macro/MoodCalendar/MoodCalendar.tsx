@@ -35,6 +35,8 @@ interface MoodCalendarProps extends ViewProps {
 
 // TODO: Create a skeleton for this component
 // TODO: Modify MoodCalendar Data structure to add missing days
+// FIX: fetchMoodCalendarData errors code 502
+
 // Main Component
 const MoodCalendar = (props: MoodCalendarProps) => {
   const { initialDate, ...restProps } = props;
