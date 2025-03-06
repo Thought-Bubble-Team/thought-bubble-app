@@ -1,14 +1,18 @@
+// LIBRARIES
 import { useState, useEffect } from "react";
 import { Image, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { styled, View, Input, TextArea, YStack } from "tamagui";
+import { styled, View, Input, TextArea, YStack, useTheme } from "tamagui";
+import { PostgrestError } from "@supabase/supabase-js";
+import { router, useLocalSearchParams } from "expo-router";
 
+// COMPONENTS
 import MyScrollView from "@/components/atoms/MyScrollView";
 import { Button } from "@/components/atoms/Button";
 
-import { useTheme } from "tamagui";
-
+// UTILITIES
+import { JournalFormProps } from "@/utils/interfaces/componentPropTypes";
 import {
   createGratitudeEntry,
   createJournalEntry,
@@ -16,12 +20,12 @@ import {
   JournalEntryType,
   updateJournalEntry,
 } from "@/utils/supabase/db-crud";
-import { PostgrestError } from "@supabase/supabase-js";
-import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 
+// TODO: Make image pressable to view full screen
 // TODO: Add a way to disable editing when the journal entry is not new
 // REF: update handleSubmit to handle errors properly
-export default function JournalForm() {
+
+export default function JournalForm({ editable = true }: JournalFormProps) {
   const theme = useTheme();
 
   const [title, setTitle] = useState<string | undefined>(undefined);
@@ -153,21 +157,23 @@ export default function JournalForm() {
   return (
     <ViewStyled>
       {/* Footer - Buttons */}
-      <Footer>
-        <Button type="icon" padding={0} onPress={pickImageAsync}>
-          <Button.Icon>
-            <Ionicons name="images-outline" />
-          </Button.Icon>
-        </Button>
-        <Button type="icon" padding={0} size={"$sm"} onPress={handleSubmit}>
-          {!loading && (
+      {editable && (
+        <Footer>
+          <Button type="icon" padding={0} onPress={pickImageAsync}>
             <Button.Icon>
-              <Ionicons name="checkmark-done-outline" />
+              <Ionicons name="images-outline" />
             </Button.Icon>
-          )}
-          {loading && <Button.Spinner color={"$black"} />}
-        </Button>
-      </Footer>
+          </Button>
+          <Button type="icon" padding={0} size={"$sm"} onPress={handleSubmit}>
+            {!loading && (
+              <Button.Icon>
+                <Ionicons name="checkmark-done-outline" />
+              </Button.Icon>
+            )}
+            {loading && <Button.Spinner color={"$black"} />}
+          </Button>
+        </Footer>
+      )}
 
       {/* Images */}
       {images !== undefined && (
@@ -175,16 +181,18 @@ export default function JournalForm() {
           {images.map((image, index) => (
             <ImageWrapper key={index} style={{ zIndex: images.length - index }}>
               <ImageStyled source={{ uri: image }} />
-              <RemoveImageWrapper>
-                <RemoveButton onPress={() => removeImage(index)}>
-                  <Ionicons
-                    name="close-outline"
-                    size={12}
-                    color={theme.white?.val}
-                    style={{ zIndex: 15 }}
-                  />
-                </RemoveButton>
-              </RemoveImageWrapper>
+              {editable && (
+                <RemoveImageWrapper>
+                  <RemoveButton onPress={() => removeImage(index)}>
+                    <Ionicons
+                      name="close-outline"
+                      size={12}
+                      color={theme.white?.val}
+                      style={{ zIndex: 15 }}
+                    />
+                  </RemoveButton>
+                </RemoveImageWrapper>
+              )}
             </ImageWrapper>
           ))}
         </MyScrollView>
@@ -197,6 +205,7 @@ export default function JournalForm() {
         alignItems={"center"}
       >
         <TitleInput
+          editable={editable}
           value={title}
           width={"100%"}
           onChangeText={setTitle}
@@ -207,6 +216,7 @@ export default function JournalForm() {
       {/* Editable Message */}
       <View backgroundColor={"$grey0"} flex={1}>
         <MessageInput
+          editable={editable}
           placeholder="Enter your message..."
           value={message}
           onChangeText={setMessage}
