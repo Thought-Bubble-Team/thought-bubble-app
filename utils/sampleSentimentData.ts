@@ -1,3 +1,5 @@
+import { SentimentSummaryDataType } from "@/utils/interfaces/dataTypes";
+
 export interface SimpleSentimentData {
   created_at: string;
   emotion: string;
@@ -180,6 +182,17 @@ const sampleSentimentDataFeb: SimpleSentimentData[] = [
     emotion: "joy",
   },
 ];
+
+export const sentimentSummary: SentimentSummaryDataType = {
+  message: "Sentiment data fetched successfully",
+  data: {
+    joy: 15,
+    neutral: 6,
+    sadness: 5,
+    anger: 4,
+    love: 2,
+  },
+};
 
 export const provideSampleSentimentData = (date: string | Date) => {
   if (typeof date === "string") {

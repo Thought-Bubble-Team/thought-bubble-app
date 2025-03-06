@@ -17,3 +17,14 @@ export type JournalEntryType = {
 };
 
 export type JournalEntriesType = JournalEntryType[];
+
+export type SentimentSummaryDataType = {
+  message: string;
+  data: {
+    joy: number;
+    neutral: number;
+    sadness: number;
+    anger: number;
+    love: number;
+  };
+};
