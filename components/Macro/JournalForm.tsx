@@ -1,11 +1,11 @@
 // LIBRARIES
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Image, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { styled, View, Input, TextArea, YStack, useTheme } from "tamagui";
 import { PostgrestError } from "@supabase/supabase-js";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 
 // COMPONENTS
 import MyScrollView from "@/components/atoms/MyScrollView";
@@ -16,13 +16,13 @@ import { JournalFormProps } from "@/utils/interfaces/componentPropTypes";
 import {
   createGratitudeEntry,
   createJournalEntry,
+  getGratitudeEntry,
   getJournalEntry,
-  JournalEntryType,
+  updateGratitudeEntry,
   updateJournalEntry,
 } from "@/utils/supabase/db-crud";
 
 // TODO: Make image pressable to view full screen
-// TODO: Add a way to disable editing when the journal entry is not new
 // REF: update handleSubmit to handle errors properly
 
 export default function JournalForm({ editable = true }: JournalFormProps) {
@@ -34,37 +34,113 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
   const [error, setError] = useState<PostgrestError | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const { id } = useLocalSearchParams();
+  const { id, type } = useLocalSearchParams();
 
-  useEffect(() => {
-    const fetchJournalEntry = async (entry_id: number) => {
-      const response = await getJournalEntry(entry_id);
-      if (!response) {
-        Alert.alert("Error", "Failed to fetch journal entry");
-        return;
+  useFocusEffect(
+    useCallback(() => {
+      const fetchJournalEntry = async (entry_id: number) => {
+        const response = await getJournalEntry(entry_id);
+        if (!response) {
+          Alert.alert("Error", "Failed to fetch journal entry");
+          return;
+        }
+
+        if (response.error) {
+          Alert.alert("Error", response.error.message);
+          return;
+        }
+
+        if (response.journalEntryData) {
+          setTitle(response.journalEntryData[0].title); // Assuming it's an array
+          setMessage(response.journalEntryData[0].content);
+        }
+      };
+
+      const fetchGratitudeEntry = async (entry_id: number) => {
+        const response = await getGratitudeEntry(entry_id);
+        if (!response) {
+          Alert.alert("Error", "Failed to fetch gratitude entry");
+          return;
+        }
+
+        if (response.error) {
+          Alert.alert("Error", response.error.message);
+          return;
+        }
+
+        if (response.gratitudeEntryData) {
+          setTitle(response.gratitudeEntryData[0].title); // Assuming it's an array
+          setMessage(response.gratitudeEntryData[0].content);
+        }
+      };
+
+      if (type === "editJournal") {
+        void fetchJournalEntry(Number(id));
       }
 
-      if (response.error) {
-        Alert.alert("Error", response.error.message);
-        return;
+      if (type === "editGratitude") {
+        void fetchGratitudeEntry(Number(id));
       }
 
-      if (response.journalEntryData) {
-        setTitle(response.journalEntryData[0].title); // Assuming it's an array
-        setMessage(response.journalEntryData[0].content);
+      if (type === "gratitude") {
+        setTitle("Today I'm grateful for...");
+        setMessage("");
+        setImages(undefined);
       }
-    };
+    }, []),
+  );
 
-    if (id !== "gratitude" && id !== "new") {
-      fetchJournalEntry(Number(id));
-    }
-
-    if (id === "gratitude") {
-      setTitle("Today I'm grateful for...");
-      setMessage("");
-      setImages(undefined);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const fetchJournalEntry = async (entry_id: number) => {
+  //     const response = await getJournalEntry(entry_id);
+  //     if (!response) {
+  //       Alert.alert("Error", "Failed to fetch journal entry");
+  //       return;
+  //     }
+  //
+  //     if (response.error) {
+  //       Alert.alert("Error", response.error.message);
+  //       return;
+  //     }
+  //
+  //     if (response.journalEntryData) {
+  //       setTitle(response.journalEntryData[0].title); // Assuming it's an array
+  //       setMessage(response.journalEntryData[0].content);
+  //     }
+  //   };
+  //
+  //   const fetchGratitudeEntry = async (entry_id: number) => {
+  //     const response = await getGratitudeEntry(entry_id);
+  //     if (!response) {
+  //       Alert.alert("Error", "Failed to fetch gratitude entry");
+  //       return;
+  //     }
+  //
+  //     if (response.error) {
+  //       Alert.alert("Error", response.error.message);
+  //       return;
+  //     }
+  //
+  //     if (response.gratitudeEntryData) {
+  //       setTitle(response.gratitudeEntryData[0].title); // Assuming it's an array
+  //       setMessage(response.gratitudeEntryData[0].content);
+  //     }
+  //   };
+  //
+  //   if (type === "editJournal") {
+  //     void fetchJournalEntry(Number(id));
+  //   }
+  //
+  //   if (type === "editGratitude") {
+  //     void fetchGratitudeEntry(Number(id));
+  //   }
+  //
+  //   if (type === "gratitude") {
+  //     setTitle("Today I'm grateful for...");
+  //     setMessage("");
+  //     setImages(undefined);
+  //   }
+  // }, []);
 
   // Image Picker
   const pickImageAsync = async () => {
@@ -106,7 +182,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
         return;
       }
 
-      if (id === "gratitude") {
+      if (type === "gratitude") {
         const { error } = await createGratitudeEntry(journalEntryObject);
 
         if (error) {
@@ -114,12 +190,12 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
           setError(error);
         } else {
           Alert.alert("Success", "Gratitude entry created successfully!");
-          router.navigate({ pathname: "/gratitude" });
+          router.replace({ pathname: "/gratitude" });
         }
         setLoading(false);
       } // Do nothing
 
-      if (id === "new") {
+      if (type === "journal") {
         const { error } = await createJournalEntry(journalEntryObject);
 
         if (error) {
@@ -127,12 +203,12 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
           setError(error);
         } else {
           Alert.alert("Success", "Journal entry created successfully!");
-          router.navigate({ pathname: "/journals" });
+          router.replace({ pathname: "/journals" });
         }
         setLoading(false);
       }
 
-      if (id !== "new" && id !== "gratitude") {
+      if (type === "editJournal") {
         const { error } = await updateJournalEntry(
           Number(id),
           journalEntryObject,
@@ -143,8 +219,25 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
           setError(error);
         } else {
           Alert.alert("Success", "Journal entry updated successfully!");
-          router.navigate({ pathname: "/journals" });
+          router.replace({ pathname: "/journals" });
         }
+        setLoading(false);
+      }
+
+      if (type === "editGratitude") {
+        const { error } = await updateGratitudeEntry(
+          Number(id),
+          journalEntryObject,
+        );
+
+        if (error) {
+          Alert.alert("Error", error.message);
+          setError(error);
+        } else {
+          Alert.alert("Success", "Gratitude entry updated successfully!");
+          router.replace({ pathname: "/gratitude" });
+        }
+        setLoading(false);
       }
     } catch (error) {
       Alert.alert(

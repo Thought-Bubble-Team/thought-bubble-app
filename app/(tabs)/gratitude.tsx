@@ -4,6 +4,7 @@ import { Spinner } from "tamagui";
 import { styled, View, XStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Alert, RefreshControl } from "react-native";
+import { router } from "expo-router";
 
 // Components Imports
 import MyView from "@/components/atoms/MyView";
@@ -21,8 +22,6 @@ import { deleteGratitudeEntry } from "@/utils/supabase/db-crud";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { useGratitudeEntriesStore } from "@/utils/stores/useEntriesStore";
 
-// TODO: Make journal entries pressable
-// TODO: Limit the height of the journal entry card to a certain number of lines
 export default function Gratitudes() {
   const session = useSessionStore((state) => state.session);
   const { gratitude_entries, fetchGratitudeEntries } =
@@ -165,7 +164,23 @@ const GratitudeEntry = (props: JournalEntryProps) => {
           </AlertDialog>
         </XStack>
       </EntryHeader>
-      <JournalCard journalEntry={gratitudeEntry}></JournalCard>
+      <Button
+        type="icon"
+        padding={0}
+        onPress={() =>
+          router.navigate({
+            pathname: "/journals/[id]/summary",
+            params: { id: gratitudeEntry.entry_id, type: "editGratitude" },
+          })
+        }
+      >
+        <Button.Icon>
+          <JournalCard
+            journalEntry={gratitudeEntry}
+            maxHeight="$16"
+          ></JournalCard>
+        </Button.Icon>
+      </Button>
     </EntryContainer>
   );
 };

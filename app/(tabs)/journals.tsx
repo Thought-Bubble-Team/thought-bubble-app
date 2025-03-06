@@ -22,8 +22,6 @@ import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { JournalEntryType } from "@/utils/interfaces/dataTypes";
 import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
 
-// TODO: Limit the height of the journal entry card to a certain number of lines
-
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
   const { journal_entries, fetchJournalEntries } = useJournalEntriesStore();
@@ -168,12 +166,19 @@ const JournalEntry = (props: JournalEntryProps) => {
         onPress={() =>
           router.navigate({
             pathname: "/journals/[id]/summary",
-            params: { id: journalEntry.entry_id },
+            params: {
+              id: journalEntry.entry_id,
+              type: "editJournal",
+              title: journalEntry.title,
+            },
           })
         }
       >
         <Button.Icon>
-          <JournalCard journalEntry={journalEntry}></JournalCard>
+          <JournalCard
+            journalEntry={journalEntry}
+            maxHeight="$16"
+          ></JournalCard>
         </Button.Icon>
       </Button>
     </EntryContainer>
