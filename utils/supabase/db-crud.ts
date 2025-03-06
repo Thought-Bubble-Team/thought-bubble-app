@@ -197,6 +197,7 @@ export const getJournalSentiment = async (entryId: number) => {
 
 export const getJournalEntries = async (user_id: string) => {
   try {
+    // TODO: handle error properly
     const { data, error } = await supabase
       .from("journal_entry")
       .select("*")
@@ -214,6 +215,7 @@ export const deleteJournalEntry = async (entryId: number) => {
       .delete()
       .eq("entry_id", entryId);
 
+    // FIX: throw error if error
     if (error) throw error;
     return { error: null };
   } catch (error) {
@@ -228,6 +230,7 @@ export const deleteGratitudeEntry = async (entryId: number) => {
       .delete()
       .eq("entry_id", entryId);
 
+    // FIX: throw
     if (error) throw error;
     return { error: null };
   } catch (error) {
