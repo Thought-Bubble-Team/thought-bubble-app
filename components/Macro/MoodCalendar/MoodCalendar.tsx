@@ -36,6 +36,7 @@ interface MoodCalendarProps extends ViewProps {
 // TODO: Create a skeleton for this component
 // TODO: Modify MoodCalendar Data structure to add missing days
 // TODO: Add a way to fetch data at startup by storing the date locally/offline
+// TODO: Update logs to use a logger
 // FIX: fetchMoodCalendarData errors code 502
 
 // Main Component
