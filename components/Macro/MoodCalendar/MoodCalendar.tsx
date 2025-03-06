@@ -99,9 +99,9 @@ const MoodCalendar = (props: MoodCalendarProps) => {
       const date = new Date(
         Date.UTC(currentMonth.getFullYear(), currentMonth.getMonth(), day),
       );
-      console.log("date", date);
+      // console.log("date", date);
       const sentimentData = getSentimentForDate(date);
-      console.log(`\x1b[35mSentimentData: ${sentimentData}\x1b[0m`);
+      // console.log(`\x1b[35mSentimentData: ${sentimentData}\x1b[0m`);
 
       days.push({
         key: sentimentData ? `day-${day}` : `blank-${day}`,
@@ -112,12 +112,12 @@ const MoodCalendar = (props: MoodCalendarProps) => {
 
     const totalCells = 35;
     const remainingCells = totalCells - days.length;
-    console.log("remainingCells: ", remainingCells);
-
-    console.log("ExtraEmptySlot Loop: \n");
+    // console.log("remainingCells: ", remainingCells);
+    //
+    // console.log("ExtraEmptySlot Loop: \n");
     for (let i = 0; i < remainingCells; i++) {
       days.push({ key: `extra-empty-${i}` });
-      console.log(`extra-empty-${i}`);
+      // console.log(`extra-empty-${i}`);
     }
 
     return days;
