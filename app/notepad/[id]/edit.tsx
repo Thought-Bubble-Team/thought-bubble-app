@@ -1,15 +1,49 @@
-import { View } from "tamagui";
-import Text from "@/components/atoms/Text";
+import { useCallback, useState } from "react";
+import { View, Switch } from "tamagui";
+import { useLocalSearchParams, Stack, useFocusEffect } from "expo-router";
 
-import { useLocalSearchParams, Stack } from "expo-router";
+import { Button } from "@/components/atoms/Button";
+import { Navigation } from "@/components/atoms/Navigation";
+import JournalForm from "@/components/Macro/JournalForm";
 
 const Edit = () => {
-  const { id } = useLocalSearchParams();
+  const [editable, setEditable] = useState<boolean>(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      setEditable(false);
+    }, []),
+  );
+
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Stack.Screen options={{ title: "Edit Note" }} />
-      <Text>{id}</Text>
-      <Text>Edit Note</Text>
+    <View
+      style={{ flex: 1, justifyContent: "flex-start", alignItems: "center" }}
+    >
+      <Navigation>
+        <Navigation.Right>
+          <Button
+            type="icon"
+            size="$md"
+            padding={0}
+            onPress={() => setEditable(!editable)}
+          >
+            <Button.Text color="$black">Edit</Button.Text>
+            <Switch
+              native="android"
+              defaultChecked={false}
+              onCheckedChange={() => setEditable(!editable)}
+            />
+          </Button>
+        </Navigation.Right>
+      </Navigation>
+      <View
+        flex={1}
+        justifyContent={"center"}
+        alignItems={"center"}
+        padding="$3"
+      >
+        <JournalForm editable={editable} />
+      </View>
     </View>
   );
 };

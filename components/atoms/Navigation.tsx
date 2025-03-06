@@ -1,5 +1,5 @@
 // Libraries Import
-import { styled, View, XStack } from "tamagui";
+import { styled, View, withStaticProperties, XStack } from "tamagui";
 
 // Components Import
 import { Button } from "@/components/atoms/Button";
@@ -12,9 +12,10 @@ import { router } from "expo-router";
 
 interface NavigationProps {
   title?: string;
+  children?: React.ReactNode;
 }
 
-const Navigation = ({ title }: NavigationProps) => {
+const NavigationFrame = ({ title, children }: NavigationProps) => {
   return (
     <UtilitiesContainer>
       <XStack gap="$3" alignItems="center">
@@ -25,8 +26,20 @@ const Navigation = ({ title }: NavigationProps) => {
           {title}
         </Text>
       </XStack>
+      <XStack
+        flex={1}
+        justifyContent="flex-end"
+        alignItems="center"
+        paddingHorizontal="$3"
+      >
+        {children}
+      </XStack>
     </UtilitiesContainer>
   );
+};
+
+const Right = ({ children }: { children: React.ReactNode }) => {
+  return <View padding={0}>{children}</View>;
 };
 
 const UtilitiesContainer = styled(View, {
@@ -38,4 +51,6 @@ const UtilitiesContainer = styled(View, {
   width: "100%",
 });
 
-export default Navigation;
+export const Navigation = withStaticProperties(NavigationFrame, {
+  Right: Right,
+});

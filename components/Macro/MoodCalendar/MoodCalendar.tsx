@@ -12,7 +12,6 @@ import {
   provideSampleSentimentData,
 } from "@/utils/sampleSentimentData";
 import { useMoodCalendarDataStore } from "@/utils/stores/useChartDataStore";
-import { MoodCalendarDataType } from "@/utils/interfaces/dataTypes";
 import { useEffect } from "react";
 
 const DayContainer = styled(View, {
@@ -36,6 +35,7 @@ interface MoodCalendarProps extends ViewProps {
 // TODO: Create a skeleton for this component
 // TODO: Modify MoodCalendar Data structure to add missing days
 // TODO: Add a way to fetch data at startup by storing the date locally/offline
+// TODO: Update logs to use a logger
 // FIX: fetchMoodCalendarData errors code 502
 
 // Main Component

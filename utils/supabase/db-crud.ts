@@ -53,7 +53,7 @@ export type SentimentType = {
 };
 
 export const createJournalEntry = async (
-  journalEntry: Partial<JournalEntry>
+  journalEntry: Partial<JournalEntry>,
 ) => {
   const { data, error } = await supabase
     .from("journal_entry")
@@ -67,7 +67,7 @@ export const createJournalEntry = async (
 };
 
 export const createGratitudeEntry = async (
-  journalEntry: Partial<JournalEntry>
+  journalEntry: Partial<JournalEntry>,
 ) => {
   const { data, error } = await supabase
     .from("gratitude_entry")
@@ -82,7 +82,7 @@ export const createGratitudeEntry = async (
 
 export const updateJournalEntry = async (
   entry_id: number,
-  journalEntry: Partial<JournalEntry>
+  journalEntry: Partial<JournalEntry>,
 ) => {
   const { data, error } = await supabase
     .from("journal_entry")
@@ -93,6 +93,24 @@ export const updateJournalEntry = async (
     return { data: null, error };
   } else {
     return { data, error: null };
+  }
+};
+
+export const updateGratitudeEntry = async (
+  entry_id: number,
+  gratitudeEntry: Partial<JournalEntry>,
+) => {
+  const { data, error } = await supabase
+    .from("gratitude_entry")
+    .update(gratitudeEntry)
+    .eq("entry_id", entry_id);
+
+  const gratitudeEntryData = data as JournalEntryType[] | null;
+
+  if (error) {
+    return { gratitudeEntryData: null, error };
+  } else {
+    return { gratitudeEntryData, error: null };
   }
 };
 
@@ -110,6 +128,23 @@ export const getJournalEntry = async (entry_id: number) => {
 
   if (journalEntryData && !error) {
     return { journalEntryData, error: null };
+  }
+};
+
+export const getGratitudeEntry = async (entry_id: number) => {
+  const { data, error } = await supabase
+    .from("gratitude_entry")
+    .select("*")
+    .eq("entry_id", entry_id);
+
+  const gratitudeEntryData = data as JournalEntryType[];
+
+  if (error) {
+    return { gratitudeEntryData: null, error };
+  }
+
+  if (gratitudeEntryData && !error) {
+    return { gratitudeEntryData, error: null };
   }
 };
 
@@ -160,27 +195,9 @@ export const getJournalSentiment = async (entryId: number) => {
   }
 };
 
-export const getJournalEntries = async (user_id: string) => {
-  try {
-    const { data, error } = await supabase
-      .from("journal_entry")
-      .select("*")
-      .eq("user_id", user_id)
-      .order("created_at", { ascending: false });
-  } catch (error) {
-    return { data: null, error };
-  }
-};
-
 export const deleteJournalEntry = async (entryId: number) => {
   try {
-    const { error } = await supabase
-      .from("journal_entry")
-      .delete()
-      .eq("entry_id", entryId);
-
-    if (error) throw error;
-    return { error: null };
+    await supabase.from("journal_entry").delete().eq("entry_id", entryId);
   } catch (error) {
     return { error };
   }
@@ -188,13 +205,7 @@ export const deleteJournalEntry = async (entryId: number) => {
 
 export const deleteGratitudeEntry = async (entryId: number) => {
   try {
-    const { error } = await supabase
-      .from("gratitude_entry")
-      .delete()
-      .eq("entry_id", entryId);
-
-    if (error) throw error;
-    return { error: null };
+    await supabase.from("gratitude_entry").delete().eq("entry_id", entryId);
   } catch (error) {
     return { error };
   }

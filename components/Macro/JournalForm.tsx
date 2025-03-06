@@ -1,87 +1,146 @@
-import { useState, useEffect } from "react";
+// LIBRARIES
+import { useState, useCallback } from "react";
 import { Image, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { styled, View, Input, TextArea, YStack } from "tamagui";
-
-import MyScrollView from "@/components/atoms/MyScrollView";
-import { Button } from "@/components/atoms/Button";
-
-import { useTheme } from "tamagui";
-
-import {
-  createGratitudeEntry,
-  createJournalEntry,
-  getJournalEntry,
-  JournalEntryType,
-  updateJournalEntry,
-} from "@/utils/supabase/db-crud";
+import { styled, View, Input, TextArea, YStack, useTheme } from "tamagui";
 import { PostgrestError } from "@supabase/supabase-js";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 
-type FormMode = "new" | "edit" | "gratitude";
+// COMPONENTS
+import MyScrollView from "@/components/atoms/MyScrollView";
+import { Button } from "@/components/atoms/Button";
 
-interface JournalEntryProps {
-  journalEntry?: JournalEntryType;
-  setModalVisible?: React.Dispatch<React.SetStateAction<boolean>>;
-}
+// UTILITIES
+import { JournalFormProps } from "@/utils/interfaces/componentPropTypes";
+import {
+  createGratitudeEntry,
+  createJournalEntry,
+  getGratitudeEntry,
+  getJournalEntry,
+  updateGratitudeEntry,
+  updateJournalEntry,
+} from "@/utils/supabase/db-crud";
 
-export default function JournalForm(props: JournalEntryProps) {
-  const { journalEntry, setModalVisible } = props;
+// TODO: Make image pressable to view full screen
+// REF: update handleSubmit to handle errors properly
+
+export default function JournalForm({ editable = true }: JournalFormProps) {
   const theme = useTheme();
 
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [message, setMessage] = useState<string | undefined>(undefined);
   const [images, setImages] = useState<string[] | undefined>(undefined);
-  // const [mode, setMode] = useState<FormMode>("new");
   const [error, setError] = useState<PostgrestError | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const { id } = useLocalSearchParams();
+  const { id, type } = useLocalSearchParams();
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     return () => {
-  //       if (mode === "edit") {
-  //         setMode("new");
-  //         setTitle("");
-  //         setMessage("");
-  //         setImages(undefined);
-  //         setError(null);
-  //       }
-  //     };
-  //   }, [mode])
-  // );
+  useFocusEffect(
+    useCallback(() => {
+      const fetchJournalEntry = async (entry_id: number) => {
+        const response = await getJournalEntry(entry_id);
+        if (!response) {
+          Alert.alert("Error", "Failed to fetch journal entry");
+          return;
+        }
 
-  useEffect(() => {
-    const fetchJournalEntry = async (entry_id: number) => {
-      const response = await getJournalEntry(entry_id);
-      if (!response) {
-        Alert.alert("Error", "Failed to fetch journal entry");
-        return;
+        if (response.error) {
+          Alert.alert("Error", response.error.message);
+          return;
+        }
+
+        if (response.journalEntryData) {
+          setTitle(response.journalEntryData[0].title); // Assuming it's an array
+          setMessage(response.journalEntryData[0].content);
+        }
+      };
+
+      const fetchGratitudeEntry = async (entry_id: number) => {
+        const response = await getGratitudeEntry(entry_id);
+        if (!response) {
+          Alert.alert("Error", "Failed to fetch gratitude entry");
+          return;
+        }
+
+        if (response.error) {
+          Alert.alert("Error", response.error.message);
+          return;
+        }
+
+        if (response.gratitudeEntryData) {
+          setTitle(response.gratitudeEntryData[0].title); // Assuming it's an array
+          setMessage(response.gratitudeEntryData[0].content);
+        }
+      };
+
+      if (type === "editJournal") {
+        void fetchJournalEntry(Number(id));
       }
 
-      if (response.error) {
-        Alert.alert("Error", response.error.message);
-        return;
+      if (type === "editGratitude") {
+        void fetchGratitudeEntry(Number(id));
       }
 
-      if (response.journalEntryData) {
-        setTitle(response.journalEntryData[0].title); // Assuming it's an array
-        setMessage(response.journalEntryData[0].content);
+      if (type === "gratitude") {
+        setTitle("Today I'm grateful for...");
+        setMessage("");
+        setImages(undefined);
       }
-    };
+    }, []),
+  );
 
-    if (id !== "gratitude" && id !== "new") {
-      fetchJournalEntry(Number(id));
-    }
-
-    if (id === "gratitude") {
-      setTitle("Today I'm grateful for...");
-      setMessage("");
-      setImages(undefined);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const fetchJournalEntry = async (entry_id: number) => {
+  //     const response = await getJournalEntry(entry_id);
+  //     if (!response) {
+  //       Alert.alert("Error", "Failed to fetch journal entry");
+  //       return;
+  //     }
+  //
+  //     if (response.error) {
+  //       Alert.alert("Error", response.error.message);
+  //       return;
+  //     }
+  //
+  //     if (response.journalEntryData) {
+  //       setTitle(response.journalEntryData[0].title); // Assuming it's an array
+  //       setMessage(response.journalEntryData[0].content);
+  //     }
+  //   };
+  //
+  //   const fetchGratitudeEntry = async (entry_id: number) => {
+  //     const response = await getGratitudeEntry(entry_id);
+  //     if (!response) {
+  //       Alert.alert("Error", "Failed to fetch gratitude entry");
+  //       return;
+  //     }
+  //
+  //     if (response.error) {
+  //       Alert.alert("Error", response.error.message);
+  //       return;
+  //     }
+  //
+  //     if (response.gratitudeEntryData) {
+  //       setTitle(response.gratitudeEntryData[0].title); // Assuming it's an array
+  //       setMessage(response.gratitudeEntryData[0].content);
+  //     }
+  //   };
+  //
+  //   if (type === "editJournal") {
+  //     void fetchJournalEntry(Number(id));
+  //   }
+  //
+  //   if (type === "editGratitude") {
+  //     void fetchGratitudeEntry(Number(id));
+  //   }
+  //
+  //   if (type === "gratitude") {
+  //     setTitle("Today I'm grateful for...");
+  //     setMessage("");
+  //     setImages(undefined);
+  //   }
+  // }, []);
 
   // Image Picker
   const pickImageAsync = async () => {
@@ -123,7 +182,7 @@ export default function JournalForm(props: JournalEntryProps) {
         return;
       }
 
-      if (id === "gratitude") {
+      if (type === "gratitude") {
         const { error } = await createGratitudeEntry(journalEntryObject);
 
         if (error) {
@@ -131,11 +190,12 @@ export default function JournalForm(props: JournalEntryProps) {
           setError(error);
         } else {
           Alert.alert("Success", "Gratitude entry created successfully!");
-          router.navigate({ pathname: "/gratitude" });
+          router.replace({ pathname: "/gratitude" });
         }
+        setLoading(false);
       } // Do nothing
 
-      if (id === "new") {
+      if (type === "journal") {
         const { error } = await createJournalEntry(journalEntryObject);
 
         if (error) {
@@ -143,14 +203,15 @@ export default function JournalForm(props: JournalEntryProps) {
           setError(error);
         } else {
           Alert.alert("Success", "Journal entry created successfully!");
-          router.navigate({ pathname: "/journals" });
+          router.replace({ pathname: "/journals" });
         }
+        setLoading(false);
       }
 
-      if (id !== "new" && id !== "gratitude") {
+      if (type === "editJournal") {
         const { error } = await updateJournalEntry(
           Number(id),
-          journalEntryObject
+          journalEntryObject,
         );
 
         if (error) {
@@ -158,37 +219,54 @@ export default function JournalForm(props: JournalEntryProps) {
           setError(error);
         } else {
           Alert.alert("Success", "Journal entry updated successfully!");
+          router.replace({ pathname: "/journals" });
         }
+        setLoading(false);
+      }
+
+      if (type === "editGratitude") {
+        const { error } = await updateGratitudeEntry(
+          Number(id),
+          journalEntryObject,
+        );
+
+        if (error) {
+          Alert.alert("Error", error.message);
+          setError(error);
+        } else {
+          Alert.alert("Success", "Gratitude entry updated successfully!");
+          router.replace({ pathname: "/gratitude" });
+        }
+        setLoading(false);
       }
     } catch (error) {
       Alert.alert(
         "Error",
-        "An error occurred while submitting the journal entry"
+        "An error occurred while submitting the journal entry",
       );
-    } finally {
-      // setModalVisible && setModalVisible(false);
-      setLoading(false);
     }
   };
 
   return (
     <ViewStyled>
       {/* Footer - Buttons */}
-      <Footer>
-        <Button type="icon" padding={0} onPress={pickImageAsync}>
-          <Button.Icon>
-            <Ionicons name="images-outline" />
-          </Button.Icon>
-        </Button>
-        <Button type="icon" padding={0} size={"$sm"} onPress={handleSubmit}>
-          {!loading && (
+      {editable && (
+        <Footer>
+          <Button type="icon" padding={0} onPress={pickImageAsync}>
             <Button.Icon>
-              <Ionicons name="checkmark-done-outline" />
+              <Ionicons name="images-outline" />
             </Button.Icon>
-          )}
-          {loading && <Button.Spinner color={"$black"} />}
-        </Button>
-      </Footer>
+          </Button>
+          <Button type="icon" padding={0} size={"$sm"} onPress={handleSubmit}>
+            {!loading && (
+              <Button.Icon>
+                <Ionicons name="checkmark-done-outline" />
+              </Button.Icon>
+            )}
+            {loading && <Button.Spinner color={"$black"} />}
+          </Button>
+        </Footer>
+      )}
 
       {/* Images */}
       {images !== undefined && (
@@ -196,16 +274,18 @@ export default function JournalForm(props: JournalEntryProps) {
           {images.map((image, index) => (
             <ImageWrapper key={index} style={{ zIndex: images.length - index }}>
               <ImageStyled source={{ uri: image }} />
-              <RemoveImageWrapper>
-                <RemoveButton onPress={() => removeImage(index)}>
-                  <Ionicons
-                    name="close-outline"
-                    size={12}
-                    color={theme.white?.val}
-                    style={{ zIndex: 15 }}
-                  />
-                </RemoveButton>
-              </RemoveImageWrapper>
+              {editable && (
+                <RemoveImageWrapper>
+                  <RemoveButton onPress={() => removeImage(index)}>
+                    <Ionicons
+                      name="close-outline"
+                      size={12}
+                      color={theme.white?.val}
+                      style={{ zIndex: 15 }}
+                    />
+                  </RemoveButton>
+                </RemoveImageWrapper>
+              )}
             </ImageWrapper>
           ))}
         </MyScrollView>
@@ -218,6 +298,7 @@ export default function JournalForm(props: JournalEntryProps) {
         alignItems={"center"}
       >
         <TitleInput
+          editable={editable}
           value={title}
           width={"100%"}
           onChangeText={setTitle}
@@ -228,6 +309,7 @@ export default function JournalForm(props: JournalEntryProps) {
       {/* Editable Message */}
       <View backgroundColor={"$grey0"} flex={1}>
         <MessageInput
+          editable={editable}
           placeholder="Enter your message..."
           value={message}
           onChangeText={setMessage}

@@ -1,8 +1,9 @@
 // Libraries Imports
 import { useEffect, useState } from "react";
-import { setRef, Spinner, styled, View, XStack } from "tamagui";
+import { Spinner, styled, View, XStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Alert, RefreshControl } from "react-native";
+import { router } from "expo-router";
 
 // Components Imports
 import MyView from "@/components/atoms/MyView";
@@ -23,8 +24,7 @@ import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
 
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
-  const { journal_entries, loading, fetchJournalEntries } =
-    useJournalEntriesStore();
+  const { journal_entries, fetchJournalEntries } = useJournalEntriesStore();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [localLoading, setLocalLoading] = useState<boolean>(false);
 
@@ -36,19 +36,19 @@ export default function Journals() {
           await fetchJournalEntries();
         }
         setLocalLoading(false);
-        refresh();
+        void refresh();
       } catch (e) {
         console.log("Error preparing page", e);
       }
     };
 
-    PrepareComponent();
+    void PrepareComponent();
   }, [session]);
 
   const refresh = async () => {
     setRefreshing(true);
     try {
-      const result = await fetchJournalEntries();
+      await fetchJournalEntries();
       setRefreshing(false);
     } catch (error) {
       Alert.alert("Error", "Failed to refresh");
@@ -160,7 +160,27 @@ const JournalEntry = (props: JournalEntryProps) => {
           </AlertDialog>
         </XStack>
       </EntryHeader>
-      <JournalCard journalEntry={journalEntry}></JournalCard>
+      <Button
+        type="icon"
+        padding={0}
+        onPress={() =>
+          router.navigate({
+            pathname: "/notepad/[id]/edit",
+            params: {
+              id: journalEntry.entry_id,
+              type: "editJournal",
+              title: journalEntry.title,
+            },
+          })
+        }
+      >
+        <Button.Icon>
+          <JournalCard
+            journalEntry={journalEntry}
+            maxHeight="$16"
+          ></JournalCard>
+        </Button.Icon>
+      </Button>
     </EntryContainer>
   );
 };

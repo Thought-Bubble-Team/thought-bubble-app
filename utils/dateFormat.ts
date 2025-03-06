@@ -103,3 +103,38 @@ export const getMonthYearList = (): { id: number; date: string }[] => {
 
   return dateOptions;
 };
+
+export const getDayMonth = (date: string): string[] => {
+  const dateObj = new Date(date);
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const day = days[dateObj.getDay()]; // e.g., "Saturday"
+  const dayOfMonth = dateObj.getDate(); // e.g., 9
+  const month = months[dateObj.getMonth()]; // e.g., "Nov"
+
+  const formattedDate = `, ${dayOfMonth} ${month}`;
+
+  return [day, formattedDate];
+};

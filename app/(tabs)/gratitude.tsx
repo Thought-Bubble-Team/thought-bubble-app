@@ -4,6 +4,7 @@ import { Spinner } from "tamagui";
 import { styled, View, XStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Alert, RefreshControl } from "react-native";
+import { router } from "expo-router";
 
 // Components Imports
 import MyView from "@/components/atoms/MyView";
@@ -17,15 +18,14 @@ import AlertDialog from "@/components/Macro/AlertDialog";
 
 // Utilities Imports
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
-import {
-  deleteGratitudeEntry,
-} from "@/utils/supabase/db-crud";
+import { deleteGratitudeEntry } from "@/utils/supabase/db-crud";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
-import { useGratitudeEntriesStore} from "@/utils/stores/useEntriesStore";
+import { useGratitudeEntriesStore } from "@/utils/stores/useEntriesStore";
 
 export default function Gratitudes() {
   const session = useSessionStore((state) => state.session);
-  const { gratitude_entries, fetchGratitudeEntries } = useGratitudeEntriesStore();
+  const { gratitude_entries, fetchGratitudeEntries } =
+    useGratitudeEntriesStore();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [localLoading, setLocalLoading] = useState<boolean>(false);
 
@@ -49,12 +49,12 @@ export default function Gratitudes() {
   const refresh = async () => {
     setRefreshing(true);
     try {
-        await fetchGratitudeEntries();
-        setRefreshing(false);
+      await fetchGratitudeEntries();
+      setRefreshing(false);
     } catch (error) {
-        Alert.alert("Error", "Failed to refresh");
-        console.log("Error: Gratitudes Refresh: ", error);
-        setRefreshing(false);
+      Alert.alert("Error", "Failed to refresh");
+      console.log("Error: Gratitudes Refresh: ", error);
+      setRefreshing(false);
     }
   };
 
@@ -102,12 +102,13 @@ export default function Gratitudes() {
                 <RefreshControl refreshing={refreshing} onRefresh={refresh} />
               }
             >
-              {gratitude_entries && gratitude_entries.map((gratitudeEntry) => (
-                <GratitudeEntry
-                  key={gratitudeEntry.entry_id}
-                  gratitudeEntry={gratitudeEntry}
-                />
-              ))}
+              {gratitude_entries &&
+                gratitude_entries.map((gratitudeEntry) => (
+                  <GratitudeEntry
+                    key={gratitudeEntry.entry_id}
+                    gratitudeEntry={gratitudeEntry}
+                  />
+                ))}
             </MyScrollView>
           )}
         </Container>
@@ -163,7 +164,23 @@ const GratitudeEntry = (props: JournalEntryProps) => {
           </AlertDialog>
         </XStack>
       </EntryHeader>
-      <JournalCard journalEntry={gratitudeEntry}></JournalCard>
+      <Button
+        type="icon"
+        padding={0}
+        onPress={() =>
+          router.navigate({
+            pathname: "/notepad/[id]/edit",
+            params: { id: gratitudeEntry.entry_id, type: "editGratitude" },
+          })
+        }
+      >
+        <Button.Icon>
+          <JournalCard
+            journalEntry={gratitudeEntry}
+            maxHeight="$16"
+          ></JournalCard>
+        </Button.Icon>
+      </Button>
     </EntryContainer>
   );
 };
