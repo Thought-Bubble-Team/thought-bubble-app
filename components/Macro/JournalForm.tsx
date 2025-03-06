@@ -1,5 +1,5 @@
 // LIBRARIES
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { Image, Alert } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";

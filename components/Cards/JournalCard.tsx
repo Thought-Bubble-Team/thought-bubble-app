@@ -64,11 +64,6 @@ const CardStyled = styled(Card, {
   backgroundColor: "transparent",
 });
 
-const JournalDateText = styled(Text, {
-  fontSize: 18,
-  fontWeight: "bold",
-});
-
 export function getHighestEmotion(sentiment: SentimentType): string {
   const emotions = sentiment.emotions;
   let highestEmotion = "";

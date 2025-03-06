@@ -12,7 +12,6 @@ import {
   provideSampleSentimentData,
 } from "@/utils/sampleSentimentData";
 import { useMoodCalendarDataStore } from "@/utils/stores/useChartDataStore";
-import { MoodCalendarDataType } from "@/utils/interfaces/dataTypes";
 import { useEffect } from "react";
 
 const DayContainer = styled(View, {
