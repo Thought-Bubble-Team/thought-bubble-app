@@ -195,29 +195,9 @@ export const getJournalSentiment = async (entryId: number) => {
   }
 };
 
-export const getJournalEntries = async (user_id: string) => {
-  try {
-    // TODO: handle error properly
-    const { data, error } = await supabase
-      .from("journal_entry")
-      .select("*")
-      .eq("user_id", user_id)
-      .order("created_at", { ascending: false });
-  } catch (error) {
-    return { data: null, error };
-  }
-};
-
 export const deleteJournalEntry = async (entryId: number) => {
   try {
-    const { error } = await supabase
-      .from("journal_entry")
-      .delete()
-      .eq("entry_id", entryId);
-
-    // FIX: throw error if error
-    if (error) throw error;
-    return { error: null };
+    await supabase.from("journal_entry").delete().eq("entry_id", entryId);
   } catch (error) {
     return { error };
   }
@@ -225,14 +205,7 @@ export const deleteJournalEntry = async (entryId: number) => {
 
 export const deleteGratitudeEntry = async (entryId: number) => {
   try {
-    const { error } = await supabase
-      .from("gratitude_entry")
-      .delete()
-      .eq("entry_id", entryId);
-
-    // FIX: throw
-    if (error) throw error;
-    return { error: null };
+    await supabase.from("gratitude_entry").delete().eq("entry_id", entryId);
   } catch (error) {
     return { error };
   }

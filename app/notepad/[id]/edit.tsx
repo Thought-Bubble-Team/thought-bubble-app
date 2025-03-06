@@ -36,7 +36,12 @@ const Edit = () => {
           </Button>
         </Navigation.Right>
       </Navigation>
-      <View flex={1} justifyContent={"center"} alignItems={"center"}>
+      <View
+        flex={1}
+        justifyContent={"center"}
+        alignItems={"center"}
+        padding="$3"
+      >
         <JournalForm editable={editable} />
       </View>
     </View>
