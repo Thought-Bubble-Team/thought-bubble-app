@@ -140,7 +140,13 @@ export default function MyCard(props: MyCardProps) {
         borderBottomRightRadius={"$4"}
       >
         {journalEntry && (
-          <Text fontSize="$lg" color={"$black"}>
+          <Text
+            fontSize="$lg"
+            color={"$black"}
+            numberOfLines={4}
+            ellipsizeMode={"tail"}
+            lineHeight="$xxl"
+          >
             {journalEntry.content}
           </Text>
         )}
