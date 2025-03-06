@@ -1,8 +1,9 @@
-import { View } from "tamagui";
+import { useState } from "react";
+import { View, Switch } from "tamagui";
 import { useLocalSearchParams, Stack } from "expo-router";
 
-import Text from "@/components/atoms/Text";
-import Navigation from "@/components/atoms/Navigation";
+import { Button } from "@/components/atoms/Button";
+import { Navigation } from "@/components/atoms/Navigation";
 import JournalForm from "@/components/Macro/JournalForm";
 
 // TODO: Implement the Journal Summary page
@@ -11,14 +12,31 @@ import JournalForm from "@/components/Macro/JournalForm";
 // TODO: Make the title of the page dynamic based on the journal entry's creation date
 const Summary = () => {
   const { id } = useLocalSearchParams();
+  const [editable, setEditable] = useState<boolean>(false);
   return (
     <View
       style={{ flex: 1, justifyContent: "flex-start", alignItems: "center" }}
     >
-      <Navigation title="Journal Summary" />
+      <Navigation title="Journal Summary">
+        <Navigation.Right>
+          <Button
+            type="icon"
+            size="$md"
+            padding={0}
+            onPress={() => setEditable(!editable)}
+          >
+            <Button.Text color="$black">Edit</Button.Text>
+            <Switch
+              native="android"
+              defaultChecked={editable}
+              onCheckedChange={() => setEditable(!editable)}
+            />
+          </Button>
+        </Navigation.Right>
+      </Navigation>
       <Stack.Screen options={{ title: "Summary" }} />
       <View flex={1} justifyContent={"center"} alignItems={"center"}>
-        <JournalForm />
+        <JournalForm editable={editable} />
       </View>
     </View>
   );

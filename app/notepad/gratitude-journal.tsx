@@ -8,7 +8,7 @@ import Text from "@/components/atoms/Text";
 import MyScrollView from "@/components/atoms/MyScrollView";
 import JournalForm from "@/components/Macro/JournalForm";
 import Header from "@/components/atoms/Header";
-import Navigation from "@/components/atoms/Navigation";
+import { Navigation } from "@/components/atoms/Navigation";
 
 // Utilities Import
 import { supabase } from "@/utils/supabase/supabase";
