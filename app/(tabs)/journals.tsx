@@ -165,7 +165,7 @@ const JournalEntry = (props: JournalEntryProps) => {
         padding={0}
         onPress={() =>
           router.navigate({
-            pathname: "/journals/[id]/summary",
+            pathname: "/notepad/[id]/edit",
             params: {
               id: journalEntry.entry_id,
               type: "editJournal",
