@@ -125,13 +125,12 @@ const JournalEntry = (props: JournalEntryProps) => {
   const splitDate = splitFormattedDate(formattedDate);
 
   const handleDelete = async (entry_id: number) => {
-    const { error } = await deleteJournalEntry(entry_id);
-
-    if (error) {
+    try {
+      await deleteJournalEntry(entry_id);
+      Alert.alert("Success", "Entry deleted successfully");
+    } catch (error) {
       Alert.alert("Error", "Failed to delete entry");
       console.log(error);
-    } else {
-      Alert.alert("Success", "Entry deleted successfully");
     }
   };
 
