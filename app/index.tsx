@@ -1,8 +1,9 @@
 import { router } from "expo-router";
 import { useEffect } from "react";
 
-import { YStack } from "tamagui";
+import { XStack, YStack } from "tamagui";
 import Text from "@/components/atoms/Text";
+import LogoAnimation from "@/components/Icons/LogoAnimation";
 
 import {
   useJournalEntriesStore,
@@ -35,6 +36,9 @@ const LoadingModal = () => {
 
   return (
     <YStack flex={1} justifyContent="center" alignItems="center" gap="$sm">
+      <XStack justifyContent="center" alignItems="center" gap="$sm">
+        <LogoAnimation />
+      </XStack>
       {sessionStore.loading && <Text>Loading User</Text>}
       {journalEntriesStore.loading && <Text>Fetching Journal Entries</Text>}
       {gratitudeEntriesStore.loading && <Text>Fetching Gratitude Entries</Text>}
