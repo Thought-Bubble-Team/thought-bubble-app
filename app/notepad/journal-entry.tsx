@@ -60,26 +60,23 @@ const JournalEntry = () => {
   }, []);
 
   return (
-    <MyView
-      flex={1}
-      paddingHorizontal={"$3"}
-      paddingVertical={"$1"}
-      backgroundColor={"$background"}
-      alignItems="center"
-      justifyContent="flex-start"
-    >
+    <MyView flex={1} alignItems="center" justifyContent="flex-start">
       <Navigation title="Journal Entry" />
-      <Header>
-        <XStack width={"100%"}>
-          <Text weight="bold" fontSize="$xl" color={"$black"}>
-            {day}
-          </Text>
-          <Text weight="bold" fontSize="$xl" color={"$black"} opacity={0.4}>
-            {formattedDate}
-          </Text>
-        </XStack>
-      </Header>
-      {session && session.user && <JournalForm />}
+      <View width={"100%"} paddingHorizontal="$3">
+        <Header>
+          <XStack width={"100%"}>
+            <Text weight="bold" fontSize="$xl" color={"$black"}>
+              {day}
+            </Text>
+            <Text weight="bold" fontSize="$xl" color={"$black"} opacity={0.4}>
+              {formattedDate}
+            </Text>
+          </XStack>
+        </Header>
+      </View>
+      <View paddingHorizontal="$3">
+        {session && session.user && <JournalForm />}
+      </View>
       {!session && (
         <View>
           <Text>Please sign in to create a journal entry.</Text>

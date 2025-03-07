@@ -1,4 +1,4 @@
-import { Card, CardProps, View, styled } from "tamagui";
+import { Card, CardProps, View, styled, XStack } from "tamagui";
 //@ts-ignore
 import SmugIcon from "@/assets/icons/smugIcon.svg";
 
@@ -7,6 +7,8 @@ import Text from "@/components/atoms/Text";
 import { useEffect, useState } from "react";
 import { formatTime } from "@/utils/dateFormat";
 import { getJournalSentiment } from "@/utils/supabase/db-crud";
+import { SentimentSummaryDataType } from "@/utils/interfaces/dataTypes";
+import { sentimentSummary } from "@/utils/sampleSentimentData";
 
 export type JournalEntryType = {
   entry_id: number;
@@ -58,6 +60,7 @@ export type SentimentType = {
 interface MyCardProps extends CardProps {
   journalEntry: JournalEntryType;
   children?: React.ReactNode;
+  showSentimentData?: boolean;
 }
 
 const CardStyled = styled(Card, {
@@ -80,7 +83,7 @@ export function getHighestEmotion(sentiment: SentimentType): string {
 }
 
 export default function MyCard(props: MyCardProps) {
-  const { journalEntry, children, ...restProps } = props;
+  const { journalEntry, children, showSentimentData, ...restProps } = props;
   const [sentiment, setSentiment] = useState<SentimentType[] | null>(null);
   const [emotion, setEmotion] = useState<String | null>(null);
 
@@ -134,19 +137,70 @@ export default function MyCard(props: MyCardProps) {
         borderBottomLeftRadius={"$4"}
         borderBottomRightRadius={"$4"}
       >
-        {journalEntry && (
-          <Text
-            fontSize="$lg"
-            color={"$black"}
-            numberOfLines={4}
-            ellipsizeMode={"tail"}
-            lineHeight="$xxl"
-          >
-            {journalEntry.content}
-          </Text>
+        <View width="100%">
+          {journalEntry && (
+            <Text
+              fontSize="$lg"
+              color={"$black"}
+              numberOfLines={4}
+              ellipsizeMode={"tail"}
+              lineHeight="$xxl"
+            >
+              {journalEntry.content}
+            </Text>
+          )}
+        </View>
+        {showSentimentData && sentiment && (
+          <View width="100%" marginVertical="$xs">
+            <SentimentSummaryBar
+              sentimentData={generateRandomSentimentSummary()}
+            />
+          </View>
         )}
-        {children}
       </View>
     </CardStyled>
   );
 }
+
+enum EmotionColor {
+  joy = "#FAB9B9",
+  neutral = "#F7C8BB",
+  sadness = "#C8988A",
+  anger = "#CB806A",
+  love = "#846258",
+}
+
+// Temporary
+export function generateRandomSentimentSummary(): SentimentSummaryDataType {
+  return {
+    message: "Sentiment data fetched successfully",
+    data: {
+      joy: Math.floor(Math.random() * 20) + 1, // Random number between 1-20
+      neutral: Math.floor(Math.random() * 20) + 1,
+      sadness: Math.floor(Math.random() * 20) + 1,
+      anger: Math.floor(Math.random() * 20) + 1,
+      love: Math.floor(Math.random() * 20) + 1,
+    },
+  };
+}
+
+const SentimentSummaryBar = ({
+  sentimentData,
+}: {
+  sentimentData: SentimentSummaryDataType;
+}) => {
+  const { data } = sentimentData;
+  const total = Object.values(data).reduce((acc, curr) => acc + curr, 0);
+  return (
+    <XStack width="100%" height="$sm">
+      {Object.entries(data).map(([emotion, value]) => (
+        <View
+          key={emotion}
+          backgroundColor={EmotionColor[emotion]}
+          width={`${(value / total) * 100}%`}
+          height="100%"
+        />
+      ))}
+    </XStack>
+  );
+};

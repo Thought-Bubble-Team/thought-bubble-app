@@ -124,6 +124,8 @@ export default function TabLayout() {
 const NotepadMenu = () => {
   return (
     <Animated.View
+      // entering={SlideInDown}
+      // exiting={SlideOutDown}
       entering={FadeIn}
       exiting={FadeOut}
       style={{
@@ -150,7 +152,7 @@ const NotepadMenu = () => {
           onPress={() =>
             router.push({
               pathname: "/notepad/journal-entry",
-              params: { id: "new" },
+              params: { id: "null", type: "journal" },
             })
           }
           size="$sm"
@@ -162,7 +164,7 @@ const NotepadMenu = () => {
           onPress={() =>
             router.push({
               pathname: "/notepad/gratitude-journal",
-              params: { id: "gratitude" },
+              params: { id: "0", type: "gratitude" },
             })
           }
           size="$sm"

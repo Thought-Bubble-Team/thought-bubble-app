@@ -7,12 +7,14 @@ import Text from "@/components/atoms/Text";
 
 // Utilities
 import { parseInitialDate } from "@/utils/dateFormat";
-import {
-  SimpleSentimentData,
-  provideSampleSentimentData,
-} from "@/utils/sampleSentimentData";
 import { useMoodCalendarDataStore } from "@/utils/stores/useChartDataStore";
 import { useEffect } from "react";
+import {
+  MoodCalendarDataType,
+  MoodCalendarType,
+} from "@/utils/interfaces/dataTypes";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
+import { provideSampleSentimentData } from "@/utils/sampleSentimentData";
 
 const DayContainer = styled(View, {
   width: "14.28%",
@@ -33,32 +35,32 @@ interface MoodCalendarProps extends ViewProps {
 }
 
 // TODO: Create a skeleton for this component
-// TODO: Modify MoodCalendar Data structure to add missing days
 // TODO: Add a way to fetch data at startup by storing the date locally/offline
 // TODO: Update logs to use a logger
-// FIX: fetchMoodCalendarData errors code 502
 
 // Main Component
 const MoodCalendar = (props: MoodCalendarProps) => {
   const { initialDate, ...restProps } = props;
-  console.log("initialDate: ", initialDate);
   const currentMonth = parseInitialDate(initialDate);
-  console.log("currentMonth: ", currentMonth);
-  const sampleSentimentData = provideSampleSentimentData(initialDate);
-  console.log("sampleSentimentData: ", sampleSentimentData);
-  const { moodCalendarData, fetchMoodCalendarData } =
-    useMoodCalendarDataStore();
+  const session = useSessionStore((state) => state.session);
+  // const { moodCalendarData, fetchMoodCalendarData } =
+  //   useMoodCalendarDataStore();
+  const sampleMoodCalendarData = {
+    message: "Success",
+    calendar: provideSampleSentimentData(initialDate),
+  };
 
   useEffect(() => {
-    fetchMoodCalendarData(
-      "f55522f3-3089-413d-9338-e82ae53c2fe2",
-      2,
-      currentMonth.getFullYear(),
-    );
-  }, [fetchMoodCalendarData]);
-  console.log(
-    `\x1b[35m"fetchData result: ", ${moodCalendarData?.message}\x1b[0m`,
-  );
+    // if (session) {
+    //   void fetchMoodCalendarData(
+    //     session.user.id,
+    //     currentMonth.getMonth() + 1,
+    //     currentMonth.getFullYear(),
+    //   );
+    // }
+  }, [initialDate]);
+
+  const sampleSentimentData = sampleMoodCalendarData;
 
   const renderCalendarCells = () => {
     const getDaysInMonth = (date: Date) => {
@@ -69,13 +71,12 @@ const MoodCalendar = (props: MoodCalendarProps) => {
       return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
     };
 
-    const getSentimentForDate = (
-      date: Date,
-    ): SimpleSentimentData | undefined => {
+    const getSentimentForDate = (date: Date): MoodCalendarType | undefined => {
+      if (!sampleSentimentData?.calendar) return undefined;
       const dateString = date.toISOString().split("T")[0];
 
-      return sampleSentimentData.find((item) => {
-        const itemDate = new Date(item.created_at);
+      return sampleSentimentData.calendar.find((item) => {
+        const itemDate = new Date(item.date);
         const itemDateString = itemDate.toISOString().split("T")[0];
         return itemDateString === dateString;
       });
@@ -83,41 +84,31 @@ const MoodCalendar = (props: MoodCalendarProps) => {
 
     const days: { key: string; day?: string; emotions?: string }[] = [];
     const daysInMonth = getDaysInMonth(currentMonth);
-    console.log("daysInMonth", daysInMonth);
     const firstDayOfMonth = getFirstDayOfMonth(currentMonth);
-    console.log("firstDayOfMonth", firstDayOfMonth);
 
-    // Add empty cells for days before the first day of month
-    console.log("EmptySlot Loop: \n");
     for (let i = 0; i < firstDayOfMonth; i++) {
       days.push({ key: `empty-${i}` });
-      console.log(`empty-${i}`);
     }
 
-    console.log("DaySlot & BlankSlot Loop: \n");
+    // console.log("DaySlot & BlankSlot Loop: \n");
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(
         Date.UTC(currentMonth.getFullYear(), currentMonth.getMonth(), day),
       );
-      console.log("date", date);
       const sentimentData = getSentimentForDate(date);
-      console.log(`\x1b[35mSentimentData: ${sentimentData}\x1b[0m`);
+      // console.log(`\x1b[35mSentimentData: ${sentimentData}\x1b[0m`);
 
       days.push({
         key: sentimentData ? `day-${day}` : `blank-${day}`,
         day: `${day}`,
-        emotions: sentimentData?.emotion,
+        emotions: sentimentData ? sentimentData.emotions : undefined,
       });
     }
 
     const totalCells = 35;
     const remainingCells = totalCells - days.length;
-    console.log("remainingCells: ", remainingCells);
-
-    console.log("ExtraEmptySlot Loop: \n");
     for (let i = 0; i < remainingCells; i++) {
       days.push({ key: `extra-empty-${i}` });
-      console.log(`extra-empty-${i}`);
     }
 
     return days;

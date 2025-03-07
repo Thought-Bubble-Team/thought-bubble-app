@@ -6,7 +6,7 @@ import { useTheme } from "tamagui";
 
 interface MySelectProps extends SelectProps {
   val: string;
-  setVal: Dispatch<SetStateAction<string>>;
+  setVal: (newDate: string) => void;
   date: { id: number; date: string }[];
   borderWidth?: number;
   color?: string;

@@ -1,10 +1,12 @@
+export type MoodCalendarType = {
+  date: string;
+  emotions: string;
+  sentiment: string;
+};
+
 export type MoodCalendarDataType = {
   message: string;
-  calendar: {
-    date: string;
-    emotions: string;
-    sentiment: string;
-  }[];
+  calendar: MoodCalendarType[];
 };
 
 export type JournalEntryType = {
@@ -17,3 +19,14 @@ export type JournalEntryType = {
 };
 
 export type JournalEntriesType = JournalEntryType[];
+
+export type SentimentSummaryDataType = {
+  message: string;
+  data: {
+    joy: number;
+    neutral: number;
+    sadness: number;
+    anger: number;
+    love: number;
+  };
+};
