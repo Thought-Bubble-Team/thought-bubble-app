@@ -60,6 +60,7 @@ export type SentimentType = {
 interface MyCardProps extends CardProps {
   journalEntry: JournalEntryType;
   children?: React.ReactNode;
+  showSentimentData?: boolean;
 }
 
 const CardStyled = styled(Card, {
@@ -82,7 +83,7 @@ export function getHighestEmotion(sentiment: SentimentType): string {
 }
 
 export default function MyCard(props: MyCardProps) {
-  const { journalEntry, children, ...restProps } = props;
+  const { journalEntry, children, showSentimentData, ...restProps } = props;
   const [sentiment, setSentiment] = useState<SentimentType[] | null>(null);
   const [emotion, setEmotion] = useState<String | null>(null);
 
@@ -149,11 +150,13 @@ export default function MyCard(props: MyCardProps) {
             </Text>
           )}
         </View>
-        <View width="100%" marginVertical="$xs">
-          <SentimentSummaryBar
-            sentimentData={generateRandomSentimentSummary()}
-          />
-        </View>
+        {showSentimentData && sentiment && (
+          <View width="100%" marginVertical="$xs">
+            <SentimentSummaryBar
+              sentimentData={generateRandomSentimentSummary()}
+            />
+          </View>
+        )}
       </View>
     </CardStyled>
   );

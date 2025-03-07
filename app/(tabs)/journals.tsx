@@ -174,7 +174,11 @@ const JournalEntry = (props: JournalEntryProps) => {
         }
       >
         <Button.Icon>
-          <JournalCard journalEntry={journalEntry} maxHeight="$16" />
+          <JournalCard
+            journalEntry={journalEntry}
+            maxHeight="$16"
+            showSentimentData={true}
+          />
         </Button.Icon>
       </Button>
     </EntryContainer>
