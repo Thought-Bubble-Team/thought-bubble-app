@@ -13,6 +13,8 @@ import {
   MoodCalendarDataType,
   MoodCalendarType,
 } from "@/utils/interfaces/dataTypes";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
+import { provideSampleSentimentData } from "@/utils/sampleSentimentData";
 
 const DayContainer = styled(View, {
   width: "14.28%",
@@ -40,21 +42,25 @@ interface MoodCalendarProps extends ViewProps {
 const MoodCalendar = (props: MoodCalendarProps) => {
   const { initialDate, ...restProps } = props;
   const currentMonth = parseInitialDate(initialDate);
-  const { moodCalendarData, fetchMoodCalendarData } =
-    useMoodCalendarDataStore();
+  const session = useSessionStore((state) => state.session);
+  // const { moodCalendarData, fetchMoodCalendarData } =
+  //   useMoodCalendarDataStore();
+  const sampleMoodCalendarData = {
+    message: "Success",
+    calendar: provideSampleSentimentData(initialDate),
+  };
 
   useEffect(() => {
-    void fetchMoodCalendarData(
-      "f55522f3-3089-413d-9338-e82ae53c2fe2",
-      currentMonth.getMonth() + 1,
-      currentMonth.getFullYear(),
-    );
-  }, [fetchMoodCalendarData, initialDate]);
-  // console.log(
-  //   `\x1b[35m"fetchData result: ", ${moodCalendarData?.calendar[0].emotions}\x1b[0m`,
-  // );
+    // if (session) {
+    //   void fetchMoodCalendarData(
+    //     session.user.id,
+    //     currentMonth.getMonth() + 1,
+    //     currentMonth.getFullYear(),
+    //   );
+    // }
+  }, [initialDate]);
 
-  const sampleSentimentData = moodCalendarData;
+  const sampleSentimentData = sampleMoodCalendarData;
 
   const renderCalendarCells = () => {
     const getDaysInMonth = (date: Date) => {
