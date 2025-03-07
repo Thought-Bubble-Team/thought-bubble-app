@@ -22,3 +22,8 @@ export type SessionStoreType = {
   setSession: (session: Session | null) => void;
   fetchSession: () => Promise<void>;
 };
+
+export type SelectedDateStoreType = {
+  selectedDate: string;
+  setSelectedDate: (newDate: string) => void;
+};

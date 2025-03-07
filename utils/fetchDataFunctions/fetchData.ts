@@ -22,7 +22,7 @@ export const fetchMoodCalendarData = async ({
 }) => {
   try {
     const result: MoodCalendarDataType = await fetchData(
-      `https://thought-bubble-backend.onrender.com/api/mood-calendar/?user_id=${userId}&month=${month}&year=${year}`
+      `https://thought-bubble-backend.onrender.com/api/mood-calendar/?user_id=${userId}&month=${month}&year=${year}`,
     );
     return { result: result, error: null };
   } catch (error) {
