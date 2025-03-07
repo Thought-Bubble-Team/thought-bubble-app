@@ -5,7 +5,6 @@ import {
   useBoolVariation,
   useLDClient,
 } from "@launchdarkly/react-native-client-sdk";
-import { router } from "expo-router";
 
 // Components Import
 import MyScrollView from "@/components/atoms/MyScrollView";
@@ -19,11 +18,15 @@ import Header from "@/components/atoms/Header";
 
 // Utilities Import
 import { useSessionStore } from "@/utils/stores/useSessionStore";
+import { useSelectedDateStore } from "@/utils/stores/useSelectedDateStore";
 import { supabase } from "@/utils/supabase/supabase";
 import { getMonthYearList } from "@/utils/dateFormat";
 
 export default function Index() {
-  const [val, setVal] = useState<string>("Jan 2025");
+  const selectedDate = useSelectedDateStore((state) => state.selectedDate);
+  const setSelectedDate = useSelectedDateStore(
+    (state) => state.setSelectedDate,
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const session = useSessionStore((state) => state.session);
   const setSession = useSessionStore((state) => state.setSession);
@@ -80,8 +83,8 @@ export default function Index() {
         <MySelect
           color={"$black"}
           opacity={0.57}
-          val={val}
-          setVal={setVal}
+          val={selectedDate}
+          setVal={setSelectedDate}
           date={dateOptions}
         />
       </Header>
@@ -89,7 +92,7 @@ export default function Index() {
         <MyCard headerTitle="Mood Calendar">
           {session && (
             <MoodCalendar
-              initialDate={val}
+              initialDate={selectedDate}
               // Disable pre v0.1.0
               // onPress={() =>
               //   router.navigate({
