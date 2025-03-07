@@ -1,7 +1,7 @@
 import { router } from "expo-router";
 import { useEffect } from "react";
 
-import { XStack, YStack } from "tamagui";
+import { Spinner, styled, XStack, YStack } from "tamagui";
 import Text from "@/components/atoms/Text";
 import LogoAnimation from "@/components/Icons/LogoAnimation";
 
@@ -13,7 +13,13 @@ import { useSessionStore } from "@/utils/stores/useSessionStore";
 
 // TODO: Sessions, Journal & Gratitude Entries, Charts, etc.
 // TODO: Refactor
-// TODO: Add Error Handling
+
+const XStackStyled = styled(XStack, {
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "$sm",
+});
+
 const LoadingModal = () => {
   const sessionStore = useSessionStore();
   const journalEntriesStore = useJournalEntriesStore();
@@ -36,12 +42,21 @@ const LoadingModal = () => {
 
   return (
     <YStack flex={1} justifyContent="center" alignItems="center" gap="$sm">
-      <XStack justifyContent="center" alignItems="center" gap="$sm">
+      <XStackStyled>
         <LogoAnimation />
-      </XStack>
-      {sessionStore.loading && <Text>Loading User</Text>}
-      {journalEntriesStore.loading && <Text>Fetching Journal Entries</Text>}
-      {gratitudeEntriesStore.loading && <Text>Fetching Gratitude Entries</Text>}
+      </XStackStyled>
+      <XStackStyled>
+        <Spinner size="large" color="$grey3" />
+      </XStackStyled>
+      <YStack justifyContent="center" alignItems="center" gap="$sm">
+        {sessionStore.loading && <Text weight="bold">Loading User</Text>}
+        {journalEntriesStore.loading && (
+          <Text weight="bold">Fetching Journal Entries</Text>
+        )}
+        {gratitudeEntriesStore.loading && (
+          <Text weight="bold">Fetching Gratitude Entries</Text>
+        )}
+      </YStack>
     </YStack>
   );
 };
