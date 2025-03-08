@@ -3,8 +3,8 @@ import { View, Switch } from "tamagui";
 import { useLocalSearchParams, Stack, useFocusEffect } from "expo-router";
 
 import { Button } from "@/components/atoms/Button";
-import { Navigation } from "@/components/atoms/Navigation";
-import JournalForm from "@/components/Macro/JournalForm";
+import { Navigation } from "@/components/macro/Navigation";
+import JournalForm from "@/components/macro/JournalForm";
 
 const Edit = () => {
   const [editable, setEditable] = useState<boolean>(false);

@@ -7,20 +7,21 @@ import { Alert, RefreshControl } from "react-native";
 import { router } from "expo-router";
 
 // Components Imports
-import MyView from "@/components/atoms/MyView";
-import MyScrollView from "@/components/atoms/MyScrollView";
+import Screen from "@/components/atoms/Screen";
+import ScrollView from "@/components/atoms/ScrollView";
 import Text from "@/components/atoms/Text";
-import { JournalCard, JournalEntryType } from "@/components/Cards";
-import { NoSession } from "@/components/Sessions";
+import JournalCard from "@/components/macro/JournalCard";
+import NoSession from "@/components/macro/NoSession";
 import Header from "@/components/atoms/Header";
 import { Button } from "@/components/atoms/Button";
-import AlertDialog from "@/components/Macro/AlertDialog";
+import AlertDialog from "@/components/macro/AlertDialog";
 
 // Utilities Imports
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
 import { deleteGratitudeEntry } from "@/utils/supabase/db-crud";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { useGratitudeEntriesStore } from "@/utils/stores/useEntriesStore";
+import { JournalEntryType } from "@/utils/interfaces/dataTypes";
 
 export default function Gratitudes() {
   const session = useSessionStore((state) => state.session);
@@ -95,7 +96,7 @@ export default function Gratitudes() {
             </Container>
           )}
           {gratitude_entries && gratitude_entries.length > 0 && (
-            <MyScrollView
+            <ScrollView
               width={"100%"}
               height={"100%"}
               refreshControl={
@@ -109,7 +110,7 @@ export default function Gratitudes() {
                     gratitudeEntry={gratitudeEntry}
                   />
                 ))}
-            </MyScrollView>
+            </ScrollView>
           )}
         </Container>
       )}
@@ -181,7 +182,7 @@ const GratitudeEntry = (props: JournalEntryProps) => {
   );
 };
 
-const MainView = styled(MyView, {
+const MainView = styled(Screen, {
   paddingHorizontal: "$3",
   paddingVertical: "$1",
   backgroundColor: "$background",

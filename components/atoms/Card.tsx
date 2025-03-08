@@ -39,6 +39,7 @@ export const CardHeaderText = styled(Text, {
 });
 
 export const CardBody = styled(View, {
+  width: "100%",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",

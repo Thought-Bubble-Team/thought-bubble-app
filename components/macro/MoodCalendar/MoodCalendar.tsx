@@ -2,7 +2,7 @@
 import { styled, View, ViewProps, XStack } from "tamagui";
 
 // Components
-import Day from "@/components/Macro/MoodCalendar/Day";
+import Day from "@/components/macro/MoodCalendar/Day";
 import Text from "@/components/atoms/Text";
 
 // Utilities

@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { styled, View } from "tamagui";
 
 // Component Imports
-import Login from "@/components/Macro/Login";
-import SignUp from "@/components/Macro/SignUp";
-import User from "@/components/Macro/User";
+import Login from "@/components/macro/Login";
+import SignUp from "@/components/macro/SignUp";
+import User from "@/components/macro/User";
 
 // Utility Imports
 import { supabase } from "@/utils/supabase/supabase";

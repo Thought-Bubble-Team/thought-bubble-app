@@ -12,7 +12,7 @@ import BackLine from "@/assets/icons/backLine.svg";
 
 // Component Imports
 import Text from "@/components/atoms/Text";
-import MyScrollView from "@/components/atoms/MyScrollView";
+import ScrollView from "@/components/atoms/ScrollView";
 import { Button } from "@/components/atoms/Button";
 import { supabase } from "@/utils/supabase/supabase";
 
@@ -276,7 +276,7 @@ const ProfileContainer = styled(View, {
   borderBottomColor: "$grey2",
 });
 
-const SettingsContainer = styled(MyScrollView, {
+const SettingsContainer = styled(ScrollView, {
   width: "100%",
   paddingVertical: 8,
   gap: "$5",

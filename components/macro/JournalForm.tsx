@@ -8,7 +8,7 @@ import { PostgrestError } from "@supabase/supabase-js";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 
 // COMPONENTS
-import MyScrollView from "@/components/atoms/MyScrollView";
+import ScrollView from "@/components/atoms/ScrollView";
 import { Button } from "@/components/atoms/Button";
 
 // UTILITIES
@@ -270,7 +270,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
 
       {/* Images */}
       {images !== undefined && (
-        <MyScrollView horizontal backgroundColor={"$grey0"} maxHeight={100}>
+        <ScrollView horizontal backgroundColor={"$grey0"} maxHeight={100}>
           {images.map((image, index) => (
             <ImageWrapper key={index} style={{ zIndex: images.length - index }}>
               <ImageStyled source={{ uri: image }} />
@@ -288,7 +288,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
               )}
             </ImageWrapper>
           ))}
-        </MyScrollView>
+        </ScrollView>
       )}
 
       {/* Editable Title */}

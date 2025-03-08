@@ -1,10 +1,16 @@
 import { useMemo, SetStateAction, Dispatch } from "react";
-import { Select, SelectProps, Adapt, Sheet, YStack } from "tamagui";
+import {
+  Select as TSelect,
+  SelectProps as TSelectProps,
+  Adapt,
+  Sheet,
+  YStack,
+} from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { useTheme } from "tamagui";
 
-interface MySelectProps extends SelectProps {
+interface SelectProps extends TSelectProps {
   val: string;
   setVal: (newDate: string) => void;
   date: { id: number; date: string }[];
@@ -13,7 +19,7 @@ interface MySelectProps extends SelectProps {
   opacity?: number;
 }
 
-export default function MySelect({
+export default function Select({
   val,
   setVal,
   date,
@@ -21,12 +27,12 @@ export default function MySelect({
   color,
   opacity,
   ...restProps
-}: MySelectProps) {
+}: SelectProps) {
   const theme = useTheme();
   return (
-    <Select value={val} onValueChange={setVal} disablePreventBodyScroll>
-      <Select.Trigger width={125} borderWidth={borderWidth}>
-        <Select.Value
+    <TSelect value={val} onValueChange={setVal} disablePreventBodyScroll>
+      <TSelect.Trigger width={125} borderWidth={borderWidth}>
+        <TSelect.Value
           placeholder="Jan 2025"
           color={color}
           size={16}
@@ -38,7 +44,7 @@ export default function MySelect({
           color={theme.black?.val}
           style={{ opacity: opacity }}
         />
-      </Select.Trigger>
+      </TSelect.Trigger>
 
       <Adapt when="sm" platform="touch">
         <Sheet
@@ -65,8 +71,8 @@ export default function MySelect({
         </Sheet>
       </Adapt>
 
-      <Select.Content zIndex={200000}>
-        <Select.ScrollUpButton
+      <TSelect.Content zIndex={200000}>
+        <TSelect.ScrollUpButton
           alignItems="center"
           justifyContent="center"
           position="relative"
@@ -76,25 +82,25 @@ export default function MySelect({
           <YStack zIndex={10}>
             <Ionicons name="chevron-down-sharp" size={16} />
           </YStack>
-        </Select.ScrollUpButton>
-        <Select.Viewport minWidth={200}>
-          <Select.Group>
-            <Select.Label>Select Date</Select.Label>
+        </TSelect.ScrollUpButton>
+        <TSelect.Viewport minWidth={200}>
+          <TSelect.Group>
+            <TSelect.Label>Select Date</TSelect.Label>
             {useMemo(
               () =>
                 date.map((item, index) => (
-                  <Select.Item index={index} key={item.id} value={item.date}>
-                    <Select.ItemText>{item.date}</Select.ItemText>
-                    <Select.ItemIndicator marginLeft="auto">
+                  <TSelect.Item index={index} key={item.id} value={item.date}>
+                    <TSelect.ItemText>{item.date}</TSelect.ItemText>
+                    <TSelect.ItemIndicator marginLeft="auto">
                       <Ionicons name="checkmark-sharp" size={16} />
-                    </Select.ItemIndicator>
-                  </Select.Item>
+                    </TSelect.ItemIndicator>
+                  </TSelect.Item>
                 )),
               [date],
             )}
-          </Select.Group>
-        </Select.Viewport>
-        <Select.ScrollDownButton
+          </TSelect.Group>
+        </TSelect.Viewport>
+        <TSelect.ScrollDownButton
           alignItems="center"
           justifyContent="center"
           position="relative"
@@ -104,8 +110,8 @@ export default function MySelect({
           <YStack zIndex={10}>
             <Ionicons name="chevron-down-sharp" size={16} />
           </YStack>
-        </Select.ScrollDownButton>
-      </Select.Content>
-    </Select>
+        </TSelect.ScrollDownButton>
+      </TSelect.Content>
+    </TSelect>
   );
 }
