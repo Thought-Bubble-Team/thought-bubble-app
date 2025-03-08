@@ -56,7 +56,8 @@ export default function JournalCard(props: JournalCardProps) {
     <Card>
       <Card.Header justifyContent="space-between">
         <TView flexDirection="row" alignItems="center" gap="$xs">
-          {!emotion && <SmugIcon width={24} height={24} />}
+          {/** NOTE: DISABLED EMOJI TEMPORARILY **/}
+          {/** !emotion && <SmugIcon width={24} height={24} /> **/}
           <Card.HeaderText ellipsizeMode="tail">
             {journalEntry.title}
           </Card.HeaderText>
@@ -101,7 +102,7 @@ enum EmotionColor {
   love = "#846258",
 }
 
-// Temporary
+// NOTE: Temporary function to simulate sentiment summary
 export function generateRandomSentimentSummary(): SentimentSummaryDataType {
   return {
     message: "Sentiment data fetched successfully",
