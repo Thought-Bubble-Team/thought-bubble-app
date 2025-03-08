@@ -1,11 +1,13 @@
-import { View, YStack } from "tamagui";
+import { View, XStack, YStack } from "tamagui";
 import { useLocalSearchParams } from "expo-router";
 
 import Text from "@/components/atoms/Text";
 import Screen from "@/components/atoms/Screen";
 import Header from "@/components/atoms/Header";
 import { Navigation } from "@/components/macro/Navigation";
+import { MoodBarChart } from "@/components/macro/MoodBar";
 
+// TODO: Add contact numbers & divider
 const Footer = ({}) => {
   return (
     <YStack
@@ -29,6 +31,16 @@ const Footer = ({}) => {
   );
 };
 
+// TODO: Clean this
+const Graph = ({}) => {
+  return (
+    <View>
+      <MoodBarChart />
+    </View>
+  );
+};
+
+// TODO: Using entry_id passed, fetch sentiment summary
 const Summary = () => {
   const { id } = useLocalSearchParams();
   const summary =
@@ -53,7 +65,9 @@ const Summary = () => {
             {summary}
           </Text>
         </View>
-        <View padding="$lg"></View>
+        <View padding="$lg">
+          <Graph />
+        </View>
       </Screen>
       <Footer />
     </Screen>
