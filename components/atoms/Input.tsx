@@ -1,17 +1,17 @@
-import { TextInput, TextInputProps, StyleSheet } from "react-native";
-import { styled, YStack, XStack, TamaguiElement } from "tamagui";
+import { forwardRef } from "react";
+import {
+  TextInput as RNTextInput,
+  TextInputProps as RNTextInputProps,
+  StyleSheet,
+} from "react-native";
+import { styled, useTheme, YStack, XStack, TamaguiElement } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import Text from "@/components/atoms/Text";
 
-import { forwardRef } from "react";
-import { useTheme } from "tamagui";
+import { InputProps } from "@/utils/interfaces/componentPropInterfaces";
 
-interface MyInputProps extends TextInputProps {
-  label: string;
-}
-
-const MyInput = forwardRef<TamaguiElement, MyInputProps>((props, ref) => {
+const Input = forwardRef<TamaguiElement, InputProps>((props, ref) => {
   const { label, ...restProps } = props;
   const theme = useTheme();
 
@@ -35,7 +35,7 @@ const MyInput = forwardRef<TamaguiElement, MyInputProps>((props, ref) => {
         <Text weight="light" fontSize="$sm" color={"$black"} opacity={0.57}>
           {label}
         </Text>
-        <TextInput {...restProps} style={inputStyles.input} />
+        <RNTextInput {...restProps} style={inputStyles.input} />
       </InputContainer>
       {!label && <Ionicons name="help" size={24} color={theme.black?.val} />}
       {label === "Email" && (
@@ -74,4 +74,4 @@ const InputContainer = styled(YStack, {
   paddingRight: 16,
 });
 
-export default MyInput;
+export default Input;

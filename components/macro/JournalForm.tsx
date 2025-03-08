@@ -8,7 +8,7 @@ import { PostgrestError } from "@supabase/supabase-js";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 
 // COMPONENTS
-import MyScrollView from "@/components/atoms/MyScrollView";
+import ScrollView from "@/components/atoms/ScrollView";
 import { Button } from "@/components/atoms/Button";
 
 // UTILITIES
@@ -23,7 +23,7 @@ import {
 } from "@/utils/supabase/db-crud";
 
 // TODO: Make image pressable to view full screen
-// REF: update handleSubmit to handle errors properly
+// TODO: update handleSubmit to handle errors properly
 
 export default function JournalForm({ editable = true }: JournalFormProps) {
   const theme = useTheme();
@@ -269,8 +269,8 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
       )}
 
       {/* Images */}
-      {images !== undefined && (
-        <MyScrollView horizontal backgroundColor={"$grey0"} maxHeight={100}>
+      {images !== undefined && images.length > 0 && (
+        <ScrollView horizontal backgroundColor={"$grey0"} maxHeight={100}>
           {images.map((image, index) => (
             <ImageWrapper key={index} style={{ zIndex: images.length - index }}>
               <ImageStyled source={{ uri: image }} />
@@ -288,7 +288,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
               )}
             </ImageWrapper>
           ))}
-        </MyScrollView>
+        </ScrollView>
       )}
 
       {/* Editable Title */}
@@ -344,7 +344,7 @@ const RemoveImageWrapper = styled(View, {
   borderRadius: 32,
   borderWidth: 2,
   borderColor: "$grey0",
-  backgroundColor: "$grey2",
+  backgroundColor: "$grey3",
   justifyContent: "center",
   alignItems: "center",
   zIndex: 10,

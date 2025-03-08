@@ -3,10 +3,10 @@ import { useEffect } from "react";
 import { View, XStack } from "tamagui";
 
 // Components Import
-import MyView from "@/components/atoms/MyView";
+import Screen from "@/components/atoms/Screen";
 import Text from "@/components/atoms/Text";
-import MyScrollView from "@/components/atoms/MyScrollView";
-import JournalForm from "@/components/Macro/JournalForm";
+import ScrollView from "@/components/atoms/ScrollView";
+import JournalForm from "@/components/macro/JournalForm";
 import Header from "@/components/atoms/Header";
 
 // Utilities Import
@@ -60,7 +60,7 @@ export default function Create() {
   }, []);
 
   return (
-    <MyView
+    <Screen
       paddingHorizontal={"$3"}
       paddingVertical={"$1"}
       backgroundColor={"$background"}
@@ -75,14 +75,14 @@ export default function Create() {
           </Text>
         </XStack>
       </Header>
-      <MyScrollView width={"100%"}>
+      <ScrollView width={"100%"}>
         {session && session.user && <JournalForm />}
         {!session && (
           <View>
             <Text>Please sign in to create a journal entry.</Text>
           </View>
         )}
-      </MyScrollView>
-    </MyView>
+      </ScrollView>
+    </Screen>
   );
 }

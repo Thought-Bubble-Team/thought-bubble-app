@@ -1,7 +1,7 @@
 import { ModalProps as RNModalProps } from "react-native";
 
 import Modal from "@/components/atoms/Modal";
-import MyCard from "../atoms/MyCard";
+import { Card } from "@/components/atoms/Card";
 import Text from "../atoms/Text";
 
 interface AlertProps extends RNModalProps {
@@ -31,9 +31,16 @@ const Alert = (props: AlertProps) => {
       paddingHorizontal={48}
       {...restProps}
     >
-      <MyCard headerTitle={header}>
-        <Text>{message}</Text>
-      </MyCard>
+      <Card>
+        <Card.Header>
+          <Card.HeaderText>{header}</Card.HeaderText>
+          <Card.Body>
+            <Card.Body>
+              <Text>{message}</Text>
+            </Card.Body>
+          </Card.Body>
+        </Card.Header>
+      </Card>
     </Modal>
   );
 };

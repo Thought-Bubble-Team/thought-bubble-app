@@ -6,14 +6,14 @@ import { Alert, RefreshControl } from "react-native";
 import { router } from "expo-router";
 
 // Components Imports
-import MyView from "@/components/atoms/MyView";
-import MyScrollView from "@/components/atoms/MyScrollView";
-import Text from "@/components/atoms/Text";
-import { JournalCard } from "@/components/Cards";
-import { NoSession } from "@/components/Sessions";
-import Header from "@/components/atoms/Header";
+import NoSession from "@/components/macro/NoSession";
 import { Button } from "@/components/atoms/Button";
-import AlertDialog from "@/components/Macro/AlertDialog";
+import Screen from "@/components/atoms/Screen";
+import ScrollView from "@/components/atoms/ScrollView";
+import Text from "@/components/atoms/Text";
+import JournalCard from "@/components/macro/JournalCard";
+import Header from "@/components/atoms/Header";
+import AlertDialog from "@/components/macro/AlertDialog";
 
 // Utilities Imports
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
@@ -22,6 +22,8 @@ import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { JournalEntryType } from "@/utils/interfaces/dataTypes";
 import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
 
+// TODO: Implement a bounce animation when clicking button
+// NOTE: Remove trash icon once sentiment summary is implemented
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
   const { journal_entries, fetchJournalEntries } = useJournalEntriesStore();
@@ -93,7 +95,7 @@ export default function Journals() {
           </Container>
         )}
         {journal_entries && journal_entries.length > 0 && (
-          <MyScrollView
+          <ScrollView
             width={"100%"}
             height={"100%"}
             refreshControl={
@@ -107,7 +109,7 @@ export default function Journals() {
                   journalEntry={journalEntrySample}
                 />
               ))}
-          </MyScrollView>
+          </ScrollView>
         )}
       </Container>
     </MainView>
@@ -177,7 +179,7 @@ const JournalEntry = (props: JournalEntryProps) => {
           <JournalCard
             journalEntry={journalEntry}
             maxHeight="$16"
-            showSentimentData={true}
+            showSentimentData={false}
           />
         </Button.Icon>
       </Button>
@@ -185,7 +187,7 @@ const JournalEntry = (props: JournalEntryProps) => {
   );
 };
 
-const MainView = styled(MyView, {
+const MainView = styled(Screen, {
   paddingHorizontal: "$3",
   paddingVertical: "$1",
   backgroundColor: "$background",

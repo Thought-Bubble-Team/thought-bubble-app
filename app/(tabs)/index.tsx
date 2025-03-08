@@ -7,14 +7,14 @@ import {
 } from "@launchdarkly/react-native-client-sdk";
 
 // Components Import
-import MyScrollView from "@/components/atoms/MyScrollView";
-import MyView from "@/components/atoms/MyView";
-import MyCard from "@/components/atoms/MyCard";
+import ScrollView from "@/components/atoms/ScrollView";
+import Screen from "@/components/atoms/Screen";
 import Text from "@/components/atoms/Text";
-import ReoccurringWords from "@/components/Macro/ReoccurringWords";
-import MoodCalendar from "@/components/Macro/MoodCalendar/MoodCalendar";
-import MySelect from "@/components/atoms/MySelect";
+import ReoccurringWords from "@/components/macro/ReoccurringWords";
+import MoodCalendar from "@/components/macro/MoodCalendar/MoodCalendar";
+import Select from "@/components/atoms/Select";
 import Header from "@/components/atoms/Header";
+import VectorIcons from "@/components/Icons/VectorIcons";
 
 // Utilities Import
 import { useSessionStore } from "@/utils/stores/useSessionStore";
@@ -71,16 +71,18 @@ export default function Index() {
   }, []);
 
   return (
-    <MyView
+    <Screen
       paddingHorizontal={"$3"}
       paddingVertical={"$1"}
       backgroundColor={"$background"}
+      justifyContent="flex-start"
     >
+      {/**
       <Header>
         <Text weight="bold" fontSize="$xxxl" color={"$black"}>
           Hello, User!
         </Text>
-        <MySelect
+        <Select
           color={"$black"}
           opacity={0.57}
           val={selectedDate}
@@ -88,41 +90,13 @@ export default function Index() {
           date={dateOptions}
         />
       </Header>
-      <MyScrollView width={"100%"} height={"100%"}>
-        <MyCard headerTitle="Mood Calendar">
-          {session && (
-            <MoodCalendar
-              initialDate={selectedDate}
-              // Disable pre v0.1.0
-              // onPress={() =>
-              //   router.navigate({
-              //     pathname: "/graph/[id]/mood-calendar",
-              //     params: { id: session.user.id },
-              //   })
-              // }
-            />
-          )}
-          {!session && <Text>Please Login to see your Mood Calendar data</Text>}
-        </MyCard>
-        {FEATURE_FLAGS.DASHBOARD_CHARTS.REOCCURRING_WORDS && (
-          <MyCard headerTitle="Reoccuring Words">
-            {session && (
-              <ReoccurringWords
-              // Disable pre v0.1.0
-              // onPress={() =>
-              //   router.navigate({
-              //     pathname: "/graph/[id]/reoccurring-words",
-              //     params: { id: session.user.id },
-              //   })
-              // }
-              />
-            )}
-            {!session && (
-              <Text>Please Login to see your Reoccurring Words data</Text>
-            )}
-          </MyCard>
-        )}
-      </MyScrollView>
-    </MyView>
+      **/}
+      <Screen>
+        <VectorIcons size={300} icon="construction" />
+        <Text weight="bold" fontSize="$lg">
+          PAGE IS UNDER CONSTRUCTION
+        </Text>
+      </Screen>
+    </Screen>
   );
 }

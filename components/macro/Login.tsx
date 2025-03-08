@@ -4,7 +4,7 @@ import { StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { styled, View } from "tamagui";
 
 // Component Imports
-import MyInput from "@/components/Inputs/MyInput";
+import Input from "@/components/atoms/Input";
 import Text from "@/components/atoms/Text";
 import { Button } from "@/components/atoms/Button";
 
@@ -14,40 +14,29 @@ import { supabase } from "@/utils/supabase/supabase";
 import { useTheme } from "tamagui";
 
 // @ts-ignore
-import Logo from "../../assets/icons/logoTemp.svg";
+import Logo from "@/assets/icons/logoTemp.svg";
 
-interface SignUpProps {
+interface LoginProps {
   setIsSignUp: React.Dispatch<React.SetStateAction<boolean>>;
-  loading: boolean;
+  loading?: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function SignUp(props: SignUpProps) {
+export default function Login(props: LoginProps) {
   const { setIsSignUp, loading, setLoading } = props;
   const theme = useTheme();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
 
-  const signUpWithEmail = async () => {
+  const signInWithEmail = async () => {
     setLoading(true);
-
-    if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords do not match!");
-      setLoading(false);
-      return;
-    }
-
-    const { error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
     if (error) {
       Alert.alert("Error", error.message);
-    } else {
-      Alert.alert("Please check your inbox for email verification!");
-      setIsSignUp(false);
     }
     setLoading(false);
   };
@@ -55,62 +44,53 @@ export default function SignUp(props: SignUpProps) {
   return (
     <MainContainer>
       <Logo width={100} height={100} />
-      <Text weight="bold" fontSize="$xl" textAlign="center">
+      <Text weight="bold" fontSize="$xl">
         Welcome to Thought Bubble!
       </Text>
-      <Text weight="light" fontSize="$md" textAlign="center">
-        Let your thoughts flow. Join us and start your journey today!
+      <Text weight="light" fontSize="$md">
+        Welcome back! Login to continue your journey.
       </Text>
-      <MyInput
+      <Input
         label="Email"
         placeholder="johnydoe@gmail.com"
         value={email}
         onChangeText={setEmail}
       />
-      <MyInput
+      <Input
         label="Password"
         placeholder="********"
         secureTextEntry
         onChangeText={setPassword}
       />
-      <MyInput
-        label="Confirm Password"
-        placeholder="********"
-        secureTextEntry
-        onChangeText={setConfirmPassword}
-      />
-      {/*<TouchableOpacity*/}
-      {/*  style={[*/}
-      {/*    buttonStyles.ButtonStyledColored,*/}
-      {/*    { backgroundColor: theme.primary?.val },*/}
-      {/*  ]}*/}
-      {/*  onPress={signUpWithEmail}*/}
-      {/*>*/}
-      {/*  <Text weight="bold" fontSize="$lg" color={"$white"}>*/}
-      {/*    SIGNUP*/}
-      {/*  </Text>*/}
-      {/*</TouchableOpacity>*/}
-      <Button
-        type={"normal"}
-        onPress={() => Alert.alert("Signup is not available yet!")}
+      {/* <TouchableOpacity
+        style={[
+          buttonStyles.ButtonStyledColored,
+          { backgroundColor: theme.primary?.val },
+        ]}
+        onPress={signInWithEmail}
       >
-        {!loading && <Button.Text>SIGNUP</Button.Text>}
+        <Text weight="bold" fontSize="$lg" color={"$white"}>
+          LOGIN
+        </Text>
+      </TouchableOpacity> */}
+      <Button type={"normal"} size={"$md"} onPress={signInWithEmail}>
+        {!loading && <Button.Text>LOGIN</Button.Text>}
         {loading && <Button.Spinner />}
       </Button>
       <Footer>
-        <Text weight="light">Already have an account?</Text>
-        {/*<TouchableOpacity onPress={() => setIsSignUp(false)}>*/}
+        <Text weight="light">Don't have an account?</Text>
+        {/*<TouchableOpacity onPress={() => setIsSignUp(true)}>*/}
         {/*  <Text weight="bold" color={"$primary"}>*/}
-        {/*    Login*/}
+        {/*    Signup*/}
         {/*  </Text>*/}
         {/*</TouchableOpacity>*/}
         <Button
           type={"icon"}
           size={"$md"}
           padding={0}
-          onPress={() => setIsSignUp(false)}
+          onPress={() => setIsSignUp(true)}
         >
-          <Button.Text>Login</Button.Text>
+          <Button.Text>Signup</Button.Text>
         </Button>
       </Footer>
     </MainContainer>
@@ -129,7 +109,7 @@ const Footer = styled(View, {
   flexDirection: "row",
   gap: "$2",
   alignItems: "center",
-  marginTop: "$10",
+  marginTop: "$13",
 });
 
 // React Native Styles

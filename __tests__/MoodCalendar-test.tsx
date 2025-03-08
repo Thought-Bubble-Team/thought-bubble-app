@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react-native";
 import { TamaguiProvider, Theme } from "tamagui";
 import config from "@/tamagui.config";
-import MoodCalendar from "@/components/Macro/MoodCalendar/MoodCalendar";
+import MoodCalendar from "@/components/macro/MoodCalendar/MoodCalendar";
 import { parseInitialDate } from "@/utils/dateFormat";
 import { provideSampleSentimentData } from "@/utils/sampleSentimentData";
 

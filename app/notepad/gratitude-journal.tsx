@@ -3,11 +3,11 @@ import { useEffect } from "react";
 import { View, XStack } from "tamagui";
 
 // Components Import
-import MyView from "@/components/atoms/MyView";
+import Screen from "@/components/atoms/Screen";
 import Text from "@/components/atoms/Text";
-import JournalForm from "@/components/Macro/JournalForm";
+import JournalForm from "@/components/macro/JournalForm";
 import Header from "@/components/atoms/Header";
-import { Navigation } from "@/components/atoms/Navigation";
+import { Navigation } from "@/components/macro/Navigation";
 
 // Utilities Import
 import { supabase } from "@/utils/supabase/supabase";
@@ -60,7 +60,7 @@ const GratitudeEntry = () => {
   }, []);
 
   return (
-    <MyView flex={1} alignItems="center" justifyContent="flex-start">
+    <Screen flex={1} alignItems="center" justifyContent="flex-start">
       <Navigation title="Gratitude Journal" />
       <View width="100%" paddingHorizontal="$3">
         <Header>
@@ -82,7 +82,7 @@ const GratitudeEntry = () => {
           <Text>Please sign in to create a journal entry.</Text>
         </View>
       )}
-    </MyView>
+    </Screen>
   );
 };
 

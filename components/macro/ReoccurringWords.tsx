@@ -1,6 +1,7 @@
 import { XStack, View, ViewProps } from "tamagui";
 
 import Text from "@/components/atoms/Text";
+import { Card } from "@/components/atoms/Card";
 
 interface Mood {
   emotion: string;
@@ -19,15 +20,20 @@ type EmotionType = {
   created_at: string;
 };
 
-// interface ReoccurringWordsProps {
-//   emotions: EmotionType[];
-// }
+const ReoccurringWords = () => {
+  return (
+    <Card>
+      <Card.Header>
+        <Card.HeaderText>Reoccurring Words</Card.HeaderText>
+      </Card.Header>
+      <Card.Body>
+        <ReoccurringWordsChart />
+      </Card.Body>
+    </Card>
+  );
+};
 
-export default function ReoccurringWords(props: ViewProps) {
-  // const { emotions } = props;
-
-  // const selectedDate = formatDate(emotions[0].created_at);
-
+const ReoccurringWordsChart = (props: ViewProps) => {
   const moods: Mood[] = [
     { emotion: "grateful", color: "#F7C8BB" },
     { emotion: "exhausting", color: "#D6C8C3" },
@@ -55,4 +61,6 @@ export default function ReoccurringWords(props: ViewProps) {
       ))}
     </XStack>
   );
-}
+};
+
+export default ReoccurringWords;
