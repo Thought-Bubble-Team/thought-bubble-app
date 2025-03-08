@@ -14,6 +14,7 @@ import ReoccurringWords from "@/components/macro/ReoccurringWords";
 import MoodCalendar from "@/components/macro/MoodCalendar/MoodCalendar";
 import Select from "@/components/atoms/Select";
 import Header from "@/components/atoms/Header";
+import VectorIcons from "@/components/Icons/VectorIcons";
 
 // Utilities Import
 import { useSessionStore } from "@/utils/stores/useSessionStore";
@@ -76,6 +77,7 @@ export default function Index() {
       backgroundColor={"$background"}
       justifyContent="flex-start"
     >
+      {/**
       <Header>
         <Text weight="bold" fontSize="$xxxl" color={"$black"}>
           Hello, User!
@@ -88,6 +90,13 @@ export default function Index() {
           date={dateOptions}
         />
       </Header>
+      **/}
+      <Screen>
+        <VectorIcons size={300} icon="construction" />
+        <Text weight="bold" fontSize="$lg">
+          PAGE IS UNDER CONSTRUCTION
+        </Text>
+      </Screen>
     </Screen>
   );
 }
