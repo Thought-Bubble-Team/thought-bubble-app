@@ -66,16 +66,6 @@ export default function User(props: UserProps) {
 
   return (
     <MainContainer>
-      {/* <UtilitiesContainer>
-        <XStack gap="$5" alignItems="center">
-          <Button type={"icon"} onPress={ButtonTester}>
-            <BackLine width={24} height={24} />
-          </Button>
-          <Text weight="bold" fontSize="$xl">
-            Profile
-          </Text>
-        </XStack>
-      </UtilitiesContainer> */}
       <ProfileContainer>
         <Image
           style={imageStyles.image}
@@ -91,22 +81,24 @@ export default function User(props: UserProps) {
           <Text fontSize="$md" color={"$black"} opacity={0.57}>
             {session.user.email}
           </Text>
-          <Button
-            type={"normal"}
-            width="80%"
-            padding={5}
-            marginTop={16}
-            onPress={() =>
-              FEATURE_FLAGS.USER_SETTINGS
-                ? router.navigate({
-                    pathname: "/user/[id]/edit-profile",
-                    params: { id: session.user.id },
-                  })
-                : ButtonTester()
-            }
-          >
-            <Button.Text fontSize="$md">Edit Profile</Button.Text>
-          </Button>
+          {FEATURE_FLAGS.USER_SETTINGS && (
+            <Button
+              type={"normal"}
+              width="80%"
+              padding={5}
+              marginTop={16}
+              onPress={() =>
+                FEATURE_FLAGS.USER_SETTINGS
+                  ? router.navigate({
+                      pathname: "/user/[id]/edit-profile",
+                      params: { id: session.user.id },
+                    })
+                  : ButtonTester()
+              }
+            >
+              <Button.Text fontSize="$md">Edit Profile</Button.Text>
+            </Button>
+          )}
         </YStack>
       </ProfileContainer>
       <Settings session={session} featureFlags={FEATURE_FLAGS} />
@@ -123,114 +115,120 @@ const Settings = (props: {
 
   return (
     <SettingsContainer>
-      <SettingsContent>
-        <Text weight="medium" fontSize="$lg" marginVertical={16}>
-          PERSONALIZE
-        </Text>
-        <Button
-          type={"navigation"}
-          onPress={() =>
-            featureFlags.USER_SETTINGS
-              ? router.navigate({
-                  pathname: "/user/[id]/edit-profile",
-                  params: { id: session.user.id },
-                })
-              : ButtonTester()
-          }
-        >
-          <Button.Text fontSize="$lg">Preferences</Button.Text>
-          <Ionicons
-            name="chevron-forward-outline"
-            size={24}
-            color={theme.black?.val}
-          />
-        </Button>
-        <Button
-          type={"navigation"}
-          onPress={() =>
-            featureFlags.USER_SETTINGS
-              ? router.navigate({
-                  pathname: "/user/[id]/appearance",
-                  params: { id: session.user.id },
-                })
-              : ButtonTester()
-          }
-        >
-          <Button.Text fontSize="$lg">Appearance</Button.Text>
-          <Ionicons
-            name="chevron-forward-outline"
-            size={24}
-            color={theme.black?.val}
-          />
-        </Button>
-      </SettingsContent>
-      <SettingsContent>
-        <Text weight="medium" fontSize="$lg" marginVertical={16}>
-          ACCOUNT
-        </Text>
-        <Button
-          type={"navigation"}
-          onPress={() =>
-            featureFlags.USER_SETTINGS ? ButtonTester() : ButtonTester()
-          }
-        >
-          <Button.Text fontSize="$lg">About Premium</Button.Text>
-          <Ionicons
-            name="chevron-forward-outline"
-            size={24}
-            color={theme.black?.val}
-          />
-        </Button>
-        <Button
-          type={"navigation"}
-          onPress={() =>
-            featureFlags.USER_SETTINGS
-              ? router.navigate({
-                  pathname: "/user/[id]/my-data",
-                  params: { id: session.user.id },
-                })
-              : ButtonTester()
-          }
-        >
-          <Button.Text fontSize="$lg">Your Data</Button.Text>
-          <Ionicons
-            name="chevron-forward-outline"
-            size={24}
-            color={theme.black?.val}
-          />
-        </Button>
-      </SettingsContent>
-      <SettingsContent>
-        <Text weight="medium" fontSize="$lg" marginVertical={16}>
-          HELP AND SUPPORT
-        </Text>
-        <Button
-          type={"navigation"}
-          onPress={() =>
-            featureFlags.USER_SETTINGS ? ButtonTester() : ButtonTester()
-          }
-        >
-          <Button.Text fontSize="$lg">Frequently Asked Questions</Button.Text>
-          <Ionicons
-            name="chevron-forward-outline"
-            size={24}
-            color={theme.black?.val}
-          />
-        </Button>
-        <Button
-          type={"navigation"}
-          onPress={() =>
-            featureFlags.USER_SETTINGS ? ButtonTester() : ButtonTester()
-          }
-        >
-          <Button.Text fontSize="$lg">Report Bugs</Button.Text>
-          <Ionicons
-            name="chevron-forward-outline"
-            size={24}
-            color={theme.black?.val}
-          />
-        </Button>
-      </SettingsContent>
+      {featureFlags.USER_SETTINGS && (
+        <>
+          <SettingsContent>
+            <Text weight="medium" fontSize="$lg" marginVertical={16}>
+              PERSONALIZE
+            </Text>
+            <Button
+              type={"navigation"}
+              onPress={() =>
+                featureFlags.USER_SETTINGS
+                  ? router.navigate({
+                      pathname: "/user/[id]/edit-profile",
+                      params: { id: session.user.id },
+                    })
+                  : ButtonTester()
+              }
+            >
+              <Button.Text fontSize="$lg">Preferences</Button.Text>
+              <Ionicons
+                name="chevron-forward-outline"
+                size={24}
+                color={theme.black?.val}
+              />
+            </Button>
+            <Button
+              type={"navigation"}
+              onPress={() =>
+                featureFlags.USER_SETTINGS
+                  ? router.navigate({
+                      pathname: "/user/[id]/appearance",
+                      params: { id: session.user.id },
+                    })
+                  : ButtonTester()
+              }
+            >
+              <Button.Text fontSize="$lg">Appearance</Button.Text>
+              <Ionicons
+                name="chevron-forward-outline"
+                size={24}
+                color={theme.black?.val}
+              />
+            </Button>
+          </SettingsContent>
+          <SettingsContent>
+            <Text weight="medium" fontSize="$lg" marginVertical={16}>
+              ACCOUNT
+            </Text>
+            <Button
+              type={"navigation"}
+              onPress={() =>
+                featureFlags.USER_SETTINGS ? ButtonTester() : ButtonTester()
+              }
+            >
+              <Button.Text fontSize="$lg">About Premium</Button.Text>
+              <Ionicons
+                name="chevron-forward-outline"
+                size={24}
+                color={theme.black?.val}
+              />
+            </Button>
+            <Button
+              type={"navigation"}
+              onPress={() =>
+                featureFlags.USER_SETTINGS
+                  ? router.navigate({
+                      pathname: "/user/[id]/my-data",
+                      params: { id: session.user.id },
+                    })
+                  : ButtonTester()
+              }
+            >
+              <Button.Text fontSize="$lg">Your Data</Button.Text>
+              <Ionicons
+                name="chevron-forward-outline"
+                size={24}
+                color={theme.black?.val}
+              />
+            </Button>
+          </SettingsContent>
+          <SettingsContent>
+            <Text weight="medium" fontSize="$lg" marginVertical={16}>
+              HELP AND SUPPORT
+            </Text>
+            <Button
+              type={"navigation"}
+              onPress={() =>
+                featureFlags.USER_SETTINGS ? ButtonTester() : ButtonTester()
+              }
+            >
+              <Button.Text fontSize="$lg">
+                Frequently Asked Questions
+              </Button.Text>
+              <Ionicons
+                name="chevron-forward-outline"
+                size={24}
+                color={theme.black?.val}
+              />
+            </Button>
+            <Button
+              type={"navigation"}
+              onPress={() =>
+                featureFlags.USER_SETTINGS ? ButtonTester() : ButtonTester()
+              }
+            >
+              <Button.Text fontSize="$lg">Report Bugs</Button.Text>
+              <Ionicons
+                name="chevron-forward-outline"
+                size={24}
+                color={theme.black?.val}
+              />
+            </Button>
+          </SettingsContent>
+        </>
+      )}
       <SettingsContainer marginBottom={16}>
         <Button
           type={"navigation"}
