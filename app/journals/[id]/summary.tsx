@@ -1,4 +1,4 @@
-import { View, YStack } from "tamagui";
+import { View, XStack, YStack } from "tamagui";
 import { useLocalSearchParams } from "expo-router";
 
 import Text from "@/components/atoms/Text";
