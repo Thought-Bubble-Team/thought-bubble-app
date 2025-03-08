@@ -84,3 +84,38 @@ export type UserDataType = {
   first_time_user: boolean;
   created_at: string;
 };
+
+export type EmotionType = { emoji: string; color: string };
+
+export type EmotionsType = {
+  emotions: {
+    joy: EmotionType;
+    fear: EmotionType;
+    love: EmotionType;
+    anger: EmotionType;
+    grief: EmotionType;
+    pride: EmotionType;
+    caring: EmotionType;
+    desire: EmotionType;
+    relief: EmotionType;
+    disgust: EmotionType;
+    neutral: EmotionType;
+    remorse: EmotionType;
+    sadness: EmotionType;
+    approval: EmotionType;
+    optimism: EmotionType;
+    surprise: EmotionType;
+    amusement: EmotionType;
+    annoyance: EmotionType;
+    confusion: EmotionType;
+    curiosity: EmotionType;
+    gratitude: EmotionType;
+    admiration: EmotionType;
+    excitement: EmotionType;
+    disapproval: EmotionType;
+    nervousness: EmotionType;
+    realization: EmotionType;
+    embarrassment: EmotionType;
+    disappointment: EmotionType;
+  };
+};
