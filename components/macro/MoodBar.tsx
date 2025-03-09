@@ -4,23 +4,33 @@ import Text from "@/components/atoms/Text";
 // @ts-ignore
 import SmugFace from "@/assets/icons/emojis/emoji-1";
 
+import { processEmotionSummary } from "@/utils/others/tools";
+import { EmotionSummaryType } from "@/utils/interfaces/dataTypes";
+
 // TODO: Improve to handle dynamic data
-export const MoodBarChart = () => {
+export const MoodBarChart = ({
+  emotion_summary,
+}: {
+  emotion_summary: EmotionSummaryType;
+}) => {
+  const processed_emotion_summary = processEmotionSummary(emotion_summary);
   return (
     <YStack gap="$3" alignItems="center">
       <XStack gap="$3" alignItems="flex-end">
-        <EmojiValue value="20%" />
-        <EmojiValue value="20%" />
-        <EmojiValue value="20%" />
-        <EmojiValue value="30%" size={60} />
-        <EmojiValue value="10%" />
+        {emotion_summary.emotion_values.map((item) => (
+          <EmojiValue key={`emotion-${item.emotion}`} value={item.value} />
+        ))}
       </XStack>
       <XStack>
-        <View backgroundColor="#FAB9B9" height="$sm" width="20%" />
-        <View backgroundColor="#F7C8BB" height="$sm" width="20%" />
-        <View backgroundColor="#C8988A" height="$sm" width="20%" />
-        <View backgroundColor="#CB806A" height="$sm" width="30%" />
-        <View backgroundColor="#846258" height="$sm" width="10%" />
+        {processed_emotion_summary &&
+          processed_emotion_summary.map((item) => (
+            <View
+              key={`emotion-${item?.emotion}`}
+              backgroundColor={item?.color}
+              width={item?.value}
+              height="$sm"
+            ></View>
+          ))}
       </XStack>
     </YStack>
   );
