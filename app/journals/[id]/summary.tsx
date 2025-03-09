@@ -7,6 +7,19 @@ import Header from "@/components/atoms/Header";
 import { Navigation } from "@/components/macro/Navigation";
 import { MoodBarChart } from "@/components/macro/MoodBar";
 
+// NOTE: Sample data
+const emotion_summary = {
+  emotion_values: [
+    { emotion: "joy", value: "20%" },
+    { emotion: "optimism", value: "20%" },
+    { emotion: "excitement", value: "30%" },
+    { emotion: "realization", value: "13%" },
+    { emotion: "approval", value: "17%" },
+  ],
+  description:
+    "It seems you’re feeling mostly happy and grateful, with some moments of balance and growth. Remember to acknowledge these positive feelings as a sign of your resilience and progress!",
+};
+
 // TODO: Add contact numbers & divider
 const Footer = ({}) => {
   return (
@@ -35,7 +48,7 @@ const Footer = ({}) => {
 const Graph = ({}) => {
   return (
     <View>
-      <MoodBarChart />
+      <MoodBarChart emotion_summary={emotion_summary} />
     </View>
   );
 };
@@ -43,8 +56,6 @@ const Graph = ({}) => {
 // TODO: Using entry_id passed, fetch sentiment summary
 const Summary = () => {
   const { id } = useLocalSearchParams();
-  const summary =
-    "It seems you’re feeling mostly happy and grateful, with some moments of balance and growth. Remember to acknowledge these positive feelings as a sign of your resilience and progress!";
 
   return (
     <Screen gap={0}>
@@ -62,7 +73,7 @@ const Summary = () => {
         </Header>
         <View padding="$lg">
           <Text weight="regular" fontSize="$sm" textAlign="center">
-            {summary}
+            {emotion_summary.description}
           </Text>
         </View>
         <View padding="$lg">
