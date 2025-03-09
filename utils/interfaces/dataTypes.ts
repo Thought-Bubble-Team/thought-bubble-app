@@ -87,6 +87,11 @@ export type UserDataType = {
 
 export type EmotionType = { emoji: string; color: string };
 
+export type EmotionSummaryType = {
+  emotion_values: { emotion: string; value: string }[];
+  description: string;
+};
+
 export type EmotionsType = {
   emotions: {
     joy: EmotionType;
