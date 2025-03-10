@@ -68,3 +68,11 @@ export type SentimentType = {
     disappointment: number;
   };
 };
+
+export type OnboardingType = {
+  id: number;
+  image: string;
+  title: string;
+  description: string;
+  button: any;
+};
