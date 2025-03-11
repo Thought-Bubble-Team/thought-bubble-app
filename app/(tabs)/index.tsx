@@ -97,7 +97,6 @@ export default function Index() {
         <Text weight="bold" fontSize="$lg">
           PAGE IS UNDER CONSTRUCTION
         </Text>
-        <Onboarding />
       </Screen>
     </Screen>
   );
