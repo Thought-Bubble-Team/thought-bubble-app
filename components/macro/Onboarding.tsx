@@ -31,6 +31,7 @@ const Onboarding = () => {
 
   return (
     <View
+      testID="onboarding-component-container"
       position="absolute"
       left={0}
       right={0}
