@@ -7,6 +7,7 @@ import Text from "@/components/atoms/Text";
 import { Button } from "@/components/atoms/Button";
 
 import ScrollView from "@/components/atoms/ScrollView";
+import { router } from "expo-router";
 
 // TODO: After modifying Screen update it to accept the onLayout prop
 // FIX: Pagination dots appear at the very bottom of the screen
@@ -164,7 +165,10 @@ const Onboarding = () => {
               Take the first step in understanding your emotions and improving
               your mental well-being.
             </Text>
-            <Button type="normal" onPress={() => console.log("Get Started")}>
+            <Button
+              type="normal"
+              onPress={() => router.replace({ pathname: "/(tabs)/journals" })}
+            >
               <Button.Text>Get Started</Button.Text>
             </Button>
           </YStack>

@@ -1,6 +1,5 @@
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect } from "react";
 
 import { Spinner, styled, XStack, YStack } from "tamagui";
 import Text from "@/components/atoms/Text";
@@ -18,44 +17,25 @@ const XStackStyled = styled(XStack, {
   gap: "$sm",
 });
 
+// TODO: Handle router.replace() properly
 const LoadingModal = () => {
   const sessionStore = useSessionStore();
   const journalEntriesStore = useJournalEntriesStore();
   const gratitudeEntriesStore = useGratitudeEntriesStore();
-  const [isFirstLaunch, setIsFirstLaunch] = useState<boolean | null>(false);
 
   useEffect(() => {
-    const checkIfFirstLaunch = async () => {
-      try {
-        const hasLaunchedBefore = await AsyncStorage.getItem("isFirstLaunch");
-        if (hasLaunchedBefore === null) {
-          setIsFirstLaunch(true);
-          await AsyncStorage.setItem("isFirstLaunch", "false");
-        } else {
-          setIsFirstLaunch(false);
-        }
-      } catch (error) {
-        console.error("Error: ", error);
-        setIsFirstLaunch(false);
-      }
-    };
-
-    void checkIfFirstLaunch();
-  }, []);
-
-  useEffect(() => {
-    if (isFirstLaunch === null) return;
-
     const prepareApp = async () => {
       try {
-        if (!isFirstLaunch) {
-          await sessionStore.fetchSession();
+        await sessionStore.fetchSession();
+        if (sessionStore.session) {
           await journalEntriesStore.fetchJournalEntries();
           await gratitudeEntriesStore.fetchGratitudeEntries();
-          router.replace({ pathname: "/(tabs)" });
-        } else {
           router.replace({ pathname: "/onboarding_page" });
         }
+        router.replace({ pathname: "/onboarding_page" });
+        // TODO: Uncomment the line below when the account management page is ready
+        //   router.replace({ pathname: "/account_management" });
+        // router.replace({ pathname: "/onboarding_page" });
       } catch (error) {
         console.log("Error: ", error);
       }

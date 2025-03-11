@@ -65,7 +65,7 @@ const ViewContainer = styled(XStack, {
   paddingVertical: 6,
   justifyContent: "space-between",
   alignItems: "center",
-  backgroundColor: "$grey2",
+  backgroundColor: "$grey3",
 });
 
 const InputContainer = styled(YStack, {

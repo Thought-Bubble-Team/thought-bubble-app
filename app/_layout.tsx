@@ -131,6 +131,10 @@ export default function RootLayout() {
                 name="onboarding_page"
                 options={{ presentation: "modal" }}
               />
+              <Stack.Screen
+                name="account_management"
+                options={{ presentation: "modal" }}
+              />
             </Stack>
           </View>
         </ThemeProvider>
