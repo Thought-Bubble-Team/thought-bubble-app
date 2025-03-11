@@ -43,7 +43,7 @@ const featureClient = new ReactNativeLDClient(
       id: "ld-rn-test-app",
       version: "0.0.1",
     },
-  },
+  }
 );
 
 export default function RootLayout() {
@@ -126,6 +126,14 @@ export default function RootLayout() {
                   title: "Journals",
                   contentStyle: { backgroundColor: "#F5F5F5" },
                 }}
+              />
+              <Stack.Screen
+                name="onboarding_page"
+                options={{ presentation: "modal" }}
+              />
+              <Stack.Screen
+                name="account_management"
+                options={{ presentation: "modal" }}
               />
             </Stack>
           </View>

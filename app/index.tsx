@@ -11,15 +11,13 @@ import {
 } from "@/utils/stores/useEntriesStore";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
 
-// TODO: Sessions, Journal & Gratitude Entries, Charts, etc.
-// TODO: Refactor
-
 const XStackStyled = styled(XStack, {
   justifyContent: "center",
   alignItems: "center",
   gap: "$sm",
 });
 
+// TODO: Handle router.replace() properly
 const LoadingModal = () => {
   const sessionStore = useSessionStore();
   const journalEntriesStore = useJournalEntriesStore();
@@ -29,9 +27,15 @@ const LoadingModal = () => {
     const prepareApp = async () => {
       try {
         await sessionStore.fetchSession();
-        await journalEntriesStore.fetchJournalEntries();
-        await gratitudeEntriesStore.fetchGratitudeEntries();
-        router.navigate({ pathname: "/(tabs)" });
+        if (sessionStore.session) {
+          await journalEntriesStore.fetchJournalEntries();
+          await gratitudeEntriesStore.fetchGratitudeEntries();
+          router.replace({ pathname: "/onboarding_page" });
+        }
+        router.replace({ pathname: "/onboarding_page" });
+        // TODO: Uncomment the line below when the account management page is ready
+        //   router.replace({ pathname: "/account_management" });
+        // router.replace({ pathname: "/onboarding_page" });
       } catch (error) {
         console.log("Error: ", error);
       }

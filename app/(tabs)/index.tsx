@@ -21,11 +21,12 @@ import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { useSelectedDateStore } from "@/utils/stores/useSelectedDateStore";
 import { supabase } from "@/utils/supabase/supabase";
 import { getMonthYearList } from "@/utils/dateFormat";
+import Onboarding from "@/components/macro/Onboarding";
 
 export default function Index() {
   const selectedDate = useSelectedDateStore((state) => state.selectedDate);
   const setSelectedDate = useSelectedDateStore(
-    (state) => state.setSelectedDate,
+    (state) => state.setSelectedDate
   );
   const [loading, setLoading] = useState<boolean>(false);
   const session = useSessionStore((state) => state.session);

@@ -13,6 +13,7 @@ const ViewStyled = styled(TView, {
   gap: "$sm",
 });
 
+// TODO: Add TView props to the Screen component
 const Screen = forwardRef<TamaguiElement, TViewProps>((props, ref) => {
   return <ViewStyled ref={ref} {...props} />;
 });
