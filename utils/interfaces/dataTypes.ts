@@ -124,3 +124,11 @@ export type EmotionsType = {
     disappointment: EmotionType;
   };
 };
+
+export type SentimentResponseType = {
+  entry_id: number;
+  sentiment: string;
+  confidence_score: number;
+  strongest_emotion: string;
+  analysis_feedback: string;
+};

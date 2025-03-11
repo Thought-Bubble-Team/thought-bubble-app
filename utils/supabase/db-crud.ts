@@ -1,69 +1,46 @@
 import { supabase } from "@/utils/supabase/supabase";
 import { UserDataType } from "../interfaces/dataTypes";
+import {
+  SentimentType,
+  JournalEntryType,
+  SentimentResponseType,
+} from "@/utils/interfaces/dataTypes";
+import axios from "axios";
+import JournalEntry from "@/app/notepad/journal-entry";
 
 export interface JournalEntry {
   title: string;
   content: string;
 }
 
-export type JournalEntryType = {
-  entry_id: number;
-  user_id: string;
-  title: string;
-  content: string;
-  created_at: string;
-  updated_at: string;
-};
-
-export type SentimentType = {
-  sentiment_id: number;
-  entry_id: number;
-  sentiment: string;
-  confidence_score: number;
-  created_at: string;
-  emotions: {
-    joy: number;
-    fear: number;
-    love: number;
-    anger: number;
-    grief: number;
-    pride: number;
-    caring: number;
-    desire: number;
-    relief: number;
-    disgust: number;
-    neutral: number;
-    remorse: number;
-    sadness: number;
-    approval: number;
-    optimism: number;
-    surprise: number;
-    amusement: number;
-    annoyance: number;
-    confusion: number;
-    curiosity: number;
-    gratitude: number;
-    admiration: number;
-    excitement: number;
-    disapproval: number;
-    nervousness: number;
-    realization: number;
-    embarrassment: number;
-    disappointment: number;
-  };
-};
-
 export const createJournalEntry = async (
   journalEntry: Partial<JournalEntry>
 ) => {
   const { data, error } = await supabase
     .from("journal_entry")
-    .insert([journalEntry]);
+    .insert([journalEntry])
+    .select();
+
+  const journalEntryData = data as JournalEntryType[] | null;
 
   if (error) {
     return { data: null, error };
   } else {
-    return { data, error: null };
+    return { data: journalEntryData, error: null };
+  }
+};
+
+export const createJournalAnalysis = async (
+  entry_id: number
+): Promise<{ data: SentimentResponseType | null; error: any }> => {
+  try {
+    const result = await axios.post<SentimentResponseType>(
+      `https://thought-bubble-backend.onrender.com/api/analyze-sentiment/?entry_id=${entry_id}`
+    );
+
+    return { data: result.data, error: null };
+  } catch (error) {
+    throw error;
   }
 };
 

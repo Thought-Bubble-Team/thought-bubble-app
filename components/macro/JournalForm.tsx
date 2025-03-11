@@ -30,6 +30,7 @@ import { JournalFormProps } from "@/utils/interfaces/componentPropTypes";
 import {
   createGratitudeEntry,
   createJournalEntry,
+  createJournalAnalysis,
   getGratitudeEntry,
   getJournalEntry,
   updateGratitudeEntry,
@@ -254,16 +255,43 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
       } // Do nothing
 
       if (type === "journal") {
-        const { error } = await createJournalEntry(journalEntryObject);
+        // const { error } = await createJournalEntry(journalEntryObject);
 
-        if (error) {
-          Alert.alert("Error", error.message);
-          setError(error);
-        } else {
-          Alert.alert("Success", "Journal entry created successfully!");
-          router.replace({ pathname: "/journals" });
+        // if (error) {
+        //   Alert.alert("Error", error.message);
+        //   setError(error);
+        // } else {
+        //   Alert.alert("Success", "Journal entry created successfully!");
+        //   router.replace({ pathname: "/journals" });
+        // }
+        // setLoading(false);
+        try {
+          console.info("Creating journal entry...");
+          const result = await createJournalEntry(journalEntryObject);
+
+          if (result.data && result.data[0].entry_id !== undefined) {
+            console.info("Creating journal analysis...");
+            console.info("Analyzing entry_id: ", result.data[0].entry_id);
+            Alert.alert("Success", "Journal entry created successfully!");
+            router.replace({ pathname: "/journals" });
+            setLoading(false);
+            await createJournalAnalysis(result.data[0].entry_id);
+          }
+
+          if (result.data === null) {
+            console.error("Error creating journal entry");
+            Alert.alert(
+              "Error",
+              "An error occurred while submitting the journal entry"
+            );
+          }
+        } catch (error) {
+          Alert.alert(
+            "Error",
+            "An error occurred while submitting the journal entry"
+          );
+          console.error(error);
         }
-        setLoading(false);
       }
 
       if (type === "editJournal") {

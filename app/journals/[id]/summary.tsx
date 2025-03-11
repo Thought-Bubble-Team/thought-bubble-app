@@ -1,4 +1,4 @@
-import { View, XStack, YStack } from "tamagui";
+import { View, YStack } from "tamagui";
 import { useLocalSearchParams } from "expo-router";
 
 import Text from "@/components/atoms/Text";
@@ -6,6 +6,12 @@ import Screen from "@/components/atoms/Screen";
 import Header from "@/components/atoms/Header";
 import { Navigation } from "@/components/macro/Navigation";
 import { MoodBarChart } from "@/components/macro/MoodBar";
+import { Button } from "@/components/atoms/Button";
+import {
+  createJournalAnalysis,
+  getJournalSentiment,
+} from "@/utils/supabase/db-crud";
+import axios from "axios";
 
 // NOTE: Sample data
 const emotion_summary = {
@@ -54,6 +60,27 @@ const Graph = ({}) => {
 };
 
 // TODO: Using entry_id passed, fetch sentiment summary
+// NOTE: Temporary function
+const fetchSentimentSummary = async (entry_id: number) => {
+  try {
+    console.info("Fetching sentiment summary...");
+    const { data, error } = await createJournalAnalysis(entry_id);
+    console.log(data, error);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        console.error(
+          `Error fetching sentiment summary: status:${error.response?.status} | details:${error.response?.data.detail}`
+        );
+      } else if (error.request) {
+        console.error("Error fetching sentiment summary: ", error.request);
+      }
+    } else {
+      console.error("Unknown error fetching sentiment summary: ", error);
+    }
+  }
+};
+
 const Summary = () => {
   const { id } = useLocalSearchParams();
 
@@ -80,6 +107,11 @@ const Summary = () => {
           <Graph />
         </View>
       </Screen>
+      <View>
+        <Button type="normal" onPress={() => fetchSentimentSummary(67)}>
+          <Button.Text>Analyze Journal</Button.Text>
+        </Button>
+      </View>
       <Footer />
     </Screen>
   );
