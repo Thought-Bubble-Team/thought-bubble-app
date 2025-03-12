@@ -121,7 +121,7 @@ const Summary = () => {
         </View>
       </Screen>
       <View>
-        <Button type="normal" onPress={() => fetchSentimentSummary(67)}>
+        <Button type="normal" onPress={() => fetchSentimentSummary(71)}>
           <Button.Text>Analyze Journal</Button.Text>
         </Button>
       </View>

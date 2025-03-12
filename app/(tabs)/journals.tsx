@@ -1,5 +1,5 @@
 // Libraries Imports
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Spinner, styled, View, XStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Alert, RefreshControl } from "react-native";
@@ -34,8 +34,8 @@ export default function Journals() {
     setLocalLoading(true);
     const PrepareComponent = async () => {
       try {
-        if (journal_entries === null) {
-          await fetchJournalEntries();
+        if (journal_entries === null && session) {
+          await fetchJournalEntries(session.user.id);
         }
         setLocalLoading(false);
         void refresh();
@@ -50,7 +50,8 @@ export default function Journals() {
   const refresh = async () => {
     setRefreshing(true);
     try {
-      await fetchJournalEntries();
+      if (!session) return;
+      await fetchJournalEntries(session.user.id);
       setRefreshing(false);
     } catch (error) {
       Alert.alert("Error", "Failed to refresh");
