@@ -35,8 +35,10 @@ const ButtonTester = () => {
   Alert.alert("Button Pressed");
 };
 
+// TODO: Replace session props with session store
 export default function User(props: UserProps) {
   const { session } = props;
+  const sessionStore = useSessionStore();
 
   const FEATURE_FLAGS = {
     USER_SETTINGS: useBoolVariation("user-settings", false),
@@ -44,11 +46,12 @@ export default function User(props: UserProps) {
   const ldc = useLDClient();
 
   useEffect(() => {
-    const Prepare = () => {
+    const Prepare = async () => {
       try {
         ldc
           .identify({ kind: "user", key: "example-user-key", name: "Sandy" })
           .catch((e: any) => Alert.alert(("Error: " + e) as string));
+        await sessionStore.fetchUserData();
       } catch (e) {
         console.error(e);
       }
@@ -76,19 +79,19 @@ export default function User(props: UserProps) {
         />
         <YStack gap={"$1"}>
           <Text weight="bold" fontSize="$xxl">
-            John Doe
+            {sessionStore.userData?.username}
           </Text>
           <Text fontSize="$md" color={"$black"} opacity={0.57}>
             {session.user.email}
           </Text>
-          {FEATURE_FLAGS.USER_SETTINGS && (
+          {!FEATURE_FLAGS.USER_SETTINGS && (
             <Button
               type={"normal"}
               width="80%"
               padding={5}
               marginTop={16}
               onPress={() =>
-                FEATURE_FLAGS.USER_SETTINGS
+                !FEATURE_FLAGS.USER_SETTINGS
                   ? router.navigate({
                       pathname: "/user/[id]/edit-profile",
                       params: { id: session.user.id },

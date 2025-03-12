@@ -76,3 +76,10 @@ export type OnboardingType = {
   description: string;
   button: any;
 };
+
+export type UserDataType = {
+  id: string;
+  user_id: string;
+  username: string;
+  created_at: string;
+};
