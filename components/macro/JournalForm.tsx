@@ -1,24 +1,12 @@
 // LIBRARIES
 import { useState, useCallback, Dispatch, SetStateAction } from "react";
-import {
-  StyleSheet,
-  Image,
-  Alert,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { StyleSheet, Image, Alert, KeyboardAvoidingView } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { styled, View, Input, TextArea, YStack, useTheme } from "tamagui";
+import { styled, View, Input, YStack, useTheme } from "tamagui";
 import { PostgrestError } from "@supabase/supabase-js";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
-import {
-  CoreBridge,
-  RichText,
-  Toolbar,
-  useEditorBridge,
-} from "@10play/tentap-editor";
+import { RichText, Toolbar, useEditorBridge } from "@10play/tentap-editor";
 
 // COMPONENTS
 import ScrollView from "@/components/atoms/ScrollView";
@@ -36,6 +24,7 @@ import {
   updateGratitudeEntry,
   updateJournalEntry,
 } from "@/utils/supabase/db-crud";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
 
 // TODO: update handleSubmit to handle errors properly
 // TODO: remove image and images
@@ -87,6 +76,9 @@ export const Basic = ({
 };
 
 export default function JournalForm({ editable = true }: JournalFormProps) {
+  const theme = useTheme();
+  const sessionStore = useSessionStore();
+
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [message, setMessage] = useState<string | undefined>(undefined);
   const [images, setImages] = useState<string[] | undefined>(undefined);
@@ -232,11 +224,8 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
     };
 
     try {
-      if (
-        journalEntryObject.title === undefined ||
-        journalEntryObject.content === undefined
-      ) {
-        Alert.alert("Error", "Title and message cannot be empty");
+      if (title === undefined || message === undefined) {
+        Alert.alert("Error", "Please fill out all fields");
         setLoading(false);
         return;
       }
@@ -267,15 +256,29 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
         // setLoading(false);
         try {
           console.info("Creating journal entry...");
-          const result = await createJournalEntry(journalEntryObject);
 
-          if (result.data && result.data[0].entry_id !== undefined) {
+          if (sessionStore.session?.user.id === undefined) {
+            Alert.alert("Error", "User ID not found");
+            console.error("User ID not found");
+            return;
+          }
+
+          const result = await createJournalEntry(
+            journalEntryObject,
+            sessionStore.session?.user.id
+          );
+
+          if (
+            result &&
+            result.data !== null &&
+            result.data.entry_id !== undefined
+          ) {
             console.info("Creating journal analysis...");
-            console.info("Analyzing entry_id: ", result.data[0].entry_id);
+            console.info("Analyzing entry_id: ", result.data.entry_id);
             Alert.alert("Success", "Journal entry created successfully!");
             router.replace({ pathname: "/journals" });
             setLoading(false);
-            await createJournalAnalysis(result.data[0].entry_id);
+            await createJournalAnalysis(result.data.entry_id);
           }
 
           if (result.data === null) {
