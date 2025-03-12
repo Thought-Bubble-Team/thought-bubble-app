@@ -79,9 +79,8 @@ const EditProfile = () => {
           placeholder="Enter your name"
         />
         <Button type="normal" width="50%" onPress={handleSave}>
-          {/* {!localLoading && <Button.Text>Save</Button.Text>}
-          {localLoading && <Button.Spinner />} */}
-          <Button.Spinner />
+          {!localLoading && <Button.Text>Save</Button.Text>}
+          {localLoading && <Button.Spinner />}
         </Button>
       </YStack>
     </Screen>
