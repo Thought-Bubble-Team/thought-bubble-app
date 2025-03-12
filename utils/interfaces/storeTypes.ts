@@ -5,7 +5,7 @@ export type JournalEntriesStoreType = {
   journal_entries: JournalEntriesType | null;
   loading: boolean;
   error: any;
-  fetchJournalEntries: () => Promise<void>;
+  fetchJournalEntries: (user_id: string) => Promise<void>;
 };
 
 export type GratitudeEntriesStoreType = {

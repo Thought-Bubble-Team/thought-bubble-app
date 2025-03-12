@@ -130,6 +130,13 @@ export type EmotionsType = {
   };
 };
 
+export type JournalEntryResponseType = {
+  entry_id: number;
+  user_id: string;
+  title: string;
+  content: string;
+};
+
 export type SentimentResponseType = {
   entry_id: number;
   sentiment: string;

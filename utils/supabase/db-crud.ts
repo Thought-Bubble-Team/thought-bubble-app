@@ -4,6 +4,7 @@ import {
   SentimentType,
   JournalEntryType,
   SentimentResponseType,
+  JournalEntryResponseType,
 } from "@/utils/interfaces/dataTypes";
 import axios from "axios";
 import JournalEntry from "@/app/notepad/journal-entry";
@@ -14,19 +15,21 @@ export interface JournalEntry {
 }
 
 export const createJournalEntry = async (
-  journalEntry: Partial<JournalEntry>
-) => {
-  const { data, error } = await supabase
-    .from("journal_entry")
-    .insert([journalEntry])
-    .select();
+  journalEntry: Partial<JournalEntry>,
+  user_id: string
+): Promise<{ data: JournalEntryResponseType | null; error: any }> => {
+  try {
+    const result = await axios.post<JournalEntryResponseType>(
+      `https://thought-bubble-backend.onrender.com/api/admin/journal-entry/?user_id=${user_id}&content=${journalEntry.content}&title=${journalEntry.title}`
+    );
 
-  const journalEntryData = data as JournalEntryType[] | null;
-
-  if (error) {
-    return { data: null, error };
-  } else {
-    return { data: journalEntryData, error: null };
+    return { data: result.data, error: null };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error(error.response?.data);
+      return { data: null, error: error };
+    }
+    return { data: null, error: error };
   }
 };
 
@@ -126,18 +129,27 @@ export const getGratitudeEntry = async (entry_id: number) => {
   }
 };
 
-export const getAllJournalEntries = async () => {
-  const { data, error } = await supabase
-    .from("journal_entry")
-    .select("*")
-    .order("created_at", { ascending: false });
+export const getAllJournalEntries = async (
+  user_id: string
+): Promise<{ data: Partial<JournalEntryType> | null; error: any }> => {
+  try {
+    const result = await axios.get(
+      `https://thought-bubble-backend.onrender.com/api/journal-entry/${user_id}/`
+    );
 
-  if (error) {
-    return { data: null, error };
-  }
-
-  if (data && !error) {
-    return { data, error: null };
+    return { data: result.data, error: null };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        console.error(
+          `Error fetching journal entries: status:${error.response?.status} | details:${error.response?.data.detail}`
+        );
+      } else if (error.request) {
+        console.error("Error fetching journal entries: ", error.request);
+      }
+      return { data: null, error: error };
+    }
+    return { data: null, error: error };
   }
 };
 
