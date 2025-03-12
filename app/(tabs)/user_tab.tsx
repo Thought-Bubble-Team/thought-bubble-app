@@ -2,15 +2,18 @@
 import "react-native-url-polyfill/auto";
 import { useEffect, useState } from "react";
 import { styled, View } from "tamagui";
+import { router } from "expo-router";
 
 // Component Imports
 import Login from "@/components/macro/Login";
 import SignUp from "@/components/macro/SignUp";
 import User from "@/components/macro/User";
+import Text from "@/components/atoms/Text";
 
 // Utility Imports
 import { supabase } from "@/utils/supabase/supabase";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
+import { Button } from "@/components/atoms/Button";
 
 export default function UserTab() {
   const [loading, setLoading] = useState<boolean>(false);
@@ -26,7 +29,7 @@ export default function UserTab() {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setSession(session);
-      },
+      }
     );
 
     return () => {
@@ -45,21 +48,15 @@ export default function UserTab() {
   if (!session) {
     return (
       <FormContainer>
-        {/** LOGIN SECTION */}
-        {!isSignUp && (
-          <Login
-            setIsSignUp={setIsSignUp}
-            loading={loading}
-            setLoading={setLoading}
-          />
-        )}
-        {isSignUp && (
-          <SignUp
-            setIsSignUp={setIsSignUp}
-            loading={loading}
-            setLoading={setLoading}
-          />
-        )}
+        <Text weight="bold" fontSize="$xl">
+          Welcome to Thought Bubble!
+        </Text>
+        <Button
+          type="normal"
+          onPress={() => router.navigate({ pathname: "/account_management" })}
+        >
+          <Button.Text>Login</Button.Text>
+        </Button>
       </FormContainer>
     );
   }
