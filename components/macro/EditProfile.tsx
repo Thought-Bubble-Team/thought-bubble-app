@@ -1,4 +1,4 @@
-import { View } from "tamagui";
+import { View, YStack } from "tamagui";
 import { useState } from "react";
 
 import Screen from "@/components/atoms/Screen";
@@ -66,18 +66,24 @@ const EditProfile = () => {
           Enter New Username
         </Text>
       </View>
-      <View width="100%" justifyContent="center" alignItems="center" gap="$4">
+      <YStack
+        width="100%"
+        gap="$4"
+        justifyContent="center"
+        alignItems="flex-end"
+      >
         <Input
           label="Username"
           value={username}
           onChangeText={setUsername}
           placeholder="Enter your name"
         />
-        <Button type="normal" size="$md" width="80%" onPress={handleSave}>
-          {localLoading && <Button.Spinner />}
-          {!localLoading && <Button.Text>Save</Button.Text>}
+        <Button type="normal" width="50%" onPress={handleSave}>
+          {/* {!localLoading && <Button.Text>Save</Button.Text>}
+          {localLoading && <Button.Spinner />} */}
+          <Button.Spinner />
         </Button>
-      </View>
+      </YStack>
     </Screen>
   );
 };

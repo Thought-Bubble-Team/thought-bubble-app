@@ -10,9 +10,7 @@ const EditProfileScreen = () => {
   return (
     <Screen testID="edit-profile-screen" justifyContent="flex-start">
       <Navigation title="Edit Profile" />
-      <Screen justifyContent="flex-start">
-        <EditProfile />
-      </Screen>
+      <EditProfile />
     </Screen>
   );
 };
