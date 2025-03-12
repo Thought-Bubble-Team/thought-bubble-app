@@ -90,10 +90,7 @@ export default function SignUp(props: SignUpProps) {
       {/*    SIGNUP*/}
       {/*  </Text>*/}
       {/*</TouchableOpacity>*/}
-      <Button
-        type={"normal"}
-        onPress={() => Alert.alert("Signup is not available yet!")}
-      >
+      <Button type={"normal"} onPress={signUpWithEmail}>
         {!loading && <Button.Text>SIGNUP</Button.Text>}
         {loading && <Button.Spinner />}
       </Button>
