@@ -15,6 +15,8 @@ import { useTheme } from "tamagui";
 
 // @ts-ignore
 import Logo from "@/assets/icons/logoTemp.svg";
+import { router } from "expo-router";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
 
 interface LoginProps {
   setIsSignUp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,20 +27,48 @@ interface LoginProps {
 export default function Login(props: LoginProps) {
   const { setIsSignUp, loading, setLoading } = props;
   const theme = useTheme();
+  const sessionStore = useSessionStore();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const signInWithEmail = async () => {
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) {
-      Alert.alert("Error", error.message);
+    if (!email || !password) {
+      Alert.alert("Error", "Please fill in all fields.");
+      return;
     }
-    setLoading(false);
+
+    setLoading(true);
+
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) {
+        Alert.alert("Error", error.message);
+        return;
+      }
+
+      if (!sessionStore.session) {
+        Alert.alert("Error", "Something went wrong. Please try again.");
+        return;
+      }
+
+      if (!sessionStore.userData) {
+        await sessionStore.fetchUserData();
+      }
+
+      if (sessionStore.userData?.first_time_user) {
+        router.navigate({ pathname: "/onboarding_page" });
+      } else {
+        router.navigate("/(tabs)");
+      }
+    } catch (error: any) {
+      Alert.alert("Error", error?.message || "Unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
