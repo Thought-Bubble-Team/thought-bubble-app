@@ -15,6 +15,8 @@ import { useTheme } from "tamagui";
 
 // @ts-ignore
 import Logo from "../../assets/icons/logoTemp.svg";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
+import { router } from "expo-router";
 
 interface SignUpProps {
   setIsSignUp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,13 +27,17 @@ interface SignUpProps {
 export default function SignUp(props: SignUpProps) {
   const { setIsSignUp, loading, setLoading } = props;
   const theme = useTheme();
+  const sessionStore = useSessionStore();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
   const signUpWithEmail = async () => {
-    setLoading(true);
+    if (!email || !password || !confirmPassword) {
+      Alert.alert("Error", "Please fill in all fields.");
+      return;
+    }
 
     if (password !== confirmPassword) {
       Alert.alert("Error", "Passwords do not match!");
@@ -39,17 +45,23 @@ export default function SignUp(props: SignUpProps) {
       return;
     }
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-    if (error) {
-      Alert.alert("Error", error.message);
-    } else {
-      Alert.alert("Please check your inbox for email verification!");
-      setIsSignUp(false);
+    setLoading(true);
+
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (error) {
+        Alert.alert("Error", error.message);
+      }
+
+      Alert.alert("Success", "Check your email for a verification link.");
+      router.replace("/account_management");
+    } catch (error: any) {
+      Alert.alert("Error", error?.message || "Unexpected error occurred.");
     }
-    setLoading(false);
   };
 
   return (
