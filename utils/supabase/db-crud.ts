@@ -234,3 +234,18 @@ export const getUserData = async (user_id: string) => {
     return { data: userData[0], error: null };
   }
 };
+
+export const updateUserData = async (
+  user_id: string,
+  userData: Partial<UserDataType>
+) => {
+  const { error } = await supabase
+    .from("users")
+    .update(userData)
+    .eq("user_id", user_id);
+
+  if (error) {
+    console.error("File: db-crud.ts, updateUserData() error: ", error);
+    return { data: null, error };
+  }
+};
