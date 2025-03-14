@@ -21,7 +21,10 @@ import { Session } from "@supabase/supabase-js";
 import { Image } from "expo-image";
 import { useTheme } from "tamagui";
 import { router, Href } from "expo-router";
-import { useSessionStore } from "@/utils/stores/useSessionStore";
+import {
+  useSessionStore,
+  useUserDataStore,
+} from "@/utils/stores/useSessionStore";
 import { useEffect } from "react";
 
 interface UserProps {
@@ -39,6 +42,7 @@ const ButtonTester = () => {
 export default function User(props: UserProps) {
   const { session } = props;
   const sessionStore = useSessionStore();
+  const userDataStore = useUserDataStore();
 
   const FEATURE_FLAGS = {
     USER_SETTINGS: useBoolVariation("user-settings", false),
@@ -51,7 +55,7 @@ export default function User(props: UserProps) {
         ldc
           .identify({ kind: "user", key: "example-user-key", name: "Sandy" })
           .catch((e: any) => Alert.alert(("Error: " + e) as string));
-        await sessionStore.fetchUserData();
+        await userDataStore.fetchUserData(session.user.id);
       } catch (e) {
         console.error(e);
       }

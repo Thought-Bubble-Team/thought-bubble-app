@@ -9,7 +9,10 @@ import {
   useJournalEntriesStore,
   useGratitudeEntriesStore,
 } from "@/utils/stores/useEntriesStore";
-import { useSessionStore } from "@/utils/stores/useSessionStore";
+import {
+  useSessionStore,
+  useUserDataStore,
+} from "@/utils/stores/useSessionStore";
 
 const XStackStyled = styled(XStack, {
   justifyContent: "center",
@@ -20,6 +23,7 @@ const XStackStyled = styled(XStack, {
 // TODO: Handle router.replace() properly
 const LoadingModal = () => {
   const sessionStore = useSessionStore();
+  const userDataStore = useUserDataStore();
   const journalEntriesStore = useJournalEntriesStore();
   const gratitudeEntriesStore = useGratitudeEntriesStore();
 
@@ -33,7 +37,7 @@ const LoadingModal = () => {
           return;
         }
 
-        await sessionStore.fetchUserData();
+        await userDataStore.fetchUserData(sessionStore.session.user.id);
         await journalEntriesStore.fetchJournalEntries();
         await gratitudeEntriesStore.fetchGratitudeEntries();
         router.replace({ pathname: "/(tabs)" });

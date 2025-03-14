@@ -17,20 +17,25 @@ import Header from "@/components/atoms/Header";
 import VectorIcons from "@/components/Icons/VectorIcons";
 
 // Utilities Import
-import { useSessionStore } from "@/utils/stores/useSessionStore";
+import {
+  useSessionStore,
+  useUserDataStore,
+} from "@/utils/stores/useSessionStore";
 import { useSelectedDateStore } from "@/utils/stores/useSelectedDateStore";
 import { supabase } from "@/utils/supabase/supabase";
 import { getMonthYearList } from "@/utils/dateFormat";
 import Onboarding from "@/components/macro/Onboarding";
+import { router } from "expo-router";
 
+// FIX: page renders before the user data is fetched
 export default function Index() {
   const selectedDate = useSelectedDateStore((state) => state.selectedDate);
   const setSelectedDate = useSelectedDateStore(
     (state) => state.setSelectedDate
   );
   const [loading, setLoading] = useState<boolean>(false);
-  const session = useSessionStore((state) => state.session);
-  const setSession = useSessionStore((state) => state.setSession);
+  const sessionStore = useSessionStore();
+  const userDataStore = useUserDataStore();
 
   const FEATURE_FLAGS = {
     DASHBOARD_CHARTS: {
@@ -45,7 +50,6 @@ export default function Index() {
   };
 
   const ldc = useLDClient();
-  const dateOptions = getMonthYearList();
 
   useEffect(() => {
     const Prepare = async () => {
@@ -55,14 +59,15 @@ export default function Index() {
           .identify({ kind: "user", key: "example-user-key", name: "Sandy" })
           .catch((e: any) => Alert.alert(("Error: " + e) as string));
 
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
+        await userDataStore.fetchUserData(
+          sessionStore.session?.user.id as string
+        );
 
-        if (session) {
-          setSession(session);
-          setLoading(false);
+        if (userDataStore.userData === undefined) {
+          router.replace("/onboarding_page");
         }
+
+        setLoading(false);
       } catch (error) {
         console.log("Error: ", error);
       }
