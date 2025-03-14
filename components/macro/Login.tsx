@@ -1,5 +1,4 @@
 // Style Imports
-import React from "react";
 import { Alert } from "react-native";
 import { styled, View } from "tamagui";
 
@@ -14,7 +13,7 @@ import { supabase } from "@/utils/supabase/supabase";
 
 // @ts-ignore
 import Logo from "@/assets/icons/logoTemp.svg";
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
 
 interface LoginProps {
@@ -29,8 +28,6 @@ export default function Login(props: LoginProps) {
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
-  const { after_verify } = useLocalSearchParams();
 
   const signInWithEmail = async () => {
     if (!email || !password) {
