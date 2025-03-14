@@ -64,7 +64,7 @@ export const useUserDataStore = create<UserDataStoreType>((set) => ({
     set({ loading: true, error: null });
     try {
       const result = await getUserData(user_id);
-      set({ userData: result?.data });
+      set({ userData: result?.data, loading: false });
     } catch (error) {
       set({ loading: false, error: error });
     }
