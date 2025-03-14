@@ -212,6 +212,27 @@ export const deleteGratitudeEntry = async (entryId: number) => {
   }
 };
 
+export const createUserData = async (
+  userData: Partial<UserDataType>
+): Promise<{ data: UserDataType | null; error: any }> => {
+  const { data, error } = await supabase
+    .from("users")
+    .insert(userData)
+    .select();
+
+  if (error) {
+    console.error("File: db-crud.ts, createUserData() error: ", error);
+    return { data: null, error };
+  }
+
+  if (!data) {
+    console.error("File: db-crud.ts, createUserData() data: ", data);
+    return { data: null, error: null };
+  }
+
+  return { data: data[0], error: null };
+};
+
 export const getUserData = async (user_id: string) => {
   const { data, error } = await supabase
     .from("users")
