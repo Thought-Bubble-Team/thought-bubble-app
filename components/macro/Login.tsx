@@ -14,7 +14,6 @@ import { supabase } from "@/utils/supabase/supabase";
 // @ts-ignore
 import Logo from "@/assets/icons/logoTemp.svg";
 import { router } from "expo-router";
-import { useSessionStore } from "@/utils/stores/useSessionStore";
 
 interface LoginProps {
   setIsSignUp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,7 +23,6 @@ interface LoginProps {
 
 export default function Login(props: LoginProps) {
   const { setIsSignUp, loading, setLoading } = props;
-  const sessionStore = useSessionStore();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -48,23 +46,7 @@ export default function Login(props: LoginProps) {
         return;
       }
 
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      if (!session) {
-        Alert.alert("Error", "Something went wrong. Please try again.");
-        return;
-      }
-
-      if (!sessionStore.userData) {
-        await sessionStore.fetchUserData();
-      }
-
-      if (sessionStore.userData?.first_time_user) {
-        router.navigate({ pathname: "/onboarding_page" });
-      } else {
-        router.navigate("/(tabs)");
-      }
+      router.navigate("/(tabs)");
     } catch (error: any) {
       Alert.alert("Error", error?.message || "Unexpected error occurred.");
     } finally {

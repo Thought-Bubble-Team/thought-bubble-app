@@ -54,10 +54,10 @@ export default function SignUp(props: SignUpProps) {
 
       if (error) {
         Alert.alert("Error", error.message);
+      } else {
+        Alert.alert("Success", "Check your email for a verification link.");
+        router.replace("/account_management");
       }
-
-      Alert.alert("Success", "Check your email for a verification link.");
-      router.replace("/account_management");
     } catch (error: any) {
       Alert.alert("Error", error?.message || "Unexpected error occurred.");
     }
