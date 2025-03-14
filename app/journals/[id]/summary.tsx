@@ -1,4 +1,4 @@
-import { View, XStack, YStack } from "tamagui";
+import { View, YStack } from "tamagui";
 import { useLocalSearchParams } from "expo-router";
 
 import Text from "@/components/atoms/Text";
@@ -7,24 +7,8 @@ import Header from "@/components/atoms/Header";
 import { Navigation } from "@/components/macro/Navigation";
 import { MoodBarChart } from "@/components/macro/MoodBar";
 import { Button } from "@/components/atoms/Button";
-import {
-  createJournalAnalysis,
-  getJournalSentiment,
-} from "@/utils/supabase/db-crud";
+import { createJournalAnalysis } from "@/utils/supabase/db-crud";
 import axios from "axios";
-
-// NOTE: Sample data
-const emotion_summary = {
-  emotion_values: [
-    { emotion: "joy", value: "20%" },
-    { emotion: "optimism", value: "20%" },
-    { emotion: "excitement", value: "30%" },
-    { emotion: "realization", value: "13%" },
-    { emotion: "approval", value: "17%" },
-  ],
-  description:
-    "It seems you’re feeling mostly happy and grateful, with some moments of balance and growth. Remember to acknowledge these positive feelings as a sign of your resilience and progress!",
-};
 
 // NOTE: Sample data
 const emotion_summary = {
