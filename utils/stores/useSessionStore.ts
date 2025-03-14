@@ -2,7 +2,10 @@ import { create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { Session } from "@supabase/supabase-js";
 
-import { SessionStoreType } from "@/utils/interfaces/storeTypes";
+import {
+  SessionStoreType,
+  UserDataStoreType,
+} from "@/utils/interfaces/storeTypes";
 import { supabase } from "@/utils/supabase/supabase";
 import { getUserData } from "../supabase/db-crud";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -52,3 +55,18 @@ export const useSessionStore = create<SessionStoreType>()(
     )
   )
 );
+
+export const useUserDataStore = create<UserDataStoreType>((set) => ({
+  userData: null,
+  loading: false,
+  error: null,
+  fetchUserData: async (user_id: string) => {
+    set({ loading: true, error: null });
+    try {
+      const result = await getUserData(user_id);
+      set({ userData: result?.data });
+    } catch (error) {
+      set({ loading: false, error: error });
+    }
+  },
+}));

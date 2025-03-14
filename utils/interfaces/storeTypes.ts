@@ -25,6 +25,13 @@ export type SessionStoreType = {
   fetchUserData: () => Promise<void>;
 };
 
+export type UserDataStoreType = {
+  userData: UserDataType | null;
+  loading: boolean;
+  error: any;
+  fetchUserData: (user_id: string) => Promise<void>;
+};
+
 export type SelectedDateStoreType = {
   selectedDate: string;
   setSelectedDate: (newDate: string) => void;
