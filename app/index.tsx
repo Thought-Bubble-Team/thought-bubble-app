@@ -9,10 +9,7 @@ import {
   useJournalEntriesStore,
   useGratitudeEntriesStore,
 } from "@/utils/stores/useEntriesStore";
-import {
-  useSessionStore,
-  useUserDataStore,
-} from "@/utils/stores/useSessionStore";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
 
 const XStackStyled = styled(XStack, {
   justifyContent: "center",
@@ -23,7 +20,6 @@ const XStackStyled = styled(XStack, {
 // TODO: Handle router.replace() properly
 const LoadingModal = () => {
   const sessionStore = useSessionStore();
-  const userDataStore = useUserDataStore();
   const journalEntriesStore = useJournalEntriesStore();
   const gratitudeEntriesStore = useGratitudeEntriesStore();
 
@@ -36,8 +32,13 @@ const LoadingModal = () => {
           router.replace({ pathname: "/account_management" });
           return;
         }
-        await journalEntriesStore.fetchJournalEntries();
-        await gratitudeEntriesStore.fetchGratitudeEntries();
+
+        if (sessionStore.session.user) {
+          await journalEntriesStore.fetchJournalEntries(
+            sessionStore.session.user.id
+          );
+          await gratitudeEntriesStore.fetchGratitudeEntries();
+        }
         router.replace({ pathname: "/(tabs)" });
       } catch (error) {
         console.log("Error: ", error);
