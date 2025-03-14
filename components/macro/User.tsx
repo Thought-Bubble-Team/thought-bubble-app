@@ -83,7 +83,7 @@ export default function User(props: UserProps) {
         />
         <YStack gap={"$1"}>
           <Text weight="bold" fontSize="$xxl">
-            {sessionStore.userData?.username}
+            {userDataStore.userData?.username}
           </Text>
           <Text fontSize="$md" color={"$black"} opacity={0.57}>
             {session.user.email}

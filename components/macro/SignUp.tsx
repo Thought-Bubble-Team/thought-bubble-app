@@ -55,8 +55,17 @@ export default function SignUp(props: SignUpProps) {
       if (error) {
         Alert.alert("Error", error.message);
       } else {
-        Alert.alert("Success", "Check your email for a verification link.");
-        router.replace("/account_management");
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (error) {
+          throw error;
+        }
+
+        Alert.alert("Success", "Account Created");
+        router.replace({ pathname: "/profile_setup", params: { type: "new" } });
       }
     } catch (error: any) {
       Alert.alert("Error", error?.message || "Unexpected error occurred.");

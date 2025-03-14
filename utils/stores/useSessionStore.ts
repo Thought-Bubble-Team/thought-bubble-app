@@ -15,7 +15,6 @@ export const useSessionStore = create<SessionStoreType>()(
     persist(
       (set, get) => ({
         session: null,
-        userData: null,
         loading: false,
         error: null,
         setSession: (newSession: Session | null) => {
@@ -30,18 +29,6 @@ export const useSessionStore = create<SessionStoreType>()(
 
             if (result.data && result.data.session) {
               set({ session: result.data.session });
-            }
-          } catch (error) {
-            set({ loading: false, error: error });
-          }
-        },
-        fetchUserData: async () => {
-          set({ loading: true, error: null });
-          try {
-            const session = get().session;
-            if (session && session.user) {
-              const result = await getUserData(session.user.id);
-              set({ userData: result?.data, loading: false });
             }
           } catch (error) {
             set({ loading: false, error: error });

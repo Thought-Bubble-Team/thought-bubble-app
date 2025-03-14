@@ -15,6 +15,7 @@ import MoodCalendar from "@/components/macro/MoodCalendar/MoodCalendar";
 import Select from "@/components/atoms/Select";
 import Header from "@/components/atoms/Header";
 import VectorIcons from "@/components/Icons/VectorIcons";
+import LoadingScreen from "@/components/macro/LoadingScreen";
 
 // Utilities Import
 import {
@@ -26,6 +27,7 @@ import { supabase } from "@/utils/supabase/supabase";
 import { getMonthYearList } from "@/utils/dateFormat";
 import Onboarding from "@/components/macro/Onboarding";
 import { router } from "expo-router";
+import { YStack } from "tamagui";
 
 // FIX: page renders before the user data is fetched
 export default function Index() {
@@ -33,7 +35,6 @@ export default function Index() {
   const setSelectedDate = useSelectedDateStore(
     (state) => state.setSelectedDate
   );
-  const [loading, setLoading] = useState<boolean>(false);
   const sessionStore = useSessionStore();
   const userDataStore = useUserDataStore();
 
@@ -54,20 +55,16 @@ export default function Index() {
   useEffect(() => {
     const Prepare = async () => {
       try {
-        setLoading(true);
         ldc
           .identify({ kind: "user", key: "example-user-key", name: "Sandy" })
           .catch((e: any) => Alert.alert(("Error: " + e) as string));
 
-        await userDataStore.fetchUserData(
-          sessionStore.session?.user.id as string
-        );
-
-        if (userDataStore.userData === undefined) {
-          router.replace("/onboarding_page");
+        if (userDataStore.userData === null) {
+          await userDataStore.fetchUserData(
+            sessionStore.session?.user.id as string
+          );
         }
-
-        setLoading(false);
+        console.log("User Data: ", userDataStore.userData);
       } catch (error) {
         console.log("Error: ", error);
       }
@@ -75,6 +72,16 @@ export default function Index() {
 
     Prepare();
   }, []);
+
+  if (userDataStore.loading) {
+    return (
+      <LoadingScreen>
+        <YStack justifyContent="center" alignItems="center" gap="$sm">
+          <Text>Loading User Data</Text>
+        </YStack>
+      </LoadingScreen>
+    );
+  }
 
   return (
     <Screen

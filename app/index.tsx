@@ -36,8 +36,6 @@ const LoadingModal = () => {
           router.replace({ pathname: "/account_management" });
           return;
         }
-
-        await userDataStore.fetchUserData(sessionStore.session.user.id);
         await journalEntriesStore.fetchJournalEntries();
         await gratitudeEntriesStore.fetchGratitudeEntries();
         router.replace({ pathname: "/(tabs)" });

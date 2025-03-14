@@ -17,12 +17,10 @@ export type GratitudeEntriesStoreType = {
 
 export type SessionStoreType = {
   session: Session | null;
-  userData: UserDataType | null;
   loading: boolean;
   error: any;
   setSession: (session: Session | null) => void;
   fetchSession: () => Promise<void>;
-  fetchUserData: () => Promise<void>;
 };
 
 export type UserDataStoreType = {
