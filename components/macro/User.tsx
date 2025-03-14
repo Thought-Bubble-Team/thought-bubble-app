@@ -187,24 +187,6 @@ const Settings = (props: {
                 color={theme.black?.val}
               />
             </Button>
-            <Button
-              type={"navigation"}
-              onPress={() =>
-                featureFlags.USER_SETTINGS
-                  ? router.navigate({
-                      pathname: "/user/[id]/my-data",
-                      params: { id: session.user.id },
-                    })
-                  : ButtonTester()
-              }
-            >
-              <Button.Text fontSize="$lg">Your Data</Button.Text>
-              <Ionicons
-                name="chevron-forward-outline"
-                size={24}
-                color={theme.black?.val}
-              />
-            </Button>
           </SettingsContent>
           <SettingsContent>
             <Text weight="medium" fontSize="$lg" marginVertical={16}>
@@ -241,6 +223,27 @@ const Settings = (props: {
           </SettingsContent>
         </>
       )}
+      <SettingsContent>
+        <Text weight="medium" fontSize="$lg" marginVertical={16}>
+          ACCOUNT
+        </Text>
+        <Button
+          type={"navigation"}
+          onPress={() =>
+            router.navigate({
+              pathname: "/user/[id]/my-data",
+              params: { id: session.user.id },
+            })
+          }
+        >
+          <Button.Text fontSize="$lg">Your Data</Button.Text>
+          <Ionicons
+            name="chevron-forward-outline"
+            size={24}
+            color={theme.black?.val}
+          />
+        </Button>
+      </SettingsContent>
       <SettingsContainer marginBottom={16}>
         <Button
           type={"navigation"}
