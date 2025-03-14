@@ -41,7 +41,7 @@ export const useSessionStore = create<SessionStoreType>()(
             const session = get().session;
             if (session && session.user) {
               const result = await getUserData(session.user.id);
-              set({ userData: result?.data });
+              set({ userData: result?.data, loading: false });
             }
           } catch (error) {
             set({ loading: false, error: error });
