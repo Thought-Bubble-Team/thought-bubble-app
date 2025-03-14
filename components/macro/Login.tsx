@@ -42,12 +42,16 @@ export default function Login(props: LoginProps) {
         email,
         password,
       });
+
       if (error) {
         Alert.alert("Error", error.message);
         return;
       }
 
-      if (!sessionStore.session) {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (!session) {
         Alert.alert("Error", "Something went wrong. Please try again.");
         return;
       }
