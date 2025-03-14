@@ -1,6 +1,5 @@
 // Style Imports
-import React from "react";
-import { StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { Alert } from "react-native";
 import { styled, View } from "tamagui";
 
 // Component Imports
@@ -11,10 +10,10 @@ import { Button } from "@/components/atoms/Button";
 // Utility Imports
 import { useState } from "react";
 import { supabase } from "@/utils/supabase/supabase";
-import { useTheme } from "tamagui";
 
 // @ts-ignore
 import Logo from "@/assets/icons/logoTemp.svg";
+import { router } from "expo-router";
 
 interface LoginProps {
   setIsSignUp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,21 +23,35 @@ interface LoginProps {
 
 export default function Login(props: LoginProps) {
   const { setIsSignUp, loading, setLoading } = props;
-  const theme = useTheme();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const signInWithEmail = async () => {
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) {
-      Alert.alert("Error", error.message);
+    if (!email || !password) {
+      Alert.alert("Error", "Please fill in all fields.");
+      return;
     }
-    setLoading(false);
+
+    setLoading(true);
+
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        Alert.alert("Error", error.message);
+        return;
+      }
+
+      router.navigate("/(tabs)");
+    } catch (error: any) {
+      Alert.alert("Error", error?.message || "Unexpected error occurred.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -62,28 +75,12 @@ export default function Login(props: LoginProps) {
         secureTextEntry
         onChangeText={setPassword}
       />
-      {/* <TouchableOpacity
-        style={[
-          buttonStyles.ButtonStyledColored,
-          { backgroundColor: theme.primary?.val },
-        ]}
-        onPress={signInWithEmail}
-      >
-        <Text weight="bold" fontSize="$lg" color={"$white"}>
-          LOGIN
-        </Text>
-      </TouchableOpacity> */}
       <Button type={"normal"} size={"$md"} onPress={signInWithEmail}>
         {!loading && <Button.Text>LOGIN</Button.Text>}
         {loading && <Button.Spinner />}
       </Button>
       <Footer>
         <Text weight="light">Don't have an account?</Text>
-        {/*<TouchableOpacity onPress={() => setIsSignUp(true)}>*/}
-        {/*  <Text weight="bold" color={"$primary"}>*/}
-        {/*    Signup*/}
-        {/*  </Text>*/}
-        {/*</TouchableOpacity>*/}
         <Button
           type={"icon"}
           size={"$md"}
@@ -110,16 +107,4 @@ const Footer = styled(View, {
   gap: "$2",
   alignItems: "center",
   marginTop: "$13",
-});
-
-// React Native Styles
-const buttonStyles = StyleSheet.create({
-  ButtonStyledColored: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    padding: 16,
-    borderRadius: 32,
-  },
 });

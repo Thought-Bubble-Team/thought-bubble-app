@@ -1,16 +1,13 @@
-import { View } from "tamagui";
-import Text from "@/components/atoms/Text";
-
-import { useLocalSearchParams, Stack } from "expo-router";
+import Screen from "@/components/atoms/Screen";
+import EditProfile from "@/components/macro/EditProfile";
+import { Navigation } from "@/components/macro/Navigation";
 
 const EditProfileScreen = () => {
-  const { id } = useLocalSearchParams();
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Stack.Screen options={{ headerTitle: "Edit Profile" }} />
-      <Text>{id}</Text>
-      <Text>Edit Profile</Text>
-    </View>
+    <Screen testID="edit-profile-screen" justifyContent="flex-start">
+      <Navigation title="Edit Profile" />
+      <EditProfile />
+    </Screen>
   );
 };
 

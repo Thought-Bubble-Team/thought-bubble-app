@@ -1,7 +1,9 @@
 // Style Imports
 import React from "react";
-import { StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { Alert } from "react-native";
 import { styled, View } from "tamagui";
+import { useState } from "react";
+import { router } from "expo-router";
 
 // Component Imports
 import Input from "@/components/atoms/Input";
@@ -9,9 +11,7 @@ import Text from "@/components/atoms/Text";
 import { Button } from "@/components/atoms/Button";
 
 // Utility Imports
-import { useState } from "react";
 import { supabase } from "@/utils/supabase/supabase";
-import { useTheme } from "tamagui";
 
 // @ts-ignore
 import Logo from "../../assets/icons/logoTemp.svg";
@@ -24,32 +24,52 @@ interface SignUpProps {
 
 export default function SignUp(props: SignUpProps) {
   const { setIsSignUp, loading, setLoading } = props;
-  const theme = useTheme();
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
   const signUpWithEmail = async () => {
-    setLoading(true);
+    // Check if email and password are not empty
+    if (!email || !password || !confirmPassword) {
+      Alert.alert("Error", "Please fill in all fields.");
+      return;
+    }
 
+    // Check if password and confirm password match
     if (password !== confirmPassword) {
       Alert.alert("Error", "Passwords do not match!");
       setLoading(false);
       return;
     }
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-    if (error) {
-      Alert.alert("Error", error.message);
-    } else {
-      Alert.alert("Please check your inbox for email verification!");
-      setIsSignUp(false);
+    setLoading(true);
+
+    // Sign up with email and password
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (error) {
+        Alert.alert("Error", error.message);
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (error) {
+          throw error;
+        }
+
+        Alert.alert("Success", "Account Created");
+        router.replace({ pathname: "/profile_setup", params: { type: "new" } });
+      }
+    } catch (error: any) {
+      Alert.alert("Error", error?.message || "Unexpected error occurred.");
     }
-    setLoading(false);
   };
 
   return (
@@ -79,31 +99,12 @@ export default function SignUp(props: SignUpProps) {
         secureTextEntry
         onChangeText={setConfirmPassword}
       />
-      {/*<TouchableOpacity*/}
-      {/*  style={[*/}
-      {/*    buttonStyles.ButtonStyledColored,*/}
-      {/*    { backgroundColor: theme.primary?.val },*/}
-      {/*  ]}*/}
-      {/*  onPress={signUpWithEmail}*/}
-      {/*>*/}
-      {/*  <Text weight="bold" fontSize="$lg" color={"$white"}>*/}
-      {/*    SIGNUP*/}
-      {/*  </Text>*/}
-      {/*</TouchableOpacity>*/}
-      <Button
-        type={"normal"}
-        onPress={() => Alert.alert("Signup is not available yet!")}
-      >
+      <Button type={"normal"} onPress={signUpWithEmail}>
         {!loading && <Button.Text>SIGNUP</Button.Text>}
         {loading && <Button.Spinner />}
       </Button>
       <Footer>
         <Text weight="light">Already have an account?</Text>
-        {/*<TouchableOpacity onPress={() => setIsSignUp(false)}>*/}
-        {/*  <Text weight="bold" color={"$primary"}>*/}
-        {/*    Login*/}
-        {/*  </Text>*/}
-        {/*</TouchableOpacity>*/}
         <Button
           type={"icon"}
           size={"$md"}
@@ -130,16 +131,4 @@ const Footer = styled(View, {
   gap: "$2",
   alignItems: "center",
   marginTop: "$10",
-});
-
-// React Native Styles
-const buttonStyles = StyleSheet.create({
-  ButtonStyledColored: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    padding: 16,
-    borderRadius: 32,
-  },
 });

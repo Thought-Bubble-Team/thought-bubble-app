@@ -21,7 +21,10 @@ import { Session } from "@supabase/supabase-js";
 import { Image } from "expo-image";
 import { useTheme } from "tamagui";
 import { router, Href } from "expo-router";
-import { useSessionStore } from "@/utils/stores/useSessionStore";
+import {
+  useSessionStore,
+  useUserDataStore,
+} from "@/utils/stores/useSessionStore";
 import { useEffect } from "react";
 
 interface UserProps {
@@ -35,8 +38,11 @@ const ButtonTester = () => {
   Alert.alert("Button Pressed");
 };
 
+// TODO: Replace session props with session store
 export default function User(props: UserProps) {
   const { session } = props;
+  const sessionStore = useSessionStore();
+  const userDataStore = useUserDataStore();
 
   const FEATURE_FLAGS = {
     USER_SETTINGS: useBoolVariation("user-settings", false),
@@ -44,11 +50,12 @@ export default function User(props: UserProps) {
   const ldc = useLDClient();
 
   useEffect(() => {
-    const Prepare = () => {
+    const Prepare = async () => {
       try {
         ldc
           .identify({ kind: "user", key: "example-user-key", name: "Sandy" })
           .catch((e: any) => Alert.alert(("Error: " + e) as string));
+        await userDataStore.fetchUserData(session.user.id);
       } catch (e) {
         console.error(e);
       }
@@ -76,22 +83,22 @@ export default function User(props: UserProps) {
         />
         <YStack gap={"$1"}>
           <Text weight="bold" fontSize="$xxl">
-            John Doe
+            {userDataStore.userData?.username}
           </Text>
           <Text fontSize="$md" color={"$black"} opacity={0.57}>
             {session.user.email}
           </Text>
-          {FEATURE_FLAGS.USER_SETTINGS && (
+          {!FEATURE_FLAGS.USER_SETTINGS && (
             <Button
               type={"normal"}
               width="80%"
               padding={5}
               marginTop={16}
               onPress={() =>
-                FEATURE_FLAGS.USER_SETTINGS
+                !FEATURE_FLAGS.USER_SETTINGS
                   ? router.navigate({
                       pathname: "/user/[id]/edit-profile",
-                      params: { id: session.user.id },
+                      params: { id: session.user.id, type: "update" },
                     })
                   : ButtonTester()
               }
@@ -112,6 +119,11 @@ const Settings = (props: {
 }) => {
   const { session, featureFlags } = props;
   const theme = useTheme();
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    router.replace("/account_management");
+  };
 
   return (
     <SettingsContainer>
@@ -232,7 +244,7 @@ const Settings = (props: {
       <SettingsContainer marginBottom={16}>
         <Button
           type={"navigation"}
-          onPress={() => supabase.auth.signOut()}
+          onPress={() => handleSignOut()}
           backgroundColor="#F88379"
         >
           <Button.Text fontSize="$lg" color="$white">

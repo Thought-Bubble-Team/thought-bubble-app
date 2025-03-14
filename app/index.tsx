@@ -9,7 +9,10 @@ import {
   useJournalEntriesStore,
   useGratitudeEntriesStore,
 } from "@/utils/stores/useEntriesStore";
-import { useSessionStore } from "@/utils/stores/useSessionStore";
+import {
+  useSessionStore,
+  useUserDataStore,
+} from "@/utils/stores/useSessionStore";
 
 const XStackStyled = styled(XStack, {
   justifyContent: "center",
@@ -20,6 +23,7 @@ const XStackStyled = styled(XStack, {
 // TODO: Handle router.replace() properly
 const LoadingModal = () => {
   const sessionStore = useSessionStore();
+  const userDataStore = useUserDataStore();
   const journalEntriesStore = useJournalEntriesStore();
   const gratitudeEntriesStore = useGratitudeEntriesStore();
 
@@ -27,17 +31,17 @@ const LoadingModal = () => {
     const prepareApp = async () => {
       try {
         await sessionStore.fetchSession();
-        if (sessionStore.session) {
-          await journalEntriesStore.fetchJournalEntries();
-          await gratitudeEntriesStore.fetchGratitudeEntries();
-          router.replace({ pathname: "/onboarding_page" });
+        console.log("Session: ", sessionStore.session?.user.id);
+        if (!sessionStore.session) {
+          router.replace({ pathname: "/account_management" });
+          return;
         }
-        router.replace({ pathname: "/onboarding_page" });
-        // TODO: Uncomment the line below when the account management page is ready
-        //   router.replace({ pathname: "/account_management" });
-        // router.replace({ pathname: "/onboarding_page" });
+        await journalEntriesStore.fetchJournalEntries();
+        await gratitudeEntriesStore.fetchGratitudeEntries();
+        router.replace({ pathname: "/(tabs)" });
       } catch (error) {
         console.log("Error: ", error);
+        return;
       }
     };
 

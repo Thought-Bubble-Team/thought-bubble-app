@@ -2,10 +2,10 @@
   "expo": {
     "name": "Thought Bubble",
     "slug": "thought-bubble",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/iconTemp.png",
-    "scheme": "myapp",
+    "scheme": "com.sephclt.thoughtbubble",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

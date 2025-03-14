@@ -1,4 +1,4 @@
-import { JournalEntriesType } from "@/utils/interfaces/dataTypes";
+import { JournalEntriesType, UserDataType } from "@/utils/interfaces/dataTypes";
 import { Session } from "@supabase/supabase-js";
 
 export type JournalEntriesStoreType = {
@@ -21,6 +21,13 @@ export type SessionStoreType = {
   error: any;
   setSession: (session: Session | null) => void;
   fetchSession: () => Promise<void>;
+};
+
+export type UserDataStoreType = {
+  userData: UserDataType | null;
+  loading: boolean;
+  error: any;
+  fetchUserData: (user_id: string) => Promise<void>;
 };
 
 export type SelectedDateStoreType = {

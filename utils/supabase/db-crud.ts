@@ -1,4 +1,5 @@
 import { supabase } from "@/utils/supabase/supabase";
+import { UserDataType } from "../interfaces/dataTypes";
 
 export interface JournalEntry {
   title: string;
@@ -53,7 +54,7 @@ export type SentimentType = {
 };
 
 export const createJournalEntry = async (
-  journalEntry: Partial<JournalEntry>,
+  journalEntry: Partial<JournalEntry>
 ) => {
   const { data, error } = await supabase
     .from("journal_entry")
@@ -67,7 +68,7 @@ export const createJournalEntry = async (
 };
 
 export const createGratitudeEntry = async (
-  journalEntry: Partial<JournalEntry>,
+  journalEntry: Partial<JournalEntry>
 ) => {
   const { data, error } = await supabase
     .from("gratitude_entry")
@@ -82,7 +83,7 @@ export const createGratitudeEntry = async (
 
 export const updateJournalEntry = async (
   entry_id: number,
-  journalEntry: Partial<JournalEntry>,
+  journalEntry: Partial<JournalEntry>
 ) => {
   const { data, error } = await supabase
     .from("journal_entry")
@@ -98,7 +99,7 @@ export const updateJournalEntry = async (
 
 export const updateGratitudeEntry = async (
   entry_id: number,
-  gratitudeEntry: Partial<JournalEntry>,
+  gratitudeEntry: Partial<JournalEntry>
 ) => {
   const { data, error } = await supabase
     .from("gratitude_entry")
@@ -208,5 +209,64 @@ export const deleteGratitudeEntry = async (entryId: number) => {
     await supabase.from("gratitude_entry").delete().eq("entry_id", entryId);
   } catch (error) {
     return { error };
+  }
+};
+
+export const createUserData = async (
+  userData: Partial<UserDataType>
+): Promise<{ data: UserDataType | null; error: any }> => {
+  const { data, error } = await supabase
+    .from("users")
+    .insert(userData)
+    .select();
+
+  if (error) {
+    console.error("File: db-crud.ts, createUserData() error: ", error);
+    return { data: null, error };
+  }
+
+  if (!data) {
+    console.error("File: db-crud.ts, createUserData() data: ", data);
+    return { data: null, error: null };
+  }
+
+  return { data: data[0], error: null };
+};
+
+export const getUserData = async (user_id: string) => {
+  const { data, error } = await supabase
+    .from("users")
+    .select("*")
+    .eq("user_id", user_id);
+
+  const userData = data as UserDataType[];
+
+  if (error) {
+    console.error("File: db-crud.ts, getUserData() error: ", error);
+    return { data: null, error };
+  }
+
+  if (data === undefined) {
+    console.error("File: db-crud.ts, getUserData() data: ", data);
+    return { data: null, error: null };
+  }
+
+  if (userData && !error) {
+    return { data: userData[0], error: null };
+  }
+};
+
+export const updateUserData = async (
+  user_id: string,
+  userData: Partial<UserDataType>
+) => {
+  const { error } = await supabase
+    .from("users")
+    .update(userData)
+    .eq("user_id", user_id);
+
+  if (error) {
+    console.error("File: db-crud.ts, updateUserData() error: ", error);
+    return { data: null, error };
   }
 };
