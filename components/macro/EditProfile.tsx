@@ -7,13 +7,15 @@ import Input from "../atoms/Input";
 import { Button } from "../atoms/Button";
 
 import { useSessionStore } from "@/utils/stores/useSessionStore";
-import { updateUserData } from "@/utils/supabase/db-crud";
+import { createUserData, updateUserData } from "@/utils/supabase/db-crud";
 import { UserDataType } from "@/utils/interfaces/dataTypes";
 import { Alert } from "react-native";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 
 // FIX: Button Text not aligned in center
 const EditProfile = () => {
+  const { type } = useLocalSearchParams();
+
   const sessionStore = useSessionStore();
   const [username, setUsername] = useState<string>("");
   const [localLoading, setLocalLoading] = useState<boolean>(false);
@@ -25,27 +27,48 @@ const EditProfile = () => {
     }
     try {
       setLocalLoading(true);
+
+      // Create user data object
       const userData: Partial<UserDataType> = {
+        user_id: sessionStore.session?.user.id,
         username: username,
+        first_time_user: false,
       };
 
+      // Check if user is logged in
       if (!sessionStore.session?.user?.id) {
         Alert.alert("Error", "User not logged in");
         return;
       }
 
-      const result = await updateUserData(
-        sessionStore.session.user.id,
-        userData
-      );
+      if (type === "new") {
+        // Create
+        const result = await createUserData(userData);
 
-      if (result?.error) {
-        Alert.alert("Error", "Failed to update username");
-        setLocalLoading(false);
-      } else {
-        Alert.alert("Success", "Username updated successfully");
-        setLocalLoading(false);
-        router.back();
+        if (result?.error) {
+          Alert.alert("Error", "Failed to create username");
+          setLocalLoading(false);
+        } else {
+          Alert.alert("Success", "Username created successfully");
+          setLocalLoading(false);
+          router.replace({ pathname: "/(tabs)" });
+        }
+      }
+
+      if (type === "update") {
+        // Update
+        const result = await updateUserData(
+          sessionStore.session.user.id,
+          userData
+        );
+        if (result?.error) {
+          Alert.alert("Error", "Failed to update username");
+          setLocalLoading(false);
+        } else {
+          Alert.alert("Success", "Username updated successfully");
+          setLocalLoading(false);
+          router.back();
+        }
       }
     } catch (error) {
       console.error("Unexpected error: ", error);

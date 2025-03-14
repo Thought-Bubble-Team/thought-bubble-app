@@ -98,7 +98,7 @@ export default function User(props: UserProps) {
                 !FEATURE_FLAGS.USER_SETTINGS
                   ? router.navigate({
                       pathname: "/user/[id]/edit-profile",
-                      params: { id: session.user.id },
+                      params: { id: session.user.id, type: "update" },
                     })
                   : ButtonTester()
               }

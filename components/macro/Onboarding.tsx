@@ -167,7 +167,12 @@ const Onboarding = () => {
             </Text>
             <Button
               type="normal"
-              onPress={() => router.replace({ pathname: "/(tabs)/journals" })}
+              onPress={() =>
+                router.replace({
+                  pathname: "/profile_setup",
+                  params: { type: "new" },
+                })
+              }
             >
               <Button.Text>Get Started</Button.Text>
             </Button>
