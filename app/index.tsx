@@ -27,25 +27,13 @@ const LoadingModal = () => {
     const prepareApp = async () => {
       try {
         await sessionStore.fetchSession();
+        console.log("Session: ", sessionStore.session?.user.id);
         if (!sessionStore.session) {
           router.replace({ pathname: "/account_management" });
           return;
         }
 
-        if (sessionStore.userData === null) {
-          await sessionStore.fetchUserData();
-        }
-
-        if (!sessionStore.userData) {
-          router.replace({ pathname: "/account_management" });
-          return;
-        }
-
-        if (sessionStore.userData.first_time_user) {
-          router.replace({ pathname: "/onboarding_page" });
-          return;
-        }
-
+        await sessionStore.fetchUserData();
         await journalEntriesStore.fetchJournalEntries();
         await gratitudeEntriesStore.fetchGratitudeEntries();
         router.replace({ pathname: "/(tabs)" });
