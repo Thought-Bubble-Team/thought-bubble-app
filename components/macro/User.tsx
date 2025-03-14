@@ -120,6 +120,11 @@ const Settings = (props: {
   const { session, featureFlags } = props;
   const theme = useTheme();
 
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    router.replace("/account_management");
+  };
+
   return (
     <SettingsContainer>
       {featureFlags.USER_SETTINGS && (
@@ -239,7 +244,7 @@ const Settings = (props: {
       <SettingsContainer marginBottom={16}>
         <Button
           type={"navigation"}
-          onPress={() => supabase.auth.signOut()}
+          onPress={() => handleSignOut()}
           backgroundColor="#F88379"
         >
           <Button.Text fontSize="$lg" color="$white">
