@@ -1,15 +1,29 @@
 // LIBRARIES
-import { useState, useCallback } from "react";
-import { Image, Alert } from "react-native";
+import { useState, useCallback, Dispatch, SetStateAction } from "react";
+import {
+  StyleSheet,
+  Image,
+  Alert,
+  SafeAreaView,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { styled, View, Input, TextArea, YStack, useTheme } from "tamagui";
 import { PostgrestError } from "@supabase/supabase-js";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
+import {
+  CoreBridge,
+  RichText,
+  Toolbar,
+  useEditorBridge,
+} from "@10play/tentap-editor";
 
 // COMPONENTS
 import ScrollView from "@/components/atoms/ScrollView";
 import { Button } from "@/components/atoms/Button";
+import Text from "@/components/atoms/Text";
 
 // UTILITIES
 import { JournalFormProps } from "@/utils/interfaces/componentPropTypes";
@@ -22,12 +36,56 @@ import {
   updateJournalEntry,
 } from "@/utils/supabase/db-crud";
 
-// TODO: Make image pressable to view full screen
 // TODO: update handleSubmit to handle errors properly
+// TODO: remove image and images
+// TODO: add custom font to the editor
+// FIX: toolbar is not showing up
+export const Basic = ({
+  message,
+  setMessage,
+}: {
+  message: string | undefined;
+  setMessage: Dispatch<SetStateAction<string | undefined>>;
+}) => {
+  const theme = useTheme();
+  const editor = useEditorBridge({
+    avoidIosKeyboard: true,
+    onChange: () => {
+      editor.getText().then((text) => setMessage(text));
+    },
+    theme: {
+      toolbar: {
+        toolbarBody: {
+          borderTopColor: "#C6C6C6B3",
+          borderBottomColor: "#C6C6C6B3",
+          backgroundColor: "#474747",
+        },
+      },
+      webview: {
+        backgroundColor: theme.grey0.get(),
+      },
+      webviewContainer: {},
+    },
+  });
+
+  return (
+    <View flex={1}>
+      <RichText editor={editor} />
+      <KeyboardAvoidingView
+        behavior="height"
+        style={{
+          position: "absolute",
+          width: "100%",
+          bottom: 0,
+        }}
+      >
+        <Toolbar editor={editor} />
+      </KeyboardAvoidingView>
+    </View>
+  );
+};
 
 export default function JournalForm({ editable = true }: JournalFormProps) {
-  const theme = useTheme();
-
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [message, setMessage] = useState<string | undefined>(undefined);
   const [images, setImages] = useState<string[] | undefined>(undefined);
@@ -87,7 +145,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
         setMessage("");
         setImages(undefined);
       }
-    }, []),
+    }, [])
   );
 
   // useEffect(() => {
@@ -211,7 +269,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
       if (type === "editJournal") {
         const { error } = await updateJournalEntry(
           Number(id),
-          journalEntryObject,
+          journalEntryObject
         );
 
         if (error) {
@@ -227,7 +285,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
       if (type === "editGratitude") {
         const { error } = await updateGratitudeEntry(
           Number(id),
-          journalEntryObject,
+          journalEntryObject
         );
 
         if (error) {
@@ -242,7 +300,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
     } catch (error) {
       Alert.alert(
         "Error",
-        "An error occurred while submitting the journal entry",
+        "An error occurred while submitting the journal entry"
       );
     }
   };
@@ -269,7 +327,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
       )}
 
       {/* Images */}
-      {images !== undefined && images.length > 0 && (
+      {/* {images !== undefined && images.length > 0 && (
         <ScrollView horizontal backgroundColor={"$grey0"} maxHeight={100}>
           {images.map((image, index) => (
             <ImageWrapper key={index} style={{ zIndex: images.length - index }}>
@@ -289,7 +347,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
             </ImageWrapper>
           ))}
         </ScrollView>
-      )}
+      )} */}
 
       {/* Editable Title */}
       <View
@@ -307,15 +365,22 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
       </View>
 
       {/* Editable Message */}
-      <View backgroundColor={"$grey0"} flex={1}>
-        <MessageInput
+      {/* <MessageInput
           editable={editable}
           placeholder="Enter your message..."
           value={message}
           onChangeText={setMessage}
           backgroundColor={"$grey0"}
-        />
-      </View>
+        /> */}
+      {/* <MarkdownTextInput
+          value={message}
+          onChangeText={setMessage}
+          style={styles.MessageInput}
+          placeholder="Enter your message..."
+          parser={parseExpensiMark}
+          editable={editable}
+        /> */}
+      <Basic message={message} setMessage={setMessage} />
     </ViewStyled>
   );
 }
@@ -374,17 +439,30 @@ const TitleInput = styled(Input, {
   paddingVertical: "$3",
 });
 
-const MessageInput = styled(TextArea, {
-  fontFamily: "Montserrat_400Regular",
-  fontSize: 16,
-  textAlignVertical: "top",
-  borderWidth: 0,
-  borderColor: "$grey0",
-  paddingHorizontal: 0,
-  paddingVertical: "$3",
-  numberOfLines: 50,
-  maxLength: 3000,
-  flex: 1,
+// const MessageInput = styled(TextArea, {
+//   fontFamily: "Montserrat_400Regular",
+//   fontSize: 16,
+//   textAlignVertical: "top",
+//   borderWidth: 0,
+//   borderColor: "$grey0",
+//   paddingHorizontal: 0,
+//   paddingVertical: "$3",
+//   numberOfLines: 50,
+//   maxLength: 3000,
+//   flex: 1,
+// });
+
+const styles = StyleSheet.create({
+  MessageInput: {
+    fontFamily: "Montserrat_400Regular",
+    fontSize: 16,
+    textAlignVertical: "top",
+    borderWidth: 0,
+    borderColor: "$grey0",
+    paddingHorizontal: 0,
+    paddingVertical: 12,
+    flex: 1,
+  },
 });
 
 const Footer = styled(View, {
