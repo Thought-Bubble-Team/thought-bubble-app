@@ -1,4 +1,8 @@
-import { EmotionSummaryType } from "@/utils/interfaces/dataTypes";
+import {
+  EmotionSummaryType,
+  SentimentType,
+  MoodBarDataType,
+} from "@/utils/interfaces/dataTypes";
 import Logger from "../log";
 
 const emotionColors = [
@@ -56,4 +60,32 @@ export const processEmotionSummary = (
   });
 
   return processed_emotion_summary;
+};
+
+/**
+ * Processes emotions data from SentimentType.emotions to MoodBarDataType.emotions format
+ * Returns only the top 5 emotions by percentage
+ * @param emotionsData Object containing emotion values in decimal form
+ * @returns Array of top 5 objects with emotion names and percentage values
+ */
+export const processEmotionsData = (
+  emotionsData: SentimentType["emotions"]
+): MoodBarDataType["emotions"] => {
+  try {
+    // Convert the emotions object into an array of { emotion, percentage } objects
+    const emotionsArray = Object.entries(emotionsData).map(
+      ([emotion, value]) => ({
+        emotion,
+        percentage: Math.round(value * 100), // Convert decimal to percentage and round to nearest integer
+      })
+    );
+
+    // Sort by percentage in descending order and take only the top 5
+    return emotionsArray
+      .sort((a, b) => b.percentage - a.percentage)
+      .slice(0, 5);
+  } catch (error) {
+    Logger.error("Error processing emotions data:", error);
+    return []; // Return empty array in case of error
+  }
 };

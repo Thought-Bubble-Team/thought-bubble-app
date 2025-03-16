@@ -72,6 +72,8 @@ export type SentimentType = {
     embarrassment: number;
     disappointment: number;
   };
+  strongest_emotion: string;
+  analysis_feedback: string;
 };
 
 export type OnboardingType = {

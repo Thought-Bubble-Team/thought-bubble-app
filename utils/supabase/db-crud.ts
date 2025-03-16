@@ -168,21 +168,54 @@ export const getAllGratitudeEntries = async () => {
   }
 };
 
-export const getJournalSentiment = async (entryId: number) => {
+export const getJournalSentiment = async (
+  entryId: number
+): Promise<{ result: SentimentType | null; error: any }> => {
   const { data, error } = await supabase
     .from("sentiment_analysis")
     .select("*")
-    .eq("entry_id", entryId);
+    .eq("entry_id", entryId)
+    .single();
 
-  const sentimentData = data as SentimentType[];
+  const sentimentData = data as SentimentType;
 
   if (error) {
-    return { sentimentData: null, error };
+    return { result: null, error };
   }
 
   if (data && !error) {
-    return { sentimentData, error: null };
+    return { result: sentimentData, error: null };
   }
+
+  return { result: null, error: null };
+  // try {
+  //   const result = await axios.get<SentimentResponseType>(
+  //     `https://thought-bubble-backend.onrender.com/api/sentiment-analysis/${entryId}`,
+  //     {
+  //       params: {
+  //         user_id: user_id,
+  //       },
+  //     }
+  //   );
+
+  //   if (result.data) {
+  //     return { result: result.data, error: null };
+  //   } else {
+  //     return { result: undefined, error: null };
+  //   }
+  // } catch (error) {
+  //   if (axios.isAxiosError(error)) {
+  //     if (error.response) {
+  //       console.error(
+  //         `Error fetching journal entries: status:${error.response?.status} | details:${error.response?.data.detail}`
+  //       );
+  //     } else if (error.request) {
+  //       console.error("Error fetching journal entries: ", error.request);
+  //     }
+  //     return { result: undefined, error: error };
+  //   }
+  //   return { result: undefined, error: error };
+  // }
 };
 
 export const deleteJournalEntry = async (entryId: number) => {

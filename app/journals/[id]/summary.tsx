@@ -7,21 +7,21 @@ import Header from "@/components/atoms/Header";
 import { Navigation } from "@/components/macro/Navigation";
 import { MoodBarChart } from "@/components/macro/MoodBarChart";
 import { Button } from "@/components/atoms/Button";
-import { createJournalAnalysis } from "@/utils/supabase/db-crud";
+import {
+  createJournalAnalysis,
+  getJournalSentiment,
+} from "@/utils/supabase/db-crud";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
+import {
+  EmotionSummaryType,
+  MoodBarDataType,
+} from "@/utils/interfaces/dataTypes";
+import { processEmotionsData } from "@/utils/others/tools";
+import { Alert } from "react-native";
 
 // NOTE: Sample data
-const emotion_summary = {
-  emotion_values: [
-    { emotion: "joy", value: "20%" },
-    { emotion: "optimism", value: "20%" },
-    { emotion: "excitement", value: "30%" },
-    { emotion: "realization", value: "13%" },
-    { emotion: "approval", value: "17%" },
-  ],
-  description:
-    "It seems you’re feeling mostly happy and grateful, with some moments of balance and growth. Remember to acknowledge these positive feelings as a sign of your resilience and progress!",
-};
 
 // TODO: Add contact numbers & divider
 const Footer = ({}) => {
@@ -48,7 +48,11 @@ const Footer = ({}) => {
 };
 
 // TODO: Clean this
-const Graph = ({}) => {
+const Graph = ({
+  emotion_summary,
+}: {
+  emotion_summary: { emotion: string; percentage: number }[];
+}) => {
   return (
     <View>
       <MoodBarChart emotion_summary={emotion_summary} />
@@ -56,30 +60,55 @@ const Graph = ({}) => {
   );
 };
 
-// TODO: Using entry_id passed, fetch sentiment summary
-// NOTE: Temporary function
-const fetchSentimentSummary = async (entry_id: number) => {
-  try {
-    console.info("Fetching sentiment summary...");
-    const { data, error } = await createJournalAnalysis(entry_id);
-    console.log(data, error);
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      if (error.response) {
-        console.error(
-          `Error fetching sentiment summary: status:${error.response?.status} | details:${error.response?.data.detail}`
-        );
-      } else if (error.request) {
-        console.error("Error fetching sentiment summary: ", error.request);
-      }
-    } else {
-      console.error("Unknown error fetching sentiment summary: ", error);
-    }
-  }
-};
-
 const Summary = () => {
   const { id } = useLocalSearchParams();
+  const [localLoading, setLocalLoading] = useState<boolean>(false);
+  const [analysis, setAnalysis] = useState<string>("");
+  const [emotionSummary, setEmotionSummary] = useState<
+    { emotion: string; percentage: number }[]
+  >([]);
+  const [noRecord, setNoRecord] = useState<boolean>(false);
+
+  const handleAnalysis = async () => {
+    setLocalLoading(true);
+    try {
+      const result = await createJournalAnalysis(Number(id));
+      console.log(result);
+      Alert.alert("Success", "Analysis created successfully");
+      setLocalLoading(false);
+    } catch (error) {
+      Alert.alert("Error", "Error creating analysis");
+      console.error("Error creating analysis", error);
+    }
+  };
+
+  useEffect(() => {
+    const Prepare = async () => {
+      console.log("id", id);
+      try {
+        const result = await getJournalSentiment(Number(id));
+        console.log(result);
+
+        if (result.error && result.error.code === "PGRST116") {
+          setNoRecord(true);
+          return;
+        }
+
+        if (result.result) {
+          console.log("Processing summary", result.result);
+          const processedEmotionSummary = processEmotionsData(
+            result.result.emotions
+          );
+          console.log("processedEmotionSummary", processedEmotionSummary);
+          setEmotionSummary(processedEmotionSummary);
+          setAnalysis(result.result.analysis_feedback);
+        }
+      } catch (error) {
+        console.error("Error preparing summary", error);
+      }
+    };
+    Prepare();
+  }, []);
 
   return (
     <Screen gap={0}>
@@ -91,24 +120,31 @@ const Summary = () => {
         borderTopRightRadius={"$8"}
       >
         <Header>
-          <Text weight="bold" fontSize="$lg" textAlign="center">
+          <Text weight="bold" fontSize="$xl" textAlign="center">
             Here's a breakdown of the emotions reflected in this entry
           </Text>
         </Header>
-        <View padding="$lg">
-          <Text weight="regular" fontSize="$sm" textAlign="center">
-            {emotion_summary.description}
-          </Text>
-        </View>
-        <View padding="$lg">
-          <Graph />
-        </View>
+        {!noRecord && (
+          <>
+            <View padding="$lg">
+              <Text weight="regular" fontSize="$md" textAlign="center">
+                {analysis}
+              </Text>
+            </View>
+            <View padding="$lg">
+              <Graph emotion_summary={emotionSummary} />
+            </View>
+          </>
+        )}
+        {noRecord && (
+          <>
+            <Text fontSize="$lg">There is no analysis for this entry yet</Text>
+            <Button onPress={handleAnalysis}>
+              <Button.Text>Analyze</Button.Text>
+            </Button>
+          </>
+        )}
       </Screen>
-      <View>
-        <Button type="normal" onPress={() => fetchSentimentSummary(71)}>
-          <Button.Text>Analyze Journal</Button.Text>
-        </Button>
-      </View>
       <Footer />
     </Screen>
   );
