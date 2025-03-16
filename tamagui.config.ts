@@ -1,5 +1,6 @@
 import { tokens, media, animations } from "@tamagui/config/v3";
 import { createTamagui, createTokens } from "tamagui";
+import { createAnimations } from "@tamagui/animations-moti";
 
 const { size, space, ...restTokens } = tokens;
 
@@ -70,10 +71,30 @@ const themes = {
   },
 };
 
+const myAnimations = createAnimations({
+  fast: {
+    type: "spring",
+    damping: 20,
+    mass: 1.2,
+    stiffness: 250,
+  },
+  medium: {
+    type: "spring",
+    damping: 10,
+    mass: 0.9,
+    stiffness: 100,
+  },
+  slow: {
+    type: "spring",
+    damping: 20,
+    stiffness: 60,
+  },
+});
+
 export const tamaguiConfig = createTamagui({
   tokens: myTokens,
   media,
-  animations,
+  animations: myAnimations,
   themes,
 });
 
