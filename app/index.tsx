@@ -1,9 +1,10 @@
 import { router } from "expo-router";
 import { useEffect } from "react";
-
 import { Spinner, styled, XStack, YStack } from "tamagui";
+
 import Text from "@/components/atoms/Text";
 import LogoAnimation from "@/components/Icons/LogoAnimation";
+import Screen from "@/components/atoms/Screen";
 
 import {
   useJournalEntriesStore,
@@ -50,7 +51,7 @@ const LoadingModal = () => {
   }, []);
 
   return (
-    <YStack flex={1} justifyContent="center" alignItems="center" gap="$sm">
+    <Screen>
       <XStackStyled>
         <LogoAnimation />
       </XStackStyled>
@@ -66,7 +67,7 @@ const LoadingModal = () => {
           <Text weight="bold">Fetching Gratitude Entries</Text>
         )}
       </YStack>
-    </YStack>
+    </Screen>
   );
 };
 
