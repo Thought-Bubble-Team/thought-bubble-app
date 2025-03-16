@@ -32,6 +32,7 @@ export const ButtonFrame = styled(
           borderRadius: "$10",
           padding: "$lg",
           width: "100%",
+          animation: "fast",
           pressStyle: {
             width: "98%",
             backgroundColor: "$primaryPressed",
@@ -44,6 +45,7 @@ export const ButtonFrame = styled(
           paddingVertical: "$xl",
           paddingHorizontal: "$xxl",
           width: "100%",
+          animation: "fast",
           pressStyle: {
             width: "98%",
             backgroundColor: "$grey1Pressed",
@@ -51,6 +53,7 @@ export const ButtonFrame = styled(
         },
         icon: {
           backgroundColor: "$transparent",
+          animation: "fast",
           pressStyle: {
             opacity: 0.57,
           },

@@ -72,7 +72,8 @@ export default function Journals() {
     return (
       <MainView>
         <Container justifyContent="center" alignItems="center">
-          <Spinner size="large" color="$grey3" testID="loading-spinner" />
+          {/* <Spinner size="large" color="$grey3" testID="loading-spinner" /> */}
+          <View width="100%" height={300} backgroundColor="$grey2" />
         </Container>
       </MainView>
     );

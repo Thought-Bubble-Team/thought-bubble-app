@@ -1,6 +1,6 @@
 // Libraries Imports
 import { StyleSheet, Alert } from "react-native";
-import { styled, View, XStack, YStack } from "tamagui";
+import { styled, AnimatePresence, View, XStack, YStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   useBoolVariation,
@@ -89,27 +89,29 @@ export default function User(props: UserProps) {
             {session.user.email}
           </Text>
           {!FEATURE_FLAGS.USER_SETTINGS && (
-            <ComponentContainer width="80%">
-              <Button
-                type={"normal"}
-                width="100%"
-                pressStyle={{
-                  width: "98%",
-                }}
-                padding={5}
-                marginTop={16}
-                onPress={() =>
-                  !FEATURE_FLAGS.USER_SETTINGS
-                    ? router.navigate({
-                        pathname: "/user/[id]/edit-profile",
-                        params: { id: session.user.id, type: "update" },
-                      })
-                    : ButtonTester()
-                }
-              >
-                <Button.Text fontSize="$md">Edit Profile</Button.Text>
-              </Button>
-            </ComponentContainer>
+            <AnimatePresence>
+              <ComponentContainer width="80%">
+                <Button
+                  type={"normal"}
+                  width="100%"
+                  pressStyle={{
+                    width: "98%",
+                  }}
+                  padding={5}
+                  marginTop={16}
+                  onPress={() =>
+                    !FEATURE_FLAGS.USER_SETTINGS
+                      ? router.navigate({
+                          pathname: "/user/[id]/edit-profile",
+                          params: { id: session.user.id, type: "update" },
+                        })
+                      : ButtonTester()
+                  }
+                >
+                  <Button.Text fontSize="$md">Edit Profile</Button.Text>
+                </Button>
+              </ComponentContainer>
+            </AnimatePresence>
           )}
         </YStack>
       </ProfileContainer>
