@@ -27,7 +27,8 @@ import { supabase } from "@/utils/supabase/supabase";
 import { getMonthYearList } from "@/utils/dateFormat";
 import Onboarding from "@/components/macro/Onboarding";
 import { router } from "expo-router";
-import { YStack } from "tamagui";
+import { View, YStack } from "tamagui";
+import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
 
 // FIX: page renders before the user data is fetched
 export default function Index() {
@@ -35,6 +36,7 @@ export default function Index() {
   const setSelectedDate = useSelectedDateStore(
     (state) => state.setSelectedDate
   );
+  const journalEntriesStore = useJournalEntriesStore();
   const sessionStore = useSessionStore();
   const userDataStore = useUserDataStore();
 
@@ -65,6 +67,14 @@ export default function Index() {
           );
         }
         console.log("User Data: ", userDataStore.userData);
+
+        await journalEntriesStore.fetchJournalEntries(
+          sessionStore.session?.user.id as string
+        );
+
+        if (journalEntriesStore.journal_entries !== null) {
+          console.log("Journal Entries: ", journalEntriesStore.journal_entries);
+        }
       } catch (error) {
         console.log("Error: ", error);
       }
@@ -105,7 +115,9 @@ export default function Index() {
       </Header>
       **/}
       <Screen>
-        <VectorIcons size={300} icon="construction" />
+        <View>
+          <VectorIcons size={300} icon="construction" />
+        </View>
         <Text weight="bold" fontSize="$lg">
           PAGE IS UNDER CONSTRUCTION
         </Text>

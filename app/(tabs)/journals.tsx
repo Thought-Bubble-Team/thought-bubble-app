@@ -22,8 +22,6 @@ import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { JournalEntryType } from "@/utils/interfaces/dataTypes";
 import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
 
-// TODO: Implement a bounce animation when clicking button
-// NOTE: Remove trash icon once sentiment summary is implemented
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
   const { journal_entries, fetchJournalEntries } = useJournalEntriesStore();
@@ -74,7 +72,8 @@ export default function Journals() {
     return (
       <MainView>
         <Container justifyContent="center" alignItems="center">
-          <Spinner size="large" color="$grey3" testID="loading-spinner" />
+          {/* <Spinner size="large" color="$grey3" testID="loading-spinner" /> */}
+          <View width="100%" height={300} backgroundColor="$grey2" />
         </Container>
       </MainView>
     );

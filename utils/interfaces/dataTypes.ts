@@ -85,11 +85,6 @@ export type UserDataType = {
   created_at: string;
 };
 
-export type EmotionSummaryType = {
-  emotion_values: { emotion: string; value: string }[];
-  description: string;
-};
-
 export type EmotionType = { emoji: string; color: string };
 
 export type EmotionSummaryType = {

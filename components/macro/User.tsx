@@ -1,6 +1,6 @@
 // Libraries Imports
 import { StyleSheet, Alert } from "react-native";
-import { styled, View, XStack, YStack } from "tamagui";
+import { styled, AnimatePresence, View, XStack, YStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   useBoolVariation,
@@ -89,22 +89,29 @@ export default function User(props: UserProps) {
             {session.user.email}
           </Text>
           {!FEATURE_FLAGS.USER_SETTINGS && (
-            <Button
-              type={"normal"}
-              width="80%"
-              padding={5}
-              marginTop={16}
-              onPress={() =>
-                !FEATURE_FLAGS.USER_SETTINGS
-                  ? router.navigate({
-                      pathname: "/user/[id]/edit-profile",
-                      params: { id: session.user.id, type: "update" },
-                    })
-                  : ButtonTester()
-              }
-            >
-              <Button.Text fontSize="$md">Edit Profile</Button.Text>
-            </Button>
+            <AnimatePresence>
+              <ComponentContainer width="80%">
+                <Button
+                  type={"normal"}
+                  width="100%"
+                  pressStyle={{
+                    width: "98%",
+                  }}
+                  padding={5}
+                  marginTop={16}
+                  onPress={() =>
+                    !FEATURE_FLAGS.USER_SETTINGS
+                      ? router.navigate({
+                          pathname: "/user/[id]/edit-profile",
+                          params: { id: session.user.id, type: "update" },
+                        })
+                      : ButtonTester()
+                  }
+                >
+                  <Button.Text fontSize="$md">Edit Profile</Button.Text>
+                </Button>
+              </ComponentContainer>
+            </AnimatePresence>
           )}
         </YStack>
       </ProfileContainer>
@@ -224,40 +231,56 @@ const Settings = (props: {
         </>
       )}
       <SettingsContent>
-        <Text weight="medium" fontSize="$lg" marginVertical={16}>
-          ACCOUNT
-        </Text>
-        <Button
-          type={"navigation"}
-          onPress={() =>
-            router.navigate({
-              pathname: "/user/[id]/my-data",
-              params: { id: session.user.id },
-            })
-          }
-        >
-          <Button.Text fontSize="$lg">Your Data</Button.Text>
-          <Ionicons
-            name="chevron-forward-outline"
-            size={24}
-            color={theme.black?.val}
-          />
-        </Button>
+        <ComponentContainer justifyContent="flex-start">
+          <Text weight="medium" fontSize="$lg" marginVertical={16}>
+            ACCOUNT
+          </Text>
+        </ComponentContainer>
+        <ComponentContainer>
+          <Button
+            type={"navigation"}
+            onPress={() =>
+              router.navigate({
+                pathname: "/user/[id]/my-data",
+                params: { id: session.user.id },
+              })
+            }
+          >
+            <Button.Text fontSize="$lg">Your Data</Button.Text>
+            <Ionicons
+              name="chevron-forward-outline"
+              size={24}
+              color={theme.black?.val}
+            />
+          </Button>
+        </ComponentContainer>
       </SettingsContent>
       <SettingsContainer marginBottom={16}>
-        <Button
-          type={"navigation"}
-          onPress={() => handleSignOut()}
-          backgroundColor="#F88379"
-        >
-          <Button.Text fontSize="$lg" color="$white">
-            SIGN OUT
-          </Button.Text>
-        </Button>
+        <ComponentContainer>
+          <Button
+            type={"navigation"}
+            onPress={() => handleSignOut()}
+            backgroundColor="$error"
+            pressStyle={{
+              backgroundColor: "$errorPressed",
+            }}
+          >
+            <Button.Text fontSize="$lg" color="$white">
+              SIGN OUT
+            </Button.Text>
+          </Button>
+        </ComponentContainer>
       </SettingsContainer>
     </SettingsContainer>
   );
 };
+
+const ComponentContainer = styled(XStack, {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "100%",
+});
 
 const MainContainer = styled(View, {
   height: "100%",

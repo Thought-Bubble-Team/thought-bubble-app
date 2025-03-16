@@ -1,5 +1,6 @@
 import { tokens, media, animations } from "@tamagui/config/v3";
 import { createTamagui, createTokens } from "tamagui";
+import { createAnimations } from "@tamagui/animations-moti";
 
 const { size, space, ...restTokens } = tokens;
 
@@ -47,6 +48,24 @@ const themes = {
     error: "#F44336",
     disabled: "#BCA49D",
     divider: "#BBADA6",
+    primaryPressed: "#B36A53",
+    secondaryPressed: "#1A8CD6",
+    backgroundPressed: "#E5E5E5",
+    blackPressed: "#3D3936",
+    whitePressed: "#E9D9D0",
+    grey0Pressed: "#E9D9D0",
+    grey1Pressed: "#D8C6BD",
+    grey2Pressed: "#BCA49D",
+    grey3Pressed: "#90766F",
+    grey4Pressed: "#90766F",
+    grey5Pressed: "#90766F",
+    greyOutlinePressed: "#BBADA6",
+    searchBgPressed: "#E5E5E5",
+    successPressed: "#43A047",
+    warningPressed: "#FFB300",
+    errorPressed: "#E53935",
+    disabledPressed: "#BCA49D",
+    dividerPressed: "#BBADA6",
   },
   dark: {
     primary: "#FF5733",
@@ -70,10 +89,30 @@ const themes = {
   },
 };
 
+const myAnimations = createAnimations({
+  fast: {
+    type: "spring",
+    damping: 20,
+    mass: 1.2,
+    stiffness: 250,
+  },
+  medium: {
+    type: "spring",
+    damping: 10,
+    mass: 0.9,
+    stiffness: 100,
+  },
+  slow: {
+    type: "spring",
+    damping: 20,
+    stiffness: 60,
+  },
+});
+
 export const tamaguiConfig = createTamagui({
   tokens: myTokens,
   media,
-  animations,
+  animations: myAnimations,
   themes,
 });
 
