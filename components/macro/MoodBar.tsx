@@ -1,60 +1,61 @@
-import { View, XStack, YStack } from "tamagui";
+import { useMoodBarDataStore } from "@/utils/stores/useChartDataStore";
+import { Card } from "../atoms/Card";
+import { MoodBarChart } from "./MoodBarChart";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
+import { MoodBarProps } from "@/utils/interfaces/componentPropTypes";
+import { parseInitialDate } from "@/utils/dateFormat";
+import { useEffect } from "react";
+import { Spinner } from "tamagui";
+import Text from "../atoms/Text";
 
-import Text from "@/components/atoms/Text";
-// @ts-ignore
-import SmugFace from "@/assets/icons/emojis/emoji-1";
+const MoodBar = ({ initial_date }: MoodBarProps) => {
+  const sessionStore = useSessionStore();
+  const moodBarStore = useMoodBarDataStore();
 
-import { processEmotionSummary } from "@/utils/others/tools";
-import { EmotionSummaryType } from "@/utils/interfaces/dataTypes";
+  const currentMonth = parseInitialDate(initial_date);
 
-// TODO: Improve to handle dynamic data
-export const MoodBarChart = ({
-  emotion_summary,
-}: {
-  emotion_summary: EmotionSummaryType;
-}) => {
-  const processed_emotion_summary = processEmotionSummary(emotion_summary);
+  useEffect(() => {
+    const Prepare = async () => {
+      try {
+        if (!sessionStore.session) {
+          return;
+        }
+
+        await moodBarStore.fetchMoodBarData(
+          sessionStore.session.user.id as string,
+          currentMonth.getMonth() + 1,
+          currentMonth.getFullYear()
+        );
+
+        if (moodBarStore.moodBarData) {
+          console.log("Mood Bar Data: ", moodBarStore.moodBarData);
+        }
+      } catch (error) {
+        console.error("Error: ", error);
+      }
+    };
+    Prepare();
+  }, []);
+
   return (
-    <YStack gap="$3" alignItems="center">
-      <XStack gap="$3" alignItems="flex-end">
-        {emotion_summary.emotion_values.map((item) => (
-          <EmojiValue key={`emotion-${item.emotion}`} value={item.value} />
-        ))}
-      </XStack>
-      <XStack>
-        {processed_emotion_summary &&
-          processed_emotion_summary.map((item) => (
-            <View
-              key={`emotion-${item?.emotion}`}
-              backgroundColor={item?.color}
-              width={item?.value}
-              height="$sm"
-            ></View>
-          ))}
-      </XStack>
-    </YStack>
+    <Card marginVertical="$3">
+      <Card.Header>
+        <Card.HeaderText>MoodBar</Card.HeaderText>
+      </Card.Header>
+      <Card.Body>
+        {moodBarStore.loading && <Spinner size="large" color="$primary" />}
+        {!moodBarStore.loading && moodBarStore.moodBarData && (
+          <MoodBarChart emotion_summary={moodBarStore.moodBarData.emotions} />
+        )}
+        {!moodBarStore.loading &&
+          moodBarStore.moodBarData?.emotions.length === 0 && (
+            <Text weight="bold" fontSize="$sm">
+              No data available
+            </Text>
+          )}
+      </Card.Body>
+    </Card>
   );
 };
 
-export const EmojiValue = ({
-  emoji,
-  value,
-  size = 40,
-}: {
-  emoji?: string;
-  value: string;
-  size?: number;
-}) => {
-  return (
-    <YStack gap={"$lg"} alignItems="center">
-      <View>
-        <SmugFace width={size} height={size} />
-      </View>
-      <View backgroundColor="$white" borderRadius="$10" paddingHorizontal="$3">
-        <Text weight="bold" fontSize="$sm" color="$grey4" textAlign="center">
-          {value}
-        </Text>
-      </View>
-    </YStack>
-  );
-};
+export default MoodBar;

@@ -32,16 +32,22 @@ const emotionColors = [
   { emotion: "disappointment", color: "#90766F" },
 ];
 
-export const processEmotionSummary = (emotion_summary: EmotionSummaryType) => {
-  const { emotion_values } = emotion_summary;
-  const processed_emotion_summary = emotion_values.map((item) => {
+type EmotionSummaryItem = {
+  emotion: string;
+  percentage: number;
+};
+
+export const processEmotionSummary = (
+  emotion_summary: EmotionSummaryItem[]
+) => {
+  const processed_emotion_summary = emotion_summary.map((item) => {
     try {
       const emotion_color = emotionColors.find(
-        (obj) => obj.emotion === item.emotion,
+        (obj) => obj.emotion === item.emotion
       );
       return {
         emotion: item.emotion,
-        value: item.value,
+        value: `${item.percentage}%`, // Convert percentage to string with % sign
         color: emotion_color?.color,
       };
     } catch (error) {

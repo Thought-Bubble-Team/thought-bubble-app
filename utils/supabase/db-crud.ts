@@ -131,9 +131,9 @@ export const getGratitudeEntry = async (entry_id: number) => {
 
 export const getAllJournalEntries = async (
   user_id: string
-): Promise<{ data: Partial<JournalEntryType> | null; error: any }> => {
+): Promise<{ data: JournalEntryType | null; error: any }> => {
   try {
-    const result = await axios.get(
+    const result = await axios.get<JournalEntryType>(
       `https://thought-bubble-backend.onrender.com/api/journal-entry/${user_id}/`
     );
 

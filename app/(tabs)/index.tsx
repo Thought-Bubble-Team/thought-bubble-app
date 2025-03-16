@@ -16,6 +16,7 @@ import Select from "@/components/atoms/Select";
 import Header from "@/components/atoms/Header";
 import VectorIcons from "@/components/Icons/VectorIcons";
 import LoadingScreen from "@/components/macro/LoadingScreen";
+import MoodBar from "@/components/macro/MoodBar";
 
 // Utilities Import
 import {
@@ -27,9 +28,10 @@ import { supabase } from "@/utils/supabase/supabase";
 import { getMonthYearList } from "@/utils/dateFormat";
 import Onboarding from "@/components/macro/Onboarding";
 import { router } from "expo-router";
-import { View, YStack } from "tamagui";
+import { Spinner, View, YStack } from "tamagui";
 import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
 import { Card } from "@/components/atoms/Card";
+import { useMoodBarDataStore } from "@/utils/stores/useChartDataStore";
 
 // FIX: page renders before the user data is fetched
 export default function Index() {
@@ -40,6 +42,9 @@ export default function Index() {
   const journalEntriesStore = useJournalEntriesStore();
   const sessionStore = useSessionStore();
   const userDataStore = useUserDataStore();
+  const moodBarStore = useMoodBarDataStore();
+
+  const dateOptions = getMonthYearList();
 
   const FEATURE_FLAGS = {
     DASHBOARD_CHARTS: {
@@ -62,19 +67,31 @@ export default function Index() {
           .identify({ kind: "user", key: "example-user-key", name: "Sandy" })
           .catch((e: any) => Alert.alert(("Error: " + e) as string));
 
+        if (!sessionStore.session) {
+          return;
+        }
+
         if (userDataStore.userData === null) {
-          await userDataStore.fetchUserData(
-            sessionStore.session?.user.id as string
-          );
+          await userDataStore.fetchUserData(sessionStore.session.user.id);
         }
         console.log("User Data: ", userDataStore.userData);
 
         await journalEntriesStore.fetchJournalEntries(
-          sessionStore.session?.user.id as string
+          sessionStore.session.user.id
         );
 
         if (journalEntriesStore.journal_entries !== null) {
           console.log("Journal Entries: ", journalEntriesStore.journal_entries);
+        }
+
+        await moodBarStore.fetchMoodBarData(
+          sessionStore.session.user.id as string,
+          3,
+          2025
+        );
+
+        if (moodBarStore.moodBarData) {
+          console.log("Mood Bar Data: ", moodBarStore.moodBarData);
         }
       } catch (error) {
         console.log("Error: ", error);
@@ -105,13 +122,13 @@ export default function Index() {
         <Text weight="bold" fontSize="$xxxl" color={"$black"}>
           Hello, User!
         </Text>
-        {/* <Select
+        <Select
           color={"$black"}
           opacity={0.57}
           val={selectedDate}
           setVal={setSelectedDate}
           date={dateOptions}
-        /> */}
+        />
       </Header>
       {/* <Screen>
         <View>
@@ -127,9 +144,10 @@ export default function Index() {
             <Card.HeaderText fontSize="$lg">Mood Calendar</Card.HeaderText>
           </Card.Header>
           <Card.Body>
-            <MoodCalendar initialDate="Mar 2025" />
+            <MoodCalendar initialDate={selectedDate} />
           </Card.Body>
         </Card>
+        <MoodBar initial_date={selectedDate} />
       </ScrollView>
     </Screen>
   );

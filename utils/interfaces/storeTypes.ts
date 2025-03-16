@@ -1,4 +1,10 @@
-import { JournalEntriesType, UserDataType } from "@/utils/interfaces/dataTypes";
+import {
+  JournalEntriesType,
+  UserDataType,
+  MoodCalendarDataType,
+  MoodBarDataType,
+  MonthlySummaryType,
+} from "@/utils/interfaces/dataTypes";
 import { Session } from "@supabase/supabase-js";
 
 export type JournalEntriesStoreType = {
@@ -33,4 +39,26 @@ export type UserDataStoreType = {
 export type SelectedDateStoreType = {
   selectedDate: string;
   setSelectedDate: (newDate: string) => void;
+};
+
+export type MoodCalendarDataStoreType = {
+  moodCalendarData: MoodCalendarDataType | undefined;
+  loading: boolean;
+  error: any;
+  fetchMoodCalendarData: (
+    user_id: string,
+    month: number,
+    year: number
+  ) => Promise<void>;
+};
+
+export type MoodBarDataStoreType = {
+  moodBarData: MoodBarDataType | undefined;
+  loading: boolean;
+  error: any;
+  fetchMoodBarData: (
+    user_id: string,
+    month: number,
+    year: number
+  ) => Promise<void>;
 };

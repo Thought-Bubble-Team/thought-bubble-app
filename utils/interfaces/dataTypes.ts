@@ -9,6 +9,11 @@ export type MoodCalendarDataType = {
   calendar: MoodCalendarType[];
 };
 
+export type MoodBarDataType = {
+  message: string;
+  emotions: { emotion: string; percentage: number }[];
+};
+
 export type JournalEntryType = {
   entry_id: number;
   user_id: string;
@@ -138,4 +143,12 @@ export type SentimentResponseType = {
   confidence_score: number;
   strongest_emotion: string;
   analysis_feedback: string;
+};
+
+export type MonthlySummaryType = {
+  summary_id: number;
+  user_id: string;
+  month: string;
+  year: string;
+  mood_bar: { emotion: string; percentage: number }[];
 };

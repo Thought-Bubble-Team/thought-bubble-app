@@ -5,7 +5,7 @@ import Text from "@/components/atoms/Text";
 import Screen from "@/components/atoms/Screen";
 import Header from "@/components/atoms/Header";
 import { Navigation } from "@/components/macro/Navigation";
-import { MoodBarChart } from "@/components/macro/MoodBar";
+import { MoodBarChart } from "@/components/macro/MoodBarChart";
 import { Button } from "@/components/atoms/Button";
 import { createJournalAnalysis } from "@/utils/supabase/db-crud";
 import axios from "axios";
