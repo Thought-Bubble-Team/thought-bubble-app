@@ -27295,23 +27295,30 @@
     "onlyAllowShorthands": false,
     "fontLanguages": [],
     "animations": {
+      "View": "Function",
+      "Text": "Function",
+      "isReactNative": true,
       "animations": {
-        "75ms": "ease-in 75ms",
-        "100ms": "ease-in 100ms",
-        "200ms": "ease-in 200ms",
-        "bouncy": "ease-in 200ms",
-        "superBouncy": "ease-in 500ms",
-        "lazy": "ease-in 1000ms",
-        "medium": "ease-in 300ms",
-        "slow": "ease-in 500ms",
-        "quick": "cubic-bezier(0.215, 0.610, 0.355, 1.000) 400ms",
-        "quicker": "cubic-bezier(0.215, 0.610, 0.355, 1.000) 300ms",
-        "quickest": "cubic-bezier(0.215, 0.610, 0.355, 1.000) 200ms",
-        "tooltip": "ease-in 400ms"
+        "fast": {
+          "type": "spring",
+          "damping": 20,
+          "mass": 1.2,
+          "stiffness": 250
+        },
+        "medium": {
+          "type": "spring",
+          "damping": 10,
+          "mass": 0.9,
+          "stiffness": 100
+        },
+        "slow": {
+          "type": "spring",
+          "damping": 20,
+          "stiffness": 60
+        }
       },
       "usePresence": "Function",
       "ResetPresence": "Function",
-      "supportsCSSVars": true,
       "useAnimatedNumber": "Function",
       "useAnimatedNumberReaction": "Function",
       "useAnimatedNumberStyle": "Function",
@@ -29792,6 +29799,24 @@
         "error": "#F44336",
         "disabled": "#BCA49D",
         "divider": "#BBADA6",
+        "primaryPressed": "#B36A53",
+        "secondaryPressed": "#1A8CD6",
+        "backgroundPressed": "#E5E5E5",
+        "blackPressed": "#3D3936",
+        "whitePressed": "#E9D9D0",
+        "grey0Pressed": "#E9D9D0",
+        "grey1Pressed": "#D8C6BD",
+        "grey2Pressed": "#BCA49D",
+        "grey3Pressed": "#90766F",
+        "grey4Pressed": "#90766F",
+        "grey5Pressed": "#90766F",
+        "greyOutlinePressed": "#BBADA6",
+        "searchBgPressed": "#E5E5E5",
+        "successPressed": "#43A047",
+        "warningPressed": "#FFB300",
+        "errorPressed": "#E53935",
+        "disabledPressed": "#BCA49D",
+        "dividerPressed": "#BBADA6",
         "id": "light"
       },
       "dark": {
