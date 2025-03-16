@@ -35,7 +35,7 @@ const MoodBar = ({ initial_date }: MoodBarProps) => {
       }
     };
     Prepare();
-  }, []);
+  }, [initial_date]);
 
   return (
     <Card marginVertical="$3">
