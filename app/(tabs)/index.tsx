@@ -29,6 +29,7 @@ import Onboarding from "@/components/macro/Onboarding";
 import { router } from "expo-router";
 import { View, YStack } from "tamagui";
 import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
+import { Card } from "@/components/atoms/Card";
 
 // FIX: page renders before the user data is fetched
 export default function Index() {
@@ -100,28 +101,36 @@ export default function Index() {
       backgroundColor={"$background"}
       justifyContent="flex-start"
     >
-      {/**
       <Header>
         <Text weight="bold" fontSize="$xxxl" color={"$black"}>
           Hello, User!
         </Text>
-        <Select
+        {/* <Select
           color={"$black"}
           opacity={0.57}
           val={selectedDate}
           setVal={setSelectedDate}
           date={dateOptions}
-        />
+        /> */}
       </Header>
-      **/}
-      <Screen>
+      {/* <Screen>
         <View>
           <VectorIcons size={300} icon="construction" />
         </View>
         <Text weight="bold" fontSize="$lg">
           PAGE IS UNDER CONSTRUCTION
         </Text>
-      </Screen>
+      </Screen> */}
+      <ScrollView>
+        <Card>
+          <Card.Header>
+            <Card.HeaderText fontSize="$lg">Mood Calendar</Card.HeaderText>
+          </Card.Header>
+          <Card.Body>
+            <MoodCalendar initialDate="Mar 2025" />
+          </Card.Body>
+        </Card>
+      </ScrollView>
     </Screen>
   );
 }
