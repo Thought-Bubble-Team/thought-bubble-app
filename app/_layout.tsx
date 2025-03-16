@@ -133,15 +133,24 @@ export default function RootLayout() {
               />
               <Stack.Screen
                 name="onboarding_page"
-                options={{ presentation: "modal" }}
+                options={{
+                  presentation: "modal",
+                  animation: "slide_from_bottom",
+                }}
               />
               <Stack.Screen
                 name="account_management"
-                options={{ presentation: "modal" }}
+                options={{
+                  presentation: "modal",
+                  animation: "slide_from_bottom",
+                }}
               />
               <Stack.Screen
                 name="profile_setup"
-                options={{ presentation: "modal" }}
+                options={{
+                  presentation: "modal",
+                  animation: "slide_from_bottom",
+                }}
               />
             </Stack>
           </View>
