@@ -29,23 +29,25 @@ export const ButtonFrame = styled(
       type: {
         normal: {
           backgroundColor: "$primary",
-          pressStyle: {
-            opacity: 0.8,
-          },
           borderRadius: "$10",
           padding: "$lg",
           width: "100%",
+          pressStyle: {
+            width: "98%",
+            backgroundColor: "$primaryPressed",
+          },
         },
         navigation: {
           justifyContent: "space-between",
           backgroundColor: "$grey1",
-          pressStyle: {
-            backgroundColor: "$grey2",
-          },
           borderRadius: 20,
           paddingVertical: "$xl",
           paddingHorizontal: "$xxl",
           width: "100%",
+          pressStyle: {
+            width: "98%",
+            backgroundColor: "$grey1Pressed",
+          },
         },
         icon: {
           backgroundColor: "$transparent",

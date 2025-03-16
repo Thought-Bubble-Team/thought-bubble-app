@@ -92,6 +92,9 @@ export default function User(props: UserProps) {
             <Button
               type={"normal"}
               width="80%"
+              pressStyle={{
+                width: "78%",
+              }}
               padding={5}
               marginTop={16}
               onPress={() =>
@@ -248,7 +251,10 @@ const Settings = (props: {
         <Button
           type={"navigation"}
           onPress={() => handleSignOut()}
-          backgroundColor="#F88379"
+          backgroundColor="$error"
+          pressStyle={{
+            backgroundColor: "$errorPressed",
+          }}
         >
           <Button.Text fontSize="$lg" color="$white">
             SIGN OUT
