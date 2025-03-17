@@ -48,7 +48,10 @@ export default function Journals() {
   const refresh = async () => {
     setRefreshing(true);
     try {
-      if (!session) return;
+      if (!session) {
+        setRefreshing(false);
+        return;
+      }
       await fetchJournalEntries(session.user.id);
       setRefreshing(false);
     } catch (error) {
