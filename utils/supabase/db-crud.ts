@@ -26,8 +26,18 @@ export const createJournalEntry = async (
     return { data: result.data, error: null };
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      console.error(error.response?.data);
-      return { data: null, error: error };
+      if (error.response) {
+        console.error(
+          `[db-crud.ts] Error creating journal entry: status:${error.response?.status} | details:${error.response?.data.detail}`
+        );
+      }
+
+      if (error.request) {
+        console.error(
+          "[db-crud.ts] Error creating journal entry: ",
+          error.request
+        );
+      }
     }
     return { data: null, error: error };
   }
@@ -43,7 +53,18 @@ export const createJournalAnalysis = async (
 
     return { data: result.data, error: null };
   } catch (error) {
-    throw error;
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        console.error(
+          `Error creating journal analysis: status:${error.response?.status} | details:${error.response?.data.detail}`
+        );
+      }
+
+      if (error.request) {
+        console.error("Error creating journal analysis: ", error.request);
+      }
+    }
+    return { data: null, error: error };
   }
 };
 
