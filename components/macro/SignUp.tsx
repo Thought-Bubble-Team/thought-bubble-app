@@ -3,7 +3,7 @@ import React from "react";
 import { Alert } from "react-native";
 import { styled, View } from "tamagui";
 import { useState } from "react";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 
 // Component Imports
 import Input from "@/components/atoms/Input";
@@ -99,6 +99,16 @@ export default function SignUp(props: SignUpProps) {
         secureTextEntry
         onChangeText={setConfirmPassword}
       />
+      <View>
+        <Text weight="light" fontSize="$sm" textAlign="center">
+          By signing up, you agree to our{" "}
+          <Link href={{ pathname: "/agreement_page" }}>
+            <Text weight="bold" color="$primary">
+              Terms of Service
+            </Text>
+          </Link>
+        </Text>
+      </View>
       <Button type={"normal"} onPress={signUpWithEmail}>
         {!loading && <Button.Text>SIGNUP</Button.Text>}
         {loading && <Button.Spinner />}

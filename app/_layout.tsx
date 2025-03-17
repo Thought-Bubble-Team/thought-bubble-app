@@ -152,6 +152,13 @@ export default function RootLayout() {
                   animation: "slide_from_bottom",
                 }}
               />
+              <Stack.Screen
+                name="agreement_page"
+                options={{
+                  presentation: "modal",
+                  animation: "slide_from_bottom",
+                }}
+              />
             </Stack>
           </View>
         </ThemeProvider>
