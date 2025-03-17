@@ -16,8 +16,7 @@ import Text from "@/components/atoms/Text";
 import { formatTime } from "@/utils/dateFormat";
 import { getJournalSentiment } from "@/utils/supabase/db-crud";
 import { SentimentSummaryDataType } from "@/utils/interfaces/dataTypes";
-import { sentimentSummary } from "@/utils/sampleSentimentData";
-import { JournalEntryType, SentimentType } from "@/utils/interfaces/dataTypes";
+import { SentimentType } from "@/utils/interfaces/dataTypes";
 import { JournalCardProps } from "@/utils/interfaces/componentPropInterfaces";
 
 const CardStyled = styled(TCard, {
@@ -50,6 +49,8 @@ export default function JournalCard(props: JournalCardProps) {
         setSentiment(data.sentimentData);
       }
     });
+
+    // Decrypt journal entry content and update state
   }, []);
 
   return (

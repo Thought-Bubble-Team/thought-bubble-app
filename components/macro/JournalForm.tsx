@@ -1,24 +1,12 @@
 // LIBRARIES
 import { useState, useCallback, Dispatch, SetStateAction } from "react";
-import {
-  StyleSheet,
-  Image,
-  Alert,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { StyleSheet, Image, Alert, KeyboardAvoidingView } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { styled, View, Input, TextArea, YStack, useTheme } from "tamagui";
+import { styled, View, Input, YStack, useTheme } from "tamagui";
 import { PostgrestError } from "@supabase/supabase-js";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
-import {
-  CoreBridge,
-  RichText,
-  Toolbar,
-  useEditorBridge,
-} from "@10play/tentap-editor";
+import { RichText, Toolbar, useEditorBridge } from "@10play/tentap-editor";
 
 // COMPONENTS
 import ScrollView from "@/components/atoms/ScrollView";
@@ -30,16 +18,14 @@ import { JournalFormProps } from "@/utils/interfaces/componentPropTypes";
 import {
   createGratitudeEntry,
   createJournalEntry,
+  createJournalAnalysis,
   getGratitudeEntry,
   getJournalEntry,
   updateGratitudeEntry,
   updateJournalEntry,
 } from "@/utils/supabase/db-crud";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
 
-// TODO: update handleSubmit to handle errors properly
-// TODO: remove image and images
-// TODO: add custom font to the editor
-// FIX: toolbar is not showing up
 export const Basic = ({
   message,
   setMessage,
@@ -86,6 +72,9 @@ export const Basic = ({
 };
 
 export default function JournalForm({ editable = true }: JournalFormProps) {
+  const theme = useTheme();
+  const sessionStore = useSessionStore();
+
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [message, setMessage] = useState<string | undefined>(undefined);
   const [images, setImages] = useState<string[] | undefined>(undefined);
@@ -148,58 +137,6 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
     }, [])
   );
 
-  // useEffect(() => {
-  //   const fetchJournalEntry = async (entry_id: number) => {
-  //     const response = await getJournalEntry(entry_id);
-  //     if (!response) {
-  //       Alert.alert("Error", "Failed to fetch journal entry");
-  //       return;
-  //     }
-  //
-  //     if (response.error) {
-  //       Alert.alert("Error", response.error.message);
-  //       return;
-  //     }
-  //
-  //     if (response.journalEntryData) {
-  //       setTitle(response.journalEntryData[0].title); // Assuming it's an array
-  //       setMessage(response.journalEntryData[0].content);
-  //     }
-  //   };
-  //
-  //   const fetchGratitudeEntry = async (entry_id: number) => {
-  //     const response = await getGratitudeEntry(entry_id);
-  //     if (!response) {
-  //       Alert.alert("Error", "Failed to fetch gratitude entry");
-  //       return;
-  //     }
-  //
-  //     if (response.error) {
-  //       Alert.alert("Error", response.error.message);
-  //       return;
-  //     }
-  //
-  //     if (response.gratitudeEntryData) {
-  //       setTitle(response.gratitudeEntryData[0].title); // Assuming it's an array
-  //       setMessage(response.gratitudeEntryData[0].content);
-  //     }
-  //   };
-  //
-  //   if (type === "editJournal") {
-  //     void fetchJournalEntry(Number(id));
-  //   }
-  //
-  //   if (type === "editGratitude") {
-  //     void fetchGratitudeEntry(Number(id));
-  //   }
-  //
-  //   if (type === "gratitude") {
-  //     setTitle("Today I'm grateful for...");
-  //     setMessage("");
-  //     setImages(undefined);
-  //   }
-  // }, []);
-
   // Image Picker
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -230,16 +167,21 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
       content: message,
     };
 
-    try {
-      if (
-        journalEntryObject.title === undefined ||
-        journalEntryObject.content === undefined
-      ) {
-        Alert.alert("Error", "Title and message cannot be empty");
-        setLoading(false);
-        return;
-      }
+    // Check if title and message are filled out
+    if (title === undefined || message === undefined) {
+      Alert.alert("Error", "Please fill out all fields");
+      setLoading(false);
+      return;
+    }
 
+    // Check if user is logged in
+    if (!sessionStore.session) {
+      Alert.alert("Error", "User not found");
+      setLoading(false);
+      return;
+    }
+
+    try {
       if (type === "gratitude") {
         const { error } = await createGratitudeEntry(journalEntryObject);
 
@@ -254,16 +196,33 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
       } // Do nothing
 
       if (type === "journal") {
-        const { error } = await createJournalEntry(journalEntryObject);
+        try {
+          console.info("Creating journal entry...");
 
-        if (error) {
-          Alert.alert("Error", error.message);
-          setError(error);
-        } else {
-          Alert.alert("Success", "Journal entry created successfully!");
-          router.replace({ pathname: "/journals" });
+          const result = await createJournalEntry(
+            journalEntryObject,
+            sessionStore.session.user.id
+          );
+
+          if (
+            result &&
+            result.data !== null &&
+            result.data.entry_id !== undefined
+          ) {
+            console.info("Creating journal analysis...");
+            console.info("Analyzing entry_id: ", result.data.entry_id);
+            Alert.alert("Success", "Journal entry created successfully!");
+            await createJournalAnalysis(result.data.entry_id);
+            router.replace({ pathname: "/journals" });
+            setLoading(false);
+          }
+        } catch (error) {
+          Alert.alert(
+            "Error",
+            "An error occurred while submitting the journal entry"
+          );
+          console.error(error);
         }
-        setLoading(false);
       }
 
       if (type === "editJournal") {

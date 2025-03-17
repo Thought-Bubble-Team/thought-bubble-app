@@ -1,5 +1,5 @@
 // Libraries Imports
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Spinner, styled, View, XStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Alert, RefreshControl } from "react-native";
@@ -22,8 +22,6 @@ import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { JournalEntryType } from "@/utils/interfaces/dataTypes";
 import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
 
-// TODO: Implement a bounce animation when clicking button
-// NOTE: Remove trash icon once sentiment summary is implemented
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
   const { journal_entries, fetchJournalEntries } = useJournalEntriesStore();
@@ -34,8 +32,8 @@ export default function Journals() {
     setLocalLoading(true);
     const PrepareComponent = async () => {
       try {
-        if (journal_entries === null) {
-          await fetchJournalEntries();
+        if (journal_entries === null && session) {
+          await fetchJournalEntries(session.user.id);
         }
         setLocalLoading(false);
         void refresh();
@@ -50,7 +48,11 @@ export default function Journals() {
   const refresh = async () => {
     setRefreshing(true);
     try {
-      await fetchJournalEntries();
+      if (!session) {
+        setRefreshing(false);
+        return;
+      }
+      await fetchJournalEntries(session.user.id);
       setRefreshing(false);
     } catch (error) {
       Alert.alert("Error", "Failed to refresh");
@@ -73,7 +75,8 @@ export default function Journals() {
     return (
       <MainView>
         <Container justifyContent="center" alignItems="center">
-          <Spinner size="large" color="$grey3" testID="loading-spinner" />
+          {/* <Spinner size="large" color="$grey3" testID="loading-spinner" /> */}
+          <View width="100%" height={300} backgroundColor="$grey2" />
         </Container>
       </MainView>
     );
@@ -166,7 +169,7 @@ const JournalEntry = (props: JournalEntryProps) => {
         padding={0}
         onPress={() =>
           router.navigate({
-            pathname: "/notepad/[id]/edit",
+            pathname: "/journals/[id]/summary",
             params: {
               id: journalEntry.entry_id,
               type: "editJournal",

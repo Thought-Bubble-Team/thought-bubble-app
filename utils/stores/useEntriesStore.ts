@@ -17,10 +17,10 @@ export const useJournalEntriesStore = create<JournalEntriesStoreType>(
     journal_entries: null as JournalEntriesType | null,
     loading: false,
     error: null,
-    fetchJournalEntries: async () => {
+    fetchJournalEntries: async (user_id: string) => {
       set({ loading: true, error: null });
       try {
-        const result = await getAllJournalEntries();
+        const result = await getAllJournalEntries(user_id);
         if (result && Array.isArray(result.data)) {
           set({ journal_entries: result.data, loading: false });
         }
@@ -28,7 +28,7 @@ export const useJournalEntriesStore = create<JournalEntriesStoreType>(
         set({ error: error, loading: false });
       }
     },
-  }),
+  })
 );
 
 export const useGratitudeEntriesStore = create<GratitudeEntriesStoreType>(
@@ -47,5 +47,5 @@ export const useGratitudeEntriesStore = create<GratitudeEntriesStoreType>(
         set({ error: error, loading: false });
       }
     },
-  }),
+  })
 );

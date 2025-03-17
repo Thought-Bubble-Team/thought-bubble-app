@@ -9,6 +9,11 @@ export type MoodCalendarDataType = {
   calendar: MoodCalendarType[];
 };
 
+export type MoodBarDataType = {
+  message: string;
+  emotions: { emotion: string; percentage: number }[];
+};
+
 export type JournalEntryType = {
   entry_id: number;
   user_id: string;
@@ -67,6 +72,8 @@ export type SentimentType = {
     embarrassment: number;
     disappointment: number;
   };
+  strongest_emotion: string;
+  analysis_feedback: string;
 };
 
 export type OnboardingType = {
@@ -83,4 +90,67 @@ export type UserDataType = {
   username: string;
   first_time_user: boolean;
   created_at: string;
+};
+
+export type EmotionType = { emoji: string; color: string };
+
+export type EmotionSummaryType = {
+  emotion_values: { emotion: string; value: string }[];
+  description: string;
+};
+
+export type EmotionsType = {
+  emotions: {
+    joy: EmotionType;
+    fear: EmotionType;
+    love: EmotionType;
+    anger: EmotionType;
+    grief: EmotionType;
+    pride: EmotionType;
+    caring: EmotionType;
+    desire: EmotionType;
+    relief: EmotionType;
+    disgust: EmotionType;
+    neutral: EmotionType;
+    remorse: EmotionType;
+    sadness: EmotionType;
+    approval: EmotionType;
+    optimism: EmotionType;
+    surprise: EmotionType;
+    amusement: EmotionType;
+    annoyance: EmotionType;
+    confusion: EmotionType;
+    curiosity: EmotionType;
+    gratitude: EmotionType;
+    admiration: EmotionType;
+    excitement: EmotionType;
+    disapproval: EmotionType;
+    nervousness: EmotionType;
+    realization: EmotionType;
+    embarrassment: EmotionType;
+    disappointment: EmotionType;
+  };
+};
+
+export type JournalEntryResponseType = {
+  entry_id: number;
+  user_id: string;
+  title: string;
+  content: string;
+};
+
+export type SentimentResponseType = {
+  entry_id: number;
+  sentiment: string;
+  confidence_score: number;
+  strongest_emotion: string;
+  analysis_feedback: string;
+};
+
+export type MonthlySummaryType = {
+  summary_id: number;
+  user_id: string;
+  month: string;
+  year: string;
+  mood_bar: { emotion: string; percentage: number }[];
 };

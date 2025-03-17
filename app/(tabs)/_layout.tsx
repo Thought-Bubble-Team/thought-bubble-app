@@ -1,12 +1,7 @@
 import { router, Tabs } from "expo-router";
 import { useColorScheme } from "react-native";
 import { styled, View, useTheme } from "tamagui";
-import Animated, {
-  FadeIn,
-  FadeOut,
-  SlideInDown,
-  SlideOutDown,
-} from "react-native-reanimated";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 import TabIcons from "@/components/Icons/TabIcons";
 import { Button } from "@/components/atoms/Button";
@@ -35,6 +30,7 @@ export default function TabLayout() {
           elevation: 0,
         },
         tabBarShowLabel: false,
+        tabBarHideOnKeyboard: true,
       }}
     >
       <Tabs.Screen

@@ -1,10 +1,6 @@
 // Libraries Import
 import { useEffect, useState } from "react";
-import { Alert } from "react-native";
-import {
-  useBoolVariation,
-  useLDClient,
-} from "@launchdarkly/react-native-client-sdk";
+import { Alert, RefreshControl } from "react-native";
 
 // Components Import
 import ScrollView from "@/components/atoms/ScrollView";
@@ -14,20 +10,18 @@ import ReoccurringWords from "@/components/macro/ReoccurringWords";
 import MoodCalendar from "@/components/macro/MoodCalendar/MoodCalendar";
 import Select from "@/components/atoms/Select";
 import Header from "@/components/atoms/Header";
-import VectorIcons from "@/components/Icons/VectorIcons";
 import LoadingScreen from "@/components/macro/LoadingScreen";
+import MoodBar from "@/components/macro/MoodBar";
 
 // Utilities Import
-import {
-  useSessionStore,
-  useUserDataStore,
-} from "@/utils/stores/useSessionStore";
+import { useUserDataStore } from "@/utils/stores/useSessionStore";
 import { useSelectedDateStore } from "@/utils/stores/useSelectedDateStore";
-import { supabase } from "@/utils/supabase/supabase";
 import { getMonthYearList } from "@/utils/dateFormat";
 import Onboarding from "@/components/macro/Onboarding";
 import { router } from "expo-router";
-import { YStack } from "tamagui";
+import { Spinner, View, YStack } from "tamagui";
+import { Card } from "@/components/atoms/Card";
+import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
 
 // FIX: page renders before the user data is fetched
 export default function Index() {
@@ -35,43 +29,30 @@ export default function Index() {
   const setSelectedDate = useSelectedDateStore(
     (state) => state.setSelectedDate
   );
-  const sessionStore = useSessionStore();
+  const journalEntriesStore = useJournalEntriesStore();
   const userDataStore = useUserDataStore();
 
-  const FEATURE_FLAGS = {
-    DASHBOARD_CHARTS: {
-      REOCCURRING_WORDS: useBoolVariation("reoccurring-words", false),
-      MOOD_BAR: useBoolVariation("mood-bar", false),
-      MOOD_CALENDAR: useBoolVariation("mood-calendar", false),
-      MOOD_FLOW: useBoolVariation("mood-flow", false),
-    },
-    VERSION: {
-      v010: useBoolVariation("v0.1.0", false),
-    },
-  };
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
-  const ldc = useLDClient();
+  const dateOptions = getMonthYearList();
 
   useEffect(() => {
-    const Prepare = async () => {
-      try {
-        ldc
-          .identify({ kind: "user", key: "example-user-key", name: "Sandy" })
-          .catch((e: any) => Alert.alert(("Error: " + e) as string));
-
-        if (userDataStore.userData === null) {
-          await userDataStore.fetchUserData(
-            sessionStore.session?.user.id as string
-          );
-        }
-        console.log("User Data: ", userDataStore.userData);
-      } catch (error) {
-        console.log("Error: ", error);
-      }
-    };
+    const Prepare = async () => {};
 
     Prepare();
-  }, []);
+    refresh();
+  }, [journalEntriesStore.journal_entries]);
+
+  const refresh = async () => {
+    setRefreshing(true);
+    try {
+      setRefreshing(false);
+    } catch (error) {
+      Alert.alert("Error", "Failed to refresh");
+      console.log("Error: Journals Refresh: ", error);
+      setRefreshing(false);
+    }
+  };
 
   if (userDataStore.loading) {
     return (
@@ -90,7 +71,6 @@ export default function Index() {
       backgroundColor={"$background"}
       justifyContent="flex-start"
     >
-      {/**
       <Header>
         <Text weight="bold" fontSize="$xxxl" color={"$black"}>
           Hello, User!
@@ -103,13 +83,29 @@ export default function Index() {
           date={dateOptions}
         />
       </Header>
-      **/}
-      <Screen>
-        <VectorIcons size={300} icon="construction" />
+      {/* <Screen>
+        <View>
+          <VectorIcons size={300} icon="construction" />
+        </View>
         <Text weight="bold" fontSize="$lg">
           PAGE IS UNDER CONSTRUCTION
         </Text>
-      </Screen>
+      </Screen> */}
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+        }
+      >
+        <Card>
+          <Card.Header>
+            <Card.HeaderText fontSize="$lg">Mood Calendar</Card.HeaderText>
+          </Card.Header>
+          <Card.Body>
+            <MoodCalendar initialDate={selectedDate} />
+          </Card.Body>
+        </Card>
+        <MoodBar initial_date={selectedDate} />
+      </ScrollView>
     </Screen>
   );
 }

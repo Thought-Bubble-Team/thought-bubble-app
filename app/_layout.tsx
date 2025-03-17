@@ -19,6 +19,7 @@ import * as SplashScreen from "expo-splash-screen";
 import Constants from "expo-constants";
 import {
   AutoEnvAttributes,
+  BasicLogger,
   LDProvider,
   ReactNativeLDClient,
 } from "@launchdarkly/react-native-client-sdk";
@@ -38,11 +39,14 @@ const featureClient = new ReactNativeLDClient(
   "mob-d54fc957-ac80-4b9a-ab93-af276a5f6ff2",
   AutoEnvAttributes.Enabled,
   {
-    debug: true,
+    debug: false,
     applicationInfo: {
       id: "ld-rn-test-app",
       version: "0.0.1",
     },
+    logger: new BasicLogger({
+      level: "none",
+    }),
   }
 );
 
@@ -129,15 +133,24 @@ export default function RootLayout() {
               />
               <Stack.Screen
                 name="onboarding_page"
-                options={{ presentation: "modal" }}
+                options={{
+                  presentation: "modal",
+                  animation: "slide_from_bottom",
+                }}
               />
               <Stack.Screen
                 name="account_management"
-                options={{ presentation: "modal" }}
+                options={{
+                  presentation: "modal",
+                  animation: "slide_from_bottom",
+                }}
               />
               <Stack.Screen
                 name="profile_setup"
-                options={{ presentation: "modal" }}
+                options={{
+                  presentation: "modal",
+                  animation: "slide_from_bottom",
+                }}
               />
             </Stack>
           </View>

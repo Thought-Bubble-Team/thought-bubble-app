@@ -1,69 +1,70 @@
 import { supabase } from "@/utils/supabase/supabase";
 import { UserDataType } from "../interfaces/dataTypes";
+import {
+  SentimentType,
+  JournalEntryType,
+  SentimentResponseType,
+  JournalEntryResponseType,
+} from "@/utils/interfaces/dataTypes";
+import axios from "axios";
+import JournalEntry from "@/app/notepad/journal-entry";
 
 export interface JournalEntry {
   title: string;
   content: string;
 }
 
-export type JournalEntryType = {
-  entry_id: number;
-  user_id: string;
-  title: string;
-  content: string;
-  created_at: string;
-  updated_at: string;
-};
-
-export type SentimentType = {
-  sentiment_id: number;
-  entry_id: number;
-  sentiment: string;
-  confidence_score: number;
-  created_at: string;
-  emotions: {
-    joy: number;
-    fear: number;
-    love: number;
-    anger: number;
-    grief: number;
-    pride: number;
-    caring: number;
-    desire: number;
-    relief: number;
-    disgust: number;
-    neutral: number;
-    remorse: number;
-    sadness: number;
-    approval: number;
-    optimism: number;
-    surprise: number;
-    amusement: number;
-    annoyance: number;
-    confusion: number;
-    curiosity: number;
-    gratitude: number;
-    admiration: number;
-    excitement: number;
-    disapproval: number;
-    nervousness: number;
-    realization: number;
-    embarrassment: number;
-    disappointment: number;
-  };
-};
-
 export const createJournalEntry = async (
-  journalEntry: Partial<JournalEntry>
-) => {
-  const { data, error } = await supabase
-    .from("journal_entry")
-    .insert([journalEntry]);
+  journalEntry: Partial<JournalEntry>,
+  user_id: string
+): Promise<{ data: JournalEntryResponseType | null; error: any }> => {
+  try {
+    const result = await axios.post<JournalEntryResponseType>(
+      `https://thought-bubble-backend.onrender.com/api/admin/journal-entry/?user_id=${user_id}&content=${journalEntry.content}&title=${journalEntry.title}`
+    );
 
-  if (error) {
-    return { data: null, error };
-  } else {
-    return { data, error: null };
+    return { data: result.data, error: null };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        console.error(
+          `[db-crud.ts] Error creating journal entry: status:${error.response?.status} | details:${error.response?.data.detail}`
+        );
+      }
+
+      if (error.request) {
+        console.error(
+          "[db-crud.ts] Error creating journal entry: ",
+          error.request
+        );
+      }
+    }
+    return { data: null, error: error };
+  }
+};
+
+export const createJournalAnalysis = async (
+  entry_id: number
+): Promise<{ data: SentimentResponseType | null; error: any }> => {
+  try {
+    const result = await axios.post<SentimentResponseType>(
+      `https://thought-bubble-backend.onrender.com/api/analyze-sentiment/?entry_id=${entry_id}`
+    );
+
+    return { data: result.data, error: null };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        console.error(
+          `Error creating journal analysis: status:${error.response?.status} | details:${error.response?.data.detail}`
+        );
+      }
+
+      if (error.request) {
+        console.error("Error creating journal analysis: ", error.request);
+      }
+    }
+    return { data: null, error: error };
   }
 };
 
@@ -149,18 +150,27 @@ export const getGratitudeEntry = async (entry_id: number) => {
   }
 };
 
-export const getAllJournalEntries = async () => {
-  const { data, error } = await supabase
-    .from("journal_entry")
-    .select("*")
-    .order("created_at", { ascending: false });
+export const getAllJournalEntries = async (
+  user_id: string
+): Promise<{ data: JournalEntryType | null; error: any }> => {
+  try {
+    const result = await axios.get<JournalEntryType>(
+      `https://thought-bubble-backend.onrender.com/api/journal-entry/${user_id}/`
+    );
 
-  if (error) {
-    return { data: null, error };
-  }
-
-  if (data && !error) {
-    return { data, error: null };
+    return { data: result.data, error: null };
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        console.error(
+          `Error fetching journal entries: status:${error.response?.status} | details:${error.response?.data.detail}`
+        );
+      } else if (error.request) {
+        console.error("Error fetching journal entries: ", error.request);
+      }
+      return { data: null, error: error };
+    }
+    return { data: null, error: error };
   }
 };
 
@@ -179,21 +189,54 @@ export const getAllGratitudeEntries = async () => {
   }
 };
 
-export const getJournalSentiment = async (entryId: number) => {
+export const getJournalSentiment = async (
+  entryId: number
+): Promise<{ result: SentimentType | null; error: any }> => {
   const { data, error } = await supabase
     .from("sentiment_analysis")
     .select("*")
-    .eq("entry_id", entryId);
+    .eq("entry_id", entryId)
+    .single();
 
-  const sentimentData = data as SentimentType[];
+  const sentimentData = data as SentimentType;
 
   if (error) {
-    return { sentimentData: null, error };
+    return { result: null, error };
   }
 
   if (data && !error) {
-    return { sentimentData, error: null };
+    return { result: sentimentData, error: null };
   }
+
+  return { result: null, error: null };
+  // try {
+  //   const result = await axios.get<SentimentResponseType>(
+  //     `https://thought-bubble-backend.onrender.com/api/sentiment-analysis/${entryId}`,
+  //     {
+  //       params: {
+  //         user_id: user_id,
+  //       },
+  //     }
+  //   );
+
+  //   if (result.data) {
+  //     return { result: result.data, error: null };
+  //   } else {
+  //     return { result: undefined, error: null };
+  //   }
+  // } catch (error) {
+  //   if (axios.isAxiosError(error)) {
+  //     if (error.response) {
+  //       console.error(
+  //         `Error fetching journal entries: status:${error.response?.status} | details:${error.response?.data.detail}`
+  //       );
+  //     } else if (error.request) {
+  //       console.error("Error fetching journal entries: ", error.request);
+  //     }
+  //     return { result: undefined, error: error };
+  //   }
+  //   return { result: undefined, error: error };
+  // }
 };
 
 export const deleteJournalEntry = async (entryId: number) => {
@@ -241,12 +284,14 @@ export const getUserData = async (user_id: string) => {
 
   const userData = data as UserDataType[];
 
+  // Check for errors
   if (error) {
     console.error("File: db-crud.ts, getUserData() error: ", error);
     return { data: null, error };
   }
 
-  if (data === undefined) {
+  // Check for null data
+  if (data === null) {
     console.error("File: db-crud.ts, getUserData() data: ", data);
     return { data: null, error: null };
   }
@@ -254,6 +299,9 @@ export const getUserData = async (user_id: string) => {
   if (userData && !error) {
     return { data: userData[0], error: null };
   }
+
+  // No data no error
+  return { data: null, error: null };
 };
 
 export const updateUserData = async (

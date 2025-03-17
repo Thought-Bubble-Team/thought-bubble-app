@@ -15,6 +15,7 @@ import {
 } from "@/utils/interfaces/dataTypes";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { provideSampleSentimentData } from "@/utils/sampleSentimentData";
+import { Alert } from "react-native";
 
 const DayContainer = styled(View, {
   width: "14.28%",
@@ -43,21 +44,30 @@ const MoodCalendar = (props: MoodCalendarProps) => {
   const { initialDate, ...restProps } = props;
   const currentMonth = parseInitialDate(initialDate);
   const session = useSessionStore((state) => state.session);
-  // const { moodCalendarData, fetchMoodCalendarData } =
-  //   useMoodCalendarDataStore();
+  const { moodCalendarData, fetchMoodCalendarData } =
+    useMoodCalendarDataStore();
   const sampleMoodCalendarData = {
     message: "Success",
     calendar: provideSampleSentimentData(initialDate),
   };
 
   useEffect(() => {
-    // if (session) {
-    //   void fetchMoodCalendarData(
-    //     session.user.id,
-    //     currentMonth.getMonth() + 1,
-    //     currentMonth.getFullYear(),
-    //   );
-    // }
+    const Prepare = async () => {
+      try {
+        if (session) {
+          await fetchMoodCalendarData(
+            session.user.id,
+            currentMonth.getMonth() + 1,
+            currentMonth.getFullYear()
+          );
+        }
+      } catch (error) {
+        console.error("Error in MoodCalendar Prepare: ", error);
+        Alert.alert("There was an error fetching the data.");
+      }
+    };
+
+    Prepare();
   }, [initialDate]);
 
   const sampleSentimentData = sampleMoodCalendarData;
@@ -72,10 +82,10 @@ const MoodCalendar = (props: MoodCalendarProps) => {
     };
 
     const getSentimentForDate = (date: Date): MoodCalendarType | undefined => {
-      if (!sampleSentimentData?.calendar) return undefined;
+      if (!moodCalendarData) return undefined;
       const dateString = date.toISOString().split("T")[0];
 
-      return sampleSentimentData.calendar.find((item) => {
+      return moodCalendarData.calendar.find((item) => {
         const itemDate = new Date(item.date);
         const itemDateString = itemDate.toISOString().split("T")[0];
         return itemDateString === dateString;
@@ -93,7 +103,7 @@ const MoodCalendar = (props: MoodCalendarProps) => {
     // console.log("DaySlot & BlankSlot Loop: \n");
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(
-        Date.UTC(currentMonth.getFullYear(), currentMonth.getMonth(), day),
+        Date.UTC(currentMonth.getFullYear(), currentMonth.getMonth(), day)
       );
       const sentimentData = getSentimentForDate(date);
       // console.log(`\x1b[35mSentimentData: ${sentimentData}\x1b[0m`);

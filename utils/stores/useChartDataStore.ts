@@ -1,20 +1,20 @@
 import { create } from "zustand";
 
-import { fetchMoodCalendarData } from "../fetchDataFunctions/fetchData";
-import { MoodCalendarDataType } from "../interfaces/dataTypes";
+import {
+  fetchMoodCalendarData,
+  fetchMoodBarData,
+} from "../fetchDataFunctions/fetchData";
+import {
+  MoodCalendarDataType,
+  MoodBarDataType,
+  MonthlySummaryType,
+} from "../interfaces/dataTypes";
+import {
+  MoodCalendarDataStoreType,
+  MoodBarDataStoreType,
+} from "../interfaces/storeTypes";
 
-interface MoodCalendarDataStore {
-  moodCalendarData: MoodCalendarDataType | undefined;
-  loading: boolean;
-  error: any;
-  fetchMoodCalendarData: (
-    user_id: string,
-    month: number,
-    year: number
-  ) => Promise<void>;
-}
-
-export const useMoodCalendarDataStore = create<MoodCalendarDataStore>(
+export const useMoodCalendarDataStore = create<MoodCalendarDataStoreType>(
   (set) => ({
     moodCalendarData: undefined as MoodCalendarDataType | undefined,
     loading: false,
@@ -40,3 +40,24 @@ export const useMoodCalendarDataStore = create<MoodCalendarDataStore>(
     },
   })
 );
+
+export const useMoodBarDataStore = create<MoodBarDataStoreType>((set) => ({
+  moodBarData: undefined as MoodBarDataType | undefined,
+  loading: false,
+  error: null,
+  fetchMoodBarData: async (user_id: string, month: number, year: number) => {
+    set({ loading: true, error: null });
+    try {
+      const { result } = await fetchMoodBarData({
+        user_id,
+        month,
+        year,
+      });
+      if (result) {
+        set({ moodBarData: result, loading: false });
+      }
+    } catch (error) {
+      set({ error, loading: false });
+    }
+  },
+}));
