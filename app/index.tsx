@@ -10,7 +10,11 @@ import {
   useJournalEntriesStore,
   useGratitudeEntriesStore,
 } from "@/utils/stores/useEntriesStore";
-import { useSessionStore } from "@/utils/stores/useSessionStore";
+import {
+  useSessionStore,
+  useUserDataStore,
+} from "@/utils/stores/useSessionStore";
+import { Alert } from "react-native";
 
 const XStackStyled = styled(XStack, {
   justifyContent: "center",
@@ -21,27 +25,45 @@ const XStackStyled = styled(XStack, {
 // TODO: Handle router.replace() properly
 const LoadingModal = () => {
   const sessionStore = useSessionStore();
+  const userDataStore = useUserDataStore();
   const journalEntriesStore = useJournalEntriesStore();
   const gratitudeEntriesStore = useGratitudeEntriesStore();
 
   useEffect(() => {
     const prepareApp = async () => {
       try {
+        // Fetch session
         await sessionStore.fetchSession();
         console.log("Session: ", sessionStore.session?.user.id);
+        // No session, redirect to login
         if (!sessionStore.session) {
           router.replace({ pathname: "/account_management" });
           return;
         }
-
+        // Fetch journal entries and gratitude entries
         if (sessionStore.session.user) {
+          // Fetch User Data
+          await userDataStore.fetchUserData(sessionStore.session.user.id);
+          if (userDataStore.error) {
+            throw new Error(userDataStore.error);
+          }
+          // Fetch Journal Entries
           await journalEntriesStore.fetchJournalEntries(
             sessionStore.session.user.id
           );
+          if (journalEntriesStore.error) {
+            throw new Error(journalEntriesStore.error);
+          }
+          // Fetch Gratitude Entries
           await gratitudeEntriesStore.fetchGratitudeEntries();
+          if (gratitudeEntriesStore.error) {
+            throw new Error(gratitudeEntriesStore.error);
+          }
+          // Redirect to home
+          router.replace({ pathname: "/(tabs)" });
         }
-        router.replace({ pathname: "/(tabs)" });
       } catch (error) {
+        Alert.alert("Error", "An error occurred while loading the app");
         console.log("Error: ", error);
         return;
       }
@@ -60,6 +82,7 @@ const LoadingModal = () => {
       </XStackStyled>
       <YStack justifyContent="center" alignItems="center" gap="$sm">
         {sessionStore.loading && <Text weight="bold">Loading User</Text>}
+        {userDataStore.loading && <Text weight="bold">Fetching User Data</Text>}
         {journalEntriesStore.loading && (
           <Text weight="bold">Fetching Journal Entries</Text>
         )}

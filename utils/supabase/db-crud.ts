@@ -263,12 +263,14 @@ export const getUserData = async (user_id: string) => {
 
   const userData = data as UserDataType[];
 
+  // Check for errors
   if (error) {
     console.error("File: db-crud.ts, getUserData() error: ", error);
     return { data: null, error };
   }
 
-  if (data === undefined) {
+  // Check for null data
+  if (data === null) {
     console.error("File: db-crud.ts, getUserData() data: ", data);
     return { data: null, error: null };
   }
@@ -276,6 +278,9 @@ export const getUserData = async (user_id: string) => {
   if (userData && !error) {
     return { data: userData[0], error: null };
   }
+
+  // No data no error
+  return { data: null, error: null };
 };
 
 export const updateUserData = async (

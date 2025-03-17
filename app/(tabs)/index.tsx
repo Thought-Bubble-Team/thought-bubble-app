@@ -71,19 +71,6 @@ export default function Index() {
           return;
         }
 
-        if (userDataStore.userData === null) {
-          await userDataStore.fetchUserData(sessionStore.session.user.id);
-        }
-        console.log("User Data: ", userDataStore.userData);
-
-        await journalEntriesStore.fetchJournalEntries(
-          sessionStore.session.user.id
-        );
-
-        if (journalEntriesStore.journal_entries !== null) {
-          console.log("Journal Entries: ", journalEntriesStore.journal_entries);
-        }
-
         await moodBarStore.fetchMoodBarData(
           sessionStore.session.user.id as string,
           3,
