@@ -1,6 +1,6 @@
 // Libraries Import
 import { useEffect, useState } from "react";
-import { Alert } from "react-native";
+import { Alert, RefreshControl } from "react-native";
 
 // Components Import
 import ScrollView from "@/components/atoms/ScrollView";
@@ -21,6 +21,7 @@ import Onboarding from "@/components/macro/Onboarding";
 import { router } from "expo-router";
 import { Spinner, View, YStack } from "tamagui";
 import { Card } from "@/components/atoms/Card";
+import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
 
 // FIX: page renders before the user data is fetched
 export default function Index() {
@@ -28,7 +29,10 @@ export default function Index() {
   const setSelectedDate = useSelectedDateStore(
     (state) => state.setSelectedDate
   );
+  const journalEntriesStore = useJournalEntriesStore();
   const userDataStore = useUserDataStore();
+
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const dateOptions = getMonthYearList();
 
@@ -36,7 +40,19 @@ export default function Index() {
     const Prepare = async () => {};
 
     Prepare();
-  }, []);
+    refresh();
+  }, [journalEntriesStore.journal_entries]);
+
+  const refresh = async () => {
+    setRefreshing(true);
+    try {
+      setRefreshing(false);
+    } catch (error) {
+      Alert.alert("Error", "Failed to refresh");
+      console.log("Error: Journals Refresh: ", error);
+      setRefreshing(false);
+    }
+  };
 
   if (userDataStore.loading) {
     return (
@@ -75,7 +91,11 @@ export default function Index() {
           PAGE IS UNDER CONSTRUCTION
         </Text>
       </Screen> */}
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+        }
+      >
         <Card>
           <Card.Header>
             <Card.HeaderText fontSize="$lg">Mood Calendar</Card.HeaderText>

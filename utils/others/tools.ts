@@ -64,9 +64,9 @@ export const processEmotionSummary = (
 
 /**
  * Processes emotions data from SentimentType.emotions to MoodBarDataType.emotions format
- * Returns only the top 5 emotions by percentage
+ * Returns only the top 5 emotions by percentage with values normalized to sum to 100%
  * @param emotionsData Object containing emotion values in decimal form
- * @returns Array of top 5 objects with emotion names and percentage values
+ * @returns Array of top 5 objects with emotion names and normalized percentage values
  */
 export const processEmotionsData = (
   emotionsData: SentimentType["emotions"]
@@ -80,8 +80,20 @@ export const processEmotionsData = (
       })
     );
 
+    // Calculate the sum of all percentages
+    const totalPercentage = emotionsArray.reduce(
+      (sum, item) => sum + item.percentage,
+      0
+    );
+
+    // Normalize the percentages to sum to 100%
+    const normalizedEmotions = emotionsArray.map((item) => ({
+      emotion: item.emotion,
+      percentage: Math.round((item.percentage / totalPercentage) * 100),
+    }));
+
     // Sort by percentage in descending order and take only the top 5
-    return emotionsArray
+    return normalizedEmotions
       .sort((a, b) => b.percentage - a.percentage)
       .slice(0, 5);
   } catch (error) {
