@@ -1,9 +1,10 @@
 // Style Imports
 import React from "react";
 import { Alert } from "react-native";
-import { styled, View } from "tamagui";
+import { styled, View, Checkbox, XStack } from "tamagui";
 import { useState } from "react";
 import { Link, router } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 // Component Imports
 import Input from "@/components/atoms/Input";
@@ -39,7 +40,6 @@ export default function SignUp(props: SignUpProps) {
     // Check if password and confirm password match
     if (password !== confirmPassword) {
       Alert.alert("Error", "Passwords do not match!");
-      setLoading(false);
       return;
     }
 
@@ -54,6 +54,7 @@ export default function SignUp(props: SignUpProps) {
 
       if (error) {
         Alert.alert("Error", error.message);
+        setLoading(false);
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email,
@@ -69,6 +70,7 @@ export default function SignUp(props: SignUpProps) {
       }
     } catch (error: any) {
       Alert.alert("Error", error?.message || "Unexpected error occurred.");
+      setLoading(false);
     }
   };
 
@@ -99,7 +101,7 @@ export default function SignUp(props: SignUpProps) {
         secureTextEntry
         onChangeText={setConfirmPassword}
       />
-      <View>
+      <XStack gap="$3" alignItems="center">
         <Text weight="light" fontSize="$sm" textAlign="center">
           By signing up, you agree to our{" "}
           <Link href={{ pathname: "/agreement_page" }}>
@@ -108,7 +110,7 @@ export default function SignUp(props: SignUpProps) {
             </Text>
           </Link>
         </Text>
-      </View>
+      </XStack>
       <Button type={"normal"} onPress={signUpWithEmail}>
         {!loading && <Button.Text>SIGNUP</Button.Text>}
         {loading && <Button.Spinner />}
