@@ -34,6 +34,11 @@ export const useSessionStore = create<SessionStoreType>()(
             set({ loading: false, error: error });
           }
         },
+        listener: () => {
+          supabase.auth.onAuthStateChange((event, session) => {
+            set({ session: session, loading: false, error: null });
+          });
+        },
       }),
       {
         name: "session-storage",

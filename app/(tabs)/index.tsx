@@ -14,7 +14,10 @@ import LoadingScreen from "@/components/macro/LoadingScreen";
 import MoodBar from "@/components/macro/MoodBar";
 
 // Utilities Import
-import { useUserDataStore } from "@/utils/stores/useSessionStore";
+import {
+  useSessionStore,
+  useUserDataStore,
+} from "@/utils/stores/useSessionStore";
 import { useSelectedDateStore } from "@/utils/stores/useSelectedDateStore";
 import { getMonthYearList } from "@/utils/dateFormat";
 import Onboarding from "@/components/macro/Onboarding";
@@ -29,6 +32,7 @@ export default function Index() {
   const setSelectedDate = useSelectedDateStore(
     (state) => state.setSelectedDate
   );
+  const sessionStore = useSessionStore();
   const journalEntriesStore = useJournalEntriesStore();
   const userDataStore = useUserDataStore();
 
@@ -39,9 +43,11 @@ export default function Index() {
   useEffect(() => {
     const Prepare = async () => {};
 
+    sessionStore.listener();
+
     Prepare();
     refresh();
-  }, [journalEntriesStore.journal_entries]);
+  }, []);
 
   const refresh = async () => {
     setRefreshing(true);
