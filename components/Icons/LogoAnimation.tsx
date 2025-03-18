@@ -2,8 +2,8 @@
 import React, { useEffect, useRef } from "react";
 import { Animated, Easing, View, StyleSheet } from "react-native";
 import { G } from "react-native-svg";
-// @ts-ignore
 import LogoTemp from "@/assets/icons/logoTemp.svg";
+import Logo from "@/assets/icons/emojis/joy.svg";
 
 // FIX: AnimatedG not bouncing
 const AnimatedG = Animated.createAnimatedComponent(G);
@@ -35,7 +35,7 @@ const AnimatedLogo = () => {
             easing: Easing.inOut(Easing.ease),
             useNativeDriver: true,
           }),
-        ]),
+        ])
       ).start();
     });
   }, [rotationAnim, bounceAnim]);
@@ -55,9 +55,10 @@ const AnimatedLogo = () => {
   return (
     <View style={styles.container}>
       <Animated.View style={{ transform: [{ rotate }] }}>
-        <LogoTemp>
+        {/* <LogoTemp>
           <AnimatedG transform={`translateY(${bounce})`} id="faceFeatures" />
-        </LogoTemp>
+        </LogoTemp> */}
+        <Logo />
       </Animated.View>
     </View>
   );
