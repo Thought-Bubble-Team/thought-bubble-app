@@ -3,17 +3,11 @@ import axios from "axios";
 import {
   MoodCalendarDataType,
   MoodBarDataType,
-  MonthlySummaryType,
 } from "@/utils/interfaces/dataTypes";
-import { supabase } from "../supabase/supabase";
 
 export const fetchData = async (url: string) => {
-  try {
-    const response = await axios.get(url);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+  const response = await axios.get(url);
+  return response.data;
 };
 
 export const fetchMoodCalendarData = async ({
@@ -31,7 +25,25 @@ export const fetchMoodCalendarData = async ({
     );
     return { result: result, error: null };
   } catch (error) {
-    console.error(`\x1b[31m"fetchMoodCalendarData error: ", ${error}\x1b[0m`);
+    if (!axios.isAxiosError(error)) {
+      return { result: null, error: error };
+    }
+
+    if (!error.response) {
+      console.error(
+        `[GET](fetchMoodCalendarData){request} error: ${error.message}`
+      );
+      return { result: null, error: error };
+    }
+
+    if (error.response.status === 404) {
+      return { result: null, error: error.response.data };
+    }
+
+    console.error(
+      `[GET](fetchMoodCalendarData){response} status: ${error.response.status}, message: ${error.response.data}`
+    );
+
     return { result: null, error: error };
   }
 };
@@ -43,16 +55,23 @@ export const fetchMoodBarData = async ({ month, year, user_id }) => {
     );
     return { result: result, error: null };
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      if (error.response) {
-        console.error(
-          `fetchMoodBarData error: status: ${error.response?.status}, message: ${error.response?.data}`
-        );
-      } else {
-        console.error(`fetchMoodBarData error: ${error.message}`);
-      }
+    if (!axios.isAxiosError(error)) {
       return { result: null, error: error };
     }
+
+    if (!error.response) {
+      console.error(`[GET](fetchMoodBarData){request} error: ${error.message}`);
+      return { result: null, error: error };
+    }
+
+    if (error.response.status === 404) {
+      return { result: null, error: error.response.data };
+    }
+
+    console.error(
+      `[GET](fetchMoodBarData){response} error: status: ${error.response?.status}, message: ${error.response?.data}`
+    );
+
     return { result: null, error: error };
   }
 };
