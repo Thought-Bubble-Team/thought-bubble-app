@@ -4,7 +4,7 @@
     "slug": "thought-bubble",
     "version": "0.1.0",
     "orientation": "portrait",
-    "icon": "./assets/images/iconTemp.png",
+    "icon": "./assets/images/tb_logo.png",
     "scheme": "com.sephclt.thoughtbubble",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -28,7 +28,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/iconTemp.png",
+          "image": "./assets/images/tb_logo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
