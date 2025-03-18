@@ -12,6 +12,7 @@ export type JournalEntriesStoreType = {
   loading: boolean;
   error: any;
   fetchJournalEntries: (user_id: string) => Promise<void>;
+  clear: () => void;
 };
 
 export type GratitudeEntriesStoreType = {
@@ -19,6 +20,7 @@ export type GratitudeEntriesStoreType = {
   loading: boolean;
   error: any;
   fetchGratitudeEntries: () => Promise<void>;
+  clear: () => void;
 };
 
 export type SessionStoreType = {
