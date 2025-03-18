@@ -21,10 +21,12 @@ import { deleteJournalEntry } from "@/utils/supabase/db-crud";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { JournalEntryType } from "@/utils/interfaces/dataTypes";
 import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
+import LoadingScreen from "@/components/macro/LoadingScreen";
 
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
-  const { journal_entries, fetchJournalEntries, error } =
+  const sessionStore = useSessionStore();
+  const { journal_entries, fetchJournalEntries, error, loading } =
     useJournalEntriesStore();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [localLoading, setLocalLoading] = useState<boolean>(false);
@@ -43,8 +45,10 @@ export default function Journals() {
       }
     };
 
+    sessionStore.listener();
+
     void PrepareComponent();
-  }, [session]);
+  }, []);
 
   const refresh = async () => {
     setRefreshing(true);
@@ -77,7 +81,10 @@ export default function Journals() {
       <MainView>
         <Container justifyContent="center" alignItems="center">
           {/* <Spinner size="large" color="$grey3" testID="loading-spinner" /> */}
-          <View width="100%" height={300} backgroundColor="$grey2" />
+          {/* <View width="100%" height={300} backgroundColor="$grey2" /> */}
+          <LoadingScreen>
+            {loading && <Text weight="bold">Fetching Journal Entries</Text>}
+          </LoadingScreen>
         </Container>
       </MainView>
     );
@@ -91,14 +98,8 @@ export default function Journals() {
             Your Journey
           </Text>
         </Header>
+        {error && <Failed refresh={refresh} />}
         {journal_entries === null && (
-          <Container justifyContent="center" alignItems="center">
-            <Text weight="bold" fontSize="$xl">
-              No journal entries found
-            </Text>
-          </Container>
-        )}
-        {journal_entries && journal_entries.length === 0 && (
           <Container justifyContent="center" alignItems="center">
             <Text weight="bold" fontSize="$xl">
               No journal entries found
@@ -195,6 +196,19 @@ const JournalEntry = (props: JournalEntryProps) => {
         </Button.Icon>
       </Button>
     </EntryContainer>
+  );
+};
+
+const Failed = ({ refresh }: { refresh: () => void }) => {
+  return (
+    <Container justifyContent="center" alignItems="center">
+      <Text weight="bold" fontSize="$xl">
+        Failed to load journal entries
+      </Text>
+      <Button type="normal" onPress={() => refresh()}>
+        <Button.Text>Retry</Button.Text>
+      </Button>
+    </Container>
   );
 };
 
