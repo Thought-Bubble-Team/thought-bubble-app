@@ -211,10 +211,10 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
           ) {
             console.info("Creating journal analysis...");
             console.info("Analyzing entry_id: ", result.data.entry_id);
-            Alert.alert("Success", "Journal entry created successfully!");
             await createJournalAnalysis(result.data.entry_id);
             router.replace({ pathname: "/journals" });
             setLoading(false);
+            Alert.alert("Success", "Journal entry created successfully!");
           }
         } catch (error) {
           Alert.alert(
@@ -269,11 +269,11 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
       {/* Footer - Buttons */}
       {editable && (
         <Footer>
-          <Button type="icon" padding={0} onPress={pickImageAsync}>
+          {/* <Button type="icon" padding={0} onPress={pickImageAsync}>
             <Button.Icon>
               <Ionicons name="images-outline" />
             </Button.Icon>
-          </Button>
+          </Button> */}
           <Button type="icon" padding={0} size={"$sm"} onPress={handleSubmit}>
             {!loading && (
               <Button.Icon>
