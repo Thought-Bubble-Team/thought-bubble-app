@@ -9,12 +9,8 @@ import Text from "@/components/atoms/Text";
 import { parseInitialDate } from "@/utils/dateFormat";
 import { useMoodCalendarDataStore } from "@/utils/stores/useChartDataStore";
 import { useEffect } from "react";
-import {
-  MoodCalendarDataType,
-  MoodCalendarType,
-} from "@/utils/interfaces/dataTypes";
+import { MoodCalendarType } from "@/utils/interfaces/dataTypes";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
-import { provideSampleSentimentData } from "@/utils/sampleSentimentData";
 import { Alert } from "react-native";
 
 const DayContainer = styled(View, {
@@ -35,10 +31,6 @@ interface MoodCalendarProps extends ViewProps {
   initialDate: string | Date;
 }
 
-// TODO: Create a skeleton for this component
-// TODO: Add a way to fetch data at startup by storing the date locally/offline
-// TODO: Update logs to use a logger
-
 // Main Component
 const MoodCalendar = (props: MoodCalendarProps) => {
   const { initialDate, ...restProps } = props;
@@ -46,10 +38,6 @@ const MoodCalendar = (props: MoodCalendarProps) => {
   const session = useSessionStore((state) => state.session);
   const { moodCalendarData, fetchMoodCalendarData } =
     useMoodCalendarDataStore();
-  const sampleMoodCalendarData = {
-    message: "Success",
-    calendar: provideSampleSentimentData(initialDate),
-  };
 
   useEffect(() => {
     const Prepare = async () => {
@@ -60,17 +48,17 @@ const MoodCalendar = (props: MoodCalendarProps) => {
             currentMonth.getMonth() + 1,
             currentMonth.getFullYear()
           );
+        } else {
+          return;
         }
       } catch (error) {
-        console.error("Error in MoodCalendar Prepare: ", error);
+        console.error("[Component](Mood Calendar)", error);
         Alert.alert("There was an error fetching the data.");
       }
     };
 
     Prepare();
   }, [initialDate]);
-
-  const sampleSentimentData = sampleMoodCalendarData;
 
   const renderCalendarCells = () => {
     const getDaysInMonth = (date: Date) => {
@@ -100,13 +88,11 @@ const MoodCalendar = (props: MoodCalendarProps) => {
       days.push({ key: `empty-${i}` });
     }
 
-    // console.log("DaySlot & BlankSlot Loop: \n");
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(
         Date.UTC(currentMonth.getFullYear(), currentMonth.getMonth(), day)
       );
       const sentimentData = getSentimentForDate(date);
-      // console.log(`\x1b[35mSentimentData: ${sentimentData}\x1b[0m`);
 
       days.push({
         key: sentimentData ? `day-${day}` : `blank-${day}`,
