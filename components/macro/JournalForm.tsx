@@ -297,7 +297,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
                     <Ionicons
                       name="close-outline"
                       size={12}
-                      color={theme.white?.val}
+                      color={theme.white.get()}
                       style={{ zIndex: 15 }}
                     />
                   </RemoveButton>

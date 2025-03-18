@@ -85,9 +85,10 @@ export default function RootLayout() {
   return (
     // add this
     <LDProvider client={featureClient}>
-      <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
+      <TamaguiProvider config={tamaguiConfig} defaultTheme={"light"}>
         <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          // value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          value={DefaultTheme}
         >
           <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
             <Stack

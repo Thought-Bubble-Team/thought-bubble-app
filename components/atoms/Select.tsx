@@ -41,7 +41,7 @@ export default function Select({
         <Ionicons
           name="chevron-down-sharp"
           size={16}
-          color={theme.black?.val}
+          color={theme.black.get()}
           style={{ opacity: opacity }}
         />
       </TSelect.Trigger>
@@ -64,7 +64,7 @@ export default function Select({
             </Sheet.ScrollView>
           </Sheet.Frame>
           <Sheet.Overlay
-            animation="lazy"
+            animation="medium"
             enterStyle={{ opacity: 0 }}
             exitStyle={{ opacity: 0 }}
           />
@@ -96,7 +96,7 @@ export default function Select({
                     </TSelect.ItemIndicator>
                   </TSelect.Item>
                 )),
-              [date],
+              [date]
             )}
           </TSelect.Group>
         </TSelect.Viewport>

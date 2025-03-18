@@ -78,7 +78,7 @@ export default function Index() {
       justifyContent="flex-start"
     >
       <Header>
-        <Text weight="bold" fontSize="$xxxl" color={"$black"}>
+        <Text weight="bold" fontSize="$xxxl">
           Hello, User!
         </Text>
         <Select

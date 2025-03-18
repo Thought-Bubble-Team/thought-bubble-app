@@ -17,15 +17,15 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: theme.black?.val,
+        tabBarActiveTintColor: theme.black.get(),
         headerStyle: {
-          backgroundColor: theme.background.val,
+          backgroundColor: theme.background.get(),
           elevation: 0,
         },
         headerShown: false,
         tabBarStyle: {
           height: 60,
-          backgroundColor: theme.background.val,
+          backgroundColor: theme.background.get(),
           borderColor: "transparent",
           elevation: 0,
         },
@@ -40,7 +40,7 @@ export default function TabLayout() {
           tabBarIcon: ({ size, focused }) => (
             <IconContainer>
               <TabIcons
-                colorScheme={colorScheme}
+                colorScheme="light"
                 focused={focused}
                 type={"chart"}
                 size={size * 1.3}
@@ -56,7 +56,7 @@ export default function TabLayout() {
           tabBarIcon: ({ size, focused }) => (
             <IconContainer>
               <TabIcons
-                colorScheme={colorScheme}
+                colorScheme="light"
                 focused={focused}
                 type={"note"}
                 size={size * 1.3}
@@ -72,7 +72,7 @@ export default function TabLayout() {
           title: "Create",
           tabBarIcon: ({ size, focused }) => (
             <TabIcons
-              colorScheme={colorScheme}
+              colorScheme="light"
               focused={focused}
               type={"pen"}
               size={size * 2}
@@ -88,7 +88,7 @@ export default function TabLayout() {
           tabBarIcon: ({ size, focused }) => (
             <IconContainer>
               <TabIcons
-                colorScheme={colorScheme}
+                colorScheme="light"
                 focused={focused}
                 type={"flower"}
                 size={size * 1.5}
@@ -104,7 +104,7 @@ export default function TabLayout() {
           tabBarIcon: ({ size, focused }) => (
             <IconContainer>
               <TabIcons
-                colorScheme={colorScheme}
+                colorScheme="light"
                 focused={focused}
                 type={"user"}
                 size={size * 1.3}

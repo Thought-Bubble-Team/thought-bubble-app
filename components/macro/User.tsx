@@ -155,7 +155,7 @@ const Settings = (props: {
               <Ionicons
                 name="chevron-forward-outline"
                 size={24}
-                color={theme.black?.val}
+                color={theme.black.get()}
               />
             </Button>
             <Button
@@ -173,7 +173,7 @@ const Settings = (props: {
               <Ionicons
                 name="chevron-forward-outline"
                 size={24}
-                color={theme.black?.val}
+                color={theme.black.get()}
               />
             </Button>
           </SettingsContent>
@@ -191,7 +191,7 @@ const Settings = (props: {
               <Ionicons
                 name="chevron-forward-outline"
                 size={24}
-                color={theme.black?.val}
+                color={theme.black.get()}
               />
             </Button>
           </SettingsContent>
@@ -211,7 +211,7 @@ const Settings = (props: {
               <Ionicons
                 name="chevron-forward-outline"
                 size={24}
-                color={theme.black?.val}
+                color={theme.black.get()}
               />
             </Button>
             <Button
@@ -224,7 +224,7 @@ const Settings = (props: {
               <Ionicons
                 name="chevron-forward-outline"
                 size={24}
-                color={theme.black?.val}
+                color={theme.black.get()}
               />
             </Button>
           </SettingsContent>
@@ -250,7 +250,7 @@ const Settings = (props: {
             <Ionicons
               name="chevron-forward-outline"
               size={24}
-              color={theme.black?.val}
+              color={theme.black.get()}
             />
           </Button>
         </ComponentContainer>

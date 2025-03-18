@@ -37,12 +37,12 @@ const Input = forwardRef<TamaguiElement, InputProps>((props, ref) => {
         </Text>
         <RNTextInput {...restProps} style={inputStyles.input} />
       </InputContainer>
-      {!label && <Ionicons name="help" size={24} color={theme.black?.val} />}
+      {!label && <Ionicons name="help" size={24} color={theme.black.get()} />}
       {label === "Email" && (
         <Ionicons
           name="mail"
           size={24}
-          color={theme.black?.val}
+          color={theme.black.get()}
           style={{ opacity: 0.55 }}
         />
       )}
@@ -50,7 +50,7 @@ const Input = forwardRef<TamaguiElement, InputProps>((props, ref) => {
         <Ionicons
           name="eye"
           size={24}
-          color={theme.black?.val}
+          color={theme.black.get()}
           style={{ opacity: 0.55 }}
         />
       )}
