@@ -1,6 +1,6 @@
 // Libraries Imports
 import React, { useEffect, useState } from "react";
-import { Spinner, styled, View, XStack } from "tamagui";
+import { styled, View, XStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Alert, RefreshControl } from "react-native";
 import { router } from "expo-router";
@@ -26,8 +26,7 @@ import LoadingScreen from "@/components/macro/LoadingScreen";
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
   const sessionStore = useSessionStore();
-  const { journal_entries, fetchJournalEntries, error, loading } =
-    useJournalEntriesStore();
+  const journalEntriesStore = useJournalEntriesStore();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [localLoading, setLocalLoading] = useState<boolean>(false);
 
@@ -35,8 +34,12 @@ export default function Journals() {
     setLocalLoading(true);
     const PrepareComponent = async () => {
       try {
-        if (journal_entries === null && error === null && session) {
-          await fetchJournalEntries(session.user.id);
+        if (
+          journalEntriesStore.journal_entries === null &&
+          journalEntriesStore.error === null &&
+          session
+        ) {
+          await journalEntriesStore.fetchJournalEntries(session.user.id);
         }
         setLocalLoading(false);
         void refresh();
@@ -57,7 +60,7 @@ export default function Journals() {
         setRefreshing(false);
         return;
       }
-      await fetchJournalEntries(session.user.id);
+      await journalEntriesStore.fetchJournalEntries(session.user.id);
       setRefreshing(false);
     } catch (error) {
       Alert.alert("Error", "Failed to refresh");
@@ -80,10 +83,10 @@ export default function Journals() {
     return (
       <MainView>
         <Container justifyContent="center" alignItems="center">
-          {/* <Spinner size="large" color="$grey3" testID="loading-spinner" /> */}
-          {/* <View width="100%" height={300} backgroundColor="$grey2" /> */}
           <LoadingScreen>
-            {loading && <Text weight="bold">Fetching Journal Entries</Text>}
+            {journalEntriesStore.loading && (
+              <Text weight="bold">Fetching Journal Entries</Text>
+            )}
           </LoadingScreen>
         </Container>
       </MainView>
@@ -98,31 +101,34 @@ export default function Journals() {
             Your Journey
           </Text>
         </Header>
-        {error && <Failed refresh={refresh} />}
-        {journal_entries === null && (
+        {journalEntriesStore.error && <Failed refresh={refresh} />}
+        {journalEntriesStore.journal_entries === null && (
           <Container justifyContent="center" alignItems="center">
             <Text weight="bold" fontSize="$xl">
               No journal entries found
             </Text>
           </Container>
         )}
-        {journal_entries && journal_entries.length > 0 && (
-          <ScrollView
-            width={"100%"}
-            height={"100%"}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={refresh} />
-            }
-          >
-            {journal_entries &&
-              journal_entries.map((journalEntrySample) => (
-                <JournalEntry
-                  key={journalEntrySample.entry_id}
-                  journalEntry={journalEntrySample}
-                />
-              ))}
-          </ScrollView>
-        )}
+        {journalEntriesStore.journal_entries &&
+          journalEntriesStore.journal_entries.length > 0 && (
+            <ScrollView
+              width={"100%"}
+              height={"100%"}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+              }
+            >
+              {journalEntriesStore.journal_entries &&
+                journalEntriesStore.journal_entries.map(
+                  (journalEntrySample) => (
+                    <JournalEntry
+                      key={journalEntrySample.entry_id}
+                      journalEntry={journalEntrySample}
+                    />
+                  )
+                )}
+            </ScrollView>
+          )}
       </Container>
     </MainView>
   );
