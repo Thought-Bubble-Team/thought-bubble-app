@@ -28,11 +28,16 @@ export const useSessionStore = create<SessionStoreType>()(
             const result = await supabase.auth.getSession();
 
             if (result.data && result.data.session) {
-              set({ session: result.data.session });
+              set({ session: result.data.session, loading: false });
             }
           } catch (error) {
             set({ loading: false, error: error });
           }
+        },
+        listener: () => {
+          supabase.auth.onAuthStateChange((event, session) => {
+            set({ session: session, loading: false, error: null });
+          });
         },
       }),
       {

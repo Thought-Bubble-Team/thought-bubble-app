@@ -5,6 +5,7 @@ import Text from "@/components/atoms/Text";
 import SmugFace from "@/assets/icons/emojis/emoji-1";
 
 import { processEmotionSummary } from "@/utils/others/tools";
+import MoodIcons from "../Icons/MoodIcons";
 // Remove the EmotionSummaryType import as we're redefining it below
 
 type EmotionSummaryItem = {
@@ -50,14 +51,14 @@ export const EmojiValue = ({
   value,
   size = 40,
 }: {
-  emoji?: string;
+  emoji: string;
   value: string;
   size?: number;
 }) => {
   return (
     <YStack gap={"$lg"} alignItems="center">
       <View>
-        <SmugFace width={size} height={size} />
+        <MoodIcons mood={emoji} size={size} />
       </View>
       <View backgroundColor="$white" borderRadius="$10" paddingHorizontal="$2">
         <Text weight="bold" fontSize="$sm" color="$grey4" textAlign="center">

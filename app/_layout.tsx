@@ -85,9 +85,10 @@ export default function RootLayout() {
   return (
     // add this
     <LDProvider client={featureClient}>
-      <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
+      <TamaguiProvider config={tamaguiConfig} defaultTheme={"light"}>
         <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          // value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          value={DefaultTheme}
         >
           <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
             <Stack
@@ -147,6 +148,13 @@ export default function RootLayout() {
               />
               <Stack.Screen
                 name="profile_setup"
+                options={{
+                  presentation: "modal",
+                  animation: "slide_from_bottom",
+                }}
+              />
+              <Stack.Screen
+                name="agreement_page"
                 options={{
                   presentation: "modal",
                   animation: "slide_from_bottom",

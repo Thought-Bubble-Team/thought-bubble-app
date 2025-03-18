@@ -3,19 +3,13 @@ import {
   CardProps as TCardProps,
   View as TView,
   styled,
-  XStack,
 } from "tamagui";
-import { useEffect, useState } from "react";
-
-//@ts-ignore
-import SmugIcon from "@/assets/icons/smugIcon.svg";
+import { useState } from "react";
 
 import { Card } from "@/components/atoms/Card";
 import Text from "@/components/atoms/Text";
 
 import { formatTime } from "@/utils/dateFormat";
-import { getJournalSentiment } from "@/utils/supabase/db-crud";
-import { SentimentSummaryDataType } from "@/utils/interfaces/dataTypes";
 import { SentimentType } from "@/utils/interfaces/dataTypes";
 import { JournalCardProps } from "@/utils/interfaces/componentPropInterfaces";
 
@@ -40,18 +34,7 @@ export function getHighestEmotion(sentiment: SentimentType): string {
 
 export default function JournalCard(props: JournalCardProps) {
   const { journalEntry, children, showSentimentData, ...restProps } = props;
-  const [sentiment, setSentiment] = useState<SentimentType[] | null>(null);
   const [emotion, setEmotion] = useState<String | null>(null);
-
-  useEffect(() => {
-    getJournalSentiment(journalEntry.entry_id).then((data) => {
-      if (data?.sentimentData) {
-        setSentiment(data.sentimentData);
-      }
-    });
-
-    // Decrypt journal entry content and update state
-  }, []);
 
   return (
     <Card>
@@ -83,57 +66,7 @@ export default function JournalCard(props: JournalCardProps) {
             </Text>
           )}
         </TView>
-        {showSentimentData && sentiment && (
-          <TView width="100%" marginVertical="$xs">
-            <SentimentSummaryBar
-              sentimentData={generateRandomSentimentSummary()}
-            />
-          </TView>
-        )}
       </Card.Body>
     </Card>
   );
 }
-
-enum EmotionColor {
-  joy = "#FAB9B9",
-  neutral = "#F7C8BB",
-  sadness = "#C8988A",
-  anger = "#CB806A",
-  love = "#846258",
-}
-
-// NOTE: Temporary function to simulate sentiment summary
-export function generateRandomSentimentSummary(): SentimentSummaryDataType {
-  return {
-    message: "Sentiment data fetched successfully",
-    data: {
-      joy: Math.floor(Math.random() * 20) + 1, // Random number between 1-20
-      neutral: Math.floor(Math.random() * 20) + 1,
-      sadness: Math.floor(Math.random() * 20) + 1,
-      anger: Math.floor(Math.random() * 20) + 1,
-      love: Math.floor(Math.random() * 20) + 1,
-    },
-  };
-}
-
-const SentimentSummaryBar = ({
-  sentimentData,
-}: {
-  sentimentData: SentimentSummaryDataType;
-}) => {
-  const { data } = sentimentData;
-  const total = Object.values(data).reduce((acc, curr) => acc + curr, 0);
-  return (
-    <XStack width="100%" height="$sm">
-      {Object.entries(data).map(([emotion, value]) => (
-        <TView
-          key={emotion}
-          backgroundColor={EmotionColor[emotion]}
-          width={`${(value / total) * 100}%`}
-          height="100%"
-        />
-      ))}
-    </XStack>
-  );
-};

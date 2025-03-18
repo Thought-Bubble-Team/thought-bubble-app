@@ -27,6 +27,7 @@ export type SessionStoreType = {
   error: any;
   setSession: (session: Session | null) => void;
   fetchSession: () => Promise<void>;
+  listener: () => void;
 };
 
 export type UserDataStoreType = {

@@ -6,7 +6,7 @@ import {
   SentimentResponseType,
   JournalEntryResponseType,
 } from "@/utils/interfaces/dataTypes";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import JournalEntry from "@/app/notepad/journal-entry";
 
 export interface JournalEntry {
@@ -152,7 +152,7 @@ export const getGratitudeEntry = async (entry_id: number) => {
 
 export const getAllJournalEntries = async (
   user_id: string
-): Promise<{ data: JournalEntryType | null; error: any }> => {
+): Promise<{ data: JournalEntryType | null; error: AxiosError | null }> => {
   try {
     const result = await axios.get<JournalEntryType>(
       `https://thought-bubble-backend.onrender.com/api/journal-entry/${user_id}/`
@@ -170,7 +170,7 @@ export const getAllJournalEntries = async (
       }
       return { data: null, error: error };
     }
-    return { data: null, error: error };
+    return { data: null, error: error as AxiosError };
   }
 };
 
