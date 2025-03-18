@@ -24,7 +24,8 @@ import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
 
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
-  const { journal_entries, fetchJournalEntries } = useJournalEntriesStore();
+  const { journal_entries, fetchJournalEntries, error } =
+    useJournalEntriesStore();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [localLoading, setLocalLoading] = useState<boolean>(false);
 
@@ -32,7 +33,7 @@ export default function Journals() {
     setLocalLoading(true);
     const PrepareComponent = async () => {
       try {
-        if (journal_entries === null && session) {
+        if (journal_entries === null && error === null && session) {
           await fetchJournalEntries(session.user.id);
         }
         setLocalLoading(false);
@@ -90,6 +91,13 @@ export default function Journals() {
             Your Journey
           </Text>
         </Header>
+        {journal_entries === null && (
+          <Container justifyContent="center" alignItems="center">
+            <Text weight="bold" fontSize="$xl">
+              No journal entries found
+            </Text>
+          </Container>
+        )}
         {journal_entries && journal_entries.length === 0 && (
           <Container justifyContent="center" alignItems="center">
             <Text weight="bold" fontSize="$xl">
