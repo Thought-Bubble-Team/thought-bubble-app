@@ -7,9 +7,6 @@ import {
   useLDClient,
 } from "@launchdarkly/react-native-client-sdk";
 
-//@ts-ignore
-import BackLine from "@/assets/icons/backLine.svg";
-
 // Component Imports
 import Text from "@/components/atoms/Text";
 import ScrollView from "@/components/atoms/ScrollView";
@@ -20,7 +17,7 @@ import { supabase } from "@/utils/supabase/supabase";
 import { Session } from "@supabase/supabase-js";
 import { Image } from "expo-image";
 import { useTheme } from "tamagui";
-import { router, Href } from "expo-router";
+import { router } from "expo-router";
 import {
   useSessionStore,
   useUserDataStore,
@@ -28,7 +25,7 @@ import {
 import { useEffect } from "react";
 
 interface UserProps {
-  session: Session;
+  session?: Session;
 }
 
 const blurhash =
@@ -40,7 +37,6 @@ const ButtonTester = () => {
 
 // TODO: Replace session props with session store
 export default function User(props: UserProps) {
-  const { session } = props;
   const sessionStore = useSessionStore();
   const userDataStore = useUserDataStore();
 
@@ -55,7 +51,7 @@ export default function User(props: UserProps) {
         ldc
           .identify({ kind: "user", key: "example-user-key", name: "Sandy" })
           .catch((e: any) => Alert.alert(("Error: " + e) as string));
-        await userDataStore.fetchUserData(session.user.id);
+        await userDataStore.fetchUserData(sessionStore.session?.user.id || "");
       } catch (e) {
         console.error(e);
       }
@@ -86,7 +82,7 @@ export default function User(props: UserProps) {
             {userDataStore.userData?.username}
           </Text>
           <Text fontSize="$md" color={"$black"} opacity={0.57}>
-            {session.user.email}
+            {sessionStore.session?.user.email}
           </Text>
           {!FEATURE_FLAGS.USER_SETTINGS && (
             <AnimatePresence>
@@ -103,7 +99,10 @@ export default function User(props: UserProps) {
                     !FEATURE_FLAGS.USER_SETTINGS
                       ? router.navigate({
                           pathname: "/user/[id]/edit-profile",
-                          params: { id: session.user.id, type: "update" },
+                          params: {
+                            id: sessionStore.session?.user.id || "",
+                            type: "update",
+                          },
                         })
                       : ButtonTester()
                   }
@@ -115,16 +114,14 @@ export default function User(props: UserProps) {
           )}
         </YStack>
       </ProfileContainer>
-      <Settings session={session} featureFlags={FEATURE_FLAGS} />
+      <Settings featureFlags={FEATURE_FLAGS} />
     </MainContainer>
   );
 }
 
-const Settings = (props: {
-  session: Session;
-  featureFlags: { USER_SETTINGS: boolean };
-}) => {
-  const { session, featureFlags } = props;
+const Settings = (props: { featureFlags: { USER_SETTINGS: boolean } }) => {
+  const { featureFlags } = props;
+  const sessionStore = useSessionStore();
   const theme = useTheme();
 
   const handleSignOut = async () => {
@@ -146,7 +143,7 @@ const Settings = (props: {
                 featureFlags.USER_SETTINGS
                   ? router.navigate({
                       pathname: "/user/[id]/edit-profile",
-                      params: { id: session.user.id },
+                      params: { id: sessionStore.session?.user.id || "" },
                     })
                   : ButtonTester()
               }
@@ -164,7 +161,7 @@ const Settings = (props: {
                 featureFlags.USER_SETTINGS
                   ? router.navigate({
                       pathname: "/user/[id]/appearance",
-                      params: { id: session.user.id },
+                      params: { id: sessionStore.session?.user.id || "" },
                     })
                   : ButtonTester()
               }
@@ -242,7 +239,7 @@ const Settings = (props: {
             onPress={() =>
               router.navigate({
                 pathname: "/user/[id]/my-data",
-                params: { id: session.user.id },
+                params: { id: sessionStore.session?.user.id || "" },
               })
             }
           >
