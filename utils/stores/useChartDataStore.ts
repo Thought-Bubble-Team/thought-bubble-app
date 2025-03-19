@@ -4,11 +4,7 @@ import {
   fetchMoodCalendarData,
   fetchMoodBarData,
 } from "../fetchDataFunctions/fetchData";
-import {
-  MoodCalendarDataType,
-  MoodBarDataType,
-  MonthlySummaryType,
-} from "../interfaces/dataTypes";
+import { MoodCalendarDataType, MoodBarDataType } from "../interfaces/dataTypes";
 import {
   MoodCalendarDataStoreType,
   MoodBarDataStoreType,
@@ -29,10 +25,13 @@ export const useMoodCalendarDataStore = create<MoodCalendarDataStoreType>(
         const { result } = await fetchMoodCalendarData({
           month,
           year,
-          userId: user_id,
+          user_id,
         });
-        if (result !== null) {
+
+        if (result) {
           set({ moodCalendarData: result, loading: false });
+        } else {
+          set({ loading: false });
         }
       } catch (error) {
         set({ error, loading: false });
