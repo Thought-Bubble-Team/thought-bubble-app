@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { processEmotionsData } from "@/utils/others/tools";
 import { Alert } from "react-native";
 import LoadingScreen from "@/components/macro/LoadingScreen";
+import EmotionDetails from "@/components/macro/EmotionDetails/EmotionDetails";
 
 // TODO: Add contact numbers & divider
 const Footer = ({}) => {
@@ -145,6 +146,7 @@ const Summary = () => {
             <View padding="$lg">
               <Graph emotion_summary={emotionSummary} />
             </View>
+            <EmotionDetails emotion_summary={emotionSummary} />
           </>
         )}
         {noRecord && (
