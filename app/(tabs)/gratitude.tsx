@@ -94,37 +94,34 @@ export default function Gratitudes() {
       <Container>
         <Header>
           <Text weight="bold" fontSize="$xxxl">
-            Your Journey
+            A Grateful Heart
           </Text>
         </Header>
-        {gratitudeEntriesStore.error && <Failed refresh={refresh} />}
-        {gratitudeEntriesStore.gratitude_entries === null && (
-          <Container justifyContent="center" alignItems="center">
-            <Text weight="bold" fontSize="$xl">
-              No Gratitude Entries Found
-            </Text>
-          </Container>
-        )}
-        {gratitudeEntriesStore.gratitude_entries &&
-          gratitudeEntriesStore.gratitude_entries.length > 0 && (
+        {gratitudeEntriesStore.error &&
+          !gratitudeEntriesStore.gratitude_entries && (
+            <Failed refresh={refresh} />
+          )}
+        {gratitudeEntriesStore.gratitude_entries ? (
+          gratitudeEntriesStore.gratitude_entries.length === 0 ? (
+            <Container justifyContent="center" alignItems="center">
+              <Text weight="bold" fontSize="$xl">
+                No gratitude entries found
+              </Text>
+            </Container>
+          ) : (
             <ScrollView
-              width={"100%"}
-              height={"100%"}
+              width="100%"
+              height="100%"
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={refresh} />
               }
             >
-              {gratitudeEntriesStore.gratitude_entries &&
-                gratitudeEntriesStore.gratitude_entries.map(
-                  (gratitudeEntry) => (
-                    <GratitudeEntry
-                      key={gratitudeEntry.entry_id}
-                      gratitudeEntry={gratitudeEntry}
-                    />
-                  )
-                )}
+              {gratitudeEntriesStore.gratitude_entries.map((entry) => (
+                <GratitudeEntry key={entry.entry_id} gratitudeEntry={entry} />
+              ))}
             </ScrollView>
-          )}
+          )
+        ) : null}
       </Container>
     </MainView>
   );

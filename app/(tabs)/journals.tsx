@@ -101,34 +101,30 @@ export default function Journals() {
             Your Journey
           </Text>
         </Header>
-        {journalEntriesStore.error && <Failed refresh={refresh} />}
-        {journalEntriesStore.journal_entries === null && (
-          <Container justifyContent="center" alignItems="center">
-            <Text weight="bold" fontSize="$xl">
-              No journal entries found
-            </Text>
-          </Container>
+        {journalEntriesStore.error && !journalEntriesStore.journal_entries && (
+          <Failed refresh={refresh} />
         )}
-        {journalEntriesStore.journal_entries &&
-          journalEntriesStore.journal_entries.length > 0 && (
+        {journalEntriesStore.journal_entries ? (
+          journalEntriesStore.journal_entries.length === 0 ? (
+            <Container justifyContent="center" alignItems="center">
+              <Text weight="bold" fontSize="$xl">
+                No journal entries found
+              </Text>
+            </Container>
+          ) : (
             <ScrollView
-              width={"100%"}
-              height={"100%"}
+              width="100%"
+              height="100%"
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={refresh} />
               }
             >
-              {journalEntriesStore.journal_entries &&
-                journalEntriesStore.journal_entries.map(
-                  (journalEntrySample) => (
-                    <JournalEntry
-                      key={journalEntrySample.entry_id}
-                      journalEntry={journalEntrySample}
-                    />
-                  )
-                )}
+              {journalEntriesStore.journal_entries.map((entry) => (
+                <JournalEntry key={entry.entry_id} journalEntry={entry} />
+              ))}
             </ScrollView>
-          )}
+          )
+        ) : null}
       </Container>
     </MainView>
   );
