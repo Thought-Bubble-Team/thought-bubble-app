@@ -1,5 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { XStack } from "tamagui";
+import { XStack, useTheme } from "tamagui";
 
 import Text from "../atoms/Text";
 import { Button } from "../atoms/Button";
@@ -7,7 +7,14 @@ import { useState } from "react";
 import { submitFeedback } from "@/utils/supabase/db-crud";
 import { Alert } from "react-native";
 
-const SentimentAnalysisFeedback = ({ entry_id }: { entry_id: number }) => {
+const SentimentAnalysisFeedback = ({
+  entry_id,
+  setShowFeedback,
+}: {
+  entry_id: number;
+  setShowFeedback: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const theme = useTheme();
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleFeedback = async (feedback: boolean) => {
@@ -16,6 +23,7 @@ const SentimentAnalysisFeedback = ({ entry_id }: { entry_id: number }) => {
     try {
       await submitFeedback(entry_id, feedback);
       Alert.alert("Success", "Feedback submitted successfully");
+      setShowFeedback(false);
     } catch (error) {
       console.error("Error submitting feedback: ", error);
     }
@@ -28,7 +36,11 @@ const SentimentAnalysisFeedback = ({ entry_id }: { entry_id: number }) => {
         {loading && <Button.Spinner />}
         {!loading && (
           <Button.Icon>
-            <Ionicons name="thumbs-down-outline" size={16} color="red" />
+            <Ionicons
+              name="thumbs-down-outline"
+              size={16}
+              color={theme.error.get()}
+            />
           </Button.Icon>
         )}
       </Button>
@@ -39,7 +51,11 @@ const SentimentAnalysisFeedback = ({ entry_id }: { entry_id: number }) => {
         {loading && <Button.Spinner />}
         {!loading && (
           <Button.Icon>
-            <Ionicons name="thumbs-up-outline" size={16} color="green" />
+            <Ionicons
+              name="thumbs-up-outline"
+              size={16}
+              color={theme.success.get()}
+            />
           </Button.Icon>
         )}
       </Button>
