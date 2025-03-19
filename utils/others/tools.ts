@@ -51,7 +51,7 @@ export const processEmotionSummary = (
       );
       return {
         emotion: item.emotion,
-        value: `${item.percentage}%`, // Convert percentage to string with % sign
+        value: `${item.percentage.toFixed(1)}%`, // Convert percentage to string with % sign
         color: emotion_color?.color,
       };
     } catch (error) {
@@ -59,7 +59,7 @@ export const processEmotionSummary = (
     }
   });
 
-  return processed_emotion_summary;
+  return processed_emotion_summary.filter((item) => item !== null);
 };
 
 /**
@@ -76,7 +76,7 @@ export const processEmotionsData = (
     const emotionsArray = Object.entries(emotionsData).map(
       ([emotion, value]) => ({
         emotion,
-        percentage: Math.round(value * 100), // Convert decimal to percentage and round to nearest integer
+        percentage: parseFloat((value * 100).toFixed(1)), // Convert decimal to percentage with 1 decimal place
       })
     );
 
@@ -86,10 +86,12 @@ export const processEmotionsData = (
       0
     );
 
-    // Normalize the percentages to sum to 100%
+    // Normalize the percentages to sum to 100% with one decimal place
     const normalizedEmotions = emotionsArray.map((item) => ({
       emotion: item.emotion,
-      percentage: Math.round((item.percentage / totalPercentage) * 100),
+      percentage: parseFloat(
+        ((item.percentage / totalPercentage) * 100).toFixed(1)
+      ),
     }));
 
     // Sort by percentage in descending order and take only the top 5

@@ -1,16 +1,37 @@
 import { View } from "tamagui";
-import Text from "@/components/atoms/Text";
 
-import { useLocalSearchParams, Stack } from "expo-router";
+import Text from "@/components/atoms/Text";
+import { Navigation } from "@/components/macro/Navigation";
+import EmotionDetails from "@/components/macro/EmotionDetails/EmotionDetails";
+import Screen from "@/components/atoms/Screen";
+import LoadingScreen from "@/components/macro/LoadingScreen";
+
+import { useMoodBarDataStore } from "@/utils/stores/useChartDataStore";
 
 const MoodBar = () => {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const moodBarDataStore = useMoodBarDataStore();
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Stack.Screen options={{ headerTitle: "Mood Bar" }} />
-      <Text>{id}</Text>
-      <Text>Mood Bar</Text>
-    </View>
+    <Screen>
+      <Navigation title="Monthly Emotions" />
+      <Screen padding={"$sm"}>
+        <View>
+          <Text weight="bold" fontSize="$lg">
+            Here are your strongest emotions this month
+          </Text>
+        </View>
+        {moodBarDataStore.loading && (
+          <LoadingScreen>
+            <Text>Fetching Mood Bar Data</Text>
+          </LoadingScreen>
+        )}
+        {!moodBarDataStore.moodBarData && <Text>No Data For This Month</Text>}
+        {moodBarDataStore.moodBarData && (
+          <EmotionDetails
+            emotion_summary={moodBarDataStore.moodBarData.emotions}
+          />
+        )}
+      </Screen>
+    </Screen>
   );
 };
 
