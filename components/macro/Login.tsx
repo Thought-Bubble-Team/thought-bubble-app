@@ -111,5 +111,5 @@ const Footer = styled(View, {
   flexDirection: "row",
   gap: "$2",
   alignItems: "center",
-  marginTop: "$13",
+  marginTop: "$5",
 });
