@@ -1,10 +1,9 @@
 // Style Imports
 import React from "react";
 import { Alert } from "react-native";
-import { styled, View, Checkbox, XStack } from "tamagui";
+import { styled, View, XStack } from "tamagui";
 import { useState } from "react";
 import { Link, router } from "expo-router";
-import Ionicons from "@expo/vector-icons/Ionicons";
 
 // Component Imports
 import Input from "@/components/atoms/Input";
@@ -14,8 +13,7 @@ import { Button } from "@/components/atoms/Button";
 // Utility Imports
 import { supabase } from "@/utils/supabase/supabase";
 
-// @ts-ignore
-import Logo from "../../assets/icons/logoTemp.svg";
+import Logo from "@/assets/icons/tb_logo.svg";
 
 interface SignUpProps {
   setIsSignUp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,6 +27,7 @@ export default function SignUp(props: SignUpProps) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [showInput, setShowInput] = useState<boolean>(false);
 
   const signUpWithEmail = async () => {
     // Check if email and password are not empty
@@ -85,21 +84,29 @@ export default function SignUp(props: SignUpProps) {
       </Text>
       <Input
         label="Email"
+        type="email"
         placeholder="johnydoe@gmail.com"
         value={email}
         onChangeText={setEmail}
+        showInput={true}
       />
       <Input
         label="Password"
+        type="password"
         placeholder="********"
         secureTextEntry
         onChangeText={setPassword}
+        showInput={showInput}
+        setShowInput={setShowInput}
       />
       <Input
         label="Confirm Password"
+        type="password"
         placeholder="********"
         secureTextEntry
         onChangeText={setConfirmPassword}
+        showInput={showInput}
+        setShowInput={setShowInput}
       />
       <XStack gap="$3" alignItems="center">
         <Text weight="light" fontSize="$sm" textAlign="center">

@@ -11,4 +11,7 @@ export interface JournalCardProps extends CardProps {
 
 export interface InputProps extends RNTextInputProps {
   label: string;
+  type: "email" | "password";
+  showInput?: boolean;
+  setShowInput?: React.Dispatch<React.SetStateAction<boolean>>;
 }
