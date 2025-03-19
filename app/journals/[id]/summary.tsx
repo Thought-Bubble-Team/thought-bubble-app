@@ -102,9 +102,6 @@ const Summary = () => {
           setAnalysis(result_journal_entry.result.analysis_feedback);
         }
 
-        console.log("result_feedback", result_feedback.data);
-        console.log("entry_id", Number(id));
-
         if (result_feedback.error) {
           setLoading(false);
           return;
@@ -160,7 +157,13 @@ const Summary = () => {
         {!noRecord && (
           <>
             <View padding="$lg">
-              <Text weight="regular" fontSize="$md" textAlign="center">
+              <Text
+                weight="regular"
+                fontSize="$md"
+                textAlign="center"
+                numberOfLines={10}
+                ellipsizeMode="tail"
+              >
                 {analysis}
               </Text>
             </View>
@@ -185,7 +188,12 @@ const Summary = () => {
             </Button>
           </YStack>
         )}
-        {showFeedback && <SentimentAnalysisFeedback entry_id={Number(id)} />}
+        {showFeedback && (
+          <SentimentAnalysisFeedback
+            entry_id={Number(id)}
+            setShowFeedback={setShowFeedback}
+          />
+        )}
       </Screen>
       {/* <Footer /> */}
     </Screen>
