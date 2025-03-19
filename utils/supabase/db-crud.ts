@@ -318,3 +318,38 @@ export const updateUserData = async (
     return { data: null, error };
   }
 };
+
+export type JournalEntryFeedbackType = {
+  id: number;
+  entry_id: number;
+  user_id: string;
+  feedback: boolean;
+  created_at: string;
+};
+
+export const getFeedback = async (entry_id: number) => {
+  const { data, error } = await supabase
+    .from("journal_entry_feedbacks")
+    .select("*")
+    .eq("entry_id", entry_id);
+
+  const feedbackData = data as JournalEntryFeedbackType[];
+
+  if (error) {
+    return { data: null, error };
+  } else {
+    return { data: feedbackData, error: null };
+  }
+};
+
+export const submitFeedback = async (entry_id: number, feedback: boolean) => {
+  const { data, error } = await supabase
+    .from("journal_entry_feedbacks")
+    .insert([{ entry_id, feedback }]);
+
+  if (error) {
+    return { data: null, error };
+  } else {
+    return { data, error: null };
+  }
+};

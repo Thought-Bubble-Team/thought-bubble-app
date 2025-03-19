@@ -33,7 +33,7 @@ const EmotionDetailsCard = ({
 const CardContainer = styled(XStack, {
   justifyContent: "space-between",
   alignItems: "center",
-  marginVertical: "$3",
+  marginVertical: "$2",
   backgroundColor: "$grey3",
   width: "100%",
   padding: "$lg",

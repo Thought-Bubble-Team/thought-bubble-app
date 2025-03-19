@@ -13,15 +13,15 @@ export const fetchData = async (url: string) => {
 export const fetchMoodCalendarData = async ({
   month,
   year,
-  userId,
+  user_id,
 }: {
   month: number;
   year: number;
-  userId: string;
+  user_id: string;
 }) => {
   try {
     const result: MoodCalendarDataType = await fetchData(
-      `https://thought-bubble-backend.onrender.com/api/mood-calendar/?user_id=${userId}&month=${month}&year=${year}`
+      `https://thought-bubble-backend.onrender.com/api/mood-calendar/?user_id=${user_id}&month=${month}&year=${year}`
     );
     return { result: result, error: null };
   } catch (error) {
@@ -37,6 +37,9 @@ export const fetchMoodCalendarData = async ({
     }
 
     if (error.response.status === 404) {
+      console.error(
+        `[GET](fetchMoodCalendarData){response} error: ${error.response.data} status: ${error.response.status} detail: ${error.response.data.detail}`
+      );
       return { result: null, error: error.response.data };
     }
 
