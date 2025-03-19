@@ -15,16 +15,16 @@ import {
 } from "../interfaces/storeTypes";
 
 export const useMoodCalendarDataStore = create<MoodCalendarDataStoreType>(
-  (set) => ({
+  (set, get) => ({
     moodCalendarData: undefined as MoodCalendarDataType | undefined,
+    date: new Date(),
     loading: false,
     error: null,
-    fetchMoodCalendarData: async (
-      user_id: string,
-      month: number,
-      year: number
-    ) => {
+    setDate: (date: Date) => set({ date }),
+    fetchMoodCalendarData: async (user_id: string) => {
       set({ loading: true, error: null });
+      const month = get().date.getMonth() + 1;
+      const year = get().date.getFullYear();
       try {
         const { result } = await fetchMoodCalendarData({
           month,
@@ -41,12 +41,16 @@ export const useMoodCalendarDataStore = create<MoodCalendarDataStoreType>(
   })
 );
 
-export const useMoodBarDataStore = create<MoodBarDataStoreType>((set) => ({
+export const useMoodBarDataStore = create<MoodBarDataStoreType>((set, get) => ({
   moodBarData: undefined as MoodBarDataType | undefined,
+  date: new Date(),
   loading: false,
   error: null,
-  fetchMoodBarData: async (user_id: string, month: number, year: number) => {
+  setDate: (date: Date) => set({ date }),
+  fetchMoodBarData: async (user_id: string) => {
     set({ loading: true, error: null });
+    const month = get().date.getMonth() + 1;
+    const year = get().date.getFullYear();
     try {
       const { result } = await fetchMoodBarData({
         user_id,

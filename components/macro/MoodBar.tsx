@@ -1,7 +1,6 @@
 import { useMoodBarDataStore } from "@/utils/stores/useChartDataStore";
 import { Card } from "../atoms/Card";
 import { MoodBarChart } from "./MoodBarChart";
-import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { MoodBarProps } from "@/utils/interfaces/componentPropTypes";
 import { parseInitialDate } from "@/utils/dateFormat";
 import { useEffect } from "react";
@@ -9,32 +8,15 @@ import { Spinner } from "tamagui";
 import Text from "../atoms/Text";
 
 const MoodBar = ({ initial_date }: MoodBarProps) => {
-  const sessionStore = useSessionStore();
   const moodBarStore = useMoodBarDataStore();
 
   const currentMonth = parseInitialDate(initial_date);
 
   useEffect(() => {
-    const Prepare = async () => {
-      try {
-        if (!sessionStore.session) {
-          return;
-        }
-
-        await moodBarStore.fetchMoodBarData(
-          sessionStore.session.user.id as string,
-          currentMonth.getMonth() + 1,
-          currentMonth.getFullYear()
-        );
-
-        if (moodBarStore.moodBarData) {
-          console.log("Mood Bar Data: ", moodBarStore.moodBarData);
-        }
-      } catch (error) {
-        console.error("Error: ", error);
-      }
+    const prepareComponent = async () => {
+      moodBarStore.setDate(currentMonth);
     };
-    Prepare();
+    prepareComponent();
   }, [initial_date]);
 
   return (
