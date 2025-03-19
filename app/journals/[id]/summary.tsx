@@ -9,6 +9,7 @@ import { MoodBarChart } from "@/components/macro/MoodBarChart";
 import { Button } from "@/components/atoms/Button";
 import {
   createJournalAnalysis,
+  getFeedback,
   getJournalSentiment,
 } from "@/utils/supabase/db-crud";
 import { useEffect, useState } from "react";
@@ -16,6 +17,7 @@ import { processEmotionsData } from "@/utils/others/tools";
 import { Alert } from "react-native";
 import LoadingScreen from "@/components/macro/LoadingScreen";
 import EmotionDetails from "@/components/macro/EmotionDetails/EmotionDetails";
+import SentimentAnalysisFeedback from "@/components/macro/SentimentAnalysisFeedback";
 
 // TODO: Add contact numbers & divider
 const Footer = ({}) => {
@@ -63,6 +65,7 @@ const Summary = () => {
     { emotion: string; percentage: number }[]
   >([]);
   const [noRecord, setNoRecord] = useState<boolean>(false);
+  const [showFeedback, setShowFeedback] = useState<boolean>(false);
 
   const handleAnalysis = async () => {
     setLocalLoading(true);
@@ -79,20 +82,38 @@ const Summary = () => {
     const prepareSummary = async () => {
       setLoading(true);
       try {
-        const result = await getJournalSentiment(Number(id));
+        const result_journal_entry = await getJournalSentiment(Number(id));
+        const result_feedback = await getFeedback(Number(id));
 
-        if (result.error && result.error.code === "PGRST116") {
+        if (
+          result_journal_entry.error &&
+          result_journal_entry.error.code === "PGRST116"
+        ) {
           setNoRecord(true);
           setLoading(false);
           return;
         }
 
-        if (result.result) {
+        if (result_journal_entry.result) {
           const processedEmotionSummary = processEmotionsData(
-            result.result.emotions
+            result_journal_entry.result.emotions
           );
           setEmotionSummary(processedEmotionSummary);
-          setAnalysis(result.result.analysis_feedback);
+          setAnalysis(result_journal_entry.result.analysis_feedback);
+        }
+
+        console.log("result_feedback", result_feedback.data);
+        console.log("entry_id", Number(id));
+
+        if (result_feedback.error) {
+          setLoading(false);
+          return;
+        }
+
+        if (result_feedback.data.length === 0) {
+          setShowFeedback(true);
+        } else {
+          setShowFeedback(false);
         }
       } catch (error) {
         Alert.alert("Error", "Error preparing summary");
@@ -117,7 +138,7 @@ const Summary = () => {
             <Text weight="bold">Loading Sentiment Analysis</Text>
           </LoadingScreen>
         </Screen>
-        <Footer />
+        {/* <Footer /> */}
       </Screen>
     );
   }
@@ -164,8 +185,9 @@ const Summary = () => {
             </Button>
           </YStack>
         )}
+        {showFeedback && <SentimentAnalysisFeedback entry_id={Number(id)} />}
       </Screen>
-      <Footer />
+      {/* <Footer /> */}
     </Screen>
   );
 };
