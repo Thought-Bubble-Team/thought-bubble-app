@@ -11,17 +11,11 @@ import {
   createJournalAnalysis,
   getJournalSentiment,
 } from "@/utils/supabase/db-crud";
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSessionStore } from "@/utils/stores/useSessionStore";
-import {
-  EmotionSummaryType,
-  MoodBarDataType,
-} from "@/utils/interfaces/dataTypes";
 import { processEmotionsData } from "@/utils/others/tools";
 import { Alert } from "react-native";
-
-// NOTE: Sample data
+import LoadingScreen from "@/components/macro/LoadingScreen";
+import EmotionDetails from "@/components/macro/EmotionDetails/EmotionDetails";
 
 // TODO: Add contact numbers & divider
 const Footer = ({}) => {
@@ -63,6 +57,7 @@ const Graph = ({
 const Summary = () => {
   const { id } = useLocalSearchParams();
   const [localLoading, setLocalLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [analysis, setAnalysis] = useState<string>("");
   const [emotionSummary, setEmotionSummary] = useState<
     { emotion: string; percentage: number }[]
@@ -72,43 +67,60 @@ const Summary = () => {
   const handleAnalysis = async () => {
     setLocalLoading(true);
     try {
-      const result = await createJournalAnalysis(Number(id));
-      console.log(result);
+      await createJournalAnalysis(Number(id));
       Alert.alert("Success", "Analysis created successfully");
-      setLocalLoading(false);
     } catch (error) {
       Alert.alert("Error", "Error creating analysis");
-      console.error("Error creating analysis", error);
     }
+    setLocalLoading(false);
   };
 
   useEffect(() => {
-    const Prepare = async () => {
-      console.log("id", id);
+    const prepareSummary = async () => {
+      setLoading(true);
       try {
         const result = await getJournalSentiment(Number(id));
-        console.log(result);
 
         if (result.error && result.error.code === "PGRST116") {
           setNoRecord(true);
+          setLoading(false);
           return;
         }
 
         if (result.result) {
-          console.log("Processing summary", result.result);
           const processedEmotionSummary = processEmotionsData(
             result.result.emotions
           );
-          console.log("processedEmotionSummary", processedEmotionSummary);
           setEmotionSummary(processedEmotionSummary);
           setAnalysis(result.result.analysis_feedback);
         }
       } catch (error) {
-        console.error("Error preparing summary", error);
+        Alert.alert("Error", "Error preparing summary");
       }
+      setLoading(false);
     };
-    Prepare();
+
+    prepareSummary();
   }, []);
+
+  if (loading) {
+    return (
+      <Screen gap={0}>
+        <Navigation title="Entry Summary" />
+        <Screen
+          backgroundColor="$grey0"
+          padding="$lg"
+          borderTopLeftRadius={"$8"}
+          borderTopRightRadius={"$8"}
+        >
+          <LoadingScreen>
+            <Text weight="bold">Loading Sentiment Analysis</Text>
+          </LoadingScreen>
+        </Screen>
+        <Footer />
+      </Screen>
+    );
+  }
 
   return (
     <Screen gap={0}>
@@ -134,15 +146,23 @@ const Summary = () => {
             <View padding="$lg">
               <Graph emotion_summary={emotionSummary} />
             </View>
+            <EmotionDetails emotion_summary={emotionSummary} />
           </>
         )}
         {noRecord && (
-          <>
+          <YStack
+            width="100%"
+            gap="$lg"
+            padding="$lg"
+            justifyContent="center"
+            alignItems="center"
+          >
             <Text fontSize="$lg">There is no analysis for this entry yet</Text>
-            <Button onPress={handleAnalysis}>
-              <Button.Text>Analyze</Button.Text>
+            <Button type="normal" size="$md" onPress={handleAnalysis}>
+              {!localLoading && <Button.Text>Analyze</Button.Text>}
+              {localLoading && <Button.Spinner />}
             </Button>
-          </>
+          </YStack>
         )}
       </Screen>
       <Footer />

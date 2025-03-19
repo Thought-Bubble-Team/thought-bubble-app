@@ -1,6 +1,6 @@
 // Libraries Imports
 import React, { useEffect, useState } from "react";
-import { Spinner, styled, View, XStack } from "tamagui";
+import { styled, View, XStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Alert, RefreshControl } from "react-native";
 import { router } from "expo-router";
@@ -21,11 +21,12 @@ import { deleteJournalEntry } from "@/utils/supabase/db-crud";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { JournalEntryType } from "@/utils/interfaces/dataTypes";
 import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
+import LoadingScreen from "@/components/macro/LoadingScreen";
 
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
-  const { journal_entries, fetchJournalEntries, error } =
-    useJournalEntriesStore();
+  const sessionStore = useSessionStore();
+  const journalEntriesStore = useJournalEntriesStore();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [localLoading, setLocalLoading] = useState<boolean>(false);
 
@@ -33,8 +34,12 @@ export default function Journals() {
     setLocalLoading(true);
     const PrepareComponent = async () => {
       try {
-        if (journal_entries === null && error === null && session) {
-          await fetchJournalEntries(session.user.id);
+        if (
+          journalEntriesStore.journal_entries === null &&
+          journalEntriesStore.error === null &&
+          session
+        ) {
+          await journalEntriesStore.fetchJournalEntries(session.user.id);
         }
         setLocalLoading(false);
         void refresh();
@@ -43,8 +48,10 @@ export default function Journals() {
       }
     };
 
+    sessionStore.listener();
+
     void PrepareComponent();
-  }, [session]);
+  }, []);
 
   const refresh = async () => {
     setRefreshing(true);
@@ -53,7 +60,7 @@ export default function Journals() {
         setRefreshing(false);
         return;
       }
-      await fetchJournalEntries(session.user.id);
+      await journalEntriesStore.fetchJournalEntries(session.user.id);
       setRefreshing(false);
     } catch (error) {
       Alert.alert("Error", "Failed to refresh");
@@ -76,8 +83,11 @@ export default function Journals() {
     return (
       <MainView>
         <Container justifyContent="center" alignItems="center">
-          {/* <Spinner size="large" color="$grey3" testID="loading-spinner" /> */}
-          <View width="100%" height={300} backgroundColor="$grey2" />
+          <LoadingScreen>
+            {journalEntriesStore.loading && (
+              <Text weight="bold">Fetching Journal Entries</Text>
+            )}
+          </LoadingScreen>
         </Container>
       </MainView>
     );
@@ -91,37 +101,30 @@ export default function Journals() {
             Your Journey
           </Text>
         </Header>
-        {journal_entries === null && (
-          <Container justifyContent="center" alignItems="center">
-            <Text weight="bold" fontSize="$xl">
-              No journal entries found
-            </Text>
-          </Container>
+        {journalEntriesStore.error && !journalEntriesStore.journal_entries && (
+          <Failed refresh={refresh} />
         )}
-        {journal_entries && journal_entries.length === 0 && (
-          <Container justifyContent="center" alignItems="center">
-            <Text weight="bold" fontSize="$xl">
-              No journal entries found
-            </Text>
-          </Container>
-        )}
-        {journal_entries && journal_entries.length > 0 && (
-          <ScrollView
-            width={"100%"}
-            height={"100%"}
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={refresh} />
-            }
-          >
-            {journal_entries &&
-              journal_entries.map((journalEntrySample) => (
-                <JournalEntry
-                  key={journalEntrySample.entry_id}
-                  journalEntry={journalEntrySample}
-                />
+        {journalEntriesStore.journal_entries ? (
+          journalEntriesStore.journal_entries.length === 0 ? (
+            <Container justifyContent="center" alignItems="center">
+              <Text weight="bold" fontSize="$xl">
+                No journal entries found
+              </Text>
+            </Container>
+          ) : (
+            <ScrollView
+              width="100%"
+              height="100%"
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+              }
+            >
+              {journalEntriesStore.journal_entries.map((entry) => (
+                <JournalEntry key={entry.entry_id} journalEntry={entry} />
               ))}
-          </ScrollView>
-        )}
+            </ScrollView>
+          )
+        ) : null}
       </Container>
     </MainView>
   );
@@ -195,6 +198,19 @@ const JournalEntry = (props: JournalEntryProps) => {
         </Button.Icon>
       </Button>
     </EntryContainer>
+  );
+};
+
+const Failed = ({ refresh }: { refresh: () => void }) => {
+  return (
+    <Container justifyContent="center" alignItems="center">
+      <Text weight="bold" fontSize="$xl">
+        Failed to load journal entries
+      </Text>
+      <Button type="normal" onPress={() => refresh()}>
+        <Button.Text>Retry</Button.Text>
+      </Button>
+    </Container>
   );
 };
 

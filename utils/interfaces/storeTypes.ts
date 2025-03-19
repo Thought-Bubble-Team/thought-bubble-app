@@ -12,6 +12,7 @@ export type JournalEntriesStoreType = {
   loading: boolean;
   error: any;
   fetchJournalEntries: (user_id: string) => Promise<void>;
+  clear: () => void;
 };
 
 export type GratitudeEntriesStoreType = {
@@ -19,6 +20,7 @@ export type GratitudeEntriesStoreType = {
   loading: boolean;
   error: any;
   fetchGratitudeEntries: () => Promise<void>;
+  clear: () => void;
 };
 
 export type SessionStoreType = {
@@ -44,22 +46,18 @@ export type SelectedDateStoreType = {
 
 export type MoodCalendarDataStoreType = {
   moodCalendarData: MoodCalendarDataType | undefined;
+  date: Date;
   loading: boolean;
   error: any;
-  fetchMoodCalendarData: (
-    user_id: string,
-    month: number,
-    year: number
-  ) => Promise<void>;
+  setDate: (newDate: Date) => void;
+  fetchMoodCalendarData: (user_id: string) => Promise<void>;
 };
 
 export type MoodBarDataStoreType = {
   moodBarData: MoodBarDataType | undefined;
+  date: Date;
   loading: boolean;
   error: any;
-  fetchMoodBarData: (
-    user_id: string,
-    month: number,
-    year: number
-  ) => Promise<void>;
+  setDate: (newDate: Date) => void;
+  fetchMoodBarData: (user_id: string) => Promise<void>;
 };

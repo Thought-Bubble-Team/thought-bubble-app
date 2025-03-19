@@ -25,6 +25,8 @@ import {
   updateJournalEntry,
 } from "@/utils/supabase/db-crud";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
+import Modal from "../atoms/Modal";
+import LoadingScreen from "./LoadingScreen";
 
 export const Basic = ({
   message,
@@ -183,6 +185,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
 
     try {
       if (type === "gratitude") {
+        setLoading(true);
         const { error } = await createGratitudeEntry(journalEntryObject);
 
         if (error) {
@@ -212,11 +215,12 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
             console.info("Creating journal analysis...");
             console.info("Analyzing entry_id: ", result.data.entry_id);
             await createJournalAnalysis(result.data.entry_id);
-            router.replace({ pathname: "/journals" });
             setLoading(false);
             Alert.alert("Success", "Journal entry created successfully!");
+            router.replace({ pathname: "/journals" });
           }
         } catch (error) {
+          setLoading(false);
           Alert.alert(
             "Error",
             "An error occurred while submitting the journal entry"
@@ -266,9 +270,14 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
 
   return (
     <ViewStyled>
+      <Modal modalVisible={loading}>
+        <LoadingScreen>
+          <Text weight="bold">Submitting Entry</Text>
+        </LoadingScreen>
+      </Modal>
       {/* Footer - Buttons */}
       {editable && (
-        <Footer>
+        <Footer justifyContent="flex-end">
           {/* <Button type="icon" padding={0} onPress={pickImageAsync}>
             <Button.Icon>
               <Ionicons name="images-outline" />

@@ -10,8 +10,6 @@ import { parseInitialDate } from "@/utils/dateFormat";
 import { useMoodCalendarDataStore } from "@/utils/stores/useChartDataStore";
 import { useEffect } from "react";
 import { MoodCalendarType } from "@/utils/interfaces/dataTypes";
-import { useSessionStore } from "@/utils/stores/useSessionStore";
-import { Alert } from "react-native";
 
 const DayContainer = styled(View, {
   width: "14.28%",
@@ -35,29 +33,14 @@ interface MoodCalendarProps extends ViewProps {
 const MoodCalendar = (props: MoodCalendarProps) => {
   const { initialDate, ...restProps } = props;
   const currentMonth = parseInitialDate(initialDate);
-  const session = useSessionStore((state) => state.session);
-  const { moodCalendarData, fetchMoodCalendarData } =
-    useMoodCalendarDataStore();
+  const moodCalendarDataStore = useMoodCalendarDataStore();
 
   useEffect(() => {
-    const Prepare = async () => {
-      try {
-        if (session) {
-          await fetchMoodCalendarData(
-            session.user.id,
-            currentMonth.getMonth() + 1,
-            currentMonth.getFullYear()
-          );
-        } else {
-          return;
-        }
-      } catch (error) {
-        console.error("[Component](Mood Calendar)", error);
-        Alert.alert("There was an error fetching the data.");
-      }
+    const prepareComponent = async () => {
+      moodCalendarDataStore.setDate(currentMonth);
     };
 
-    Prepare();
+    prepareComponent();
   }, [initialDate]);
 
   const renderCalendarCells = () => {
@@ -70,10 +53,10 @@ const MoodCalendar = (props: MoodCalendarProps) => {
     };
 
     const getSentimentForDate = (date: Date): MoodCalendarType | undefined => {
-      if (!moodCalendarData) return undefined;
+      if (!moodCalendarDataStore.moodCalendarData) return undefined;
       const dateString = date.toISOString().split("T")[0];
 
-      return moodCalendarData.calendar.find((item) => {
+      return moodCalendarDataStore.moodCalendarData.calendar.find((item) => {
         const itemDate = new Date(item.date);
         const itemDateString = itemDate.toISOString().split("T")[0];
         return itemDateString === dateString;

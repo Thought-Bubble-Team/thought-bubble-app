@@ -1,8 +1,6 @@
 import { View, XStack, YStack } from "tamagui";
 
 import Text from "@/components/atoms/Text";
-// @ts-ignore
-import SmugFace from "@/assets/icons/emojis/emoji-1";
 
 import { processEmotionSummary } from "@/utils/others/tools";
 import MoodIcons from "../Icons/MoodIcons";

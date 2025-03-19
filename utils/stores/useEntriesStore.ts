@@ -28,6 +28,7 @@ export const useJournalEntriesStore = create<JournalEntriesStoreType>(
         set({ error: error, loading: false });
       }
     },
+    clear: () => set({ journal_entries: null, loading: false, error: null }),
   })
 );
 
@@ -47,5 +48,6 @@ export const useGratitudeEntriesStore = create<GratitudeEntriesStoreType>(
         set({ error: error, loading: false });
       }
     },
+    clear: () => set({ gratitude_entries: null, loading: false, error: null }),
   })
 );

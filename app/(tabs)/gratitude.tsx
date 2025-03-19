@@ -22,11 +22,11 @@ import { deleteGratitudeEntry } from "@/utils/supabase/db-crud";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { useGratitudeEntriesStore } from "@/utils/stores/useEntriesStore";
 import { JournalEntryType } from "@/utils/interfaces/dataTypes";
+import LoadingScreen from "@/components/macro/LoadingScreen";
 
 export default function Gratitudes() {
-  const session = useSessionStore((state) => state.session);
-  const { gratitude_entries, fetchGratitudeEntries } =
-    useGratitudeEntriesStore();
+  const sessionStore = useSessionStore();
+  const gratitudeEntriesStore = useGratitudeEntriesStore();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [localLoading, setLocalLoading] = useState<boolean>(false);
 
@@ -34,32 +34,38 @@ export default function Gratitudes() {
     setLocalLoading(true);
     const PrepareComponent = async () => {
       try {
-        if (gratitude_entries === null) {
-          await fetchGratitudeEntries();
+        if (
+          gratitudeEntriesStore.gratitude_entries === null &&
+          gratitudeEntriesStore.error === null
+        ) {
+          await gratitudeEntriesStore.fetchGratitudeEntries();
         }
-        setLocalLoading(false);
         refresh();
       } catch (e) {
         console.log("Error preparing page", e);
       }
+      setLocalLoading(false);
     };
 
     PrepareComponent();
-  }, [session]);
+  }, []);
 
   const refresh = async () => {
     setRefreshing(true);
     try {
-      await fetchGratitudeEntries();
-      setRefreshing(false);
+      if (!sessionStore.session) {
+        setRefreshing(false);
+        return;
+      }
+      await gratitudeEntriesStore.fetchGratitudeEntries();
     } catch (error) {
       Alert.alert("Error", "Failed to refresh");
       console.log("Error: Gratitudes Refresh: ", error);
-      setRefreshing(false);
     }
+    setRefreshing(false);
   };
 
-  if (!session) {
+  if (!sessionStore.session) {
     return (
       <MainView>
         <Container justifyContent="center" alignItems="center">
@@ -73,7 +79,11 @@ export default function Gratitudes() {
     return (
       <MainView>
         <Container justifyContent="center" alignItems="center">
-          <Spinner size="large" color="$grey3" />
+          <LoadingScreen>
+            {gratitudeEntriesStore.loading && (
+              <Text weight="bold">Fetching Gratitude Entries</Text>
+            )}
+          </LoadingScreen>
         </Container>
       </MainView>
     );
@@ -81,40 +91,38 @@ export default function Gratitudes() {
 
   return (
     <MainView>
-      {session && (
-        <Container>
-          <Header>
-            <Text weight="bold" fontSize="$xxxl">
-              Your Journey
-            </Text>
-          </Header>
-          {gratitude_entries && gratitude_entries.length === 0 && (
+      <Container>
+        <Header>
+          <Text weight="bold" fontSize="$xxxl">
+            A Grateful Heart
+          </Text>
+        </Header>
+        {gratitudeEntriesStore.error &&
+          !gratitudeEntriesStore.gratitude_entries && (
+            <Failed refresh={refresh} />
+          )}
+        {gratitudeEntriesStore.gratitude_entries ? (
+          gratitudeEntriesStore.gratitude_entries.length === 0 ? (
             <Container justifyContent="center" alignItems="center">
               <Text weight="bold" fontSize="$xl">
-                Looks like you haven't written any gratitude entries yet!
+                No gratitude entries found
               </Text>
             </Container>
-          )}
-          {gratitude_entries && gratitude_entries.length > 0 && (
+          ) : (
             <ScrollView
-              width={"100%"}
-              height={"100%"}
+              width="100%"
+              height="100%"
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={refresh} />
               }
             >
-              {gratitude_entries &&
-                gratitude_entries.map((gratitudeEntry) => (
-                  <GratitudeEntry
-                    key={gratitudeEntry.entry_id}
-                    gratitudeEntry={gratitudeEntry}
-                  />
-                ))}
+              {gratitudeEntriesStore.gratitude_entries.map((entry) => (
+                <GratitudeEntry key={entry.entry_id} gratitudeEntry={entry} />
+              ))}
             </ScrollView>
-          )}
-        </Container>
-      )}
-      {!session && <NoSession />}
+          )
+        ) : null}
+      </Container>
     </MainView>
   );
 }
@@ -179,6 +187,19 @@ const GratitudeEntry = (props: JournalEntryProps) => {
         </Button.Icon>
       </Button>
     </EntryContainer>
+  );
+};
+
+const Failed = ({ refresh }: { refresh: () => void }) => {
+  return (
+    <Container justifyContent="center" alignItems="center">
+      <Text weight="bold" fontSize="$xl">
+        Failed to load gratitude entries
+      </Text>
+      <Button type="normal" onPress={() => refresh()}>
+        <Button.Text>Retry</Button.Text>
+      </Button>
+    </Container>
   );
 };
 

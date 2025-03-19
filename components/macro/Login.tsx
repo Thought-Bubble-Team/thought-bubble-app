@@ -1,6 +1,7 @@
 // Style Imports
 import { Alert } from "react-native";
 import { styled, View } from "tamagui";
+import { router } from "expo-router";
 
 // Component Imports
 import Input from "@/components/atoms/Input";
@@ -11,9 +12,7 @@ import { Button } from "@/components/atoms/Button";
 import { useState } from "react";
 import { supabase } from "@/utils/supabase/supabase";
 
-// @ts-ignore
-import Logo from "@/assets/icons/logoTemp.svg";
-import { router } from "expo-router";
+import Logo from "@/assets/icons/tb_logo.svg";
 
 interface LoginProps {
   setIsSignUp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,6 +25,7 @@ export default function Login(props: LoginProps) {
 
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [showInput, setShowInput] = useState<boolean>(false);
 
   const signInWithEmail = async () => {
     if (!email || !password) {
@@ -65,15 +65,20 @@ export default function Login(props: LoginProps) {
       </Text>
       <Input
         label="Email"
+        type="email"
         placeholder="johnydoe@gmail.com"
         value={email}
         onChangeText={setEmail}
+        showInput={true}
       />
       <Input
         label="Password"
+        type="password"
         placeholder="********"
         secureTextEntry
         onChangeText={setPassword}
+        showInput={showInput}
+        setShowInput={setShowInput}
       />
       <Button type={"normal"} size={"$md"} onPress={signInWithEmail}>
         {!loading && <Button.Text>LOGIN</Button.Text>}
@@ -106,5 +111,5 @@ const Footer = styled(View, {
   flexDirection: "row",
   gap: "$2",
   alignItems: "center",
-  marginTop: "$13",
+  marginTop: "$5",
 });

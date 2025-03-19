@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 import {
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
@@ -12,7 +12,7 @@ import Text from "@/components/atoms/Text";
 import { InputProps } from "@/utils/interfaces/componentPropInterfaces";
 
 const Input = forwardRef<TamaguiElement, InputProps>((props, ref) => {
-  const { label, ...restProps } = props;
+  const { label, type, showInput, setShowInput, ...restProps } = props;
   const theme = useTheme();
 
   const inputStyles = StyleSheet.create({
@@ -35,10 +35,13 @@ const Input = forwardRef<TamaguiElement, InputProps>((props, ref) => {
         <Text weight="light" fontSize="$sm" color={"$black"} opacity={0.57}>
           {label}
         </Text>
-        <RNTextInput {...restProps} style={inputStyles.input} />
+        <RNTextInput
+          {...restProps}
+          style={inputStyles.input}
+          secureTextEntry={type === "password" ? !showInput : false}
+        />
       </InputContainer>
-      {!label && <Ionicons name="help" size={24} color={theme.black.get()} />}
-      {label === "Email" && (
+      {type === "email" && (
         <Ionicons
           name="mail"
           size={24}
@@ -46,14 +49,22 @@ const Input = forwardRef<TamaguiElement, InputProps>((props, ref) => {
           style={{ opacity: 0.55 }}
         />
       )}
-      {label === "Password" && (
-        <Ionicons
-          name="eye"
-          size={24}
-          color={theme.black.get()}
-          style={{ opacity: 0.55 }}
-        />
-      )}
+      {type === "password" &&
+        (showInput ? (
+          <Ionicons
+            name="eye-off"
+            size={24}
+            color={theme.black.get()}
+            onPress={() => setShowInput && setShowInput(!showInput)}
+          />
+        ) : (
+          <Ionicons
+            name="eye"
+            size={24}
+            color={theme.black.get()}
+            onPress={() => setShowInput && setShowInput(!showInput)}
+          />
+        ))}
     </ViewContainer>
   );
 });

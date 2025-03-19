@@ -9,6 +9,10 @@ import {
 import { supabase } from "@/utils/supabase/supabase";
 import { getUserData } from "../supabase/db-crud";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  useJournalEntriesStore,
+  useGratitudeEntriesStore,
+} from "./useEntriesStore";
 
 export const useSessionStore = create<SessionStoreType>()(
   devtools(
@@ -37,6 +41,11 @@ export const useSessionStore = create<SessionStoreType>()(
         listener: () => {
           supabase.auth.onAuthStateChange((event, session) => {
             set({ session: session, loading: false, error: null });
+
+            if (event === "SIGNED_OUT") {
+              useJournalEntriesStore.getState().clear();
+              useGratitudeEntriesStore.getState().clear();
+            }
           });
         },
       }),
