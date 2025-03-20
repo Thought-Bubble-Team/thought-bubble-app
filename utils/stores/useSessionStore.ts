@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 import { Session } from "@supabase/supabase-js";
 
 import {
@@ -15,46 +15,44 @@ import {
 } from "./useEntriesStore";
 
 export const useSessionStore = create<SessionStoreType>()(
-  devtools(
-    persist(
-      (set, get) => ({
-        session: null,
-        loading: false,
-        error: null,
-        setSession: (newSession: Session | null) => {
-          if (get().session !== newSession) {
-            set({ session: newSession });
-          }
-        },
-        fetchSession: async () => {
-          set({ loading: true, error: null });
-          try {
-            const result = await supabase.auth.getSession();
+  persist(
+    (set, get) => ({
+      session: null,
+      loading: false,
+      error: null,
+      setSession: (newSession: Session | null) => {
+        if (get().session !== newSession) {
+          set({ session: newSession });
+        }
+      },
+      fetchSession: async () => {
+        set({ loading: true, error: null });
+        try {
+          const result = await supabase.auth.getSession();
 
-            if (result.data && result.data.session) {
-              set({ session: result.data.session, loading: false });
-            }
-          } catch (error) {
-            set({ loading: false, error: error });
+          if (result.data && result.data.session) {
+            set({ session: result.data.session, loading: false });
           }
-        },
-        listener: () => {
-          supabase.auth.onAuthStateChange((event, session) => {
-            set({ session: session, loading: false, error: null });
+        } catch (error) {
+          set({ loading: false, error: error });
+        }
+      },
+      listener: () => {
+        supabase.auth.onAuthStateChange((event, session) => {
+          set({ session: session, loading: false, error: null });
 
-            if (event === "SIGNED_OUT") {
-              useJournalEntriesStore.getState().clear();
-              useGratitudeEntriesStore.getState().clear();
-            }
-          });
-        },
-      }),
-      {
-        name: "session-storage",
-        storage: createJSONStorage(() => AsyncStorage),
-      }
-    )
-  )
+          if (event === "SIGNED_OUT") {
+            useJournalEntriesStore.getState().clear();
+            useGratitudeEntriesStore.getState().clear();
+          }
+        });
+      },
+    }),
+    {
+      name: "session-storage",
+      storage: createJSONStorage(() => AsyncStorage),
+    },
+  ),
 );
 
 export const useUserDataStore = create<UserDataStoreType>((set) => ({
