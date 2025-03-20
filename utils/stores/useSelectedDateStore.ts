@@ -1,7 +1,8 @@
 import { create } from "zustand";
-import { persist, devtools } from "zustand/middleware";
+import { persist, devtools, createJSONStorage } from "zustand/middleware";
 
 import { SelectedDateStoreType } from "@/utils/interfaces/storeTypes";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const useSelectedDateStore = create<SelectedDateStoreType>()(
   devtools(
@@ -14,6 +15,7 @@ export const useSelectedDateStore = create<SelectedDateStoreType>()(
       }),
       {
         name: "selected-date-storage",
+        storage: createJSONStorage(() => AsyncStorage),
       },
     ),
   ),
