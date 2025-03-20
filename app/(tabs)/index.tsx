@@ -13,27 +13,21 @@ import LoadingScreen from "@/components/macro/LoadingScreen";
 import MoodBar from "@/components/macro/MoodBar";
 
 // Utilities Import
-import {
-  useSessionStore,
-  useUserDataStore,
-} from "@/utils/stores/useSessionStore";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { useSelectedDateStore } from "@/utils/stores/useSelectedDateStore";
 import { getMonthYearList } from "@/utils/dateFormat";
-import { YStack } from "tamagui";
 import { Card } from "@/components/atoms/Card";
 import {
   useMoodBarDataStore,
   useMoodCalendarDataStore,
 } from "@/utils/stores/useChartDataStore";
 
-// FIX: page renders before the user data is fetched
 export default function Index() {
   const selectedDate = useSelectedDateStore((state) => state.selectedDate);
   const setSelectedDate = useSelectedDateStore(
-    (state) => state.setSelectedDate
+    (state) => state.setSelectedDate,
   );
   const sessionStore = useSessionStore();
-  const userDataStore = useUserDataStore();
   const moodCalendarDataStore = useMoodCalendarDataStore();
   const moodBarDataStore = useMoodBarDataStore();
 
@@ -61,7 +55,7 @@ export default function Index() {
       }
 
       await moodCalendarDataStore.fetchMoodCalendarData(
-        sessionStore.session.user.id
+        sessionStore.session.user.id,
       );
       await moodBarDataStore.fetchMoodBarData(sessionStore.session.user.id);
     } catch (error) {
@@ -105,7 +99,9 @@ export default function Index() {
             {moodCalendarDataStore.loading && (
               <Text>Loading Mood Calendar Data</Text>
             )}
-            {moodBarDataStore.loading && <Text>Loading Mood Bar Data</Text>}
+            {moodBarDataStore.loading && (
+              <Text weight="bold">Loading Mood Bar Data</Text>
+            )}
           </LoadingScreen>
         </Screen>
       )}
