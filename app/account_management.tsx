@@ -3,9 +3,8 @@ import { styled, View } from "tamagui";
 
 import Login from "@/components/macro/Login";
 import SignUp from "@/components/macro/SignUp";
-
-import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { supabase } from "@/utils/supabase/supabase";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
 
 const AccountManagement = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -21,7 +20,7 @@ const AccountManagement = () => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setSession(session);
-      }
+      },
     );
 
     return () => {
