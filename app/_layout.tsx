@@ -67,10 +67,6 @@ export default function RootLayout() {
     const prepareApp = async () => {
       try {
         if (loaded && !error) {
-          const sub = useSessionStore.persist.onHydrate((state) => {
-            console.log("Session Store Hydrated");
-          });
-          sub();
           await sessionStore.fetchSession();
           const date_sub = useSelectedDateStore.persist.onHydrate((state) => {
             console.log("Date Store Hydrated");
