@@ -15,6 +15,10 @@ import {
   useUserDataStore,
 } from "@/utils/stores/useSessionStore";
 import { Alert } from "react-native";
+import {
+  useMoodBarDataStore,
+  useMoodCalendarDataStore,
+} from "@/utils/stores/useChartDataStore";
 
 const XStackStyled = styled(XStack, {
   justifyContent: "center",
@@ -22,19 +26,20 @@ const XStackStyled = styled(XStack, {
   gap: "$sm",
 });
 
-// TODO: Handle router.replace() properly
 const LoadingModal = () => {
   const sessionStore = useSessionStore();
   const userDataStore = useUserDataStore();
   const journalEntriesStore = useJournalEntriesStore();
   const gratitudeEntriesStore = useGratitudeEntriesStore();
+  const moodCalendarDataStore = useMoodCalendarDataStore();
+  const moodBarDataStore = useMoodBarDataStore();
 
   useEffect(() => {
     const prepareApp = async () => {
       try {
         // Fetch session
         await sessionStore.fetchSession();
-        console.log("Session: ", sessionStore.session?.user.id);
+
         // No session, redirect to login
         if (!sessionStore.session) {
           router.replace({ pathname: "/account_management" });
@@ -49,7 +54,7 @@ const LoadingModal = () => {
           }
           // Fetch Journal Entries
           await journalEntriesStore.fetchJournalEntries(
-            sessionStore.session.user.id
+            sessionStore.session.user.id,
           );
           if (journalEntriesStore.error) {
             throw new Error(journalEntriesStore.error);
@@ -58,6 +63,18 @@ const LoadingModal = () => {
           await gratitudeEntriesStore.fetchGratitudeEntries();
           if (gratitudeEntriesStore.error) {
             throw new Error(gratitudeEntriesStore.error);
+          }
+          // Fetch Mood Calendar Data
+          await moodCalendarDataStore.fetchMoodCalendarData(
+            sessionStore.session.user.id,
+          );
+          if (moodCalendarDataStore.error) {
+            throw new Error(moodCalendarDataStore.error);
+          }
+          // Fetch Mood Bar Data
+          await moodBarDataStore.fetchMoodBarData(sessionStore.session.user.id);
+          if (moodBarDataStore.error) {
+            throw new Error(moodBarDataStore.error);
           }
           // Redirect to home
           router.replace({ pathname: "/(tabs)" });
@@ -69,7 +86,7 @@ const LoadingModal = () => {
       }
     };
 
-    void prepareApp();
+    prepareApp();
   }, []);
 
   return (
@@ -88,6 +105,12 @@ const LoadingModal = () => {
         )}
         {gratitudeEntriesStore.loading && (
           <Text weight="bold">Fetching Gratitude Entries</Text>
+        )}
+        {moodCalendarDataStore.loading && (
+          <Text weight="bold">Fetching Mood Calendar Data</Text>
+        )}
+        {moodBarDataStore.loading && (
+          <Text weight="bold">Fetching Mood Bar Data</Text>
         )}
       </YStack>
     </Screen>

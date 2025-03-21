@@ -36,16 +36,6 @@ export default function Index() {
 
   const dateOptions = getMonthYearList();
 
-  useEffect(() => {
-    const preparePage = async () => {
-      refresh();
-    };
-
-    sessionStore.listener();
-
-    preparePage();
-  }, [selectedDate]);
-
   const refresh = async () => {
     setRefreshing(true);
     setLocalLoading(true);
@@ -65,6 +55,15 @@ export default function Index() {
     setRefreshing(false);
     setLocalLoading(false);
   };
+
+  useEffect(() => {
+    const preparePage = async () => {};
+
+    sessionStore.listener();
+
+    refresh();
+    preparePage();
+  }, [selectedDate]);
 
   return (
     <Screen
@@ -97,7 +96,7 @@ export default function Index() {
         <Screen>
           <LoadingScreen>
             {moodCalendarDataStore.loading && (
-              <Text>Loading Mood Calendar Data</Text>
+              <Text weight="bold">Loading Mood Calendar Data</Text>
             )}
             {moodBarDataStore.loading && (
               <Text weight="bold">Loading Mood Bar Data</Text>

@@ -13,6 +13,7 @@ import {
   useJournalEntriesStore,
   useGratitudeEntriesStore,
 } from "./useEntriesStore";
+import { Alert } from "react-native";
 
 export const useSessionStore = create<SessionStoreType>()(
   persist(
@@ -38,14 +39,18 @@ export const useSessionStore = create<SessionStoreType>()(
         }
       },
       listener: () => {
-        supabase.auth.onAuthStateChange((event, session) => {
-          set({ session: session, loading: false, error: null });
+        const { data } = supabase.auth.onAuthStateChange((event, session) => {
+          if (event === "SIGNED_IN") {
+            set({ session: session, loading: false, error: null });
+          }
 
           if (event === "SIGNED_OUT") {
             useJournalEntriesStore.getState().clear();
             useGratitudeEntriesStore.getState().clear();
+            set({ session: null, error: null });
           }
         });
+        data.subscription.unsubscribe();
       },
     }),
     {

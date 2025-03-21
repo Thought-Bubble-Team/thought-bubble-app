@@ -24,6 +24,8 @@ import {
   ReactNativeLDClient,
 } from "@launchdarkly/react-native-client-sdk";
 import { useCallback, useEffect, useState } from "react";
+import { useSessionStore } from "@/utils/stores/useSessionStore";
+import { useSelectedDateStore } from "@/utils/stores/useSelectedDateStore";
 
 SplashScreen.preventAutoHideAsync();
 const isExpoGo = Constants.executionEnvironment === "bare";
@@ -47,7 +49,7 @@ const featureClient = new ReactNativeLDClient(
     logger: new BasicLogger({
       level: "none",
     }),
-  }
+  },
 );
 
 export default function RootLayout() {
@@ -59,12 +61,21 @@ export default function RootLayout() {
     Montserrat_700Bold,
   });
   const [appIsReady, setAppIsReady] = useState<boolean>(false);
+  const sessionStore = useSessionStore();
 
   useEffect(() => {
-    const prepareApp = () => {
+    const prepareApp = async () => {
       try {
         if (loaded && !error) {
-          // Fetch Data here
+          const sub = useSessionStore.persist.onHydrate((state) => {
+            console.log("Session Store Hydrated");
+          });
+          sub();
+          await sessionStore.fetchSession();
+          const date_sub = useSelectedDateStore.persist.onHydrate((state) => {
+            console.log("Date Store Hydrated");
+          });
+          date_sub();
           setAppIsReady(true);
         }
       } catch (error) {
