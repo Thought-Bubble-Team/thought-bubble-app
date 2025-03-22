@@ -13,7 +13,10 @@ import LoadingScreen from "@/components/macro/LoadingScreen";
 import MoodBar from "@/components/macro/MoodBar";
 
 // Utilities Import
-import { useSessionStore } from "@/utils/stores/useSessionStore";
+import {
+  useSessionStore,
+  useUserDataStore,
+} from "@/utils/stores/useSessionStore";
 import { useSelectedDateStore } from "@/utils/stores/useSelectedDateStore";
 import { getMonthYearList } from "@/utils/dateFormat";
 import { Card } from "@/components/atoms/Card";
@@ -28,6 +31,7 @@ export default function Index() {
     (state) => state.setSelectedDate,
   );
   const sessionStore = useSessionStore();
+  const userDataStore = useUserDataStore();
   const moodCalendarDataStore = useMoodCalendarDataStore();
   const moodBarDataStore = useMoodBarDataStore();
 
@@ -74,7 +78,8 @@ export default function Index() {
     >
       <Header>
         <Text weight="bold" fontSize="$xxxl">
-          Hello, User!
+          Hello,{" "}
+          {userDataStore.userData ? userDataStore.userData.username : "User"}
         </Text>
         <Select
           color={"$black"}
