@@ -1,4 +1,4 @@
-import { View, YStack } from "tamagui";
+import { View, XStack, YStack } from "tamagui";
 import { useState } from "react";
 
 import Screen from "@/components/atoms/Screen";
@@ -12,7 +12,6 @@ import { UserDataType } from "@/utils/interfaces/dataTypes";
 import { Alert } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 
-// FIX: Button Text not aligned in center
 const EditProfile = () => {
   const { type } = useLocalSearchParams();
 
@@ -59,7 +58,7 @@ const EditProfile = () => {
         // Update
         const result = await updateUserData(
           sessionStore.session.user.id,
-          userData
+          userData,
         );
         if (result?.error) {
           Alert.alert("Error", "Failed to update username");
@@ -89,22 +88,19 @@ const EditProfile = () => {
           Enter New Username
         </Text>
       </View>
-      <YStack
-        width="100%"
-        gap="$4"
-        justifyContent="center"
-        alignItems="flex-end"
-      >
+      <YStack width="100%" gap="$4" alignItems="flex-end">
         <Input
           label="Username"
           value={username}
           onChangeText={setUsername}
           placeholder="Enter your name"
         />
-        <Button type="normal" width="50%" onPress={handleSave}>
-          {!localLoading && <Button.Text>Save</Button.Text>}
-          {localLoading && <Button.Spinner />}
-        </Button>
+        <XStack width="50%" justifyContent="center">
+          <Button type="normal" onPress={handleSave}>
+            {!localLoading && <Button.Text>Save</Button.Text>}
+            {localLoading && <Button.Spinner />}
+          </Button>
+        </XStack>
       </YStack>
     </Screen>
   );
