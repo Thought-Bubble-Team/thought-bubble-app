@@ -248,25 +248,26 @@ export const deleteJournalEntry = async (entryId: number) => {
   } */
   try {
     await axios.delete(
-      `https://thought-bubble-backend.onrender.com/api/journal-entry/${entryId
+      `https://thought-bubble-backend.onrender.com/api/journal-entry/${
+        entryId
       }`,
     );
   } catch (error) {
     if (!axios.isAxiosError(error)) {
       console.error(`[DELETE](deleteJournalEntry) error: ${error}`);
-      return;
+      throw error;
     }
 
     if (!error.response) {
       console.error(`[DELETE](deleteJournalEntry) error: ${error}`);
-      return;
+      throw error;
     }
 
     console.error(
       `[DELETE](deleteJournalEntry) status: ${error.response.status}, message: ${error.response.data.detail}`,
     );
 
-    return;
+    throw error;
   }
 };
 
