@@ -2,7 +2,7 @@
   "expo": {
     "name": "Thought Bubble",
     "slug": "thought-bubble",
-    "version": "0.4.0",
+    "version": "0.3.0",
     "orientation": "portrait",
     "icon": "./assets/images/tb_logo.png",
     "scheme": "com.sephclt.thoughtbubble",
