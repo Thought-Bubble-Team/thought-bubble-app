@@ -150,9 +150,8 @@ const JournalEntry = (props: JournalEntryProps) => {
       await deleteJournalEntry(entry_id);
       Alert.alert("Success", "Entry deleted successfully");
       refresh();
-    } catch (error) {
-      Alert.alert("Error", "Failed to delete entry");
-      console.log(error);
+    } catch {
+      Alert.alert("Error", "Failed to delete entry. Please try again later");
     }
   };
 
