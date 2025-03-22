@@ -215,13 +215,11 @@ const JournalEntry = (props: JournalEntryProps) => {
         }
         onLongPress={() => setShowModal(true)}
       >
-        <Button.Icon>
-          <JournalCard
-            journalEntry={journalEntry}
-            maxHeight="$16"
-            showSentimentData={false}
-          />
-        </Button.Icon>
+        <JournalCard
+          journalEntry={journalEntry}
+          maxHeight="$16"
+          showSentimentData={false}
+        />
       </Button>
     </EntryContainer>
   );
