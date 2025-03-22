@@ -1,7 +1,6 @@
 // Libraries Imports
 import React, { useEffect, useState } from "react";
 import { styled, View, XStack } from "tamagui";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { Alert, RefreshControl } from "react-native";
 import { router } from "expo-router";
 
@@ -13,7 +12,6 @@ import ScrollView from "@/components/atoms/ScrollView";
 import Text from "@/components/atoms/Text";
 import JournalCard from "@/components/macro/JournalCard";
 import Header from "@/components/atoms/Header";
-import AlertDialog from "@/components/macro/AlertDialog";
 
 // Utilities Imports
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
@@ -159,11 +157,16 @@ const JournalEntry = (props: JournalEntryProps) => {
   };
 
   const Options = [
-    <Button type="list" onPress={() => handleDelete(journalEntry.entry_id)}>
+    <Button
+      type="list"
+      size="$xl"
+      onPress={() => handleDelete(journalEntry.entry_id)}
+    >
       <Button.Text>Delete</Button.Text>
     </Button>,
     <Button
       type="list"
+      size="$xl"
       onPress={() => Alert.alert("Sorry", "Updating is currently disabled")}
     >
       <Button.Text>Update</Button.Text>
@@ -184,21 +187,6 @@ const JournalEntry = (props: JournalEntryProps) => {
             {splitDate[1]}
           </Text>
         </XStack>
-        {/**
-        <XStack>
-          <AlertDialog
-            title="Delete Entry?"
-            acceptText="Delete"
-            accept={() => handleDelete(journalEntry.entry_id)}
-          >
-            <Button type="icon" size="$xs">
-              <Button.Icon>
-                <Ionicons name="trash-sharp" />
-              </Button.Icon>
-            </Button>
-          </AlertDialog>
-        </XStack>
-        **/}
       </EntryHeader>
       <Button
         type="icon"
