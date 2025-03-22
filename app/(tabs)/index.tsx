@@ -24,6 +24,7 @@ import {
   useMoodBarDataStore,
   useMoodCalendarDataStore,
 } from "@/utils/stores/useChartDataStore";
+import { XStack } from "tamagui";
 
 export default function Index() {
   const selectedDate = useSelectedDateStore((state) => state.selectedDate);
@@ -77,10 +78,12 @@ export default function Index() {
       justifyContent="flex-start"
     >
       <Header>
-        <Text weight="bold" fontSize="$xxxl">
-          Hello,{" "}
-          {userDataStore.userData ? userDataStore.userData.username : "User"}
-        </Text>
+        <XStack>
+          <Text weight="bold" fontSize="$xxxl" textAlign="center">
+            Hello,{" "}
+            {userDataStore.userData ? userDataStore.userData.username : "User"}
+          </Text>
+        </XStack>
         <Select
           color={"$black"}
           opacity={0.57}
