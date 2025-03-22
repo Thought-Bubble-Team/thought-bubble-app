@@ -37,7 +37,15 @@ export const useMoodCalendarDataStore = create<MoodCalendarDataStoreType>(
         set({ error, loading: false });
       }
     },
-  })
+    clear: () => {
+      set({
+        moodCalendarData: undefined,
+        date: new Date(),
+        loading: false,
+        error: null,
+      });
+    },
+  }),
 );
 
 export const useMoodBarDataStore = create<MoodBarDataStoreType>((set, get) => ({
@@ -62,5 +70,13 @@ export const useMoodBarDataStore = create<MoodBarDataStoreType>((set, get) => ({
     } catch (error) {
       set({ error, loading: false });
     }
+  },
+  clear: () => {
+    set({
+      moodBarData: undefined,
+      date: new Date(),
+      loading: false,
+      error: null,
+    });
   },
 }));
