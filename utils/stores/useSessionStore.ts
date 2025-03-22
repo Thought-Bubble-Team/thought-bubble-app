@@ -11,6 +11,10 @@ import {
   useJournalEntriesStore,
   useGratitudeEntriesStore,
 } from "./useEntriesStore";
+import {
+  useMoodBarDataStore,
+  useMoodCalendarDataStore,
+} from "./useChartDataStore";
 
 export const useSessionStore = create<SessionStoreType>()((set, get) => ({
   session: null,
@@ -37,11 +41,23 @@ export const useSessionStore = create<SessionStoreType>()((set, get) => ({
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN") {
         set({ session: session, loading: false, error: null });
+
+        if (session) {
+          const user_id = session.user.id;
+          useJournalEntriesStore.getState().fetchJournalEntries(user_id);
+          useGratitudeEntriesStore.getState().fetchGratitudeEntries();
+          useUserDataStore.getState().fetchUserData(user_id);
+          useMoodCalendarDataStore.getState().fetchMoodCalendarData(user_id);
+          useMoodBarDataStore.getState().fetchMoodBarData(user_id);
+        }
       }
 
       if (event === "SIGNED_OUT") {
         useJournalEntriesStore.getState().clear();
         useGratitudeEntriesStore.getState().clear();
+        useUserDataStore.getState().clear();
+        useMoodCalendarDataStore.getState().clear();
+        useMoodBarDataStore.getState().clear();
         set({ session: null, error: null });
       }
     });
@@ -61,5 +77,8 @@ export const useUserDataStore = create<UserDataStoreType>((set) => ({
     } catch (error) {
       set({ loading: false, error: error });
     }
+  },
+  clear: () => {
+    set({ userData: null, loading: false, error: null });
   },
 }));
