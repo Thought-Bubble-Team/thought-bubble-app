@@ -35,7 +35,7 @@ const EditProfile = () => {
       const userData: Partial<UserDataType> = {
         user_id: sessionStore.session?.user.id,
         username: username,
-        first_time_user: false,
+        first_time_user: true,
       };
 
       // Check if user is logged in
