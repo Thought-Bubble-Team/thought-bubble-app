@@ -22,6 +22,8 @@ import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { JournalEntryType } from "@/utils/interfaces/dataTypes";
 import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
 import LoadingScreen from "@/components/macro/LoadingScreen";
+import Modal from "@/components/atoms/Modal";
+import List from "@/components/atoms/List";
 
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
@@ -141,6 +143,7 @@ interface JournalEntryProps {
 
 const JournalEntry = (props: JournalEntryProps) => {
   const { journalEntry, refresh } = props;
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const formattedDate = formatDate(journalEntry.created_at);
   const splitDate = splitFormattedDate(formattedDate);
@@ -155,9 +158,24 @@ const JournalEntry = (props: JournalEntryProps) => {
     }
   };
 
+  const Options = [
+    <Button type="list" onPress={() => handleDelete(journalEntry.entry_id)}>
+      <Button.Text>Delete</Button.Text>
+    </Button>,
+    <Button
+      type="list"
+      onPress={() => Alert.alert("Sorry", "Updating is currently disabled")}
+    >
+      <Button.Text>Update</Button.Text>
+    </Button>,
+  ];
+
   return (
     <EntryContainer>
-      <EntryHeader>
+      <Modal modalVisible={showModal} setModalVisible={setShowModal}>
+        <List items={Options} />
+      </Modal>
+      <EntryHeader marginVertical="$2">
         <XStack>
           <Text weight="bold" fontSize="$xl">
             {splitDate[0]}
@@ -166,6 +184,7 @@ const JournalEntry = (props: JournalEntryProps) => {
             {splitDate[1]}
           </Text>
         </XStack>
+        {/**
         <XStack>
           <AlertDialog
             title="Delete Entry?"
@@ -179,6 +198,7 @@ const JournalEntry = (props: JournalEntryProps) => {
             </Button>
           </AlertDialog>
         </XStack>
+        **/}
       </EntryHeader>
       <Button
         type="icon"
@@ -193,6 +213,7 @@ const JournalEntry = (props: JournalEntryProps) => {
             },
           })
         }
+        onLongPress={() => setShowModal(true)}
       >
         <Button.Icon>
           <JournalCard
