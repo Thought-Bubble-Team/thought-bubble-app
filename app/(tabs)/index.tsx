@@ -25,6 +25,7 @@ import {
   useMoodCalendarDataStore,
 } from "@/utils/stores/useChartDataStore";
 import { XStack } from "tamagui";
+import { router } from "expo-router";
 
 export default function Index() {
   const selectedDate = useSelectedDateStore((state) => state.selectedDate);
@@ -47,6 +48,16 @@ export default function Index() {
     try {
       if (!sessionStore.session) {
         return;
+      }
+
+      if (!userDataStore.userData) {
+        await userDataStore.fetchUserData(sessionStore.session.user.id);
+      }
+
+      if (userDataStore.userData) {
+        if (userDataStore.userData.first_time_user) {
+          router.push({ pathname: "/onboarding_page" });
+        }
       }
 
       await moodCalendarDataStore.fetchMoodCalendarData(
@@ -103,6 +114,9 @@ export default function Index() {
       {localLoading && (
         <Screen>
           <LoadingScreen>
+            {userDataStore.loading && (
+              <Text weight="bold">Loading User Data</Text>
+            )}
             {moodCalendarDataStore.loading && (
               <Text weight="bold">Loading Mood Calendar Data</Text>
             )}
