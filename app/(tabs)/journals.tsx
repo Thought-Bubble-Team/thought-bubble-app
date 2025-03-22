@@ -32,7 +32,7 @@ export default function Journals() {
 
   useEffect(() => {
     setLocalLoading(true);
-    const PrepareComponent = async () => {
+    const prepareComponent = async () => {
       try {
         if (
           journalEntriesStore.journal_entries === null &&
@@ -50,7 +50,7 @@ export default function Journals() {
 
     sessionStore.listener();
 
-    void PrepareComponent();
+    prepareComponent();
   }, []);
 
   const refresh = async () => {
@@ -120,7 +120,11 @@ export default function Journals() {
               }
             >
               {journalEntriesStore.journal_entries.map((entry) => (
-                <JournalEntry key={entry.entry_id} journalEntry={entry} />
+                <JournalEntry
+                  key={entry.entry_id}
+                  journalEntry={entry}
+                  refresh={refresh}
+                />
               ))}
             </ScrollView>
           )
@@ -132,10 +136,11 @@ export default function Journals() {
 
 interface JournalEntryProps {
   journalEntry: JournalEntryType;
+  refresh: () => Promise<void>;
 }
 
 const JournalEntry = (props: JournalEntryProps) => {
-  const { journalEntry } = props;
+  const { journalEntry, refresh } = props;
 
   const formattedDate = formatDate(journalEntry.created_at);
   const splitDate = splitFormattedDate(formattedDate);
@@ -144,6 +149,7 @@ const JournalEntry = (props: JournalEntryProps) => {
     try {
       await deleteJournalEntry(entry_id);
       Alert.alert("Success", "Entry deleted successfully");
+      refresh();
     } catch (error) {
       Alert.alert("Error", "Failed to delete entry");
       console.log(error);
