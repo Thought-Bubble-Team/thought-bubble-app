@@ -24,7 +24,7 @@ const MoodBar = ({ initial_date }: MoodBarProps) => {
   return (
     <Card marginVertical="$3">
       <Card.Header>
-        <Card.HeaderText>MoodBar</Card.HeaderText>
+        <Card.HeaderText fontSize="$lg">MoodBar</Card.HeaderText>
       </Card.Header>
       <Card.Body>
         {moodBarStore.loading && <Spinner size="large" color="$primary" />}

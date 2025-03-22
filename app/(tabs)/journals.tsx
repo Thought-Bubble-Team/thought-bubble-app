@@ -1,7 +1,6 @@
 // Libraries Imports
 import React, { useEffect, useState } from "react";
 import { styled, View, XStack } from "tamagui";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { Alert, RefreshControl } from "react-native";
 import { router } from "expo-router";
 
@@ -13,7 +12,6 @@ import ScrollView from "@/components/atoms/ScrollView";
 import Text from "@/components/atoms/Text";
 import JournalCard from "@/components/macro/JournalCard";
 import Header from "@/components/atoms/Header";
-import AlertDialog from "@/components/macro/AlertDialog";
 
 // Utilities Imports
 import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
@@ -22,6 +20,8 @@ import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { JournalEntryType } from "@/utils/interfaces/dataTypes";
 import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
 import LoadingScreen from "@/components/macro/LoadingScreen";
+import Modal from "@/components/atoms/Modal";
+import List from "@/components/atoms/List";
 
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
@@ -32,7 +32,7 @@ export default function Journals() {
 
   useEffect(() => {
     setLocalLoading(true);
-    const PrepareComponent = async () => {
+    const prepareComponent = async () => {
       try {
         if (
           journalEntriesStore.journal_entries === null &&
@@ -50,7 +50,7 @@ export default function Journals() {
 
     sessionStore.listener();
 
-    void PrepareComponent();
+    prepareComponent();
   }, []);
 
   const refresh = async () => {
@@ -120,7 +120,11 @@ export default function Journals() {
               }
             >
               {journalEntriesStore.journal_entries.map((entry) => (
-                <JournalEntry key={entry.entry_id} journalEntry={entry} />
+                <JournalEntry
+                  key={entry.entry_id}
+                  journalEntry={entry}
+                  refresh={refresh}
+                />
               ))}
             </ScrollView>
           )
@@ -132,10 +136,12 @@ export default function Journals() {
 
 interface JournalEntryProps {
   journalEntry: JournalEntryType;
+  refresh: () => Promise<void>;
 }
 
 const JournalEntry = (props: JournalEntryProps) => {
-  const { journalEntry } = props;
+  const { journalEntry, refresh } = props;
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const formattedDate = formatDate(journalEntry.created_at);
   const splitDate = splitFormattedDate(formattedDate);
@@ -144,15 +150,35 @@ const JournalEntry = (props: JournalEntryProps) => {
     try {
       await deleteJournalEntry(entry_id);
       Alert.alert("Success", "Entry deleted successfully");
-    } catch (error) {
-      Alert.alert("Error", "Failed to delete entry");
-      console.log(error);
+      refresh();
+    } catch {
+      Alert.alert("Error", "Failed to delete entry. Please try again later");
     }
   };
 
+  const Options = [
+    <Button
+      type="list"
+      size="$xl"
+      onPress={() => handleDelete(journalEntry.entry_id)}
+    >
+      <Button.Text>Delete</Button.Text>
+    </Button>,
+    <Button
+      type="list"
+      size="$xl"
+      onPress={() => Alert.alert("Sorry", "Updating is currently disabled")}
+    >
+      <Button.Text>Update</Button.Text>
+    </Button>,
+  ];
+
   return (
     <EntryContainer>
-      <EntryHeader>
+      <Modal modalVisible={showModal} setModalVisible={setShowModal}>
+        <List items={Options} />
+      </Modal>
+      <EntryHeader marginVertical="$2">
         <XStack>
           <Text weight="bold" fontSize="$xl">
             {splitDate[0]}
@@ -160,19 +186,6 @@ const JournalEntry = (props: JournalEntryProps) => {
           <Text weight="bold" fontSize="$xl" opacity={0.57}>
             {splitDate[1]}
           </Text>
-        </XStack>
-        <XStack>
-          <AlertDialog
-            title="Delete Entry?"
-            acceptText="Delete"
-            accept={() => handleDelete(journalEntry.entry_id)}
-          >
-            <Button type="icon" size="$xs">
-              <Button.Icon>
-                <Ionicons name="trash-sharp" />
-              </Button.Icon>
-            </Button>
-          </AlertDialog>
         </XStack>
       </EntryHeader>
       <Button
@@ -188,14 +201,13 @@ const JournalEntry = (props: JournalEntryProps) => {
             },
           })
         }
+        onLongPress={() => setShowModal(true)}
       >
-        <Button.Icon>
-          <JournalCard
-            journalEntry={journalEntry}
-            maxHeight="$16"
-            showSentimentData={false}
-          />
-        </Button.Icon>
+        <JournalCard
+          journalEntry={journalEntry}
+          maxHeight="$16"
+          showSentimentData={false}
+        />
       </Button>
     </EntryContainer>
   );
