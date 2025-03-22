@@ -341,6 +341,8 @@ export const updateUserData = async (
     console.error("File: db-crud.ts, updateUserData() error: ", error);
     return { data: null, error };
   }
+
+  return { data: null, error: null };
 };
 
 export type JournalEntryFeedbackType = {
