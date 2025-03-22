@@ -47,6 +47,7 @@ const EditProfile = () => {
       if (type === "new") {
         // Create
         const result = await createUserData(userData);
+        await userDataStore.fetchUserData(sessionStore.session.user.id);
 
         if (result?.error) {
           Alert.alert("Error", "Failed to create username");
