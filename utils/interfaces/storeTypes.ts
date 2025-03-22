@@ -37,6 +37,7 @@ export type UserDataStoreType = {
   loading: boolean;
   error: any;
   fetchUserData: (user_id: string) => Promise<void>;
+  clear: () => void;
 };
 
 export type SelectedDateStoreType = {
@@ -51,6 +52,7 @@ export type MoodCalendarDataStoreType = {
   error: any;
   setDate: (newDate: Date) => void;
   fetchMoodCalendarData: (user_id: string) => Promise<void>;
+  clear: () => void;
 };
 
 export type MoodBarDataStoreType = {
@@ -60,4 +62,5 @@ export type MoodBarDataStoreType = {
   error: any;
   setDate: (newDate: Date) => void;
   fetchMoodBarData: (user_id: string) => Promise<void>;
+  clear: () => void;
 };
