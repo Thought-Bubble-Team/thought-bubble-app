@@ -152,6 +152,7 @@ const JournalEntry = (props: JournalEntryProps) => {
     try {
       await deleteJournalEntry(entry_id);
       Alert.alert("Success", "Entry deleted successfully");
+      setShowModal(false);
       refresh();
     } catch {
       Alert.alert("Error", "Failed to delete entry. Please try again later");
