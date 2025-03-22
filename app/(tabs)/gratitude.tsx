@@ -38,7 +38,7 @@ export default function Gratitudes() {
           gratitudeEntriesStore.gratitude_entries === null &&
           gratitudeEntriesStore.error === null
         ) {
-          await gratitudeEntriesStore.fetchGratitudeEntries();
+          useGratitudeEntriesStore.getState().fetchGratitudeEntries();
         }
         refresh();
       } catch (e) {

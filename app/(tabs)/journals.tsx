@@ -39,7 +39,9 @@ export default function Journals() {
           journalEntriesStore.error === null &&
           session
         ) {
-          await journalEntriesStore.fetchJournalEntries(session.user.id);
+          useJournalEntriesStore
+            .getState()
+            .fetchJournalEntries(session.user.id);
         }
         setLocalLoading(false);
         void refresh();
