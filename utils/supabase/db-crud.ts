@@ -240,10 +240,33 @@ export const getJournalSentiment = async (
 };
 
 export const deleteJournalEntry = async (entryId: number) => {
-  try {
+  /* try {
     await supabase.from("journal_entry").delete().eq("entry_id", entryId);
   } catch (error) {
+    console.error("Error: ", error);
     return { error };
+  } */
+  try {
+    await axios.delete(
+      `https://thought-bubble-backend.onrender.com/api/journal-entry/${entryId
+      }`,
+    );
+  } catch (error) {
+    if (!axios.isAxiosError(error)) {
+      console.error(`[DELETE](deleteJournalEntry) error: ${error}`);
+      return;
+    }
+
+    if (!error.response) {
+      console.error(`[DELETE](deleteJournalEntry) error: ${error}`);
+      return;
+    }
+
+    console.error(
+      `[DELETE](deleteJournalEntry) status: ${error.response.status}, message: ${error.response.data.detail}`,
+    );
+
+    return;
   }
 };
 
