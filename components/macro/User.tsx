@@ -2,10 +2,7 @@
 import { StyleSheet, Alert } from "react-native";
 import { styled, AnimatePresence, View, XStack, YStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import {
-  useBoolVariation,
-  useLDClient,
-} from "@launchdarkly/react-native-client-sdk";
+import { useBoolVariation } from "@launchdarkly/react-native-client-sdk";
 
 // Component Imports
 import Text from "@/components/atoms/Text";
@@ -43,15 +40,14 @@ export default function User(props: UserProps) {
   const FEATURE_FLAGS = {
     USER_SETTINGS: useBoolVariation("user-settings", false),
   };
-  const ldc = useLDClient();
 
   useEffect(() => {
     const Prepare = async () => {
+      if (!sessionStore.session) {
+        return;
+      }
       try {
-        ldc
-          .identify({ kind: "user", key: "example-user-key", name: "Sandy" })
-          .catch((e: any) => Alert.alert(("Error: " + e) as string));
-        await userDataStore.fetchUserData(sessionStore.session?.user.id || "");
+        useUserDataStore.getState().fetchUserData(sessionStore.session.user.id);
       } catch (e) {
         console.error(e);
       }

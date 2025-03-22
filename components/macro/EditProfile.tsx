@@ -6,7 +6,10 @@ import Text from "@/components/atoms/Text";
 import Input from "../atoms/Input";
 import { Button } from "../atoms/Button";
 
-import { useSessionStore } from "@/utils/stores/useSessionStore";
+import {
+  useSessionStore,
+  useUserDataStore,
+} from "@/utils/stores/useSessionStore";
 import { createUserData, updateUserData } from "@/utils/supabase/db-crud";
 import { UserDataType } from "@/utils/interfaces/dataTypes";
 import { Alert } from "react-native";
@@ -16,6 +19,7 @@ const EditProfile = () => {
   const { type } = useLocalSearchParams();
 
   const sessionStore = useSessionStore();
+  const userDataStore = useUserDataStore();
   const [username, setUsername] = useState<string>("");
   const [localLoading, setLocalLoading] = useState<boolean>(false);
 
@@ -65,6 +69,7 @@ const EditProfile = () => {
           setLocalLoading(false);
         } else {
           Alert.alert("Success", "Username updated successfully");
+          await userDataStore.fetchUserData(sessionStore.session.user.id);
           setLocalLoading(false);
           router.back();
         }
