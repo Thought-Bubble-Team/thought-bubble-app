@@ -16,11 +16,11 @@ export interface JournalEntry {
 
 export const createJournalEntry = async (
   journalEntry: Partial<JournalEntry>,
-  user_id: string
+  user_id: string,
 ): Promise<{ data: JournalEntryResponseType | null; error: any }> => {
   try {
     const result = await axios.post<JournalEntryResponseType>(
-      `https://thought-bubble-backend.onrender.com/api/admin/journal-entry/?user_id=${user_id}&content=${journalEntry.content}&title=${journalEntry.title}`
+      `https://thought-bubble-backend.onrender.com/api/admin/journal-entry/?user_id=${user_id}&content=${journalEntry.content}&title=${journalEntry.title}`,
     );
 
     return { data: result.data, error: null };
@@ -28,14 +28,14 @@ export const createJournalEntry = async (
     if (axios.isAxiosError(error)) {
       if (error.response) {
         console.error(
-          `[db-crud.ts] Error creating journal entry: status:${error.response?.status} | details:${error.response?.data.detail}`
+          `[db-crud.ts] Error creating journal entry: status:${error.response?.status} | details:${error.response?.data.detail}`,
         );
       }
 
       if (error.request) {
         console.error(
           "[db-crud.ts] Error creating journal entry: ",
-          error.request
+          error.request,
         );
       }
     }
@@ -44,11 +44,11 @@ export const createJournalEntry = async (
 };
 
 export const createJournalAnalysis = async (
-  entry_id: number
+  entry_id: number,
 ): Promise<{ data: SentimentResponseType | null; error: any }> => {
   try {
     const result = await axios.post<SentimentResponseType>(
-      `https://thought-bubble-backend.onrender.com/api/analyze-sentiment/?entry_id=${entry_id}`
+      `https://thought-bubble-backend.onrender.com/api/analyze-sentiment/?entry_id=${entry_id}`,
     );
 
     return { data: result.data, error: null };
@@ -56,7 +56,7 @@ export const createJournalAnalysis = async (
     if (axios.isAxiosError(error)) {
       if (error.response) {
         console.error(
-          `Error creating journal analysis: status:${error.response?.status} | details:${error.response?.data.detail}`
+          `Error creating journal analysis: status:${error.response?.status} | details:${error.response?.data.detail}`,
         );
       }
 
@@ -69,7 +69,7 @@ export const createJournalAnalysis = async (
 };
 
 export const createGratitudeEntry = async (
-  journalEntry: Partial<JournalEntry>
+  journalEntry: Partial<JournalEntry>,
 ) => {
   const { data, error } = await supabase
     .from("gratitude_entry")
@@ -84,7 +84,7 @@ export const createGratitudeEntry = async (
 
 export const updateJournalEntry = async (
   entry_id: number,
-  journalEntry: Partial<JournalEntry>
+  journalEntry: Partial<JournalEntry>,
 ) => {
   const { data, error } = await supabase
     .from("journal_entry")
@@ -100,7 +100,7 @@ export const updateJournalEntry = async (
 
 export const updateGratitudeEntry = async (
   entry_id: number,
-  gratitudeEntry: Partial<JournalEntry>
+  gratitudeEntry: Partial<JournalEntry>,
 ) => {
   const { data, error } = await supabase
     .from("gratitude_entry")
@@ -151,11 +151,11 @@ export const getGratitudeEntry = async (entry_id: number) => {
 };
 
 export const getAllJournalEntries = async (
-  user_id: string
+  user_id: string,
 ): Promise<{ data: JournalEntryType | null; error: AxiosError | null }> => {
   try {
     const result = await axios.get<JournalEntryType>(
-      `https://thought-bubble-backend.onrender.com/api/journal-entry/${user_id}/`
+      `https://thought-bubble-backend.onrender.com/api/journal-entry/${user_id}/`,
     );
 
     return { data: result.data, error: null };
@@ -163,7 +163,7 @@ export const getAllJournalEntries = async (
     if (axios.isAxiosError(error)) {
       if (error.response) {
         console.error(
-          `Error fetching journal entries: status:${error.response?.status} | details:${error.response?.data.detail}`
+          `Error fetching journal entries: status:${error.response?.status} | details:${error.response?.data.detail}`,
         );
       } else if (error.request) {
         console.error("Error fetching journal entries: ", error.request);
@@ -190,7 +190,7 @@ export const getAllGratitudeEntries = async () => {
 };
 
 export const getJournalSentiment = async (
-  entryId: number
+  entryId: number,
 ): Promise<{ result: SentimentType | null; error: any }> => {
   const { data, error } = await supabase
     .from("sentiment_analysis")
@@ -256,7 +256,7 @@ export const deleteGratitudeEntry = async (entryId: number) => {
 };
 
 export const createUserData = async (
-  userData: Partial<UserDataType>
+  userData: Partial<UserDataType>,
 ): Promise<{ data: UserDataType | null; error: any }> => {
   const { data, error } = await supabase
     .from("users")
@@ -306,7 +306,7 @@ export const getUserData = async (user_id: string) => {
 
 export const updateUserData = async (
   user_id: string,
-  userData: Partial<UserDataType>
+  userData: Partial<UserDataType>,
 ) => {
   const { error } = await supabase
     .from("users")
@@ -351,5 +351,20 @@ export const submitFeedback = async (entry_id: number, feedback: boolean) => {
     return { data: null, error };
   } else {
     return { data, error: null };
+  }
+};
+
+export const submitBugReport = async (message: string) => {
+  try {
+    const { error } = await supabase.from("bug_reports").insert([{ message }]);
+
+    if (error) {
+      throw new Error();
+    } else {
+      return;
+    }
+  } catch (error) {
+    console.error(`[INSERT](submitBugReport) error: ${error}`);
+    return;
   }
 };

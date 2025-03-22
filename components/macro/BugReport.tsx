@@ -1,14 +1,37 @@
 import { useTheme, XStack } from "tamagui";
-import { TextInput, StyleSheet } from "react-native";
+import { TextInput, StyleSheet, Alert } from "react-native";
 
 import Screen from "@/components/atoms/Screen";
 import Text from "@/components/atoms/Text";
 import { Button } from "@/components/atoms/Button";
 import { useState } from "react";
+import { submitBugReport } from "@/utils/supabase/db-crud";
 
 const BugReport = () => {
   const theme = useTheme();
   const [message, setMessage] = useState<string | undefined>(undefined);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleSubmit = async () => {
+    if (!message || message === "") {
+      Alert.alert("Empty Report", "Cannot have an empty report message");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      console.log("Submitting");
+      await submitBugReport(message);
+
+      Alert.alert("Success", "Thank you for reporting a bug");
+    } catch {
+      Alert.alert(
+        "Error",
+        "There was an error when submitting a bug report. Please try again later",
+      );
+    }
+    setLoading(false);
+  };
 
   const styles = StyleSheet.create({
     MessageInput: {
@@ -48,9 +71,10 @@ const BugReport = () => {
           numberOfLines={10}
         />
       </XStack>
-      <XStack width="100%" justifyContent="flex-end">
-        <Button type="normal" size="$sm" width="50%">
-          <Button.Text>Submit</Button.Text>
+      <XStack width="100%" justifyContent="center">
+        <Button type="normal" size="$sm" onPress={handleSubmit}>
+          {loading && <Button.Spinner />}
+          {!loading && <Button.Text>Submit</Button.Text>}
         </Button>
       </XStack>
     </Screen>
