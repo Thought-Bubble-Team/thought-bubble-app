@@ -251,6 +251,24 @@ const Settings = (props: { featureFlags: { USER_SETTINGS: boolean } }) => {
             />
           </Button>
         </ComponentContainer>
+        <ComponentContainer>
+          <Button
+            type={"navigation"}
+            onPress={() =>
+              router.push({
+                pathname: "/user/[id]/bug_report_page",
+                params: { id: 0 },
+              })
+            }
+          >
+            <Button.Text fontSize="$lg">Report Bugs</Button.Text>
+            <Ionicons
+              name="chevron-forward-outline"
+              size={24}
+              color={theme.black.get()}
+            />
+          </Button>
+        </ComponentContainer>
       </SettingsContent>
       <SettingsContainer marginBottom={16}>
         <ComponentContainer>
