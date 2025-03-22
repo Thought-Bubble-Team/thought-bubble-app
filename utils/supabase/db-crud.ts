@@ -359,7 +359,7 @@ export const submitBugReport = async (message: string) => {
     const { error } = await supabase.from("bug_reports").insert([{ message }]);
 
     if (error) {
-      throw new Error();
+      throw new Error(error.message || "Unknown Error");
     } else {
       return;
     }
