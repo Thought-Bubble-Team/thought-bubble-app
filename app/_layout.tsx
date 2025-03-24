@@ -68,10 +68,6 @@ export default function RootLayout() {
       try {
         if (loaded && !error) {
           await sessionStore.fetchSession();
-          const date_sub = useSelectedDateStore.persist.onHydrate((state) => {
-            console.log("Date Store Hydrated");
-          });
-          date_sub();
           setAppIsReady(true);
         }
       } catch (error) {

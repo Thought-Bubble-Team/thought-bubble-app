@@ -28,10 +28,7 @@ import { XStack } from "tamagui";
 import { router } from "expo-router";
 
 export default function Index() {
-  const selectedDate = useSelectedDateStore((state) => state.selectedDate);
-  const setSelectedDate = useSelectedDateStore(
-    (state) => state.setSelectedDate,
-  );
+  const { selectedDate, stringDate, setSelectedDate } = useSelectedDateStore();
   const sessionStore = useSessionStore();
   const userDataStore = useUserDataStore();
   const moodCalendarDataStore = useMoodCalendarDataStore();
@@ -73,12 +70,9 @@ export default function Index() {
   };
 
   useEffect(() => {
-    const preparePage = async () => {};
-
     sessionStore.listener();
 
     refresh();
-    preparePage();
   }, [selectedDate]);
 
   return (
@@ -98,7 +92,7 @@ export default function Index() {
         <Select
           color={"$black"}
           opacity={0.57}
-          val={selectedDate}
+          val={stringDate}
           setVal={setSelectedDate}
           date={dateOptions}
         />
@@ -137,10 +131,10 @@ export default function Index() {
               <Card.HeaderText fontSize="$lg">Mood Calendar</Card.HeaderText>
             </Card.Header>
             <Card.Body>
-              <MoodCalendar initialDate={selectedDate} />
+              <MoodCalendar />
             </Card.Body>
           </Card>
-          <MoodBar initial_date={selectedDate} />
+          <MoodBar />
         </ScrollView>
       )}
     </Screen>
