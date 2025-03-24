@@ -1,5 +1,5 @@
 import { View, YStack } from "tamagui";
-import { useLocalSearchParams } from "expo-router";
+import { Link, router, useLocalSearchParams } from "expo-router";
 
 import Text from "@/components/atoms/Text";
 import Screen from "@/components/atoms/Screen";
@@ -73,10 +73,17 @@ const Summary = () => {
     try {
       await createJournalAnalysis(Number(id));
       Alert.alert("Success", "Analysis created successfully");
-    } catch (error) {
+    } catch {
       Alert.alert("Error", "Error creating analysis");
     }
     setLocalLoading(false);
+  };
+
+  const handleLink = () => {
+    router.push({
+      pathname: "/notepad/[id]/edit",
+      params: { id: Number(id), type: "editJournal" },
+    });
   };
 
   useEffect(() => {
@@ -113,7 +120,7 @@ const Summary = () => {
         } else {
           setShowFeedback(false);
         }
-      } catch (error) {
+      } catch {
         Alert.alert("Error", "Error preparing summary");
       }
       setLoading(false);
@@ -143,7 +150,11 @@ const Summary = () => {
 
   return (
     <Screen gap={0}>
-      <Navigation title="Entry Summary" />
+      <Navigation title="Entry Summary">
+        <Button type="icon" size="$md" onPress={handleLink}>
+          <Button.Text>Show</Button.Text>
+        </Button>
+      </Navigation>
       <Screen
         backgroundColor="$grey0"
         padding="$lg"
