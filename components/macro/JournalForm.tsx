@@ -1,7 +1,7 @@
 // LIBRARIES
 import { useState, useCallback, Dispatch, SetStateAction } from "react";
 import { StyleSheet, Image, Alert, KeyboardAvoidingView } from "react-native";
-import * as ImagePicker from "expo-image-picker";
+// import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { styled, View, Input, YStack, useTheme } from "tamagui";
 import { PostgrestError } from "@supabase/supabase-js";
@@ -9,7 +9,7 @@ import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { RichText, Toolbar, useEditorBridge } from "@10play/tentap-editor";
 
 // COMPONENTS
-import ScrollView from "@/components/atoms/ScrollView";
+// import ScrollView from "@/components/atoms/ScrollView";
 import { Button } from "@/components/atoms/Button";
 import Text from "@/components/atoms/Text";
 
@@ -20,20 +20,23 @@ import {
   createJournalEntry,
   createJournalAnalysis,
   getGratitudeEntry,
-  getJournalEntry,
+  // getJournalEntry,
   updateGratitudeEntry,
   updateJournalEntry,
 } from "@/utils/supabase/db-crud";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
 import Modal from "../atoms/Modal";
 import LoadingScreen from "./LoadingScreen";
+import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
 
 export const Basic = ({
-  message,
+  content,
   setMessage,
+  editable,
 }: {
-  message: string | undefined;
+  content: string | undefined;
   setMessage: Dispatch<SetStateAction<string | undefined>>;
+  editable: boolean;
 }) => {
   const theme = useTheme();
   const editor = useEditorBridge({
@@ -41,6 +44,8 @@ export const Basic = ({
     onChange: () => {
       editor.getText().then((text) => setMessage(text));
     },
+    initialContent: content,
+    editable: editable,
     theme: {
       toolbar: {
         toolbarBody: {
@@ -74,11 +79,12 @@ export const Basic = ({
 };
 
 export default function JournalForm({ editable = true }: JournalFormProps) {
-  const theme = useTheme();
   const sessionStore = useSessionStore();
+  const { journal_entries } = useJournalEntriesStore();
 
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [message, setMessage] = useState<string | undefined>(undefined);
+  const [content, setContent] = useState<string | undefined>(undefined);
   const [images, setImages] = useState<string[] | undefined>(undefined);
   const [error, setError] = useState<PostgrestError | null>(null);
   const [loading, setLoading] = useState(false);
@@ -88,7 +94,22 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
   useFocusEffect(
     useCallback(() => {
       const fetchJournalEntry = async (entry_id: number) => {
-        const response = await getJournalEntry(entry_id);
+        if (!journal_entries) {
+          return;
+        }
+
+        const journal_entry = journal_entries.find(
+          (entry) => entry.entry_id === Number(id),
+        );
+
+        if (!journal_entry) {
+          return;
+        }
+
+        setContent(journal_entry.content);
+        setTitle(journal_entry.title);
+
+        /* const response = await getJournalEntry(entry_id);
         if (!response) {
           Alert.alert("Error", "Failed to fetch journal entry");
           return;
@@ -102,7 +123,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
         if (response.journalEntryData) {
           setTitle(response.journalEntryData[0].title); // Assuming it's an array
           setMessage(response.journalEntryData[0].content);
-        }
+        } */
       };
 
       const fetchGratitudeEntry = async (entry_id: number) => {
@@ -136,31 +157,31 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
         setMessage("");
         setImages(undefined);
       }
-    }, [])
+    }, []),
   );
 
   // Image Picker
-  const pickImageAsync = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images"],
-      allowsEditing: true,
-      quality: 1,
-    });
+  // const pickImageAsync = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ["images"],
+  //     allowsEditing: true,
+  //     quality: 1,
+  //   });
+  //
+  //   if (!result.canceled) {
+  //     if (images === undefined) {
+  //       setImages([result.assets[0].uri]);
+  //     } else {
+  //       setImages([...images, result.assets[0].uri]);
+  //     }
+  //   }
+  // };
 
-    if (!result.canceled) {
-      if (images === undefined) {
-        setImages([result.assets[0].uri]);
-      } else {
-        setImages([...images, result.assets[0].uri]);
-      }
-    }
-  };
-
-  const removeImage = (index: number) => {
-    if (images !== undefined) {
-      setImages(images.filter((_, i) => i !== index));
-    }
-  };
+  // const removeImage = (index: number) => {
+  //   if (images !== undefined) {
+  //     setImages(images.filter((_, i) => i !== index));
+  //   }
+  // };
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -204,7 +225,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
 
           const result = await createJournalEntry(
             journalEntryObject,
-            sessionStore.session.user.id
+            sessionStore.session.user.id,
           );
 
           if (
@@ -223,7 +244,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
           setLoading(false);
           Alert.alert(
             "Error",
-            "An error occurred while submitting the journal entry"
+            "An error occurred while submitting the journal entry",
           );
           console.error(error);
         }
@@ -232,7 +253,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
       if (type === "editJournal") {
         const { error } = await updateJournalEntry(
           Number(id),
-          journalEntryObject
+          journalEntryObject,
         );
 
         if (error) {
@@ -248,7 +269,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
       if (type === "editGratitude") {
         const { error } = await updateGratitudeEntry(
           Number(id),
-          journalEntryObject
+          journalEntryObject,
         );
 
         if (error) {
@@ -263,7 +284,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
     } catch (error) {
       Alert.alert(
         "Error",
-        "An error occurred while submitting the journal entry"
+        "An error occurred while submitting the journal entry",
       );
     }
   };
@@ -348,7 +369,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
           parser={parseExpensiMark}
           editable={editable}
         /> */}
-      <Basic message={message} setMessage={setMessage} />
+      <Basic content={content} setMessage={setMessage} editable={editable} />
     </ViewStyled>
   );
 }
