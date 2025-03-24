@@ -41,7 +41,8 @@ export type UserDataStoreType = {
 };
 
 export type SelectedDateStoreType = {
-  selectedDate: string;
+  selectedDate: Date;
+  stringDate: string;
   setSelectedDate: (newDate: string) => void;
 };
 

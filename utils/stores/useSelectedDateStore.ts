@@ -1,22 +1,16 @@
 import { create } from "zustand";
-import { persist, devtools, createJSONStorage } from "zustand/middleware";
 
 import { SelectedDateStoreType } from "@/utils/interfaces/storeTypes";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { parseDateToMonthYear, parseInitialDate } from "../dateFormat";
 
+const initial_date = new Date();
 export const useSelectedDateStore = create<SelectedDateStoreType>()(
-  devtools(
-    persist(
-      (set, get) => ({
-        selectedDate: "Jan 2025",
-        setSelectedDate: (newDate) => {
-          set({ selectedDate: newDate });
-        },
-      }),
-      {
-        name: "selected-date-storage",
-        storage: createJSONStorage(() => AsyncStorage),
-      },
-    ),
-  ),
+  (set, get) => ({
+    selectedDate: initial_date,
+    stringDate: parseDateToMonthYear(initial_date),
+    setSelectedDate: (newDate: string) => {
+      const parsedDate = parseInitialDate(newDate);
+      set({ selectedDate: parsedDate, stringDate: newDate });
+    },
+  }),
 );
