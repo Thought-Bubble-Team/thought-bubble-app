@@ -18,6 +18,7 @@ import { Alert } from "react-native";
 import LoadingScreen from "@/components/macro/LoadingScreen";
 import EmotionDetails from "@/components/macro/EmotionDetails/EmotionDetails";
 import SentimentAnalysisFeedback from "@/components/macro/SentimentAnalysisFeedback";
+import ScrollView from "@/components/atoms/ScrollView";
 
 // TODO: Add contact numbers & divider
 const Footer = ({}) => {
@@ -96,7 +97,7 @@ const Summary = () => {
 
         if (result_journal_entry.result) {
           const processedEmotionSummary = processEmotionsData(
-            result_journal_entry.result.emotions
+            result_journal_entry.result.emotions,
           );
           setEmotionSummary(processedEmotionSummary);
           setAnalysis(result_journal_entry.result.analysis_feedback);
@@ -149,30 +150,26 @@ const Summary = () => {
         borderTopLeftRadius={"$8"}
         borderTopRightRadius={"$8"}
       >
-        <Header>
-          <Text weight="bold" fontSize="$xl" textAlign="center">
-            Here's a breakdown of the emotions reflected in this entry
-          </Text>
-        </Header>
-        {!noRecord && (
-          <>
-            <View padding="$lg">
-              <Text
-                weight="regular"
-                fontSize="$md"
-                textAlign="center"
-                numberOfLines={10}
-                ellipsizeMode="tail"
-              >
-                {analysis}
-              </Text>
-            </View>
-            <View padding="$lg">
-              <Graph emotion_summary={emotionSummary} />
-            </View>
-            <EmotionDetails emotion_summary={emotionSummary} />
-          </>
-        )}
+        <ScrollView width="100%">
+          <Header>
+            <Text weight="bold" fontSize="$xl" textAlign="center">
+              Here's a breakdown of the emotions reflected in this entry
+            </Text>
+          </Header>
+          {!noRecord && (
+            <>
+              <View padding="$lg">
+                <Text weight="regular" fontSize="$md" textAlign="center">
+                  {analysis}
+                </Text>
+              </View>
+              <View padding="$lg">
+                <Graph emotion_summary={emotionSummary} />
+              </View>
+              <EmotionDetails emotion_summary={emotionSummary} />
+            </>
+          )}
+        </ScrollView>
         {noRecord && (
           <YStack
             width="100%"
