@@ -234,7 +234,7 @@ const Settings = (props: { featureFlags: { USER_SETTINGS: boolean } }) => {
             type={"navigation"}
             onPress={() =>
               router.navigate({
-                pathname: "/user/[id]/my-data",
+                pathname: "/user/[id]/my_data",
                 params: { id: sessionStore.session?.user.id || "" },
               })
             }

@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { View, Switch } from "tamagui";
-import { useLocalSearchParams, Stack, useFocusEffect } from "expo-router";
+import { useFocusEffect } from "expo-router";
 
 import { Button } from "@/components/atoms/Button";
 import { Navigation } from "@/components/macro/Navigation";
@@ -20,6 +20,7 @@ const Edit = () => {
       style={{ flex: 1, justifyContent: "flex-start", alignItems: "center" }}
     >
       <Navigation>
+        {/**
         <Navigation.Right>
           <Button
             type="icon"
@@ -35,6 +36,7 @@ const Edit = () => {
             />
           </Button>
         </Navigation.Right>
+        **/}
       </Navigation>
       <View
         flex={1}

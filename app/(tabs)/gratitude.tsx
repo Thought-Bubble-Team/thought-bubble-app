@@ -23,6 +23,8 @@ import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { useGratitudeEntriesStore } from "@/utils/stores/useEntriesStore";
 import { JournalEntryType } from "@/utils/interfaces/dataTypes";
 import LoadingScreen from "@/components/macro/LoadingScreen";
+import Modal from "@/components/atoms/Modal";
+import List from "@/components/atoms/List";
 
 export default function Gratitudes() {
   const sessionStore = useSessionStore();
@@ -31,14 +33,14 @@ export default function Gratitudes() {
   const [localLoading, setLocalLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    setLocalLoading(true);
     const PrepareComponent = async () => {
+      setLocalLoading(true);
       try {
         if (
           gratitudeEntriesStore.gratitude_entries === null &&
           gratitudeEntriesStore.error === null
         ) {
-          await gratitudeEntriesStore.fetchGratitudeEntries();
+          useGratitudeEntriesStore.getState().fetchGratitudeEntries();
         }
         refresh();
       } catch (e) {
@@ -46,6 +48,8 @@ export default function Gratitudes() {
       }
       setLocalLoading(false);
     };
+
+    sessionStore.listener();
 
     PrepareComponent();
   }, []);
@@ -117,7 +121,11 @@ export default function Gratitudes() {
               }
             >
               {gratitudeEntriesStore.gratitude_entries.map((entry) => (
-                <GratitudeEntry key={entry.entry_id} gratitudeEntry={entry} />
+                <GratitudeEntry
+                  key={entry.entry_id}
+                  gratitudeEntry={entry}
+                  refresh={refresh}
+                />
               ))}
             </ScrollView>
           )
@@ -129,10 +137,12 @@ export default function Gratitudes() {
 
 interface JournalEntryProps {
   gratitudeEntry: JournalEntryType;
+  refresh: () => Promise<void>;
 }
 
 const GratitudeEntry = (props: JournalEntryProps) => {
-  const { gratitudeEntry } = props;
+  const { gratitudeEntry, refresh } = props;
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const formattedDate = formatDate(gratitudeEntry.created_at);
   const splitDate = splitFormattedDate(formattedDate);
@@ -141,15 +151,36 @@ const GratitudeEntry = (props: JournalEntryProps) => {
     try {
       await deleteGratitudeEntry(entry_id);
       Alert.alert("Success", "Entry deleted successfully");
-    } catch (error) {
+      setShowModal(false);
+      refresh();
+    } catch {
       Alert.alert("Error", "Failed to delete entry");
-      console.log(error);
     }
   };
 
+  const Options = [
+    <Button
+      type="list"
+      size="$xl"
+      onPress={() => handleDelete(gratitudeEntry.entry_id)}
+    >
+      <Button.Text>Delete</Button.Text>
+    </Button>,
+    <Button
+      type="list"
+      size="$xl"
+      onPress={() => Alert.alert("Sorry", "Updating is currently disabled")}
+    >
+      <Button.Text>Update</Button.Text>
+    </Button>,
+  ];
+
   return (
     <EntryContainer>
-      <EntryHeader>
+      <Modal modalVisible={showModal} setModalVisible={setShowModal}>
+        <List items={Options} />
+      </Modal>
+      <EntryHeader marginVertical="$2">
         <XStack>
           <Text weight="bold" fontSize="$xl">
             {splitDate[0]}
@@ -157,19 +188,6 @@ const GratitudeEntry = (props: JournalEntryProps) => {
           <Text weight="bold" fontSize="$xl" opacity={0.57}>
             {splitDate[1]}
           </Text>
-        </XStack>
-        <XStack>
-          <AlertDialog
-            title="Delete Entry?"
-            acceptText="Delete"
-            accept={() => handleDelete(gratitudeEntry.entry_id)}
-          >
-            <Button type="icon" size="$xs">
-              <Button.Icon>
-                <Ionicons name="trash-sharp" />
-              </Button.Icon>
-            </Button>
-          </AlertDialog>
         </XStack>
       </EntryHeader>
       <Button
@@ -181,6 +199,7 @@ const GratitudeEntry = (props: JournalEntryProps) => {
             params: { id: gratitudeEntry.entry_id, type: "editGratitude" },
           })
         }
+        onLongPress={() => setShowModal(true)}
       >
         <Button.Icon>
           <JournalCard journalEntry={gratitudeEntry} maxHeight="$16" />

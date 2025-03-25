@@ -10,6 +10,7 @@ import { parseInitialDate } from "@/utils/dateFormat";
 import { useMoodCalendarDataStore } from "@/utils/stores/useChartDataStore";
 import { useEffect } from "react";
 import { MoodCalendarType } from "@/utils/interfaces/dataTypes";
+import { useSelectedDateStore } from "@/utils/stores/useSelectedDateStore";
 
 const DayContainer = styled(View, {
   width: "14.28%",
@@ -26,22 +27,26 @@ const XStackStyled = styled(XStack, {
 });
 
 interface MoodCalendarProps extends ViewProps {
-  initialDate: string | Date;
+  initialDate?: string | Date;
 }
 
 // Main Component
 const MoodCalendar = (props: MoodCalendarProps) => {
-  const { initialDate, ...restProps } = props;
-  const currentMonth = parseInitialDate(initialDate);
+  const { ...restProps } = props;
+
+  const selectedDate = useSelectedDateStore((state) => state.selectedDate);
   const moodCalendarDataStore = useMoodCalendarDataStore();
 
+  // const currentMonth = parseInitialDate(initialDate);
+  const currentMonth = selectedDate;
+
   useEffect(() => {
-    const prepareComponent = async () => {
-      moodCalendarDataStore.setDate(currentMonth);
+    const prepareComponent = () => {
+      moodCalendarDataStore.setDate(selectedDate);
     };
 
     prepareComponent();
-  }, [initialDate]);
+  }, [selectedDate]);
 
   const renderCalendarCells = () => {
     const getDaysInMonth = (date: Date) => {
@@ -73,7 +78,7 @@ const MoodCalendar = (props: MoodCalendarProps) => {
 
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(
-        Date.UTC(currentMonth.getFullYear(), currentMonth.getMonth(), day)
+        Date.UTC(currentMonth.getFullYear(), currentMonth.getMonth(), day),
       );
       const sentimentData = getSentimentForDate(date);
 

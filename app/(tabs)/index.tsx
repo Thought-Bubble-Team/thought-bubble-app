@@ -25,12 +25,10 @@ import {
   useMoodCalendarDataStore,
 } from "@/utils/stores/useChartDataStore";
 import { XStack } from "tamagui";
+import { router } from "expo-router";
 
 export default function Index() {
-  const selectedDate = useSelectedDateStore((state) => state.selectedDate);
-  const setSelectedDate = useSelectedDateStore(
-    (state) => state.setSelectedDate,
-  );
+  const { selectedDate, stringDate, setSelectedDate } = useSelectedDateStore();
   const sessionStore = useSessionStore();
   const userDataStore = useUserDataStore();
   const moodCalendarDataStore = useMoodCalendarDataStore();
@@ -49,6 +47,16 @@ export default function Index() {
         return;
       }
 
+      if (!userDataStore.userData) {
+        await userDataStore.fetchUserData(sessionStore.session.user.id);
+      }
+
+      if (userDataStore.userData) {
+        if (userDataStore.userData.first_time_user) {
+          router.push({ pathname: "/onboarding_page" });
+        }
+      }
+
       await moodCalendarDataStore.fetchMoodCalendarData(
         sessionStore.session.user.id,
       );
@@ -62,12 +70,9 @@ export default function Index() {
   };
 
   useEffect(() => {
-    const preparePage = async () => {};
-
     sessionStore.listener();
 
     refresh();
-    preparePage();
   }, [selectedDate]);
 
   return (
@@ -87,7 +92,7 @@ export default function Index() {
         <Select
           color={"$black"}
           opacity={0.57}
-          val={selectedDate}
+          val={stringDate}
           setVal={setSelectedDate}
           date={dateOptions}
         />
@@ -103,6 +108,9 @@ export default function Index() {
       {localLoading && (
         <Screen>
           <LoadingScreen>
+            {userDataStore.loading && (
+              <Text weight="bold">Loading User Data</Text>
+            )}
             {moodCalendarDataStore.loading && (
               <Text weight="bold">Loading Mood Calendar Data</Text>
             )}
@@ -123,10 +131,10 @@ export default function Index() {
               <Card.HeaderText fontSize="$lg">Mood Calendar</Card.HeaderText>
             </Card.Header>
             <Card.Body>
-              <MoodCalendar initialDate={selectedDate} />
+              <MoodCalendar />
             </Card.Body>
           </Card>
-          <MoodBar initial_date={selectedDate} />
+          <MoodBar />
         </ScrollView>
       )}
     </Screen>

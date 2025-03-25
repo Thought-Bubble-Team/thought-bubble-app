@@ -70,6 +70,12 @@ export const parseInitialDate = (initialDate: string | Date): Date => {
   return new Date(initialDate);
 };
 
+export const parseDateToMonthYear = (date: Date): string => {
+  const month = date.toLocaleDateString("en-US", { month: "short" });
+  const year = date.getFullYear();
+  return `${month} ${year}`;
+};
+
 export const getMonthYearList = (): { id: number; date: string }[] => {
   const months = [
     "Jan",

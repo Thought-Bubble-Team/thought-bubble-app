@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-v0.1.0-blue" alt="App Version" />
+  <img src="https://img.shields.io/badge/version-v0.3.9-blue" alt="App Version" />
   <img src="https://img.shields.io/badge/platform-Android-brightgreen" alt="Platform" />
   <img src="https://img.shields.io/badge/status-alpha-orange" alt="Status" />
 </p>

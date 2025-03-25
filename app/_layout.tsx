@@ -30,6 +30,8 @@ import { useSelectedDateStore } from "@/utils/stores/useSelectedDateStore";
 SplashScreen.preventAutoHideAsync();
 const isExpoGo = Constants.executionEnvironment === "bare";
 
+global.Buffer = global.Buffer || require("buffer").Buffer;
+
 if (!isExpoGo) {
   SplashScreen.setOptions({
     duration: 1000,
@@ -49,7 +51,7 @@ const featureClient = new ReactNativeLDClient(
     logger: new BasicLogger({
       level: "none",
     }),
-  },
+  }
 );
 
 export default function RootLayout() {
@@ -68,10 +70,6 @@ export default function RootLayout() {
       try {
         if (loaded && !error) {
           await sessionStore.fetchSession();
-          const date_sub = useSelectedDateStore.persist.onHydrate((state) => {
-            console.log("Date Store Hydrated");
-          });
-          date_sub();
           setAppIsReady(true);
         }
       } catch (error) {
@@ -115,6 +113,13 @@ export default function RootLayout() {
                 name="user"
                 options={{
                   title: "User",
+                  contentStyle: { backgroundColor: "#fff" },
+                }}
+              />
+              <Stack.Screen
+                name="my_data"
+                options={{
+                  title: "My Data",
                   contentStyle: { backgroundColor: "#fff" },
                 }}
               />
@@ -165,6 +170,12 @@ export default function RootLayout() {
                 options={{
                   presentation: "modal",
                   animation: "slide_from_bottom",
+                }}
+              />
+              <Stack.Screen
+                name="reset_password_page"
+                options={{
+                  presentation: "modal",
                 }}
               />
             </Stack>

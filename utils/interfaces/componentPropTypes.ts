@@ -3,7 +3,7 @@ export type JournalFormProps = {
 };
 
 export type MoodBarProps = {
-  initial_date: string;
+  initial_date?: string | Date;
 };
 
 export type ListProps = {

@@ -1,7 +1,8 @@
 // Style Imports
 import { Alert } from "react-native";
-import { styled, View } from "tamagui";
-import { router } from "expo-router";
+import { styled, View, XStack } from "tamagui";
+import { type TextInput as RNTextInputType } from "react-native";
+import { Link, router } from "expo-router";
 
 // Component Imports
 import Input from "@/components/atoms/Input";
@@ -9,7 +10,7 @@ import Text from "@/components/atoms/Text";
 import { Button } from "@/components/atoms/Button";
 
 // Utility Imports
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { supabase } from "@/utils/supabase/supabase";
 
 import Logo from "@/assets/icons/tb_logo.svg";
@@ -26,6 +27,9 @@ export default function Login(props: LoginProps) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showInput, setShowInput] = useState<boolean>(false);
+
+  const email_ref = useRef<RNTextInputType | null>(null);
+  const password_ref = useRef<RNTextInputType | null>(null);
 
   const signInWithEmail = async () => {
     if (!email || !password) {
@@ -64,14 +68,20 @@ export default function Login(props: LoginProps) {
         Welcome back! Login to continue your journey.
       </Text>
       <Input
+        ref={email_ref}
         label="Email"
         type="email"
         placeholder="johnydoe@gmail.com"
         value={email}
         onChangeText={setEmail}
         showInput={true}
+        returnKeyType="next"
+        onSubmitEditing={() =>
+          password_ref.current && password_ref.current.focus()
+        }
       />
       <Input
+        ref={password_ref}
         label="Password"
         type="password"
         placeholder="********"
@@ -79,11 +89,20 @@ export default function Login(props: LoginProps) {
         onChangeText={setPassword}
         showInput={showInput}
         setShowInput={setShowInput}
+        returnKeyType="done"
+        onSubmitEditing={signInWithEmail}
       />
       <Button type={"normal"} size={"$md"} onPress={signInWithEmail}>
         {!loading && <Button.Text>LOGIN</Button.Text>}
         {loading && <Button.Spinner />}
       </Button>
+      <XStack>
+        <Link href="/send_reset_link">
+          <Text weight="bold" color="$primary">
+            Forgot Password?
+          </Text>
+        </Link>
+      </XStack>
       <Footer>
         <Text weight="light">Don't have an account?</Text>
         <Button

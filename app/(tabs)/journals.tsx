@@ -39,7 +39,9 @@ export default function Journals() {
           journalEntriesStore.error === null &&
           session
         ) {
-          await journalEntriesStore.fetchJournalEntries(session.user.id);
+          useJournalEntriesStore
+            .getState()
+            .fetchJournalEntries(session.user.id);
         }
         setLocalLoading(false);
         void refresh();
@@ -150,6 +152,7 @@ const JournalEntry = (props: JournalEntryProps) => {
     try {
       await deleteJournalEntry(entry_id);
       Alert.alert("Success", "Entry deleted successfully");
+      setShowModal(false);
       refresh();
     } catch {
       Alert.alert("Error", "Failed to delete entry. Please try again later");

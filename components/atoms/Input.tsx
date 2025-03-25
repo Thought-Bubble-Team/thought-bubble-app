@@ -11,7 +11,7 @@ import Text from "@/components/atoms/Text";
 
 import { InputProps } from "@/utils/interfaces/componentPropInterfaces";
 
-const Input = forwardRef<TamaguiElement, InputProps>((props, ref) => {
+const Input = forwardRef<typeof TextInput, InputProps>((props, ref) => {
   const { label, type, showInput, setShowInput, ...restProps } = props;
   const theme = useTheme();
 
@@ -37,6 +37,7 @@ const Input = forwardRef<TamaguiElement, InputProps>((props, ref) => {
         </Text>
         <RNTextInput
           {...restProps}
+          ref={ref}
           style={inputStyles.input}
           secureTextEntry={type === "password" ? !showInput : false}
         />
