@@ -3,8 +3,50 @@ import { styled, View, XStack, YStack } from "tamagui";
 import Input from "@/components/atoms/Input";
 import Text from "@/components/atoms/Text";
 import { Button } from "@/components/atoms/Button";
+import { useState } from "react";
+import { Alert } from "react-native";
+import { supabase } from "@/utils/supabase/supabase";
+import * as Linking from "expo-linking";
 
 const SendResetLink = () => {
+  const [email, setEmail] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleSubmit = async () => {
+    if (!email) {
+      Alert.alert("Error", "Please enter an email");
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      Alert.alert("Error", "Please enter a valid email");
+      return;
+    }
+
+    const resetPasswordLink = Linking.createURL("/ResetPassword");
+
+    try {
+      setLoading(true);
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: resetPasswordLink,
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      Alert.alert("Success", "Reset link sent to email");
+    } catch (error) {
+      Alert.alert("Error", "Failed to send reset link");
+    }
+    setLoading(false);
+  };
+
   return (
     <FormContainer>
       <YStack padding="$3" gap="$3">
@@ -14,11 +56,19 @@ const SendResetLink = () => {
           </Text>
         </XStack>
         <XStack>
-          <Input placeholder="Email" label="Email" />
+          <Input
+            label="Email"
+            type="email"
+            placeholder="user@gmail.com"
+            value={email}
+            onChangeText={setEmail}
+            showInput={true}
+          />
         </XStack>
         <XStack>
-          <Button>
-            <Button.Text>Send Reset Link</Button.Text>
+          <Button onPress={handleSubmit}>
+            {loading && <Button.Spinner />}
+            {!loading && <Button.Text>Send Reset Link</Button.Text>}
           </Button>
         </XStack>
       </YStack>

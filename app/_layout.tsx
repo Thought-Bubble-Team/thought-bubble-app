@@ -170,6 +170,12 @@ export default function RootLayout() {
                   animation: "slide_from_bottom",
                 }}
               />
+              <Stack.Screen
+                name="reset_password_page"
+                options={{
+                  presentation: "modal",
+                }}
+              />
             </Stack>
           </View>
         </ThemeProvider>
