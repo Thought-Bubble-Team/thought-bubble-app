@@ -25,6 +25,7 @@ import {
 } from "@launchdarkly/react-native-client-sdk";
 import { useCallback, useEffect, useState } from "react";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
+import useTBTheme from "@/utils/stores/usePersonalStore";
 
 SplashScreen.preventAutoHideAsync();
 const isExpoGo = Constants.executionEnvironment === "bare";
@@ -63,11 +64,16 @@ export default function RootLayout() {
   });
   const [appIsReady, setAppIsReady] = useState<boolean>(false);
   const sessionStore = useSessionStore();
+  const theme = useTBTheme((state) => state.theme);
 
   useEffect(() => {
     const prepareApp = async () => {
       try {
         if (loaded && !error) {
+          const theme_unsub = useTBTheme.persist.onHydrate((state) => {
+            console.log("theme", state);
+          });
+          theme_unsub();
           await sessionStore.fetchSession();
           setAppIsReady(true);
         }
@@ -89,10 +95,10 @@ export default function RootLayout() {
   return (
     // add this
     <LDProvider client={featureClient}>
-      <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
+      <TamaguiProvider config={tamaguiConfig} defaultTheme={theme!}>
         <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-          // value={DefaultTheme}
+          // value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          value={theme === "dark" ? DarkTheme : DefaultTheme}
         >
           <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
             <Stack

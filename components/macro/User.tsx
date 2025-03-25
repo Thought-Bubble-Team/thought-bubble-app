@@ -1,4 +1,5 @@
 // Libraries Imports
+import React from "react";
 import { StyleSheet, Alert } from "react-native";
 import { styled, AnimatePresence, View, XStack, YStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -223,6 +224,24 @@ const Settings = (props: { featureFlags: { USER_SETTINGS: boolean } }) => {
           </SettingsContent>
         </>
       )}
+      <SettingsContent>
+        <ComponentContainer justifyContent="flex-start">
+          <Text weight="medium" fontSize="$lg" marginVertical={16}>
+            PERSONALIZE
+          </Text>
+        </ComponentContainer>
+        <Button
+          type={"navigation"}
+          onPress={() => router.navigate("/user/[id]/appearance")}
+        >
+          <Button.Text fontSize="$lg">Appearance</Button.Text>
+          <Ionicons
+            name="chevron-forward-outline"
+            size={24}
+            color={theme.black.get()}
+          />
+        </Button>
+      </SettingsContent>
       <SettingsContent>
         <ComponentContainer justifyContent="flex-start">
           <Text weight="medium" fontSize="$lg" marginVertical={16}>
