@@ -49,7 +49,7 @@ const featureClient = new ReactNativeLDClient(
     logger: new BasicLogger({
       level: "none",
     }),
-  },
+  }
 );
 
 export default function RootLayout() {
@@ -111,6 +111,13 @@ export default function RootLayout() {
                 name="user"
                 options={{
                   title: "User",
+                  contentStyle: { backgroundColor: "#fff" },
+                }}
+              />
+              <Stack.Screen
+                name="my_data"
+                options={{
+                  title: "My Data",
                   contentStyle: { backgroundColor: "#fff" },
                 }}
               />
