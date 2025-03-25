@@ -25,7 +25,6 @@ import {
 } from "@launchdarkly/react-native-client-sdk";
 import { useCallback, useEffect, useState } from "react";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
-import { useSelectedDateStore } from "@/utils/stores/useSelectedDateStore";
 
 SplashScreen.preventAutoHideAsync();
 const isExpoGo = Constants.executionEnvironment === "bare";
@@ -90,10 +89,10 @@ export default function RootLayout() {
   return (
     // add this
     <LDProvider client={featureClient}>
-      <TamaguiProvider config={tamaguiConfig} defaultTheme={"light"}>
+      <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
         <ThemeProvider
-          // value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-          value={DefaultTheme}
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          // value={DefaultTheme}
         >
           <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
             <Stack

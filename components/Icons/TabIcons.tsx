@@ -19,8 +19,7 @@ export default function TabIcons(props: TabIconsProps) {
   const theme = useTheme();
   const activeColor = theme.black.get();
   const inactiveColor = theme.grey2.get();
-  const penLightColor = theme.primary.get();
-  const penDarkColor = theme.black.get();
+  const penColor = theme.primary.get();
 
   if (type === "chart") {
     return (
@@ -39,13 +38,7 @@ export default function TabIcons(props: TabIconsProps) {
       />
     );
   } else if (type === "pen") {
-    return (
-      <Pen
-        width={size}
-        height={size}
-        color={colorScheme === "light" ? penLightColor : penDarkColor}
-      />
-    );
+    return <Pen width={size} height={size} color={penColor} />;
   } else if (type === "user") {
     return (
       <User

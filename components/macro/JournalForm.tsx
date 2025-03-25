@@ -3,7 +3,7 @@ import { useState, useCallback, Dispatch, SetStateAction } from "react";
 import { StyleSheet, Image, Alert, KeyboardAvoidingView } from "react-native";
 // import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { styled, View, Input, YStack, useTheme } from "tamagui";
+import { styled, View, Input, YStack, useTheme, TextArea } from "tamagui";
 import { PostgrestError } from "@supabase/supabase-js";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { RichText, Toolbar, useEditorBridge } from "@10play/tentap-editor";
@@ -45,7 +45,7 @@ export const Basic = ({
       editor.getText().then((text) => setMessage(text));
     },
     initialContent: content,
-    editable: editable,
+    editable: true,
     theme: {
       toolbar: {
         toolbarBody: {
@@ -81,6 +81,7 @@ export const Basic = ({
 export default function JournalForm({ editable = true }: JournalFormProps) {
   const sessionStore = useSessionStore();
   const { journal_entries } = useJournalEntriesStore();
+  const theme = useTheme();
 
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [message, setMessage] = useState<string | undefined>(undefined);
@@ -99,7 +100,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
         }
 
         const journal_entry = journal_entries.find(
-          (entry) => entry.entry_id === Number(id),
+          (entry) => entry.entry_id === Number(id)
         );
 
         if (!journal_entry) {
@@ -107,6 +108,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
         }
 
         setContent(journal_entry.content);
+        setMessage(journal_entry.content);
         setTitle(journal_entry.title);
 
         /* const response = await getJournalEntry(entry_id);
@@ -157,7 +159,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
         setMessage("");
         setImages(undefined);
       }
-    }, []),
+    }, [])
   );
 
   // Image Picker
@@ -225,7 +227,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
 
           const result = await createJournalEntry(
             journalEntryObject,
-            sessionStore.session.user.id,
+            sessionStore.session.user.id
           );
 
           if (
@@ -244,7 +246,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
           setLoading(false);
           Alert.alert(
             "Error",
-            "An error occurred while submitting the journal entry",
+            "An error occurred while submitting the journal entry"
           );
           console.error(error);
         }
@@ -253,7 +255,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
       if (type === "editJournal") {
         const { error } = await updateJournalEntry(
           Number(id),
-          journalEntryObject,
+          journalEntryObject
         );
 
         if (error) {
@@ -269,7 +271,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
       if (type === "editGratitude") {
         const { error } = await updateGratitudeEntry(
           Number(id),
-          journalEntryObject,
+          journalEntryObject
         );
 
         if (error) {
@@ -284,7 +286,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
     } catch (error) {
       Alert.alert(
         "Error",
-        "An error occurred while submitting the journal entry",
+        "An error occurred while submitting the journal entry"
       );
     }
   };
@@ -350,17 +352,20 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
           width={"100%"}
           onChangeText={setTitle}
           placeholder="Enter title..."
+          placeholderTextColor={theme.grey5.get()}
         />
       </View>
 
       {/* Editable Message */}
-      {/* <MessageInput
-          editable={editable}
-          placeholder="Enter your message..."
-          value={message}
-          onChangeText={setMessage}
-          backgroundColor={"$grey0"}
-        /> */}
+      <MessageInput
+        editable={editable}
+        placeholder="Enter your message..."
+        placeholderTextColor={theme.grey5.get()}
+        value={message}
+        onChangeText={setMessage}
+        backgroundColor={"$grey0"}
+        color="$black"
+      />
       {/* <MarkdownTextInput
           value={message}
           onChangeText={setMessage}
@@ -369,7 +374,7 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
           parser={parseExpensiMark}
           editable={editable}
         /> */}
-      <Basic content={content} setMessage={setMessage} editable={editable} />
+      {/* <Basic content={content} setMessage={setMessage} editable={editable} /> */}
     </ViewStyled>
   );
 }
@@ -428,18 +433,18 @@ const TitleInput = styled(Input, {
   paddingVertical: "$3",
 });
 
-// const MessageInput = styled(TextArea, {
-//   fontFamily: "Montserrat_400Regular",
-//   fontSize: 16,
-//   textAlignVertical: "top",
-//   borderWidth: 0,
-//   borderColor: "$grey0",
-//   paddingHorizontal: 0,
-//   paddingVertical: "$3",
-//   numberOfLines: 50,
-//   maxLength: 3000,
-//   flex: 1,
-// });
+const MessageInput = styled(TextArea, {
+  fontFamily: "Montserrat_400Regular",
+  fontSize: 16,
+  textAlignVertical: "top",
+  borderWidth: 0,
+  borderColor: "$grey0",
+  paddingHorizontal: 0,
+  paddingVertical: "$3",
+  numberOfLines: 50,
+  maxLength: 3000,
+  flex: 1,
+});
 
 const styles = StyleSheet.create({
   MessageInput: {
