@@ -30,6 +30,8 @@ import { useSelectedDateStore } from "@/utils/stores/useSelectedDateStore";
 SplashScreen.preventAutoHideAsync();
 const isExpoGo = Constants.executionEnvironment === "bare";
 
+global.Buffer = global.Buffer || require("buffer").Buffer;
+
 if (!isExpoGo) {
   SplashScreen.setOptions({
     duration: 1000,
