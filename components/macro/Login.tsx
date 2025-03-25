@@ -1,8 +1,8 @@
 // Style Imports
 import { Alert } from "react-native";
-import { styled, View } from "tamagui";
+import { styled, View, XStack } from "tamagui";
 import { type TextInput as RNTextInputType } from "react-native";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 
 // Component Imports
 import Input from "@/components/atoms/Input";
@@ -79,7 +79,6 @@ export default function Login(props: LoginProps) {
         onSubmitEditing={() =>
           password_ref.current && password_ref.current.focus()
         }
-        blurOnSubmit={false}
       />
       <Input
         ref={password_ref}
@@ -97,6 +96,13 @@ export default function Login(props: LoginProps) {
         {!loading && <Button.Text>LOGIN</Button.Text>}
         {loading && <Button.Spinner />}
       </Button>
+      <XStack>
+        <Link href="/send_reset_link">
+          <Text weight="bold" color="$primary">
+            Forgot Password?
+          </Text>
+        </Link>
+      </XStack>
       <Footer>
         <Text weight="light">Don't have an account?</Text>
         <Button
