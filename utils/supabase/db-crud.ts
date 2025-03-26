@@ -87,22 +87,18 @@ export const updateJournalEntry = async (
   journalEntry: Partial<JournalEntry>,
   user_id: string
 ) => {
-  // const { data, error } = await supabase
-  //   .from("journal_entry")
-  //   .update(journalEntry)
-  //   .eq("entry_id", entry_id);
-
-  // if (error) {
-  //   return { data: null, error };
-  // } else {
-  //   return { data, error: null };
-  // }
   const content = journalEntry.content;
   const title = journalEntry.title;
 
   try {
+    const params = new URLSearchParams({
+      user_id,
+      content: content || "",
+      title: title || "",
+    });
+
     const result = await axios.put<JournalEntryResponseType>(
-      `https://thought-bubble-backend.onrender.com/api/journal-entry/${entry_id}/?user_id=${user_id}&content=${content}&title=${title}`
+      `https://thought-bubble-backend.onrender.com/api/journal-entry/${entry_id}?${params.toString()}`
     );
 
     return { data: result.data, error: null };

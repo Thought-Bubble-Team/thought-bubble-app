@@ -80,6 +80,7 @@ export const Basic = ({
 
 export default function JournalForm({ editable = true }: JournalFormProps) {
   const sessionStore = useSessionStore();
+  const journalEntriesStore = useJournalEntriesStore();
   const { journal_entries } = useJournalEntriesStore();
   const theme = useTheme();
 
@@ -237,8 +238,6 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
       }
 
       if (type === "editJournal") {
-        console.log(journalEntryObject.content);
-        console.log(journalEntryObject.title);
         const result = await updateJournalEntry(
           Number(id),
           journalEntryObject,
@@ -247,15 +246,12 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
 
         if (result.data) {
           Alert.alert("Success", "Journal entry updated successfully!");
+          await journalEntriesStore.fetchJournalEntries(
+            sessionStore.session.user.id
+          );
           router.replace({ pathname: "/journals" });
         }
-        // if (error) {
-        //   Alert.alert("Error", error.message);
-        //   setError(error);
-        // } else {
-        //   Alert.alert("Success", "Journal entry updated successfully!");
-        //   router.replace({ pathname: "/journals" });
-        // }
+
         setLoading(false);
       }
 
@@ -357,14 +353,6 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
         backgroundColor={"$grey0"}
         color="$black"
       />
-      {/* <MarkdownTextInput
-          value={message}
-          onChangeText={setMessage}
-          style={styles.MessageInput}
-          placeholder="Enter your message..."
-          parser={parseExpensiMark}
-          editable={editable}
-        /> */}
       {/* <Basic content={content} setMessage={setMessage} editable={editable} /> */}
     </ViewStyled>
   );

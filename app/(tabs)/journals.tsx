@@ -293,7 +293,7 @@ const JournalEntry = (props: JournalEntryProps) => {
         type="icon"
         padding={0}
         onPress={() =>
-          router.navigate({
+          router.push({
             pathname: "/journals/[id]/summary",
             params: {
               id: journalEntry.entry_id,
