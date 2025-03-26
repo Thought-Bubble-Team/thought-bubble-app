@@ -21,7 +21,6 @@ const Edit = () => {
       marginTop="$3"
     >
       <Navigation>
-        {/**
         <Navigation.Right>
           <Button
             type="icon"
@@ -37,7 +36,6 @@ const Edit = () => {
             />
           </Button>
         </Navigation.Right>
-        **/}
       </Navigation>
       <View
         flex={1}

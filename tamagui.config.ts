@@ -81,9 +81,9 @@ const themes = {
     grey5: "#6F8990", // Inversion of "#90766F"
     greyOutline: "#445259", // Inversion of "#BBADA6"
     searchBg: "#0A0A0A",
-    success: "#4CAF50",
+    success: "#2A7A70",
     warning: "#FFC107",
-    error: "#F44336",
+    error: "#6B5CA6",
     disabled: "#BCA49D",
     divider: "#BBADA6",
     primaryPressed: "#3F7BD2", // Darker blue.
@@ -99,9 +99,9 @@ const themes = {
     grey5Pressed: "#6F8990",
     greyOutlinePressed: "#445259", // Same as greyOutline inversion
     searchBgPressed: "#1A1A1A", // Slightly lighter than searchBg
-    successPressed: "#329D66",
+    successPressed: "#246B65",
     warningPressed: "#FFB300",
-    errorPressed: "#B71C1C",
+    errorPressed: "#5C4C94",
     disabledPressed: "#BCA49D",
     dividerPressed: "#BBADA6",
   },

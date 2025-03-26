@@ -17,6 +17,7 @@ interface SelectProps extends TSelectProps {
   borderWidth?: number;
   color?: string;
   opacity?: number;
+  placeholder?: string;
 }
 
 export default function Select({
@@ -26,6 +27,7 @@ export default function Select({
   borderWidth,
   color,
   opacity,
+  placeholder = "Jan 2025",
   ...restProps
 }: SelectProps) {
   const theme = useTheme();
@@ -33,7 +35,7 @@ export default function Select({
     <TSelect value={val} onValueChange={setVal} disablePreventBodyScroll>
       <TSelect.Trigger width={125} borderWidth={borderWidth}>
         <TSelect.Value
-          placeholder="Jan 2025"
+          placeholder={placeholder}
           color={color}
           size={16}
           opacity={opacity}

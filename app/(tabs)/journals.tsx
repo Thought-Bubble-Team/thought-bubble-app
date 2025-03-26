@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { styled, View, XStack } from "tamagui";
 import { Alert, RefreshControl } from "react-native";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 
 // Components Imports
 import NoSession from "@/components/macro/NoSession";
@@ -14,7 +14,13 @@ import JournalCard from "@/components/macro/JournalCard";
 import Header from "@/components/atoms/Header";
 
 // Utilities Imports
-import { formatDate, splitFormattedDate } from "@/utils/dateFormat";
+import {
+  formatDate,
+  getMonthList,
+  splitFormattedDate,
+  getDaysInMonth,
+  getSortOptions,
+} from "@/utils/dateFormat";
 import { deleteJournalEntry } from "@/utils/supabase/db-crud";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { JournalEntryType } from "@/utils/interfaces/dataTypes";
@@ -22,6 +28,8 @@ import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
 import LoadingScreen from "@/components/macro/LoadingScreen";
 import Modal from "@/components/atoms/Modal";
 import List from "@/components/atoms/List";
+import Select from "@/components/atoms/Select";
+import { getHighestEmotion } from "@/components/macro/JournalCard";
 
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
@@ -29,6 +37,49 @@ export default function Journals() {
   const journalEntriesStore = useJournalEntriesStore();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [localLoading, setLocalLoading] = useState<boolean>(false);
+  const params = useLocalSearchParams();
+
+  // Filtering
+  const [showFilter, setShowFilter] = useState<boolean>(false);
+  const [month, setMonth] = useState<string>("");
+  const [day, setDay] = useState<string>("");
+  const [sort, setSort] = useState<string>("dsc");
+
+  // Add month name to number mapping
+  const monthToNumber: { [key: string]: number } = {
+    Jan: 0,
+    Feb: 1,
+    Mar: 2,
+    Apr: 3,
+    May: 4,
+    Jun: 5,
+    Jul: 6,
+    Aug: 7,
+    Sep: 8,
+    Oct: 9,
+    Nov: 10,
+    Dec: 11,
+  };
+
+  // Handle URL parameter changes
+  useEffect(() => {
+    if (params.month) {
+      const monthNames = Object.keys(monthToNumber);
+      setMonth(monthNames[parseInt(params.month.toString())]);
+      setShowFilter(true);
+    }
+    if (params.day) {
+      setDay(params.day.toString());
+      setShowFilter(true);
+    }
+  }, [params.month, params.day]);
+
+  const resetFilter = () => {
+    setMonth("");
+    setDay("");
+    setSort("asc");
+    setShowFilter(false);
+  };
 
   useEffect(() => {
     setLocalLoading(true);
@@ -103,6 +154,45 @@ export default function Journals() {
             Your Journey
           </Text>
         </Header>
+        <XStack>
+          <Button type="icon" onPress={() => setShowFilter(!showFilter)}>
+            <Button.Text>Filter</Button.Text>
+          </Button>
+          {showFilter && (
+            <Button type="icon" onPress={() => resetFilter()}>
+              <Button.Text>Reset Filter</Button.Text>
+            </Button>
+          )}
+        </XStack>
+        {/** Filter */}
+        {showFilter && (
+          <XStack>
+            <Select
+              color="$black"
+              opacity={0.57}
+              val={month}
+              setVal={setMonth}
+              date={getMonthList()}
+              placeholder="Month"
+            />
+            <Select
+              color="$black"
+              opacity={0.57}
+              val={day}
+              setVal={setDay}
+              date={getDaysInMonth(month)}
+              placeholder="Day"
+            />
+            <Select
+              color="$black"
+              opacity={0.57}
+              val={sort}
+              setVal={setSort}
+              date={getSortOptions()}
+              placeholder="Sort"
+            />
+          </XStack>
+        )}
         {journalEntriesStore.error && !journalEntriesStore.journal_entries && (
           <Failed refresh={refresh} />
         )}
@@ -121,13 +211,37 @@ export default function Journals() {
                 <RefreshControl refreshing={refreshing} onRefresh={refresh} />
               }
             >
-              {journalEntriesStore.journal_entries.map((entry) => (
-                <JournalEntry
-                  key={entry.entry_id}
-                  journalEntry={entry}
-                  refresh={refresh}
-                />
-              ))}
+              {journalEntriesStore.journal_entries
+                .filter((entry) => {
+                  // If both month and day are empty strings, show all entries
+                  if (!month && !day) return true;
+
+                  const entryDate = new Date(entry.created_at);
+                  const entryMonth = entryDate.getMonth();
+                  const entryDay = entryDate.getDate().toString();
+
+                  // Only apply month filter if month is selected
+                  const monthMatch =
+                    !month || entryMonth === monthToNumber[month];
+                  // Only apply day filter if day is selected and not "All"
+                  const dayMatch = !day || day === "All" || entryDay === day;
+
+                  return monthMatch && dayMatch;
+                })
+                .sort((a, b) => {
+                  const dateA = new Date(a.created_at);
+                  const dateB = new Date(b.created_at);
+                  return sort === "asc"
+                    ? dateA.getTime() - dateB.getTime()
+                    : dateB.getTime() - dateA.getTime();
+                })
+                .map((entry) => (
+                  <JournalEntry
+                    key={entry.entry_id}
+                    journalEntry={entry}
+                    refresh={refresh}
+                  />
+                ))}
             </ScrollView>
           )
         ) : null}
@@ -195,7 +309,7 @@ const JournalEntry = (props: JournalEntryProps) => {
         type="icon"
         padding={0}
         onPress={() =>
-          router.navigate({
+          router.push({
             pathname: "/journals/[id]/summary",
             params: {
               id: journalEntry.entry_id,

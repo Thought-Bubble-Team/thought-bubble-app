@@ -68,7 +68,12 @@ const MoodCalendar = (props: MoodCalendarProps) => {
       });
     };
 
-    const days: { key: string; day?: string; emotions?: string }[] = [];
+    const days: {
+      key: string;
+      day?: string;
+      emotions?: string;
+      date?: Date;
+    }[] = [];
     const daysInMonth = getDaysInMonth(currentMonth);
     const firstDayOfMonth = getFirstDayOfMonth(currentMonth);
 
@@ -78,7 +83,7 @@ const MoodCalendar = (props: MoodCalendarProps) => {
 
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(
-        Date.UTC(currentMonth.getFullYear(), currentMonth.getMonth(), day),
+        Date.UTC(currentMonth.getFullYear(), currentMonth.getMonth(), day)
       );
       const sentimentData = getSentimentForDate(date);
 
@@ -86,6 +91,7 @@ const MoodCalendar = (props: MoodCalendarProps) => {
         key: sentimentData ? `day-${day}` : `blank-${day}`,
         day: `${day}`,
         emotions: sentimentData ? sentimentData.emotions : undefined,
+        date: date,
       });
     }
 
@@ -130,7 +136,12 @@ const MoodCalendar = (props: MoodCalendarProps) => {
       </XStackStyled>
       <XStackStyled>
         {renderCalendarCells().map((item) => (
-          <Day key={item.key} day={item.day} emotions={item.emotions} />
+          <Day
+            key={item.key}
+            day={item.day}
+            emotions={item.emotions}
+            date={item.date}
+          />
         ))}
       </XStackStyled>
     </View>
