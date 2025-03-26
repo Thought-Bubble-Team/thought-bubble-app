@@ -85,12 +85,14 @@ export default function Select({
         </TSelect.ScrollUpButton>
         <TSelect.Viewport minWidth={200}>
           <TSelect.Group>
-            <TSelect.Label>Select Date</TSelect.Label>
+            <TSelect.Label color="$black">Select Date</TSelect.Label>
             {useMemo(
               () =>
                 date.map((item, index) => (
                   <TSelect.Item index={index} key={item.id} value={item.date}>
-                    <TSelect.ItemText>{item.date}</TSelect.ItemText>
+                    <TSelect.ItemText color="$black">
+                      {item.date}
+                    </TSelect.ItemText>
                     <TSelect.ItemIndicator marginLeft="auto">
                       <Ionicons name="checkmark-sharp" size={16} />
                     </TSelect.ItemIndicator>

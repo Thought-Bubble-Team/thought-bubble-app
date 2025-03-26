@@ -68,42 +68,42 @@ const themes = {
     dividerPressed: "#BBADA6",
   },
   dark: {
-    primary: "#CB806A",
-    secondary: "#33A1FF",
-    background: "#1A1A1A",
-    black: "#FFFFFF",
-    white: "#121212",
-    grey0: "#90766F",
-    grey1: "#BCA49D",
-    grey2: "#D8C6BD",
-    grey3: "#E9D9D0",
-    grey4: "#EAE2DE",
-    grey5: "#F6EFEC",
-    greyOutline: "#445259",
-    searchBg: "#1A1A1A",
+    primary: "#4A90E2", // A vibrant blue.
+    secondary: "#50E3C2", // A complementary turquoise.
+    background: "#0A0A0A", // Inversion of light mode "#F5F5F5"
+    white: "#E5E5E5", // Soft off-white for text and highlights
+    black: "#BBC1C4", // Inversion of "#443E3B"
+    grey0: "#091013", // Inversion of "#F6EFEC" – very dark
+    grey1: "#151D21", // Inversion of "#EAE2DE"
+    grey2: "#16262F", // Inversion of "#E9D9D0"
+    grey3: "#273942", // Inversion of "#D8C6BD"
+    grey4: "#435B62", // Inversion of "#BCA49D"
+    grey5: "#6F8990", // Inversion of "#90766F"
+    greyOutline: "#445259", // Inversion of "#BBADA6"
+    searchBg: "#0A0A0A",
     success: "#4CAF50",
     warning: "#FFC107",
     error: "#F44336",
-    disabled: "#435B62",
-    divider: "#445259",
-    primaryPressed: "#B36A53",
-    secondaryPressed: "#1A8CD6",
-    backgroundPressed: "#141414",
-    blackPressed: "#F0F0F0",
-    whitePressed: "#2C2C2C",
-    grey0Pressed: "#16262F",
-    grey1Pressed: "#273942",
-    grey2Pressed: "#435B62",
-    grey3Pressed: "#6F8990",
+    disabled: "#BCA49D",
+    divider: "#BBADA6",
+    primaryPressed: "#3F7BD2", // Darker blue.
+    secondaryPressed: "#45C0AF", // Darker turquoise.
+    backgroundPressed: "#1A1A1A", // Slight lift from "#0A0A0A"
+    blackPressed: "#C2C6C9", // (A lightening of black inversion)
+    whitePressed: "#D1CCC7",
+    grey0Pressed: "#16262F", // Inversion of light mode’s grey0Pressed "#E9D9D0"
+    grey1Pressed: "#273942", // Inversion of "#D8C6BD"
+    grey2Pressed: "#435B62", // Inversion of "#BCA49D"
+    grey3Pressed: "#6F8990", // Inversion of "#90766F"
     grey4Pressed: "#6F8990",
     grey5Pressed: "#6F8990",
-    greyOutlinePressed: "#445259",
-    searchBgPressed: "#141414",
-    successPressed: "#43A047",
+    greyOutlinePressed: "#445259", // Same as greyOutline inversion
+    searchBgPressed: "#1A1A1A", // Slightly lighter than searchBg
+    successPressed: "#329D66",
     warningPressed: "#FFB300",
-    errorPressed: "#E53935",
-    disabledPressed: "#435B62",
-    dividerPressed: "#445259",
+    errorPressed: "#B71C1C",
+    disabledPressed: "#BCA49D",
+    dividerPressed: "#BBADA6",
   },
 };
 
