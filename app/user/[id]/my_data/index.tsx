@@ -30,7 +30,7 @@ const Index = () => {
             backgroundColor="$error"
             pressStyle={{ backgroundColor: "$errorPressed" }}
           >
-            <Button.Text color="$grey0">Delete My Account</Button.Text>
+            <Button.Text color="$black">Delete My Account</Button.Text>
           </Button>
         </XStack>
       </Screen>
