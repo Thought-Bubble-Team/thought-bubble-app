@@ -1,5 +1,11 @@
+import useTBTheme from "@/utils/stores/usePersonalStore";
 import { Modal as RNModal } from "react-native";
-import { styled, View as TView, ViewProps as TViewProps } from "tamagui";
+import {
+  styled,
+  View as TView,
+  ViewProps as TViewProps,
+  useTheme,
+} from "tamagui";
 
 interface ModalProps extends TViewProps {
   children?: React.ReactNode;
@@ -9,7 +15,22 @@ interface ModalProps extends TViewProps {
 }
 
 const Modal = (props: ModalProps) => {
+  const theme = useTheme();
+  const themeStore = useTBTheme();
   const { children, modalVisible, ref, setModalVisible, ...restProps } = props;
+
+  const backgroundColor =
+    themeStore.theme === "light"
+      ? "rgba(132, 98, 88, 0.55)"
+      : "rgba(74, 144, 226, 0.35)";
+
+  const ViewStyled = styled(TView, {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: backgroundColor,
+    padding: "$lg",
+  });
 
   return (
     <RNModal
@@ -27,13 +48,5 @@ const Modal = (props: ModalProps) => {
     </RNModal>
   );
 };
-
-const ViewStyled = styled(TView, {
-  flex: 1,
-  justifyContent: "center",
-  alignItems: "center",
-  backgroundColor: "rgba(132, 98, 88, 0.55)",
-  padding: "$lg",
-});
 
 export default Modal;
