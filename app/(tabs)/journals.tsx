@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { styled, View, XStack } from "tamagui";
 import { Alert, RefreshControl } from "react-native";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 
 // Components Imports
 import NoSession from "@/components/macro/NoSession";
@@ -36,6 +36,7 @@ export default function Journals() {
   const journalEntriesStore = useJournalEntriesStore();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [localLoading, setLocalLoading] = useState<boolean>(false);
+  const params = useLocalSearchParams();
 
   // Filtering
   const [showFilter, setShowFilter] = useState<boolean>(false);
@@ -59,10 +60,24 @@ export default function Journals() {
     Dec: 11,
   };
 
+  // Handle URL parameter changes
+  useEffect(() => {
+    if (params.month) {
+      const monthNames = Object.keys(monthToNumber);
+      setMonth(monthNames[parseInt(params.month.toString())]);
+      setShowFilter(true);
+    }
+    if (params.day) {
+      setDay(params.day.toString());
+      setShowFilter(true);
+    }
+  }, [params.month, params.day]);
+
   const resetFilter = () => {
     setMonth("");
     setDay("");
     setSort("asc");
+    setShowFilter(false);
   };
 
   useEffect(() => {
