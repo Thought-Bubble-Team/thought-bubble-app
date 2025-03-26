@@ -27,7 +27,10 @@ import {
 import { useSessionStore } from "@/utils/stores/useSessionStore";
 import Modal from "../atoms/Modal";
 import LoadingScreen from "./LoadingScreen";
-import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
+import {
+  useJournalEntriesStore,
+  useSentimentAnalysisStore,
+} from "@/utils/stores/useEntriesStore";
 
 export const Basic = ({
   content,
@@ -81,6 +84,7 @@ export const Basic = ({
 export default function JournalForm({ editable = true }: JournalFormProps) {
   const sessionStore = useSessionStore();
   const journalEntriesStore = useJournalEntriesStore();
+  const sentimentAnalysisStore = useSentimentAnalysisStore();
   const { journal_entries } = useJournalEntriesStore();
   const theme = useTheme();
 
@@ -245,6 +249,9 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
         );
 
         if (result.data) {
+          // Remove the sentiment analysis for this entry
+          sentimentAnalysisStore.removeSentimentAnalysis(Number(id));
+
           Alert.alert("Success", "Journal entry updated successfully!");
           await journalEntriesStore.fetchJournalEntries(
             sessionStore.session.user.id

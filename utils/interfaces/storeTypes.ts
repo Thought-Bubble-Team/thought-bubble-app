@@ -81,5 +81,6 @@ export type SentimentAnalysisStoreType = {
     entry_id: number,
     emotion_summary: { emotion: string; percentage: number }[]
   ) => void;
+  removeSentimentAnalysis: (entry_id: number) => void;
   clear: () => void;
 };

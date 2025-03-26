@@ -84,6 +84,19 @@ export const useSentimentAnalysisStore = create<SentimentAnalysisStoreType>(
           { entry_id, emotion_summary },
         ],
       })),
+    removeSentimentAnalysis: (entry_id: number) =>
+      set((state) => ({
+        sentiment_analysis: state.sentiment_analysis
+          ? state.sentiment_analysis.filter(
+              (analysis) => analysis.entry_id !== entry_id
+            )
+          : null,
+        emotion_summaries: state.emotion_summaries
+          ? state.emotion_summaries.filter(
+              (summary) => summary.entry_id !== entry_id
+            )
+          : null,
+      })),
     clear: () =>
       set({
         sentiment_analysis: null,
