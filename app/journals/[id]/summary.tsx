@@ -20,6 +20,7 @@ import LoadingScreen from "@/components/macro/LoadingScreen";
 import EmotionDetails from "@/components/macro/EmotionDetails/EmotionDetails";
 import SentimentAnalysisFeedback from "@/components/macro/SentimentAnalysisFeedback";
 import ScrollView from "@/components/atoms/ScrollView";
+import { useSentimentAnalysisStore } from "@/utils/stores/useEntriesStore";
 
 // TODO: Add contact numbers & divider
 const Footer = ({}) => {
@@ -68,12 +69,27 @@ const Summary = () => {
   >([]);
   const [noRecord, setNoRecord] = useState<boolean>(false);
   const [showFeedback, setShowFeedback] = useState<boolean>(false);
+  const sentimentAnalysisStore = useSentimentAnalysisStore();
 
   const handleAnalysis = async () => {
     setLocalLoading(true);
     try {
-      await createJournalAnalysis(Number(id));
-      Alert.alert("Success", "Analysis created successfully");
+      // Check if analysis exists in store
+      const existingAnalysis = sentimentAnalysisStore.sentiment_analysis?.find(
+        (analysis) => analysis.entry_id === Number(id)
+      );
+
+      if (!existingAnalysis) {
+        const result = await createJournalAnalysis(Number(id));
+        if (result.data) {
+          sentimentAnalysisStore.addSentimentAnalysis(result.data);
+          Alert.alert("Success", "Analysis created successfully");
+        } else {
+          Alert.alert("Error", "Failed to create analysis");
+        }
+      } else {
+        Alert.alert("Info", "Analysis already exists");
+      }
     } catch {
       Alert.alert("Error", "Error creating analysis");
     }

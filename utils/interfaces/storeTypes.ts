@@ -4,6 +4,7 @@ import {
   MoodCalendarDataType,
   MoodBarDataType,
   MonthlySummaryType,
+  SentimentResponseType,
 } from "@/utils/interfaces/dataTypes";
 import { Session } from "@supabase/supabase-js";
 
@@ -63,5 +64,13 @@ export type MoodBarDataStoreType = {
   error: any;
   setDate: (newDate: Date) => void;
   fetchMoodBarData: (user_id: string) => Promise<void>;
+  clear: () => void;
+};
+
+export type SentimentAnalysisStoreType = {
+  sentiment_analysis: SentimentResponseType[] | null;
+  loading: boolean;
+  error: any;
+  addSentimentAnalysis: (sentiment_analysis: SentimentResponseType) => void;
   clear: () => void;
 };
