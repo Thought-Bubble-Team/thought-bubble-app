@@ -13,7 +13,6 @@ import { supabase } from "@/utils/supabase/supabase";
 
 // Utility Imports
 import { Session } from "@supabase/supabase-js";
-import { Image } from "expo-image";
 import { useTheme } from "tamagui";
 import { router } from "expo-router";
 import {
@@ -25,9 +24,6 @@ import { useEffect } from "react";
 interface UserProps {
   session?: Session;
 }
-
-const blurhash =
-  "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
 const ButtonTester = () => {
   Alert.alert("Button Pressed");
@@ -56,24 +52,9 @@ export default function User(props: UserProps) {
     Prepare();
   }, []);
 
-  const imageStyles = StyleSheet.create({
-    image: {
-      width: 85,
-      height: 85,
-      borderRadius: 48,
-    },
-  });
-
   return (
     <MainContainer>
       <ProfileContainer>
-        <Image
-          style={imageStyles.image}
-          source="https://placecats.com/300/200"
-          placeholder={{ blurhash }}
-          contentFit="cover"
-          transition={1000}
-        />
         <YStack gap={"$1"}>
           <Text weight="bold" fontSize="$xxl">
             {userDataStore.userData?.username}
