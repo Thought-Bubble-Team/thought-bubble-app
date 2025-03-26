@@ -226,6 +226,7 @@ const MainView = styled(Screen, {
   paddingHorizontal: "$3",
   paddingVertical: "$1",
   backgroundColor: "$background",
+  marginTop: "$3",
 });
 
 const Container = styled(View, {

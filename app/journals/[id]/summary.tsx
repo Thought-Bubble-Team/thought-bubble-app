@@ -1,5 +1,6 @@
+import React from "react";
 import { View, YStack } from "tamagui";
-import { Link, router, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 
 import Text from "@/components/atoms/Text";
 import Screen from "@/components/atoms/Screen";
@@ -104,7 +105,7 @@ const Summary = () => {
 
         if (result_journal_entry.result) {
           const processedEmotionSummary = processEmotionsData(
-            result_journal_entry.result.emotions,
+            result_journal_entry.result.emotions
           );
           setEmotionSummary(processedEmotionSummary);
           setAnalysis(result_journal_entry.result.analysis_feedback);
@@ -131,7 +132,7 @@ const Summary = () => {
 
   if (loading) {
     return (
-      <Screen gap={0}>
+      <Screen gap={0} marginTop="$3">
         <Navigation title="Entry Summary" />
         <Screen
           backgroundColor="$grey0"
@@ -149,7 +150,7 @@ const Summary = () => {
   }
 
   return (
-    <Screen gap={0}>
+    <Screen gap={0} marginTop="$3">
       <Navigation title="Entry Summary">
         <Button type="icon" size="$md" onPress={handleLink}>
           <Button.Text>Show</Button.Text>

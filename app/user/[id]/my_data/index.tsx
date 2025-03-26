@@ -6,7 +6,7 @@ import { router } from "expo-router";
 
 const Index = () => {
   return (
-    <Screen justifyContent="flex-start">
+    <Screen justifyContent="flex-start" marginTop="$3">
       <Navigation title="My Data" />
       <Screen justifyContent="flex-start" padding="$3">
         <XStack>

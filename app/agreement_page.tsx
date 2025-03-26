@@ -3,7 +3,7 @@ import Agreement from "@/components/macro/Agreement";
 
 const AgreementPage = () => {
   return (
-    <Screen>
+    <Screen marginTop="$3">
       <Agreement />
     </Screen>
   );

@@ -11,9 +11,9 @@ import { useMoodBarDataStore } from "@/utils/stores/useChartDataStore";
 const MoodBar = () => {
   const moodBarDataStore = useMoodBarDataStore();
   return (
-    <Screen>
+    <Screen marginTop="$3">
       <Navigation title="Monthly Emotions" />
-      <Screen padding={"$sm"}>
+      <Screen padding={"$sm"} justifyContent="flex-start">
         <View>
           <Text weight="bold" fontSize="$lg">
             Here are your strongest emotions this month

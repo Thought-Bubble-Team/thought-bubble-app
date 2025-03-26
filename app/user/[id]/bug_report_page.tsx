@@ -4,7 +4,7 @@ import { Navigation } from "@/components/macro/Navigation";
 
 const BugReportPage = () => {
   return (
-    <Screen justifyContent="flex-start">
+    <Screen justifyContent="flex-start" marginTop="$3">
       <Navigation title="Bug Report" />
       <BugReport />
     </Screen>

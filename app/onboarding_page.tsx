@@ -3,7 +3,7 @@ import Onboarding from "@/components/macro/Onboarding";
 
 const OnboardingPage = () => {
   return (
-    <Screen>
+    <Screen marginTop="$3">
       <Onboarding />
     </Screen>
   );

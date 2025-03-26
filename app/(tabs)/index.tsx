@@ -58,7 +58,7 @@ export default function Index() {
       }
 
       await moodCalendarDataStore.fetchMoodCalendarData(
-        sessionStore.session.user.id,
+        sessionStore.session.user.id
       );
       await moodBarDataStore.fetchMoodBarData(sessionStore.session.user.id);
     } catch (error) {
@@ -81,6 +81,7 @@ export default function Index() {
       paddingVertical={"$1"}
       backgroundColor={"$background"}
       justifyContent="flex-start"
+      marginTop={"$3"}
     >
       <Header>
         <XStack>
@@ -97,14 +98,6 @@ export default function Index() {
           date={dateOptions}
         />
       </Header>
-      {/* <Screen>
-        <View>
-          <VectorIcons size={300} icon="construction" />
-        </View>
-        <Text weight="bold" fontSize="$lg">
-          PAGE IS UNDER CONSTRUCTION
-        </Text>
-      </Screen> */}
       {localLoading && (
         <Screen>
           <LoadingScreen>

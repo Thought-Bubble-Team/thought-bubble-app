@@ -12,12 +12,13 @@ const Edit = () => {
   useFocusEffect(
     useCallback(() => {
       setEditable(false);
-    }, []),
+    }, [])
   );
 
   return (
     <View
       style={{ flex: 1, justifyContent: "flex-start", alignItems: "center" }}
+      marginTop="$3"
     >
       <Navigation>
         {/**

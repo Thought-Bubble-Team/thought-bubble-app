@@ -1,4 +1,3 @@
-import Screen from "@/components/atoms/Screen";
 import EditProfile from "@/components/macro/EditProfile";
 import { styled, View } from "tamagui";
 
@@ -23,6 +22,7 @@ const FormContainer = styled(View, {
   borderTopLeftRadius: 32,
   borderTopRightRadius: 32,
   elevationAndroid: 8,
+  marginTop: "$3",
 });
 
 export default OnboardingPage;

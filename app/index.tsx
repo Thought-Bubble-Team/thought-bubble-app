@@ -54,7 +54,7 @@ const LoadingModal = () => {
           }
           // Fetch Journal Entries
           await journalEntriesStore.fetchJournalEntries(
-            sessionStore.session.user.id,
+            sessionStore.session.user.id
           );
           if (journalEntriesStore.error) {
             throw new Error(journalEntriesStore.error);
@@ -66,7 +66,7 @@ const LoadingModal = () => {
           }
           // Fetch Mood Calendar Data
           await moodCalendarDataStore.fetchMoodCalendarData(
-            sessionStore.session.user.id,
+            sessionStore.session.user.id
           );
           if (moodCalendarDataStore.error) {
             throw new Error(moodCalendarDataStore.error);
@@ -90,7 +90,7 @@ const LoadingModal = () => {
   }, []);
 
   return (
-    <Screen>
+    <Screen marginTop="$3">
       <XStackStyled>
         <LogoAnimation />
       </XStackStyled>
