@@ -35,7 +35,7 @@ const EditProfile = () => {
       const userData: Partial<UserDataType> = {
         user_id: sessionStore.session?.user.id,
         username: username,
-        first_time_user: true,
+        first_time_user: type === "new" ? true : false,
       };
 
       // Check if user is logged in
@@ -63,7 +63,7 @@ const EditProfile = () => {
         // Update
         const result = await updateUserData(
           sessionStore.session.user.id,
-          userData,
+          userData
         );
         if (result?.error) {
           Alert.alert("Error", "Failed to update username");
