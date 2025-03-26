@@ -96,13 +96,13 @@ export default function Login(props: LoginProps) {
         {!loading && <Button.Text>LOGIN</Button.Text>}
         {loading && <Button.Spinner />}
       </Button>
-      <XStack>
+      {/* <XStack>
         <Link href="/send_reset_link">
           <Text weight="bold" color="$primary">
             Forgot Password?
           </Text>
         </Link>
-      </XStack>
+      </XStack> */}
       <Footer>
         <Text weight="light">Don't have an account?</Text>
         <Button
