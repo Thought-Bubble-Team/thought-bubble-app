@@ -4,7 +4,7 @@ import UpdatePassword from "@/components/macro/UpdatePassword";
 
 const ChangePasswordPage = () => {
   return (
-    <Screen justifyContent="flex-start">
+    <Screen justifyContent="flex-start" marginTop="$3">
       <Navigation title="Change Password" />
       <UpdatePassword />
     </Screen>

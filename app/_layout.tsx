@@ -26,6 +26,7 @@ import {
 import { useCallback, useEffect, useState } from "react";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
 import useTBTheme from "@/utils/stores/usePersonalStore";
+import { StatusBar } from "expo-status-bar";
 
 SplashScreen.preventAutoHideAsync();
 const isExpoGo = Constants.executionEnvironment === "bare";
@@ -101,6 +102,7 @@ export default function RootLayout() {
           value={theme === "dark" ? DarkTheme : DefaultTheme}
         >
           <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+            <StatusBar style={theme === "dark" ? "light" : "dark"} />
             <Stack
               screenOptions={({ navigation }) => ({
                 headerShown: false,

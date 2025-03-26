@@ -43,6 +43,7 @@ const SendResetLink = () => {
       Alert.alert("Success", "Reset link sent to email");
     } catch (error) {
       Alert.alert("Error", "Failed to send reset link");
+      console.log("Error: ", error);
     }
     setLoading(false);
   };
@@ -89,6 +90,7 @@ const FormContainer = styled(View, {
   borderTopLeftRadius: 32,
   borderTopRightRadius: 32,
   elevationAndroid: 8,
+  marginTop: "$3",
 });
 
 export default SendResetLink;

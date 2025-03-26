@@ -7,10 +7,9 @@ import Text from "@/components/atoms/Text";
 import useTBTheme from "@/utils/stores/usePersonalStore";
 
 const Appearance = () => {
-  const theme = useTBTheme((state) => state.theme);
   const setTheme = useTBTheme((state) => state.setTheme);
   return (
-    <Screen justifyContent="flex-start">
+    <Screen justifyContent="flex-start" marginTop="$3">
       <Navigation title="Appearance" />
       <YStack gap="$3" padding="$3">
         <XStack>

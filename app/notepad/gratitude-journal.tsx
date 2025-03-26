@@ -60,7 +60,12 @@ const GratitudeEntry = () => {
   }, []);
 
   return (
-    <Screen flex={1} alignItems="center" justifyContent="flex-start">
+    <Screen
+      flex={1}
+      alignItems="center"
+      justifyContent="flex-start"
+      marginTop="$3"
+    >
       <Navigation title="Gratitude Journal" />
       <View width="100%" paddingHorizontal="$3">
         <Header>
