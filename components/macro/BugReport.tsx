@@ -27,7 +27,7 @@ const BugReport = () => {
     } catch {
       Alert.alert(
         "Error",
-        "There was an error when submitting a bug report. Please try again later",
+        "There was an error when submitting a bug report. Please try again later"
       );
     }
     setLoading(false);
@@ -40,7 +40,7 @@ const BugReport = () => {
       paddingHorizontal: 10,
       paddingVertical: 8,
       fontSize: 16,
-      color: "#333",
+      color: theme.black.get(),
       backgroundColor: theme.grey2.get(),
       marginVertical: 8,
       width: "100%",
@@ -67,6 +67,7 @@ const BugReport = () => {
           value={message}
           onChangeText={setMessage}
           placeholder="Explain the bug"
+          placeholderTextColor={theme.black.get()}
           multiline={true}
           numberOfLines={10}
         />

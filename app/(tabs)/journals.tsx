@@ -21,19 +21,27 @@ import {
   getDaysInMonth,
   getSortOptions,
 } from "@/utils/dateFormat";
-import { deleteJournalEntry } from "@/utils/supabase/db-crud";
+import {
+  deleteJournalEntry,
+  getJournalSentiment,
+} from "@/utils/supabase/db-crud";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
 import { JournalEntryType } from "@/utils/interfaces/dataTypes";
-import { useJournalEntriesStore } from "@/utils/stores/useEntriesStore";
+import {
+  useJournalEntriesStore,
+  useSentimentAnalysisStore,
+} from "@/utils/stores/useEntriesStore";
 import LoadingScreen from "@/components/macro/LoadingScreen";
 import Modal from "@/components/atoms/Modal";
 import List from "@/components/atoms/List";
 import Select from "@/components/atoms/Select";
+import { getHighestEmotion } from "@/components/macro/JournalCard";
 
 export default function Journals() {
   const session = useSessionStore((state) => state.session);
   const sessionStore = useSessionStore();
   const journalEntriesStore = useJournalEntriesStore();
+  const sentimentAnalysisStore = useSentimentAnalysisStore();
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [localLoading, setLocalLoading] = useState<boolean>(false);
   const params = useLocalSearchParams();
@@ -257,9 +265,36 @@ interface JournalEntryProps {
 const JournalEntry = (props: JournalEntryProps) => {
   const { journalEntry, refresh } = props;
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [emotion, setEmotion] = useState<string | null>(null);
+  const sentimentAnalysisStore = useSentimentAnalysisStore();
 
   const formattedDate = formatDate(journalEntry.created_at);
   const splitDate = splitFormattedDate(formattedDate);
+
+  useEffect(() => {
+    const fetchSentiment = async () => {
+      // Check if sentiment exists in store
+      const existingAnalysis = sentimentAnalysisStore.sentiment_analysis?.find(
+        (analysis) => analysis.entry_id === journalEntry.entry_id
+      );
+
+      if (existingAnalysis) {
+        setEmotion(existingAnalysis.strongest_emotion);
+        return;
+      }
+
+      // If not in store, fetch it
+      const result = await getJournalSentiment(journalEntry.entry_id);
+      if (result.result) {
+        const strongestEmotion = getHighestEmotion(result.result);
+        setEmotion(strongestEmotion);
+        // Store the sentiment analysis result
+        sentimentAnalysisStore.addSentimentAnalysis(result.result);
+      }
+    };
+
+    void fetchSentiment();
+  }, [journalEntry.entry_id, sentimentAnalysisStore]);
 
   const handleDelete = async (entry_id: number) => {
     try {
@@ -322,7 +357,8 @@ const JournalEntry = (props: JournalEntryProps) => {
         <JournalCard
           journalEntry={journalEntry}
           maxHeight="$16"
-          showSentimentData={false}
+          showSentimentData={true}
+          emotion={emotion}
         />
       </Button>
     </EntryContainer>

@@ -4,10 +4,10 @@ import {
   View as TView,
   styled,
 } from "tamagui";
-import { useState } from "react";
 
 import { Card } from "@/components/atoms/Card";
 import Text from "@/components/atoms/Text";
+import MoodIcons from "@/components/Icons/MoodIcons";
 
 import { formatTime } from "@/utils/dateFormat";
 import { SentimentType } from "@/utils/interfaces/dataTypes";
@@ -33,15 +33,18 @@ export function getHighestEmotion(sentiment: SentimentType): string {
 }
 
 export default function JournalCard(props: JournalCardProps) {
-  const { journalEntry, children, showSentimentData, ...restProps } = props;
-  const [emotion, setEmotion] = useState<String | null>(null);
+  const { journalEntry, children, showSentimentData, emotion, ...restProps } =
+    props;
 
   return (
     <Card>
       <Card.Header justifyContent="space-between">
         <TView flexDirection="row" alignItems="center" gap="$xs">
-          {/** NOTE: DISABLED EMOJI TEMPORARILY **/}
-          {/** !emotion && <SmugIcon width={24} height={24} /> **/}
+          {emotion && showSentimentData && (
+            <TView>
+              <MoodIcons mood={emotion} size={24} />
+            </TView>
+          )}
           <Card.HeaderText ellipsizeMode="tail">
             {journalEntry.title}
           </Card.HeaderText>
