@@ -28,13 +28,9 @@ const SendResetLink = () => {
       return;
     }
 
-    const resetPasswordLink = Linking.createURL("/ResetPassword");
-
     try {
       setLoading(true);
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: resetPasswordLink,
-      });
+      const { error } = await supabase.auth.resetPasswordForEmail(email);
 
       if (error) {
         throw error;
