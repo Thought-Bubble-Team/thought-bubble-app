@@ -105,6 +105,25 @@ const Summary = () => {
 
   useEffect(() => {
     const prepareSummary = async () => {
+      // Check if analysis exists in store first
+      const existingAnalysis = sentimentAnalysisStore.sentiment_analysis?.find(
+        (analysis) => analysis.entry_id === Number(id)
+      );
+
+      // Check if emotion summary exists in store
+      const existingEmotionSummary =
+        sentimentAnalysisStore.emotion_summaries?.find(
+          (summary) => summary.entry_id === Number(id)
+        );
+
+      if (existingAnalysis) {
+        setAnalysis(existingAnalysis.analysis_feedback);
+        if (existingEmotionSummary) {
+          setEmotionSummary(existingEmotionSummary.emotion_summary);
+        }
+        return;
+      }
+
       setLoading(true);
       try {
         const result_journal_entry = await getJournalSentiment(Number(id));
@@ -125,6 +144,15 @@ const Summary = () => {
           );
           setEmotionSummary(processedEmotionSummary);
           setAnalysis(result_journal_entry.result.analysis_feedback);
+          // Store the sentiment analysis result in the store
+          sentimentAnalysisStore.addSentimentAnalysis(
+            result_journal_entry.result
+          );
+          // Store the processed emotion summary in the store
+          sentimentAnalysisStore.addEmotionSummary(
+            Number(id),
+            processedEmotionSummary
+          );
         }
 
         if (result_feedback.error) {

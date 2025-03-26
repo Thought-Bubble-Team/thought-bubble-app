@@ -59,6 +59,12 @@ export const useGratitudeEntriesStore = create<GratitudeEntriesStoreType>(
 export const useSentimentAnalysisStore = create<SentimentAnalysisStoreType>(
   (set) => ({
     sentiment_analysis: null as SentimentResponseType[] | null,
+    emotion_summaries: null as
+      | {
+          entry_id: number;
+          emotion_summary: { emotion: string; percentage: number }[];
+        }[]
+      | null,
     loading: false,
     error: null,
     addSentimentAnalysis: (sentiment_analysis: SentimentResponseType) =>
@@ -68,6 +74,22 @@ export const useSentimentAnalysisStore = create<SentimentAnalysisStoreType>(
           sentiment_analysis,
         ],
       })),
-    clear: () => set({ sentiment_analysis: null, loading: false, error: null }),
+    addEmotionSummary: (
+      entry_id: number,
+      emotion_summary: { emotion: string; percentage: number }[]
+    ) =>
+      set((state) => ({
+        emotion_summaries: [
+          ...(state.emotion_summaries || []),
+          { entry_id, emotion_summary },
+        ],
+      })),
+    clear: () =>
+      set({
+        sentiment_analysis: null,
+        emotion_summaries: null,
+        loading: false,
+        error: null,
+      }),
   })
 );
