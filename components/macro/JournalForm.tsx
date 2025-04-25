@@ -1,15 +1,15 @@
 // LIBRARIES
 import { useState, useCallback, Dispatch, SetStateAction } from "react";
 import { StyleSheet, Image, Alert, KeyboardAvoidingView } from "react-native";
-import * as ImagePicker from "expo-image-picker";
+// import * as ImagePicker from "expo-image-picker";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { styled, View, Input, YStack, useTheme } from "tamagui";
+import { styled, View, Input, YStack, useTheme, TextArea } from "tamagui";
 import { PostgrestError } from "@supabase/supabase-js";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { RichText, Toolbar, useEditorBridge } from "@10play/tentap-editor";
 
 // COMPONENTS
-import ScrollView from "@/components/atoms/ScrollView";
+// import ScrollView from "@/components/atoms/ScrollView";
 import { Button } from "@/components/atoms/Button";
 import Text from "@/components/atoms/Text";
 
@@ -20,20 +20,26 @@ import {
   createJournalEntry,
   createJournalAnalysis,
   getGratitudeEntry,
-  getJournalEntry,
+  // getJournalEntry,
   updateGratitudeEntry,
   updateJournalEntry,
 } from "@/utils/supabase/db-crud";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
 import Modal from "../atoms/Modal";
 import LoadingScreen from "./LoadingScreen";
+import {
+  useJournalEntriesStore,
+  useSentimentAnalysisStore,
+} from "@/utils/stores/useEntriesStore";
 
 export const Basic = ({
-  message,
+  content,
   setMessage,
+  editable,
 }: {
-  message: string | undefined;
+  content: string | undefined;
   setMessage: Dispatch<SetStateAction<string | undefined>>;
+  editable: boolean;
 }) => {
   const theme = useTheme();
   const editor = useEditorBridge({
@@ -41,6 +47,8 @@ export const Basic = ({
     onChange: () => {
       editor.getText().then((text) => setMessage(text));
     },
+    initialContent: content,
+    editable: true,
     theme: {
       toolbar: {
         toolbarBody: {
@@ -74,11 +82,15 @@ export const Basic = ({
 };
 
 export default function JournalForm({ editable = true }: JournalFormProps) {
-  const theme = useTheme();
   const sessionStore = useSessionStore();
+  const journalEntriesStore = useJournalEntriesStore();
+  const sentimentAnalysisStore = useSentimentAnalysisStore();
+  const { journal_entries } = useJournalEntriesStore();
+  const theme = useTheme();
 
   const [title, setTitle] = useState<string | undefined>(undefined);
   const [message, setMessage] = useState<string | undefined>(undefined);
+  const [content, setContent] = useState<string | undefined>(undefined);
   const [images, setImages] = useState<string[] | undefined>(undefined);
   const [error, setError] = useState<PostgrestError | null>(null);
   const [loading, setLoading] = useState(false);
@@ -88,21 +100,21 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
   useFocusEffect(
     useCallback(() => {
       const fetchJournalEntry = async (entry_id: number) => {
-        const response = await getJournalEntry(entry_id);
-        if (!response) {
-          Alert.alert("Error", "Failed to fetch journal entry");
+        if (!journal_entries) {
           return;
         }
 
-        if (response.error) {
-          Alert.alert("Error", response.error.message);
+        const journal_entry = journal_entries.find(
+          (entry) => entry.entry_id === Number(id)
+        );
+
+        if (!journal_entry) {
           return;
         }
 
-        if (response.journalEntryData) {
-          setTitle(response.journalEntryData[0].title); // Assuming it's an array
-          setMessage(response.journalEntryData[0].content);
-        }
+        setContent(journal_entry.content);
+        setMessage(journal_entry.content);
+        setTitle(journal_entry.title);
       };
 
       const fetchGratitudeEntry = async (entry_id: number) => {
@@ -140,27 +152,27 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
   );
 
   // Image Picker
-  const pickImageAsync = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images"],
-      allowsEditing: true,
-      quality: 1,
-    });
+  // const pickImageAsync = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ["images"],
+  //     allowsEditing: true,
+  //     quality: 1,
+  //   });
+  //
+  //   if (!result.canceled) {
+  //     if (images === undefined) {
+  //       setImages([result.assets[0].uri]);
+  //     } else {
+  //       setImages([...images, result.assets[0].uri]);
+  //     }
+  //   }
+  // };
 
-    if (!result.canceled) {
-      if (images === undefined) {
-        setImages([result.assets[0].uri]);
-      } else {
-        setImages([...images, result.assets[0].uri]);
-      }
-    }
-  };
-
-  const removeImage = (index: number) => {
-    if (images !== undefined) {
-      setImages(images.filter((_, i) => i !== index));
-    }
-  };
+  // const removeImage = (index: number) => {
+  //   if (images !== undefined) {
+  //     setImages(images.filter((_, i) => i !== index));
+  //   }
+  // };
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -230,18 +242,23 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
       }
 
       if (type === "editJournal") {
-        const { error } = await updateJournalEntry(
+        const result = await updateJournalEntry(
           Number(id),
-          journalEntryObject
+          journalEntryObject,
+          sessionStore.session.user.id
         );
 
-        if (error) {
-          Alert.alert("Error", error.message);
-          setError(error);
-        } else {
+        if (result.data) {
+          // Remove the sentiment analysis for this entry
+          sentimentAnalysisStore.removeSentimentAnalysis(Number(id));
+
           Alert.alert("Success", "Journal entry updated successfully!");
+          await journalEntriesStore.fetchJournalEntries(
+            sessionStore.session.user.id
+          );
           router.replace({ pathname: "/journals" });
         }
+
         setLoading(false);
       }
 
@@ -329,26 +346,21 @@ export default function JournalForm({ editable = true }: JournalFormProps) {
           width={"100%"}
           onChangeText={setTitle}
           placeholder="Enter title..."
+          placeholderTextColor={theme.grey5.get()}
         />
       </View>
 
       {/* Editable Message */}
-      {/* <MessageInput
-          editable={editable}
-          placeholder="Enter your message..."
-          value={message}
-          onChangeText={setMessage}
-          backgroundColor={"$grey0"}
-        /> */}
-      {/* <MarkdownTextInput
-          value={message}
-          onChangeText={setMessage}
-          style={styles.MessageInput}
-          placeholder="Enter your message..."
-          parser={parseExpensiMark}
-          editable={editable}
-        /> */}
-      <Basic message={message} setMessage={setMessage} />
+      <MessageInput
+        editable={editable}
+        placeholder="Enter your message..."
+        placeholderTextColor={theme.grey5.get()}
+        value={message}
+        onChangeText={setMessage}
+        backgroundColor={"$grey0"}
+        color="$black"
+      />
+      {/* <Basic content={content} setMessage={setMessage} editable={editable} /> */}
     </ViewStyled>
   );
 }
@@ -407,18 +419,18 @@ const TitleInput = styled(Input, {
   paddingVertical: "$3",
 });
 
-// const MessageInput = styled(TextArea, {
-//   fontFamily: "Montserrat_400Regular",
-//   fontSize: 16,
-//   textAlignVertical: "top",
-//   borderWidth: 0,
-//   borderColor: "$grey0",
-//   paddingHorizontal: 0,
-//   paddingVertical: "$3",
-//   numberOfLines: 50,
-//   maxLength: 3000,
-//   flex: 1,
-// });
+const MessageInput = styled(TextArea, {
+  fontFamily: "Montserrat_400Regular",
+  fontSize: 16,
+  textAlignVertical: "top",
+  borderWidth: 0,
+  borderColor: "$grey0",
+  paddingHorizontal: 0,
+  paddingVertical: "$3",
+  numberOfLines: 50,
+  maxLength: 3000,
+  flex: 1,
+});
 
 const styles = StyleSheet.create({
   MessageInput: {

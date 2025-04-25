@@ -33,6 +33,7 @@ const UserContainer = styled(View, {
   width: "100%",
   height: "100%",
   backgroundColor: "$background",
+  marginTop: "$3",
 });
 
 const FormContainer = styled(View, {

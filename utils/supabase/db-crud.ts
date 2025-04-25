@@ -84,17 +84,39 @@ export const createGratitudeEntry = async (
 
 export const updateJournalEntry = async (
   entry_id: number,
-  journalEntry: Partial<JournalEntry>
+  journalEntry: Partial<JournalEntry>,
+  user_id: string
 ) => {
-  const { data, error } = await supabase
-    .from("journal_entry")
-    .update(journalEntry)
-    .eq("entry_id", entry_id);
+  const content = journalEntry.content;
+  const title = journalEntry.title;
 
-  if (error) {
+  try {
+    const params = new URLSearchParams({
+      user_id,
+      content: content || "",
+      title: title || "",
+    });
+
+    const result = await axios.put<JournalEntryResponseType>(
+      `https://thought-bubble-backend.onrender.com/api/journal-entry/${entry_id}?${params.toString()}`
+    );
+
+    return { data: result.data, error: null };
+  } catch (error) {
+    if (!axios.isAxiosError(error)) {
+      return { data: null, error };
+    }
+
+    if (!error.response) {
+      console.error(`[UPDATE](updateJournalEntry) error: ${error}`);
+      throw error;
+    }
+
+    console.error(
+      `[UPDATE](updateJournalEntry) status: ${error.response.status}, message: ${error.response.data.detail}`
+    );
+
     return { data: null, error };
-  } else {
-    return { data, error: null };
   }
 };
 
@@ -240,10 +262,32 @@ export const getJournalSentiment = async (
 };
 
 export const deleteJournalEntry = async (entryId: number) => {
-  try {
+  /* try {
     await supabase.from("journal_entry").delete().eq("entry_id", entryId);
   } catch (error) {
+    console.error("Error: ", error);
     return { error };
+  } */
+  try {
+    await axios.delete(
+      `https://thought-bubble-backend.onrender.com/api/journal-entry/${entryId}`
+    );
+  } catch (error) {
+    if (!axios.isAxiosError(error)) {
+      console.error(`[DELETE](deleteJournalEntry) error: ${error}`);
+      throw error;
+    }
+
+    if (!error.response) {
+      console.error(`[DELETE](deleteJournalEntry) error: ${error}`);
+      throw error;
+    }
+
+    console.error(
+      `[DELETE](deleteJournalEntry) status: ${error.response.status}, message: ${error.response.data.detail}`
+    );
+
+    throw error;
   }
 };
 
@@ -317,6 +361,8 @@ export const updateUserData = async (
     console.error("File: db-crud.ts, updateUserData() error: ", error);
     return { data: null, error };
   }
+
+  return { data: null, error: null };
 };
 
 export type JournalEntryFeedbackType = {
@@ -351,5 +397,20 @@ export const submitFeedback = async (entry_id: number, feedback: boolean) => {
     return { data: null, error };
   } else {
     return { data, error: null };
+  }
+};
+
+export const submitBugReport = async (message: string) => {
+  try {
+    const { error } = await supabase.from("bug_reports").insert([{ message }]);
+
+    if (error) {
+      throw new Error(error.message || "Unknown Error");
+    } else {
+      return;
+    }
+  } catch (error) {
+    console.error(`[INSERT](submitBugReport) error: ${error}`);
+    return;
   }
 };

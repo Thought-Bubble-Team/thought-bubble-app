@@ -17,6 +17,7 @@ interface SelectProps extends TSelectProps {
   borderWidth?: number;
   color?: string;
   opacity?: number;
+  placeholder?: string;
 }
 
 export default function Select({
@@ -26,6 +27,7 @@ export default function Select({
   borderWidth,
   color,
   opacity,
+  placeholder = "Jan 2025",
   ...restProps
 }: SelectProps) {
   const theme = useTheme();
@@ -33,7 +35,7 @@ export default function Select({
     <TSelect value={val} onValueChange={setVal} disablePreventBodyScroll>
       <TSelect.Trigger width={125} borderWidth={borderWidth}>
         <TSelect.Value
-          placeholder="Jan 2025"
+          placeholder={placeholder}
           color={color}
           size={16}
           opacity={opacity}
@@ -85,12 +87,14 @@ export default function Select({
         </TSelect.ScrollUpButton>
         <TSelect.Viewport minWidth={200}>
           <TSelect.Group>
-            <TSelect.Label>Select Date</TSelect.Label>
+            <TSelect.Label color="$black">Select Date</TSelect.Label>
             {useMemo(
               () =>
                 date.map((item, index) => (
                   <TSelect.Item index={index} key={item.id} value={item.date}>
-                    <TSelect.ItemText>{item.date}</TSelect.ItemText>
+                    <TSelect.ItemText color="$black">
+                      {item.date}
+                    </TSelect.ItemText>
                     <TSelect.ItemIndicator marginLeft="auto">
                       <Ionicons name="checkmark-sharp" size={16} />
                     </TSelect.ItemIndicator>

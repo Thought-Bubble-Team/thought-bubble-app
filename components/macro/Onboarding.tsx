@@ -1,6 +1,6 @@
 import { StackProps, View, XStack, YStack } from "tamagui";
 import { useState } from "react";
-import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
+import { Alert, NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { Image } from "expo-image";
 
 import Text from "@/components/atoms/Text";
@@ -8,18 +8,53 @@ import { Button } from "@/components/atoms/Button";
 
 import ScrollView from "@/components/atoms/ScrollView";
 import { router } from "expo-router";
+import {
+  useSessionStore,
+  useUserDataStore,
+} from "@/utils/stores/useSessionStore";
+import { updateUserData } from "@/utils/supabase/db-crud";
 
-// TODO: After modifying Screen update it to accept the onLayout prop
-// FIX: Pagination dots appear at the very bottom of the screen
 const Onboarding = () => {
+  const sessionStore = useSessionStore();
+  const userDataStore = useUserDataStore();
+
   const [containerWidth, setContainerWidth] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // @ts-ignore
   const handleLayout: StackProps["onLayout"] = (event) => {
     if (event?.nativeEvent?.layout?.width) {
       setContainerWidth(event.nativeEvent.layout.width);
     }
+  };
+
+  const handleGetStarted = async () => {
+    if (!sessionStore.session) {
+      return;
+    }
+
+    setLoading(true);
+    const { error } = await updateUserData(sessionStore.session.user.id, {
+      first_time_user: false,
+    });
+
+    if (error) {
+      console.error("Error Updating User Data");
+      return;
+    }
+
+    try {
+      await userDataStore.fetchUserData(sessionStore.session.user.id);
+    } catch {
+      Alert.alert(
+        "Error",
+        "There was a problem getting your user data, please try again",
+      );
+    }
+
+    setLoading(false);
+    router.replace({ pathname: "/(tabs)" });
   };
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -165,16 +200,9 @@ const Onboarding = () => {
               Take the first step in understanding your emotions and improving
               your mental well-being.
             </Text>
-            <Button
-              type="normal"
-              onPress={() =>
-                router.replace({
-                  pathname: "/profile_setup",
-                  params: { type: "new" },
-                })
-              }
-            >
-              <Button.Text>Get Started</Button.Text>
+            <Button type="normal" onPress={handleGetStarted}>
+              {loading && <Button.Spinner />}
+              {!loading && <Button.Text>Get Started</Button.Text>}
             </Button>
           </YStack>
         </ScrollView>

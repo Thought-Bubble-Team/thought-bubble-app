@@ -1,11 +1,9 @@
 // Libraries Imports
+import React from "react";
 import { StyleSheet, Alert } from "react-native";
 import { styled, AnimatePresence, View, XStack, YStack } from "tamagui";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import {
-  useBoolVariation,
-  useLDClient,
-} from "@launchdarkly/react-native-client-sdk";
+import { useBoolVariation } from "@launchdarkly/react-native-client-sdk";
 
 // Component Imports
 import Text from "@/components/atoms/Text";
@@ -15,7 +13,6 @@ import { supabase } from "@/utils/supabase/supabase";
 
 // Utility Imports
 import { Session } from "@supabase/supabase-js";
-import { Image } from "expo-image";
 import { useTheme } from "tamagui";
 import { router } from "expo-router";
 import {
@@ -27,9 +24,6 @@ import { useEffect } from "react";
 interface UserProps {
   session?: Session;
 }
-
-const blurhash =
-  "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
 const ButtonTester = () => {
   Alert.alert("Button Pressed");
@@ -43,15 +37,14 @@ export default function User(props: UserProps) {
   const FEATURE_FLAGS = {
     USER_SETTINGS: useBoolVariation("user-settings", false),
   };
-  const ldc = useLDClient();
 
   useEffect(() => {
     const Prepare = async () => {
+      if (!sessionStore.session) {
+        return;
+      }
       try {
-        ldc
-          .identify({ kind: "user", key: "example-user-key", name: "Sandy" })
-          .catch((e: any) => Alert.alert(("Error: " + e) as string));
-        await userDataStore.fetchUserData(sessionStore.session?.user.id || "");
+        useUserDataStore.getState().fetchUserData(sessionStore.session.user.id);
       } catch (e) {
         console.error(e);
       }
@@ -59,24 +52,9 @@ export default function User(props: UserProps) {
     Prepare();
   }, []);
 
-  const imageStyles = StyleSheet.create({
-    image: {
-      width: 85,
-      height: 85,
-      borderRadius: 48,
-    },
-  });
-
   return (
     <MainContainer>
       <ProfileContainer>
-        <Image
-          style={imageStyles.image}
-          source="https://placecats.com/300/200"
-          placeholder={{ blurhash }}
-          contentFit="cover"
-          transition={1000}
-        />
         <YStack gap={"$1"}>
           <Text weight="bold" fontSize="$xxl">
             {userDataStore.userData?.username}
@@ -230,6 +208,24 @@ const Settings = (props: { featureFlags: { USER_SETTINGS: boolean } }) => {
       <SettingsContent>
         <ComponentContainer justifyContent="flex-start">
           <Text weight="medium" fontSize="$lg" marginVertical={16}>
+            PERSONALIZE
+          </Text>
+        </ComponentContainer>
+        <Button
+          type={"navigation"}
+          onPress={() => router.navigate("/user/[id]/appearance")}
+        >
+          <Button.Text fontSize="$lg">Appearance</Button.Text>
+          <Ionicons
+            name="chevron-forward-outline"
+            size={24}
+            color={theme.black.get()}
+          />
+        </Button>
+      </SettingsContent>
+      <SettingsContent>
+        <ComponentContainer justifyContent="flex-start">
+          <Text weight="medium" fontSize="$lg" marginVertical={16}>
             ACCOUNT
           </Text>
         </ComponentContainer>
@@ -238,12 +234,30 @@ const Settings = (props: { featureFlags: { USER_SETTINGS: boolean } }) => {
             type={"navigation"}
             onPress={() =>
               router.navigate({
-                pathname: "/user/[id]/my-data",
+                pathname: "/user/[id]/my_data",
                 params: { id: sessionStore.session?.user.id || "" },
               })
             }
           >
             <Button.Text fontSize="$lg">Your Data</Button.Text>
+            <Ionicons
+              name="chevron-forward-outline"
+              size={24}
+              color={theme.black.get()}
+            />
+          </Button>
+        </ComponentContainer>
+        <ComponentContainer>
+          <Button
+            type={"navigation"}
+            onPress={() =>
+              router.push({
+                pathname: "/user/[id]/bug_report_page",
+                params: { id: 0 },
+              })
+            }
+          >
+            <Button.Text fontSize="$lg">Report Bugs</Button.Text>
             <Ionicons
               name="chevron-forward-outline"
               size={24}

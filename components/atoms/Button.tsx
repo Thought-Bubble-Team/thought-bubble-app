@@ -16,7 +16,7 @@ export const ButtonContext = createStyledContext({
 
 export const ButtonFrame = styled(
   forwardRef<TamaguiElement, React.ComponentProps<typeof View>>(
-    (props, ref) => <View ref={ref} {...props} />
+    (props, ref) => <View ref={ref} {...props} />,
   ),
   {
     context: ButtonContext,
@@ -58,6 +58,17 @@ export const ButtonFrame = styled(
             opacity: 0.57,
           },
         },
+        list: {
+          justifyContent: "space-between",
+          backgroundColor: "$grey1",
+          paddingVertical: "$xl",
+          paddingHorizontal: "$xxl",
+          width: "100%",
+          animation: "fast",
+          pressStyle: {
+            backgroundColor: "$grey1Pressed",
+          },
+        },
       },
       size: {
         "...size": (name, { tokens }) => {
@@ -67,7 +78,7 @@ export const ButtonFrame = styled(
         },
       },
     } as const,
-  }
+  },
 );
 
 export const ButtonText = styled(Text, {
@@ -87,6 +98,10 @@ export const ButtonText = styled(Text, {
       icon: {
         color: "$primary",
         weight: "bold",
+      },
+      list: {
+        color: "$black",
+        weight: "medium",
       },
     },
     size: {
@@ -138,6 +153,11 @@ const ButtonSpinner = styled(Spinner, {
       },
       icon: {
         color: "$primary",
+      },
+      list: {
+        color: "$black",
+        width: "$xxl",
+        height: "$xxl",
       },
     },
     size: {

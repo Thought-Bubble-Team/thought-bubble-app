@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { View, Switch } from "tamagui";
-import { useLocalSearchParams, Stack, useFocusEffect } from "expo-router";
+import { useFocusEffect } from "expo-router";
 
 import { Button } from "@/components/atoms/Button";
 import { Navigation } from "@/components/macro/Navigation";
@@ -12,12 +12,13 @@ const Edit = () => {
   useFocusEffect(
     useCallback(() => {
       setEditable(false);
-    }, []),
+    }, [])
   );
 
   return (
     <View
       style={{ flex: 1, justifyContent: "flex-start", alignItems: "center" }}
+      marginTop="$3"
     >
       <Navigation>
         <Navigation.Right>

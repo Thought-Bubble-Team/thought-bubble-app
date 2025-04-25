@@ -70,6 +70,12 @@ export const parseInitialDate = (initialDate: string | Date): Date => {
   return new Date(initialDate);
 };
 
+export const parseDateToMonthYear = (date: Date): string => {
+  const month = date.toLocaleDateString("en-US", { month: "short" });
+  const year = date.getFullYear();
+  return `${month} ${year}`;
+};
+
 export const getMonthYearList = (): { id: number; date: string }[] => {
   const months = [
     "Jan",
@@ -102,6 +108,23 @@ export const getMonthYearList = (): { id: number; date: string }[] => {
   }
 
   return dateOptions;
+};
+
+export const getMonthList = (): { id: number; date: string }[] => {
+  return [
+    { id: 0, date: "Jan" },
+    { id: 1, date: "Feb" },
+    { id: 2, date: "Mar" },
+    { id: 3, date: "Apr" },
+    { id: 4, date: "May" },
+    { id: 5, date: "Jun" },
+    { id: 6, date: "Jul" },
+    { id: 7, date: "Aug" },
+    { id: 8, date: "Sep" },
+    { id: 9, date: "Oct" },
+    { id: 10, date: "Nov" },
+    { id: 11, date: "Dec" },
+  ];
 };
 
 export const getDayMonth = (date: string): string[] => {
@@ -137,4 +160,42 @@ export const getDayMonth = (date: string): string[] => {
   const formattedDate = `, ${dayOfMonth} ${month}`;
 
   return [day, formattedDate];
+};
+
+export const getDaysInMonth = (
+  monthName: string
+): { id: number; date: string }[] => {
+  const monthMap: { [key: string]: number } = {
+    Jan: 0,
+    Feb: 1,
+    Mar: 2,
+    Apr: 3,
+    May: 4,
+    Jun: 5,
+    Jul: 6,
+    Aug: 7,
+    Sep: 8,
+    Oct: 9,
+    Nov: 10,
+    Dec: 11,
+  };
+
+  const monthIndex = monthMap[monthName];
+  const year = new Date().getFullYear();
+  const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+
+  return [
+    { id: -1, date: "All" },
+    ...Array.from({ length: daysInMonth }, (_, i) => ({
+      id: i,
+      date: (i + 1).toString(),
+    })),
+  ];
+};
+
+export const getSortOptions = (): { id: number; date: string }[] => {
+  return [
+    { id: 0, date: "asc" },
+    { id: 1, date: "dsc" },
+  ];
 };

@@ -4,7 +4,11 @@ import { Navigation } from "@/components/macro/Navigation";
 
 const EditProfileScreen = () => {
   return (
-    <Screen testID="edit-profile-screen" justifyContent="flex-start">
+    <Screen
+      testID="edit-profile-screen"
+      justifyContent="flex-start"
+      marginTop="$3"
+    >
       <Navigation title="Edit Profile" />
       <EditProfile />
     </Screen>

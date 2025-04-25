@@ -1,4 +1,6 @@
+import React from "react";
 import { styled, View } from "tamagui";
+import { router } from "expo-router";
 
 import Text from "@/components/atoms/Text";
 import MoodIcons from "@/components/Icons/MoodIcons";
@@ -6,6 +8,7 @@ import MoodIcons from "@/components/Icons/MoodIcons";
 interface DayProps {
   day?: string;
   emotions?: string;
+  date?: Date;
 }
 
 const DayContainer = styled(View, {
@@ -41,10 +44,28 @@ const EmptySlot = styled(View, {
 });
 
 const Day = (props: DayProps) => {
-  const { day, emotions } = props;
+  const { day, emotions, date } = props;
+
+  const handlePress = () => {
+    if (date && day && emotions) {
+      const month = date.getMonth();
+      const day = date.getDate().toString();
+      router.push({
+        pathname: "/journals",
+        params: {
+          month: month.toString(),
+          day: day,
+        },
+      });
+    }
+  };
 
   return (
-    <DayContainer testID="day-container">
+    <DayContainer
+      testID="day-container"
+      onPress={handlePress}
+      cursor={day && emotions ? "pointer" : "default"}
+    >
       {day && emotions && (
         <>
           <EmotionSlot testID="emotion-slot">

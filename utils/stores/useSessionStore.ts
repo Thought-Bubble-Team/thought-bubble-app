@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
 import { Session } from "@supabase/supabase-js";
 
 import {
@@ -8,57 +7,63 @@ import {
 } from "@/utils/interfaces/storeTypes";
 import { supabase } from "@/utils/supabase/supabase";
 import { getUserData } from "../supabase/db-crud";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   useJournalEntriesStore,
   useGratitudeEntriesStore,
 } from "./useEntriesStore";
-import { Alert } from "react-native";
+import {
+  useMoodBarDataStore,
+  useMoodCalendarDataStore,
+} from "./useChartDataStore";
 
-export const useSessionStore = create<SessionStoreType>()(
-  persist(
-    (set, get) => ({
-      session: null,
-      loading: false,
-      error: null,
-      setSession: (newSession: Session | null) => {
-        if (get().session !== newSession) {
-          set({ session: newSession });
+export const useSessionStore = create<SessionStoreType>()((set, get) => ({
+  session: null,
+  loading: false,
+  error: null,
+  setSession: (newSession: Session | null) => {
+    if (get().session !== newSession) {
+      set({ session: newSession });
+    }
+  },
+  fetchSession: async () => {
+    set({ loading: true, error: null });
+    try {
+      const result = await supabase.auth.getSession();
+
+      if (result.data && result.data.session) {
+        set({ session: result.data.session, loading: false });
+      }
+    } catch (error) {
+      set({ loading: false, error: error });
+    }
+  },
+  listener: () => {
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_IN") {
+        set({ session: session, loading: false, error: null });
+
+        if (session) {
+          const user_id = session.user.id;
+          useJournalEntriesStore.getState().fetchJournalEntries(user_id);
+          useGratitudeEntriesStore.getState().fetchGratitudeEntries();
+          useUserDataStore.getState().fetchUserData(user_id);
+          useMoodCalendarDataStore.getState().fetchMoodCalendarData(user_id);
+          useMoodBarDataStore.getState().fetchMoodBarData(user_id);
         }
-      },
-      fetchSession: async () => {
-        set({ loading: true, error: null });
-        try {
-          const result = await supabase.auth.getSession();
+      }
 
-          if (result.data && result.data.session) {
-            set({ session: result.data.session, loading: false });
-          }
-        } catch (error) {
-          set({ loading: false, error: error });
-        }
-      },
-      listener: () => {
-        const { data } = supabase.auth.onAuthStateChange((event, session) => {
-          if (event === "SIGNED_IN") {
-            set({ session: session, loading: false, error: null });
-          }
-
-          if (event === "SIGNED_OUT") {
-            useJournalEntriesStore.getState().clear();
-            useGratitudeEntriesStore.getState().clear();
-            set({ session: null, error: null });
-          }
-        });
-        data.subscription.unsubscribe();
-      },
-    }),
-    {
-      name: "session-storage",
-      storage: createJSONStorage(() => AsyncStorage),
-    },
-  ),
-);
+      if (event === "SIGNED_OUT") {
+        useJournalEntriesStore.getState().clear();
+        useGratitudeEntriesStore.getState().clear();
+        useUserDataStore.getState().clear();
+        useMoodCalendarDataStore.getState().clear();
+        useMoodBarDataStore.getState().clear();
+        set({ session: null, error: null });
+      }
+    });
+    data.subscription.unsubscribe();
+  },
+}));
 
 export const useUserDataStore = create<UserDataStoreType>((set) => ({
   userData: null,
@@ -72,5 +77,8 @@ export const useUserDataStore = create<UserDataStoreType>((set) => ({
     } catch (error) {
       set({ loading: false, error: error });
     }
+  },
+  clear: () => {
+    set({ userData: null, loading: false, error: null });
   },
 }));

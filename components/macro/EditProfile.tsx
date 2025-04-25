@@ -1,4 +1,4 @@
-import { View, YStack } from "tamagui";
+import { View, XStack, YStack } from "tamagui";
 import { useState } from "react";
 
 import Screen from "@/components/atoms/Screen";
@@ -6,17 +6,20 @@ import Text from "@/components/atoms/Text";
 import Input from "../atoms/Input";
 import { Button } from "../atoms/Button";
 
-import { useSessionStore } from "@/utils/stores/useSessionStore";
+import {
+  useSessionStore,
+  useUserDataStore,
+} from "@/utils/stores/useSessionStore";
 import { createUserData, updateUserData } from "@/utils/supabase/db-crud";
 import { UserDataType } from "@/utils/interfaces/dataTypes";
 import { Alert } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 
-// FIX: Button Text not aligned in center
 const EditProfile = () => {
   const { type } = useLocalSearchParams();
 
   const sessionStore = useSessionStore();
+  const userDataStore = useUserDataStore();
   const [username, setUsername] = useState<string>("");
   const [localLoading, setLocalLoading] = useState<boolean>(false);
 
@@ -32,7 +35,7 @@ const EditProfile = () => {
       const userData: Partial<UserDataType> = {
         user_id: sessionStore.session?.user.id,
         username: username,
-        first_time_user: false,
+        first_time_user: type === "new" ? true : false,
       };
 
       // Check if user is logged in
@@ -44,6 +47,7 @@ const EditProfile = () => {
       if (type === "new") {
         // Create
         const result = await createUserData(userData);
+        await userDataStore.fetchUserData(sessionStore.session.user.id);
 
         if (result?.error) {
           Alert.alert("Error", "Failed to create username");
@@ -66,6 +70,7 @@ const EditProfile = () => {
           setLocalLoading(false);
         } else {
           Alert.alert("Success", "Username updated successfully");
+          await userDataStore.fetchUserData(sessionStore.session.user.id);
           setLocalLoading(false);
           router.back();
         }
@@ -89,22 +94,19 @@ const EditProfile = () => {
           Enter New Username
         </Text>
       </View>
-      <YStack
-        width="100%"
-        gap="$4"
-        justifyContent="center"
-        alignItems="flex-end"
-      >
+      <YStack width="100%" gap="$4" alignItems="flex-end">
         <Input
           label="Username"
           value={username}
           onChangeText={setUsername}
           placeholder="Enter your name"
         />
-        <Button type="normal" width="50%" onPress={handleSave}>
-          {!localLoading && <Button.Text>Save</Button.Text>}
-          {localLoading && <Button.Spinner />}
-        </Button>
+        <XStack width="50%" justifyContent="center">
+          <Button type="normal" onPress={handleSave}>
+            {!localLoading && <Button.Text>Save</Button.Text>}
+            {localLoading && <Button.Spinner />}
+          </Button>
+        </XStack>
       </YStack>
     </Screen>
   );

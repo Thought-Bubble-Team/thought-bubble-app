@@ -25,10 +25,13 @@ import {
 } from "@launchdarkly/react-native-client-sdk";
 import { useCallback, useEffect, useState } from "react";
 import { useSessionStore } from "@/utils/stores/useSessionStore";
-import { useSelectedDateStore } from "@/utils/stores/useSelectedDateStore";
+import useTBTheme from "@/utils/stores/usePersonalStore";
+import { StatusBar } from "expo-status-bar";
 
 SplashScreen.preventAutoHideAsync();
 const isExpoGo = Constants.executionEnvironment === "bare";
+
+global.Buffer = global.Buffer || require("buffer").Buffer;
 
 if (!isExpoGo) {
   SplashScreen.setOptions({
@@ -49,7 +52,7 @@ const featureClient = new ReactNativeLDClient(
     logger: new BasicLogger({
       level: "none",
     }),
-  },
+  }
 );
 
 export default function RootLayout() {
@@ -62,20 +65,17 @@ export default function RootLayout() {
   });
   const [appIsReady, setAppIsReady] = useState<boolean>(false);
   const sessionStore = useSessionStore();
+  const theme = useTBTheme((state) => state.theme);
 
   useEffect(() => {
     const prepareApp = async () => {
       try {
         if (loaded && !error) {
-          const sub = useSessionStore.persist.onHydrate((state) => {
-            console.log("Session Store Hydrated");
+          const theme_unsub = useTBTheme.persist.onHydrate((state) => {
+            console.log("theme", state);
           });
-          sub();
+          theme_unsub();
           await sessionStore.fetchSession();
-          const date_sub = useSelectedDateStore.persist.onHydrate((state) => {
-            console.log("Date Store Hydrated");
-          });
-          date_sub();
           setAppIsReady(true);
         }
       } catch (error) {
@@ -96,12 +96,13 @@ export default function RootLayout() {
   return (
     // add this
     <LDProvider client={featureClient}>
-      <TamaguiProvider config={tamaguiConfig} defaultTheme={"light"}>
+      <TamaguiProvider config={tamaguiConfig} defaultTheme={theme!}>
         <ThemeProvider
           // value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-          value={DefaultTheme}
+          value={theme === "dark" ? DarkTheme : DefaultTheme}
         >
           <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+            <StatusBar style={theme === "dark" ? "light" : "dark"} />
             <Stack
               screenOptions={({ navigation }) => ({
                 headerShown: false,
@@ -119,6 +120,13 @@ export default function RootLayout() {
                 name="user"
                 options={{
                   title: "User",
+                  contentStyle: { backgroundColor: "#fff" },
+                }}
+              />
+              <Stack.Screen
+                name="my_data"
+                options={{
+                  title: "My Data",
                   contentStyle: { backgroundColor: "#fff" },
                 }}
               />
@@ -169,6 +177,12 @@ export default function RootLayout() {
                 options={{
                   presentation: "modal",
                   animation: "slide_from_bottom",
+                }}
+              />
+              <Stack.Screen
+                name="reset_password_page"
+                options={{
+                  presentation: "modal",
                 }}
               />
             </Stack>

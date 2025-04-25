@@ -31,7 +31,15 @@ const SentimentAnalysisFeedback = ({
   };
 
   return (
-    <XStack width="100%" justifyContent="space-between" alignItems="center">
+    <XStack
+      justifyContent="space-between"
+      alignItems="center"
+      position="absolute"
+      bottom={0}
+      left={0}
+      right={0}
+      backgroundColor="$grey1"
+    >
       <Button type="icon" onPress={() => handleFeedback(false)}>
         {loading && <Button.Spinner />}
         {!loading && (

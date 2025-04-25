@@ -1,5 +1,5 @@
 // Libraries Import
-import { styled, View, withStaticProperties, XStack } from "tamagui";
+import { styled, useTheme, View, withStaticProperties, XStack } from "tamagui";
 
 // Components Import
 import { Button } from "@/components/atoms/Button";
@@ -16,11 +16,12 @@ interface NavigationProps {
 }
 
 const NavigationFrame = ({ title, children }: NavigationProps) => {
+  const theme = useTheme();
   return (
     <UtilitiesContainer>
       <XStack gap="$3" alignItems="center">
         <Button type={"icon"} onPress={() => router.back()}>
-          <BackLine width={24} height={24} />
+          <BackLine width={24} height={24} color={theme.black.get()} />
         </Button>
         <Text weight="bold" fontSize="$xl">
           {title}

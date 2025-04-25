@@ -7,11 +7,12 @@ export interface JournalCardProps extends CardProps {
   journalEntry: JournalEntryType;
   children?: React.ReactNode;
   showSentimentData?: boolean;
+  emotion?: string | null;
 }
 
 export interface InputProps extends RNTextInputProps {
   label: string;
-  type: "email" | "password";
+  type?: "email" | "password";
   showInput?: boolean;
   setShowInput?: React.Dispatch<React.SetStateAction<boolean>>;
 }

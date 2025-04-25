@@ -10,6 +10,7 @@ import { parseInitialDate } from "@/utils/dateFormat";
 import { useMoodCalendarDataStore } from "@/utils/stores/useChartDataStore";
 import { useEffect } from "react";
 import { MoodCalendarType } from "@/utils/interfaces/dataTypes";
+import { useSelectedDateStore } from "@/utils/stores/useSelectedDateStore";
 
 const DayContainer = styled(View, {
   width: "14.28%",
@@ -26,22 +27,26 @@ const XStackStyled = styled(XStack, {
 });
 
 interface MoodCalendarProps extends ViewProps {
-  initialDate: string | Date;
+  initialDate?: string | Date;
 }
 
 // Main Component
 const MoodCalendar = (props: MoodCalendarProps) => {
-  const { initialDate, ...restProps } = props;
-  const currentMonth = parseInitialDate(initialDate);
+  const { ...restProps } = props;
+
+  const selectedDate = useSelectedDateStore((state) => state.selectedDate);
   const moodCalendarDataStore = useMoodCalendarDataStore();
 
+  // const currentMonth = parseInitialDate(initialDate);
+  const currentMonth = selectedDate;
+
   useEffect(() => {
-    const prepareComponent = async () => {
-      moodCalendarDataStore.setDate(currentMonth);
+    const prepareComponent = () => {
+      moodCalendarDataStore.setDate(selectedDate);
     };
 
     prepareComponent();
-  }, [initialDate]);
+  }, [selectedDate]);
 
   const renderCalendarCells = () => {
     const getDaysInMonth = (date: Date) => {
@@ -63,7 +68,12 @@ const MoodCalendar = (props: MoodCalendarProps) => {
       });
     };
 
-    const days: { key: string; day?: string; emotions?: string }[] = [];
+    const days: {
+      key: string;
+      day?: string;
+      emotions?: string;
+      date?: Date;
+    }[] = [];
     const daysInMonth = getDaysInMonth(currentMonth);
     const firstDayOfMonth = getFirstDayOfMonth(currentMonth);
 
@@ -81,6 +91,7 @@ const MoodCalendar = (props: MoodCalendarProps) => {
         key: sentimentData ? `day-${day}` : `blank-${day}`,
         day: `${day}`,
         emotions: sentimentData ? sentimentData.emotions : undefined,
+        date: date,
       });
     }
 
@@ -125,7 +136,12 @@ const MoodCalendar = (props: MoodCalendarProps) => {
       </XStackStyled>
       <XStackStyled>
         {renderCalendarCells().map((item) => (
-          <Day key={item.key} day={item.day} emotions={item.emotions} />
+          <Day
+            key={item.key}
+            day={item.day}
+            emotions={item.emotions}
+            date={item.date}
+          />
         ))}
       </XStackStyled>
     </View>

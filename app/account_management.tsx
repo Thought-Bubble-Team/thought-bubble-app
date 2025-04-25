@@ -20,7 +20,7 @@ const AccountManagement = () => {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setSession(session);
-      },
+      }
     );
 
     return () => {
@@ -64,6 +64,7 @@ const FormContainer = styled(View, {
   borderTopLeftRadius: 32,
   borderTopRightRadius: 32,
   elevationAndroid: 8,
+  marginTop: "$3",
 });
 
 export default AccountManagement;
